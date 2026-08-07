@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { site } from "@/lib/site";
 import type { Dict } from "@/lib/i18n";
 import { useSectionMotion } from "./useSectionMotion";
+import SocialIcon from "./SocialIcon";
 import styles from "./Social.module.css";
 
 /**
@@ -56,6 +57,9 @@ export default function Social({ dict }: { dict: Dict }) {
               target="_blank"
               rel="noopener noreferrer"
             >
+              <span className={styles.icon}>
+                <SocialIcon name={key} size={26} />
+              </span>
               <span className={`label ${styles.platform}`}>{label}</span>
               <span className={styles.handle}>{site.social[key].handle}</span>
               <span className={`label ${styles.follow}`}>

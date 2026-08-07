@@ -1,5 +1,6 @@
 import { site } from "@/lib/site";
 import type { Dict } from "@/lib/i18n";
+import SocialIcon from "./SocialIcon";
 import styles from "./Footer.module.css";
 
 /**
@@ -50,11 +51,12 @@ export default function Footer({ dict }: { dict: Dict }) {
                 client settles it; two, one of which may be wrong, is worse. */}
             <li>
               <a
-                className={`label label--text ${styles.colLink}`}
+                className={`label label--text ${styles.colLink} ${styles.iconLink}`}
                 href={`https://wa.me/${site.contact.whatsapp.tel.replace(/\D/g, "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
+                <SocialIcon name="whatsapp" size={16} className={styles.icon} />
                 {dict.common.whatsapp}
               </a>
             </li>
@@ -76,36 +78,19 @@ export default function Footer({ dict }: { dict: Dict }) {
         <div>
           <h2 className={`label ${styles.colTitle}`}>{dict.footer.follow}</h2>
           <ul className={styles.colList}>
-            <li>
-              <a
-                className={`label label--text ${styles.colLink}`}
-                href={site.social.tiktok.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                TikTok
-              </a>
-            </li>
-            <li>
-              <a
-                className={`label label--text ${styles.colLink}`}
-                href={site.social.instagram.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Instagram
-              </a>
-            </li>
-            <li>
-              <a
-                className={`label label--text ${styles.colLink}`}
-                href={site.social.facebook.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Facebook
-              </a>
-            </li>
+            {(["tiktok", "instagram", "facebook"] as const).map((key) => (
+              <li key={key}>
+                <a
+                  className={`label label--text ${styles.colLink} ${styles.iconLink}`}
+                  href={site.social[key].url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <SocialIcon name={key} size={16} className={styles.icon} />
+                  {site.social[key].handle}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

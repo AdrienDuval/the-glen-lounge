@@ -47,6 +47,20 @@
   border-color: var(--gold-dim);
 }
 
+/* The mark sits quiet at rest and warms with the card — same contract as the
+   text, because it inherits currentColor. */
+.icon {
+  display: inline-flex;
+  color: var(--muted);
+  transition: color 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+}
+
+.card:hover .icon,
+.card:focus-visible .icon {
+  color: var(--gold);
+  transform: translateY(-2px);
+}
+
 .platform {
   color: var(--gold);
 }

@@ -56,6 +56,23 @@
   color: var(--gold);
 }
 
+/* Rows that lead with a platform mark. */
+.iconLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.icon {
+  color: var(--gold-dim);
+  flex: none;
+  transition: color 0.25s var(--ease-out);
+}
+
+.iconLink:hover .icon {
+  color: var(--gold);
+}
+
 .bottom {
   display: flex;
   flex-wrap: wrap;
