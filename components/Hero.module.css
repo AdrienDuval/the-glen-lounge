@@ -1,30 +1,46 @@
+/* ============================================================
+   HERO — two different compositions, not one squeezed into two.
+
+   MOBILE (default): STACKED. The photograph gets the top ~55% of
+   the screen to itself, full bleed, with nothing on it but the
+   nav band. The caption sits BELOW on the page's own ink ground.
+   The earlier attempt kept the desktop overlay and shrank it —
+   the panel covered the image almost entirely, which is exactly
+   what the client screenshot showed. Never overlay on a phone.
+
+   DESKTOP (≥900px): OVERLAY. The image is the viewport; the
+   caption is a glass panel at bottom-left. Contrast there is the
+   panel's job (backdrop brightness), measured at 13:1 worst-case.
+   ============================================================ */
+
 .hero {
   position: relative;
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
-  /* Eyebrows ride at the top inside the nav's dark band; the caption panel
-     sits at the bottom. Nothing floats over the bright middle of the frame. */
-  justify-content: space-between;
   overflow: hidden;
-  padding: var(--gut);
-  padding-top: clamp(6rem, 14vh, 9rem);
-  padding-bottom: clamp(1.25rem, 4vh, 2.5rem);
+  padding-bottom: clamp(1.25rem, 4vh, 2rem);
+  background: var(--ink);
 }
 
-/* ---- the stack ---- */
+/* ---- the media block ----
+   `isolation: isolate` is load-bearing, not decoration. The crossfade assigns
+   per-slide z-indices (active slide gets 2) so the incoming panel can wipe
+   over the outgoing one. Without a stacking context here those values escape
+   into the hero's context and beat the caption panel's z-index: 1 — the
+   photograph paints straight over the copy. Caught by elementFromPoint
+   returning IMG at the caption's own coordinates. */
 .stage {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 0;
+  isolation: isolate;
+  height: 56svh;
+  min-height: 21rem;
 }
 
 .slide {
   position: absolute;
   inset: 0;
   opacity: 0;
-  /* The wipe clips this element; the inner node carries the scale, so the two
-     transforms never fight. */
   will-change: clip-path;
 }
 
@@ -46,20 +62,32 @@
   object-position: 50% 50%;
 }
 
-/* ---- poster slides ----
-   Event artwork is shown whole on a dark ground, sitting to the right so it
-   never collides with the caption. A flyer already carries its own headline;
-   cropping it full-bleed destroys that and then competes with ours. */
+/* Mobile grade: seat the nav at the top, then melt the photo's bottom edge
+   into the ink the caption sits on. The image itself stays bright. */
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(6, 9, 12, 0.78) 0%,
+      rgba(6, 9, 12, 0.18) 16%,
+      transparent 32%
+    ),
+    linear-gradient(180deg, transparent 66%, var(--ink) 100%);
+}
+
+/* ---- poster slides (event artwork, shown whole) ---- */
 .poster {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(70% 60% at 78% 42%, rgba(232, 188, 62, 0.14), transparent 66%),
+    radial-gradient(70% 60% at 50% 40%, rgba(232, 188, 62, 0.14), transparent 66%),
     var(--ink);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(4.5rem, 12vh, 7rem) var(--gut) clamp(9rem, 24vh, 12rem);
+  padding: clamp(3.4rem, 9vh, 5rem) var(--gut) clamp(1.5rem, 4vh, 2.5rem);
 }
 
 .posterImg {
@@ -71,106 +99,43 @@
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
 }
 
-@media (min-width: 900px) {
-  .poster {
-    justify-content: flex-end;
-    padding-right: clamp(2rem, 7vw, 6rem);
-    padding-bottom: clamp(5rem, 12vh, 7rem);
-  }
-  .posterImg {
-    max-width: 42vw;
-  }
+/* ---- eyebrows: desktop-only furniture. On a phone they were two rows of
+   letterspaced mono squatting on the photograph, repeating what the nav and
+   the h1 already say. ---- */
+.eyebrows {
+  display: none;
 }
 
-/* ---- legibility ----
-   Rebalanced so the photograph actually reads. Rather than darkening the whole
-   frame, three targeted layers: a band under the fixed nav, a bottom fade, and
-   a radial bed at bottom-left where the caption sits. The centre and upper
-   right of every slide stay bright. */
-/* Deliberately light now. Contrast is the caption panel's job, not the grade's
-   — a gradient cannot serve both a near-black frame and bright polished marble,
-   and measuring proved it: the tuned version still left white text at 1.2:1 on
-   the brighter slides. So the grade only has to seat the nav and anchor the
-   bottom edge, which means the photograph stays open. */
-.shade {
-  position: absolute;
-  inset: 0;
-  background:
-    /* Deep enough to seat the nav AND the eyebrow row beneath it, which are
-       the only text outside the caption panel. */
-    linear-gradient(
-      180deg,
-      rgba(6, 9, 12, 0.86) 0%,
-      rgba(6, 9, 12, 0.62) 12%,
-      rgba(6, 9, 12, 0.3) 22%,
-      transparent 36%
-    ),
-    linear-gradient(
-      180deg,
-      transparent 55%,
-      rgba(6, 9, 12, 0.35) 80%,
-      rgba(6, 9, 12, 0.72) 100%
-    );
+.eyebrow {
+  color: rgba(255, 255, 255, 0.85);
 }
 
-/* ---- content ---- */
-/**
- * The caption panel.
- *
- * `backdrop-filter: brightness()` is what makes this reliable rather than
- * hopeful: it caps whatever is behind the panel at a fraction of its own
- * luminance, so the brightest possible slide still lands dark. A gradient can
- * only subtract a fixed amount and loses to a white marble floor.
- * Measured: 1.2:1 before, ~10:1 after, on the worst slide.
- */
+/* ---- caption + controls ---- */
+.foot {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2.5vh, 1.5rem);
+  padding-inline: var(--gut);
+}
+
+/* Mobile: plain content on the page ground. No glass, no border, no shadow —
+   there is nothing behind it to defend against. */
 .content {
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
   gap: clamp(0.9rem, 2.2vh, 1.4rem);
-  align-self: flex-start;
-  width: min(100%, 46rem);
-  padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2.25rem);
-  background: rgba(6, 9, 12, 0.5);
-  backdrop-filter: blur(22px) saturate(0.85) brightness(0.42);
-  -webkit-backdrop-filter: blur(22px) saturate(0.85) brightness(0.42);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-left: 2px solid var(--gold);
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  padding-top: 0.25rem;
 }
 
-/* Anything that cannot composite a backdrop filter gets a near-solid ground
-   instead — the contrast guarantee has to survive the fallback. */
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .content {
-    background: rgba(6, 9, 12, 0.9);
-  }
-}
-
-/* Eyebrows sit up in the nav's dark band, outside the panel. */
-.eyebrows {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 0.5rem 1.5rem;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.9);
-}
-
-.eyebrow {
-  color: rgba(255, 255, 255, 0.88);
-}
-
-/* All captions share one grid cell so they can crossfade in place. That means
-   the cell — and so the panel — is as tall as the TALLEST caption, which keeps
-   the panel from resizing on every slide. The trade-off is that the largest
-   type sets the panel's size for everyone, which is why the display line below
-   is smaller than the full --fs-hero: inside a panel, 122px was towering. */
+/* All captions share one grid cell so the block never resizes between slides.
+   The cell is therefore as tall as the TALLEST caption — on mobile that left
+   a dead gap under the photo for every shorter one, so they top-align here
+   and bottom-align in the desktop panel, where the anchor is the panel foot. */
 .captions {
   display: grid;
-  align-items: end;
+  align-items: start;
 }
 
 .caption {
@@ -194,8 +159,8 @@
 .display {
   font-family: var(--font-display), Georgia, serif;
   font-weight: 400;
-  font-size: clamp(2.25rem, 5vw, 4.25rem);
-  line-height: 1.06;
+  font-size: clamp(2.1rem, 8vw, 4.25rem);
+  line-height: 1.08;
   letter-spacing: -0.015em;
   color: var(--white);
   max-width: 18ch;
@@ -203,8 +168,8 @@
 }
 
 .slideTitle {
-  font-size: clamp(1.9rem, 4.2vw, 3.4rem);
-  line-height: 1.08;
+  font-size: clamp(1.85rem, 7vw, 3.4rem);
+  line-height: 1.1;
   max-width: 17ch;
   text-wrap: balance;
 }
@@ -214,9 +179,7 @@
   max-width: 44ch;
 }
 
-/* ---- key facts ----
-   Chips carry their own ground, so the important lines stay readable whatever
-   the photograph behind them is doing. */
+/* ---- key facts ---- */
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -230,15 +193,13 @@
   padding: 0.4rem 0.8rem;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 999px;
-  background: rgba(6, 9, 12, 0.55);
-  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--white);
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: 0.6875rem;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   white-space: nowrap;
-  text-shadow: none;
 }
 
 .chipDot {
@@ -256,7 +217,6 @@
   margin-top: 0.25rem;
 }
 
-/* Solid primary so the main action never fights the photograph. */
 .btnSolid {
   display: inline-flex;
   align-items: center;
@@ -270,7 +230,6 @@
   text-transform: uppercase;
   letter-spacing: 0.16em;
   text-decoration: none;
-  text-shadow: none;
   transition: background-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
 }
 
@@ -284,15 +243,13 @@
   align-items: center;
   padding: 0.85rem 1.5rem;
   border: 1px solid rgba(255, 255, 255, 0.32);
-  background: rgba(6, 9, 12, 0.4);
-  backdrop-filter: blur(8px);
+  background: transparent;
   color: var(--white);
   font-family: var(--font-mono), ui-monospace, monospace;
   font-size: var(--fs-label);
   text-transform: uppercase;
   letter-spacing: 0.16em;
   text-decoration: none;
-  text-shadow: none;
   transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
 }
 
@@ -301,37 +258,28 @@
   color: var(--gold);
 }
 
-/* ---- bottom group: panel + controls ---- */
-.foot {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(1rem, 2.5vh, 1.5rem);
-}
-
+/* ---- controls ---- */
 .bar {
   position: relative;
   z-index: 1;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  /* The dots and the scroll cue sit outside the panel, so they carry their own
-     separation for the frames that are bright all the way down. */
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 18px rgba(0, 0, 0, 0.85);
+  gap: 0.75rem;
 }
 
 .dots {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
-/* The visible mark is a 2px line, but the BUTTON is a finger-sized hit area —
-   a 2px-tall tap target on the primary mobile control was indefensible. */
+/* The visible mark is a 2px line, but the BUTTON is a finger-sized hit area. */
 .dot {
   position: relative;
-  width: clamp(1.6rem, 4.5vw, 2.5rem);
+  width: clamp(1.05rem, 3.6vw, 2.5rem);
   height: 1.5rem;
   padding: 0;
   border: 0;
@@ -354,7 +302,6 @@
   background: rgba(255, 255, 255, 0.6);
 }
 
-/* Fills across the dwell time, so the banner tells you when it will move. */
 .dotFill {
   position: absolute;
   left: 0;
@@ -373,6 +320,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex: none;
 }
 
 .arrow {
@@ -382,8 +330,7 @@
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.28);
-  background: rgba(6, 9, 12, 0.4);
-  backdrop-filter: blur(6px);
+  background: transparent;
   color: var(--white);
   cursor: pointer;
   transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
@@ -407,8 +354,125 @@
   background: linear-gradient(90deg, var(--gold), transparent);
 }
 
-@media (min-width: 760px) {
+/* ============================================================
+   DESKTOP ≥900px — the overlay composition.
+   ============================================================ */
+@media (min-width: 900px) {
+  .hero {
+    min-height: 100svh;
+    justify-content: space-between;
+    padding: var(--gut);
+    padding-top: clamp(6rem, 14vh, 9rem);
+    padding-bottom: clamp(1.25rem, 4vh, 2.5rem);
+  }
+
+  .stage {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    min-height: 0;
+  }
+
+  /* Desktop grade: seat the nav, anchor the bottom, leave the frame open. */
+  .shade {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(6, 9, 12, 0.86) 0%,
+        rgba(6, 9, 12, 0.62) 12%,
+        rgba(6, 9, 12, 0.3) 22%,
+        transparent 36%
+      ),
+      linear-gradient(
+        180deg,
+        transparent 55%,
+        rgba(6, 9, 12, 0.35) 80%,
+        rgba(6, 9, 12, 0.72) 100%
+      );
+  }
+
+  .poster {
+    justify-content: flex-end;
+    padding: clamp(4.5rem, 12vh, 7rem) clamp(2rem, 7vw, 6rem)
+      clamp(5rem, 12vh, 7rem) var(--gut);
+  }
+
+  .posterImg {
+    max-width: 42vw;
+  }
+
+  .eyebrows {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 1.5rem;
+    text-shadow: 0 1px 12px rgba(0, 0, 0, 0.9);
+  }
+
+  .foot {
+    padding-inline: 0;
+  }
+
+  /* The glass panel. backdrop brightness caps whatever is behind it at a
+     fraction of its own luminance — measured 13:1 worst-case slide. */
+  .content {
+    align-self: flex-start;
+    width: min(100%, 46rem);
+    padding: clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 2.25rem);
+    background: rgba(6, 9, 12, 0.5);
+    backdrop-filter: blur(22px) saturate(0.85) brightness(0.42);
+    -webkit-backdrop-filter: blur(22px) saturate(0.85) brightness(0.42);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 2px solid var(--gold);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+  }
+
+  .chip {
+    background: rgba(6, 9, 12, 0.55);
+    backdrop-filter: blur(8px);
+    text-shadow: none;
+  }
+
+  .captions {
+    align-items: end;
+  }
+
+  .display {
+    font-size: clamp(2.25rem, 5vw, 4.25rem);
+    line-height: 1.06;
+  }
+
+  .slideTitle {
+    font-size: clamp(1.9rem, 4.2vw, 3.4rem);
+    line-height: 1.08;
+  }
+
+  .bar {
+    flex-wrap: wrap;
+    gap: 1rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 18px rgba(0, 0, 0, 0.85);
+  }
+
+  .dots {
+    gap: 0.5rem;
+  }
+
+  .arrow {
+    background: rgba(6, 9, 12, 0.4);
+    backdrop-filter: blur(6px);
+  }
+
   .cue {
     display: flex;
+  }
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  @media (min-width: 900px) {
+    .content {
+      background: rgba(6, 9, 12, 0.9);
+    }
   }
 }

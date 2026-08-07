@@ -2,21 +2,22 @@
   padding-bottom: var(--sect);
 }
 
-/* ---- masthead ---- */
+/* ---- masthead ----
+   Mobile: STACKED — photo block on top, copy below on the ink ground. The
+   overlay composition only exists ≥900px, where there is room for both.
+   (Same lesson as the hero: never overlay a caption on a phone.) */
 .hero {
   position: relative;
-  min-height: min(72svh, 40rem);
   display: flex;
-  align-items: flex-end;
+  flex-direction: column;
   overflow: hidden;
-  padding: var(--gut);
-  padding-top: clamp(7rem, 16vh, 10rem);
-  padding-bottom: clamp(2rem, 6vh, 3.5rem);
+  background: var(--ink);
 }
 
 .media {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  height: 46svh;
+  min-height: 17rem;
 }
 
 .media img {
@@ -26,16 +27,19 @@
 }
 
 /* Poster masthead — artwork on a dark ground, to the right of the copy. */
+/* On mobile the poster IS the media block; on desktop it overlays, artwork
+   right of the copy. */
 .poster {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  height: 52svh;
+  min-height: 19rem;
   background:
-    radial-gradient(70% 60% at 76% 42%, rgba(232, 188, 62, 0.13), transparent 66%),
+    radial-gradient(70% 60% at 50% 45%, rgba(232, 188, 62, 0.13), transparent 66%),
     var(--ink);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(5rem, 13vh, 8rem) var(--gut) clamp(7rem, 18vh, 9rem);
+  padding: clamp(3.6rem, 9vh, 5rem) var(--gut) clamp(1.25rem, 4vh, 2rem);
 }
 
 .posterImg {
@@ -47,24 +51,27 @@
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.6);
 }
 
-@media (min-width: 900px) {
-  .poster {
-    justify-content: flex-end;
-    padding-right: clamp(2rem, 7vw, 6rem);
-  }
-  .posterImg {
-    max-width: 32vw;
-  }
-}
-
+/* Mobile shade: only seats the nav at the top of the image. The copy is on
+   plain ground below and needs no defence. */
 .shade {
   position: absolute;
   inset: 0;
-  /* Same floor as the hero — see the note in Hero.module.css. */
-  background:
-    linear-gradient(180deg, rgba(6, 9, 12, 0.85) 0%, rgba(6, 9, 12, 0.25) 16%, transparent 32%),
-    linear-gradient(180deg, transparent 26%, rgba(6, 9, 12, 0.52) 46%, rgba(6, 9, 12, 0.88) 72%, rgba(6, 9, 12, 0.97) 100%),
-    radial-gradient(115% 88% at 2% 100%, rgba(6, 9, 12, 0.95) 0%, rgba(6, 9, 12, 0.74) 34%, rgba(6, 9, 12, 0.28) 62%, transparent 80%);
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 9, 12, 0.8) 0%,
+    rgba(6, 9, 12, 0.2) 10%,
+    transparent 22%
+  );
+}
+
+/* Melt the photo's bottom edge into the ink the copy sits on. */
+.media::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 30%;
+  background: linear-gradient(180deg, transparent, var(--ink));
 }
 
 .heroInner {
@@ -77,8 +84,57 @@
   flex-direction: column;
   gap: 0.9rem;
   align-items: flex-start;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 2px 28px rgba(0, 0, 0, 0.8),
-    0 0 70px rgba(0, 0, 0, 0.6);
+  padding: clamp(1.25rem, 4vh, 2rem) var(--gut) 0;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    min-height: min(72svh, 40rem);
+    flex-direction: row;
+    align-items: flex-end;
+    padding: var(--gut);
+    padding-top: clamp(7rem, 16vh, 10rem);
+    padding-bottom: clamp(2rem, 6vh, 3.5rem);
+  }
+
+  .media {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    min-height: 0;
+  }
+
+  .media::after {
+    display: none;
+  }
+
+  .poster {
+    position: absolute;
+    inset: 0;
+    height: auto;
+    min-height: 0;
+    justify-content: flex-end;
+    padding: clamp(5rem, 13vh, 8rem) clamp(2rem, 7vw, 6rem)
+      clamp(7rem, 18vh, 9rem) var(--gut);
+  }
+
+  .posterImg {
+    max-width: 32vw;
+  }
+
+  /* Desktop shade — the overlay composition needs its full bed back. */
+  .shade {
+    background:
+      linear-gradient(180deg, rgba(6, 9, 12, 0.85) 0%, rgba(6, 9, 12, 0.25) 16%, transparent 32%),
+      linear-gradient(180deg, transparent 26%, rgba(6, 9, 12, 0.52) 46%, rgba(6, 9, 12, 0.88) 72%, rgba(6, 9, 12, 0.97) 100%),
+      radial-gradient(115% 88% at 2% 100%, rgba(6, 9, 12, 0.95) 0%, rgba(6, 9, 12, 0.74) 34%, rgba(6, 9, 12, 0.28) 62%, transparent 80%);
+  }
+
+  .heroInner {
+    padding: 0;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85), 0 2px 28px rgba(0, 0, 0, 0.8),
+      0 0 70px rgba(0, 0, 0, 0.6);
+  }
 }
 
 .when {

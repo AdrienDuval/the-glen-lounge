@@ -275,6 +275,48 @@ inert, 25-Tab walk never lands on hidden content, drawer anchor link scrolls
 0 → 5904, inert cleared and scroll unlocked after close, Escape closes with
 focus returned. No console errors.
 
+## Mobile hero rebuilt — two compositions, not one squeezed (2026-08-07)
+
+Client feedback on the shipped mobile page: images invisible, hero broken. It
+was right, and the cause was a design error rather than a sizing one — the
+desktop *overlay* composition had simply been shrunk. On a portrait screen a
+caption panel plus chips plus two buttons cannot share space with a landscape
+photo: the panel wins and the photograph is reduced to a sliver behind it.
+
+**The rule now, written down so it is not re-litigated: never overlay a caption
+on a phone.**
+
+| Viewport | Composition |
+| --- | --- |
+| **< 900px** | **Stacked.** Photo owns the top 56svh, full bleed, nothing on it but the nav band; its foot melts into `--ink`. Caption sits BELOW on the page's own ground — no glass, no border, no shadow, because there is nothing behind it to defend against. |
+| **≥ 900px** | **Overlay.** Unchanged: image is the viewport, caption is the glass panel at bottom-left, contrast handled by `backdrop-filter: brightness()` (measured 13:1 worst case). |
+
+Applied identically to `EventPage`'s masthead, photo and poster variants.
+
+Also: the eyebrow row is desktop-only now — on a phone it was two rows of
+letterspaced mono sitting on the photograph, repeating what the nav and the
+heading already say. Dot hit-areas shrink to fit 8 slides at 360px.
+
+### Two bugs the measurement caught that the eye did not
+
+1. **The desktop caption panel disappeared entirely** after the restructure —
+   yet `getBoundingClientRect` and `opacity` all read correct. `elementFromPoint`
+   at the panel's own coordinates returned `IMG`: the slide was painting over
+   it. The crossfade assigns per-slide `z-index: 2` so the incoming panel can
+   wipe over the outgoing one, and with no stacking context on `.stage` those
+   values escaped into the hero's context and beat the panel's `z-index: 1`.
+   Fixed with `isolation: isolate` on `.stage` — commented as load-bearing,
+   because it looks like decoration and will be deleted otherwise.
+2. **A ~175px dead gap** between photo and caption on mobile. All captions
+   share one grid cell (so the block never resizes between slides), which
+   makes the cell as tall as the *tallest* caption; bottom-aligning them left
+   every shorter one floating. Top-aligned on mobile, bottom-aligned in the
+   desktop panel where the foot is the anchor. Measured 175px → **4px**.
+
+Verified: hit-test returns the caption's own heading on desktop before and
+after a wipe; no horizontal overflow at 360/390; both event-page variants and
+the desktop hero clean; no console errors.
+
 ### Open after Phase 1
 
 - [ ] **No section nav on mobile.** Below 900 px the links are hidden; the brand,
