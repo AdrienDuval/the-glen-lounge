@@ -1,0 +1,151 @@
+.section {
+  padding-block: var(--sect);
+}
+
+.head {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  padding-inline: var(--gut);
+  max-width: 82rem;
+  margin-inline: auto;
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  max-width: 18ch;
+  text-wrap: balance;
+}
+
+.lede {
+  color: var(--muted);
+  max-width: 48ch;
+}
+
+/* ---- the track ----
+   Under 900px this is a native snap-scroller; above it, GSAP pins the section
+   and scrubs the track sideways. */
+.track {
+  display: flex;
+  gap: clamp(0.875rem, 2vw, 1.5rem);
+  padding-inline: var(--gut);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+/* The scrollbars are hidden, so the keyboard affordance needs its own ring. */
+.track:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 6px;
+}
+
+/* Applied by GSAP only when the pin is active — a pinned track must not also
+   be natively scrollable or the two fight each other. */
+.trackPinned {
+  overflow-x: visible;
+  scroll-snap-type: none;
+}
+
+/* A horizontal band wants a COMMON HEIGHT with widths that vary by aspect
+   ratio — not a common width, which makes a 2160×2880 portrait tower over a
+   16:9 landscape and overflow the viewport. Height is fixed here; the inline
+   `aspect-ratio` on .media derives the width. */
+.card {
+  flex: none;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.cap {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+
+.capIndex {
+  color: var(--gold);
+}
+
+.capText {
+  color: var(--muted);
+}
+
+.media {
+  height: 54vh;
+  width: auto;
+  max-width: 86vw;
+}
+
+/* Parallax carrier: wider than its frame so the image can drift ±4% inside
+   the clipped box without exposing an edge. GSAP animates xPercent on this
+   node only — the frame's clip reveal never fights it. */
+.para {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -6%;
+  right: -6%;
+}
+
+.caption {
+  color: var(--muted);
+}
+
+.footer {
+  max-width: 82rem;
+  margin-inline: auto;
+  padding-inline: var(--gut);
+  margin-top: clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.progress {
+  position: relative;
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--ember), var(--gold), var(--gold-hi));
+}
+
+.count {
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+@media (min-width: 700px) {
+  .head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: end;
+  }
+}
+
+@media (min-width: 900px) {
+  /* The whole section is pinned, so head + track + footer must fit one screen
+     or the band gets clipped at the fold. The second term reserves room for
+     everything that is not the images, which makes the height self-limiting on
+     short viewports instead of overflowing them. */
+  .media {
+    height: min(58vh, calc(100svh - 21rem));
+    max-width: none;
+  }
+}

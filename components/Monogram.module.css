@@ -1,0 +1,53 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--mono-size);
+  height: var(--mono-size);
+  flex: none;
+  line-height: 1;
+}
+
+/* The backlight. The venue's own « G » behind the bar is back-illuminated —
+   this is that, not a generic drop shadow. */
+.glow {
+  position: absolute;
+  inset: -35%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 204, 3, 0.34),
+    rgba(241, 107, 46, 0.14) 42%,
+    transparent 70%
+  );
+  opacity: var(--mono-glow, 1);
+  pointer-events: none;
+}
+
+.letter {
+  position: relative;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: var(--mono-size);
+  font-weight: 500;
+  line-height: 1;
+  /* Optical centring: the Didone G sits high in its em box. */
+  transform: translateY(0.045em);
+  background: linear-gradient(
+    158deg,
+    var(--gold-hi) 0%,
+    var(--gold) 46%,
+    var(--ember) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Fallback for anything that cannot clip a gradient to text. */
+@supports not (background-clip: text) {
+  .letter {
+    background: none;
+    color: var(--gold);
+  }
+}

@@ -10,7 +10,20 @@ plain CSS with custom-property tokens (no Tailwind, no CSS-in-JS library).
   plausible detail is not.
 - `CONTRACT.md` holds design decisions. Agree there, then implement.
 - Every animation needs a `prefers-reduced-motion: reduce` fallback.
-- Site-wide strings go in `lib/site.ts`, not inline in components.
+- **Two homes for strings, and the split matters:**
+  - `lib/site.ts` — language-*independent* venue facts (phones, address, the
+    weekly programme, socials). Traceable to `FACTS.md`.
+  - `lib/i18n/{fr,en}.ts` — UI copy. `fr.ts` is the source shape; `en.ts` uses
+    `satisfies Dict`, so a missing or misspelled English key fails `tsc`.
+    Do **not** add `as const` to `fr.ts` — it would freeze every value to its
+    literal type and then demand the English text be character-identical.
+- Photography goes through `lib/photos.ts`, never a raw path. Each entry
+  carries a `consent` field; render lists through `shippable()` so an
+  unconsented image cannot reach a page by accident.
+- The site is bilingual, French first. There is deliberately **no
+  `app/layout.tsx`** — the root layout is `app/[lang]/layout.tsx` so
+  `<html lang>` can vary per locale. That is also why
+  `app/global-not-found.tsx` has to bring its own `<html>` and fonts.
 
 ## This machine
 
@@ -27,6 +40,22 @@ plain CSS with custom-property tokens (no Tailwind, no CSS-in-JS library).
   match on actual markup).
 - Background dev servers do not survive between turns. Start fresh per
   audit cycle; for casual browsing, run `npm run dev` in your own terminal.
+- **Never `next build` while a `next start` is still listening.** The new build
+  replaces `.next` underneath the running process and it then serves a page
+  with no CSS and 400s on its chunks — which looks exactly like the OneDrive
+  cache corruption above, but isn't. Kill the listener first and confirm the
+  port is free:
+  ```powershell
+  Get-NetTCPConnection -LocalPort 3100 -State Listen |
+    Select-Object -ExpandProperty OwningProcess -Unique |
+    ForEach-Object { Stop-Process -Id $_ -Force }
+  ```
+  `next start` failing with `EADDRINUSE` is the tell that you are about to
+  screenshot a stale server.
+- Screenshot/measure scripts must live **inside the project directory** —
+  running one from the scratchpad cannot resolve `playwright-core`. Write it to
+  `./.shot.mjs`, run, delete. And write it with the Write tool, not a bash
+  heredoc: heredocs eat the backslashes in the Chrome path.
 - Screenshots: no Playwright browsers installed, but system Chrome is at
   `C:\Program Files\Google\Chrome\Application\chrome.exe`. Use `playwright-core`
   with `chromium.launch({ executablePath: CHROME })`, and scroll via

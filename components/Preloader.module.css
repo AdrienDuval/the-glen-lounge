@@ -1,0 +1,90 @@
+.root {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  background: var(--ink);
+  /* The panel slides up as one object; nothing inside it may repaint on exit. */
+  will-change: transform;
+}
+
+/* ---- centre stack ---- */
+.stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.25rem, 3vw, 2rem);
+  padding: var(--gut);
+}
+
+/* The wrapper owns the CSS centring, the inner node owns the GSAP transform —
+   animating the same element would cancel the layout translate. */
+.mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.markInner {
+  display: flex;
+}
+
+.wordmark {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.5rem, 5.5vw, 3rem);
+  font-weight: 400;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  /* The tracking animates in, so the box must not reflow the layout around it. */
+  text-align: center;
+  color: var(--white);
+  /* letter-spacing adds a trailing gap on the last glyph — pull it back so the
+     wordmark stays optically centred at every tracking value. */
+  text-indent: 0.14em;
+}
+
+.descriptor {
+  text-align: center;
+  color: var(--muted);
+}
+
+/* ---- bottom bar ---- */
+.foot {
+  padding: var(--gut);
+  padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.track {
+  position: relative;
+  height: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: linear-gradient(90deg, var(--ember), var(--gold), var(--gold-hi));
+  box-shadow: 0 0 12px rgba(232, 188, 62, 0.6);
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.875rem;
+}
+
+.counter {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--fs-label);
+  letter-spacing: 0.19em;
+  color: var(--gold);
+  /* Tabular so the digits do not jitter the row while counting. */
+  font-variant-numeric: tabular-nums;
+}

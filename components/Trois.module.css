@@ -1,0 +1,57 @@
+.section {
+  padding-block: var(--sect);
+}
+
+.head {
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.lede {
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.media {
+  aspect-ratio: 4 / 5;
+}
+
+.cardHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cardTitle {
+  font-size: var(--fs-h3);
+}
+
+.cardText {
+  color: var(--muted);
+}
+
+@media (min-width: 760px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

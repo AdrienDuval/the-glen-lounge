@@ -1,0 +1,142 @@
+.page {
+  padding-top: clamp(7rem, 16vh, 10rem);
+  padding-bottom: var(--sect);
+}
+
+.head {
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.lede {
+  color: var(--body);
+  max-width: 52ch;
+}
+
+.notes {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem 1.25rem;
+  border-left: 2px solid var(--gold-dim);
+  background: var(--ink-2);
+  margin-block: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.note {
+  color: var(--marble-hi);
+  max-width: 62ch;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+/* ---- sections ---- */
+.sections {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 6vw, 4rem);
+}
+
+.section {
+  break-inside: avoid;
+}
+
+.sectionHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.sectionTitle {
+  font-size: var(--fs-h3);
+  color: var(--gold);
+}
+
+.flat {
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.item {
+  display: grid;
+  gap: 0.15rem;
+}
+
+/* Name and price on one line joined by a dotted leader — the classic menu
+   device, done with a flex row rather than a table so it reflows on a phone. */
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.name {
+  color: var(--white);
+}
+
+.leader {
+  flex: 1;
+  border-bottom: 1px dotted var(--line);
+  transform: translateY(-0.28em);
+  min-width: 1.5rem;
+}
+
+.price {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  color: var(--body);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.detail {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  max-width: 52ch;
+}
+
+/* ---- foot ---- */
+.foot {
+  margin-top: var(--sect);
+  padding-top: clamp(1.5rem, 4vw, 2.5rem);
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.footTitle {
+  font-size: var(--fs-h3);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+@media (min-width: 900px) {
+  .sections {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(3rem, 7vw, 6rem);
+  }
+}

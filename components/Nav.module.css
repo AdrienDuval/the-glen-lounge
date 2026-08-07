@@ -1,0 +1,265 @@
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(0.875rem, 2vw, 1.35rem) var(--gut);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s var(--ease-out),
+    background-color 0.4s var(--ease-out);
+}
+
+/* A permanent scrim behind the bar. The hero slides through frames that are
+   nearly white in places, and a nav that only gains a backdrop after 60px of
+   scroll is unreadable on exactly those frames — at the top of the page, which
+   is where everyone starts. */
+.nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 9, 12, 0.88) 0%,
+    rgba(6, 9, 12, 0.6) 55%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Added by ScrollTrigger past 60px. Backdrop only once scrolled, so the hero
+   keeps a clean edge at rest. */
+.scrolled {
+  border-bottom-color: var(--line);
+  background: rgba(6, 9, 12, 0.82);
+  backdrop-filter: blur(10px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  flex: none;
+}
+
+.word {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--white);
+  white-space: nowrap;
+}
+
+.links {
+  display: none;
+  gap: clamp(1rem, 2.4vw, 2.25rem);
+}
+
+.link {
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 0.25s var(--ease-out);
+}
+
+.link:hover {
+  color: var(--white);
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  /* Floor lowered from 0.75rem: at 360px the old gap pushed the burger 2px
+     past the viewport edge. */
+  gap: clamp(0.4rem, 1.8vw, 1.5rem);
+  flex: none;
+}
+
+.phone {
+  display: none;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.1rem;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.3s var(--ease-out),
+    color 0.3s var(--ease-out);
+}
+
+.cta:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* ---- burger (mobile only) ---- */
+.burger {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  /* 44px — the tap-target floor. */
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  background: rgba(6, 9, 12, 0.4);
+  cursor: pointer;
+}
+
+.burgerBar {
+  display: block;
+  width: 1.15rem;
+  height: 2px;
+  background: var(--white);
+  transition: transform 0.3s var(--ease-out), opacity 0.3s var(--ease-out);
+}
+
+/* → ✕ */
+.barTop {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.barMid {
+  opacity: 0;
+}
+
+.barBot {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ---- drawer ---- */
+.drawer {
+  position: fixed;
+  /* Below the bar (z 80): brand and the ✕ stay usable on top. */
+  inset: 0;
+  z-index: 70;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: calc(var(--gut) + 4.5rem) var(--gut) clamp(2rem, 8vh, 3.5rem);
+  background: var(--ink);
+  opacity: 0;
+  /* No `visibility` here, deliberately. With visibility in the transition
+     list, focus() during the open commit forces a style recalc that samples
+     the transition at progress 0 — which per the CSS interpolation rule is
+     still `hidden`, so the focus silently no-ops. Empirically verified in
+     Chrome by the review; inert already covers hiding-from-everyone, and
+     pointer-events is the belt-and-braces for browsers without inert. */
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease-out);
+  overflow-y: auto;
+}
+
+.drawerOpen {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Reachable by assistive tech and keyboard, invisible otherwise — the same
+   pattern as the global .skip link. */
+.drawerClose {
+  position: absolute;
+  top: calc(var(--gut) + 0.5rem);
+  left: var(--gut);
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--gold);
+  background: var(--ink-2);
+  color: var(--gold);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-160%);
+}
+
+.drawerClose:focus-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.drawerNav {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.4rem, 1.5vh, 0.9rem);
+}
+
+.drawerLink {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.9rem, 7.5vw, 2.75rem);
+  line-height: 1.25;
+  color: var(--white);
+  text-decoration: none;
+  /* Generous tap target without visual bulk. */
+  padding-block: 0.2em;
+  transition: color 0.25s var(--ease-out);
+}
+
+.drawerLink:hover,
+.drawerLink:focus-visible {
+  color: var(--gold);
+}
+
+.drawerFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.drawerLang {
+  /* Breathing room + a real tap target around the FR/EN pair. */
+  display: inline-flex;
+  padding: 0.6rem 0.4rem;
+  margin-left: 0.4rem;
+}
+
+/* Bar-mounted language switcher only where the full link row exists. */
+.langBar {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .links {
+    display: flex;
+  }
+
+  .langBar {
+    display: inline-flex;
+  }
+
+  .burger,
+  .drawer {
+    display: none;
+  }
+}
+
+/* The phone number is the bar's least essential element and the first thing
+   to overflow. Measured: 7px over at 1280, fits at 1440 — so it only exists
+   from 1360 up. Every narrower viewport still has RÉSERVER (→ the number) and
+   the drawer's call button. */
+@media (min-width: 1360px) {
+  .phone {
+    display: inline-flex;
+  }
+}

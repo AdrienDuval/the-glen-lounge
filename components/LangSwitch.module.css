@@ -1,0 +1,31 @@
+.root {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: var(--fs-label);
+  letter-spacing: 0.16em;
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.sep {
+  margin-inline: 0.4rem;
+  color: var(--line);
+}
+
+.link {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.25s var(--ease-out);
+}
+
+.link:hover {
+  color: var(--white);
+}
+
+.active {
+  color: var(--gold);
+}

@@ -1,25 +1,54 @@
-/*
- * Design tokens. Every value here is a PLACEHOLDER until the brand is confirmed
- * in CONTRACT.md — do not treat these colours or type choices as decisions.
- */
+/* ============================================================
+   THE GLEN LOUNGE — global tokens & primitives
+   Single dark theme, French-first, mobile-first.
+
+   The palette is not a moodboard: every colour below was sampled
+   off the venue's own assets.
+     · ground   — the logo's near-black field           (#03090c)
+     · gold     — the logo's gradient, yellow → ember   (#ffcc03 → #f16b2e)
+     · marble   — the lounge floor in interior-lounge-04
+   See CONTRACT.md for the reasoning, lib/photos.ts for the sources.
+   ============================================================ */
 
 :root {
-  /* Colour — neutral dark shell, awaiting brand palette */
-  --bg: #0b0b0c;
-  --bg-raised: #141416;
-  --fg: #f2f0ec;
-  --fg-muted: #a09b93;
-  --rule: #26262a;
-  --accent: #b98b4a; /* TODO: replace with real brand accent */
+  /* ---- ground ---- */
+  --ink: #06090c; /* sampled logo ground #03090c, lifted so pure black stays available */
+  --ink-2: #0d1217; /* raised surfaces, image frame backing */
+  --marble-deep: #23282e;
+  --marble: #565050;
+  --marble-hi: #81817f;
 
-  /* Type */
-  --font-display: ui-serif, Georgia, "Times New Roman", serif;
-  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* ---- ink ---- */
+  --white: #ffffff;
+  --body: #e9e7e2;
+  --muted: #9a988f;
+  --line: rgba(255, 255, 255, 0.13);
 
-  /* Rhythm */
-  --gutter: clamp(1.25rem, 4vw, 4rem);
-  --measure: 68ch;
-  --section-y: clamp(4rem, 10vw, 9rem);
+  /* ---- light ----
+     The logo runs a gradient from bright yellow-gold through to ember.
+     `--gold` is the readable mid used for type and rules; `--gold-hi` and
+     `--ember` are the gradient's two ends, used for sweeps and glow only. */
+  --gold: #e8bc3e;
+  --gold-hi: #ffcc03;
+  --gold-dim: #a9873a;
+  --ember: #f16b2e;
+
+  /* ---- type scale ----
+     A Didone needs more size than a grotesque to hold its contrast. */
+  --fs-hero: clamp(2.75rem, 8.5vw, 8rem);
+  --fs-h2: clamp(2rem, 4.4vw, 3.5rem);
+  --fs-h3: clamp(1.25rem, 1.9vw, 1.6rem);
+  --fs-body: clamp(1rem, 1.02vw, 1.0938rem);
+  --fs-label: 0.6875rem;
+
+  /* ---- rhythm ---- */
+  --gut: clamp(1.25rem, 4.5vw, 5rem);
+  --sect: clamp(5rem, 11vw, 10rem);
+
+  /* ---- motion ---- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: dark;
 }
 
 *,
@@ -29,52 +58,237 @@
 }
 
 html {
-  /* Lenis drives scrolling; native smooth scroll would fight it */
+  -webkit-text-size-adjust: 100%;
+  /* Lenis drives scrolling; native smooth scroll would fight it. */
   scroll-behavior: auto;
 }
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--fg);
-  font-family: var(--font-body);
-  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.0625rem);
-  line-height: 1.6;
+  background: var(--ink);
+  color: var(--body);
+  font-family: var(--font-body), -apple-system, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+  font-size: var(--fs-body);
+  line-height: 1.65;
+  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
 h1,
 h2,
-h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+h3,
+h4,
+p,
+figure {
   margin: 0;
 }
 
-a {
-  color: inherit;
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  color: var(--white);
 }
 
 img,
 video {
   display: block;
   max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+::selection {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ---------- layout ---------- */
+.shell {
+  max-width: 82rem;
+  margin-inline: auto;
+  padding-inline: var(--gut);
+}
+
+/* ---------- utility type ---------- */
+.label {
+  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
+  font-size: var(--fs-label);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.19em;
+  color: var(--muted);
+}
+
+.label--text {
+  color: var(--body);
+}
+
+.label--gold {
+  color: var(--gold);
+}
+
+/* ---------- the luminous rule (signature divider) ----------
+   A hairline that sweeps the logo's own gradient when `.lit` is added.
+   Toggle `.lit` from a ScrollTrigger onEnter. */
+.rule {
+  position: relative;
+  height: 1px;
+  background: var(--line);
+  overflow: hidden;
+  flex: none;
+}
+
+.rule::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ember) 34%,
+    var(--gold) 46%,
+    var(--gold-hi) 52%,
+    var(--gold) 58%,
+    transparent
+  );
+  transform: translateX(-102%);
+  box-shadow: 0 0 16px 1px rgba(232, 188, 62, 0.55);
+}
+
+.rule.lit::after {
+  transform: translateX(102%);
+  transition: transform 1.6s var(--ease-out);
+}
+
+/* ---------- image frame ----------
+   Sections animate `.frame` (clip-path) and its child (scale) with GSAP. */
+.frame {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink-2);
+}
+
+.frame > img,
+.frame > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ---------- the button ----------
+   One outlined gold control, used for every call-to-action on the site. */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  align-self: flex-start;
+  padding: 0.85rem 1.5rem;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
+  font-size: var(--fs-label);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  text-decoration: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.3s var(--ease-out), color 0.3s var(--ease-out);
+}
+
+.btn:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+/* ---------- accessibility ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Skip link — visible only on focus. */
+.skip {
+  position: fixed;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background: var(--ink-2);
+  border: 1px solid var(--gold);
+  color: var(--white);
+  transform: translateY(-160%);
+  transition: transform 0.25s var(--ease-out);
+}
+
+.skip:focus-visible {
+  transform: translateY(0);
+}
+
+/* ---------- lenis ---------- */
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
-.shell {
-  max-width: 78rem;
-  margin-inline: auto;
-  padding-inline: var(--gutter);
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
 }
 
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---------- scrollbar ---------- */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--ink);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #22262c;
+  border-radius: 5px;
+  border: 2px solid var(--ink);
+}
+
+/* ---------- reduced motion ----------
+   The global kill switch. Every GSAP effect additionally branches on
+   prefers-reduced-motion in its own matchMedia — this only catches CSS. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
 }

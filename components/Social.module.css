@@ -1,0 +1,76 @@
+.section {
+  padding-block: var(--sect);
+}
+
+.head {
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+.lede {
+  color: var(--body);
+  max-width: 50ch;
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+/* One bordered card per platform. The whole card is the link — when the feed
+   lands (see Social.tsx), the thumbnails join inside this same chassis. */
+.card {
+  display: grid;
+  gap: 0.6rem;
+  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+  text-decoration: none;
+  transition:
+    border-color 0.3s var(--ease-out),
+    background-color 0.3s var(--ease-out);
+}
+
+.card:hover,
+.card:focus-visible {
+  border-color: var(--gold-dim);
+}
+
+.platform {
+  color: var(--gold);
+}
+
+.handle {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  color: var(--white);
+  overflow-wrap: anywhere;
+}
+
+.follow {
+  color: var(--muted);
+  margin-top: 0.5rem;
+  transition: color 0.3s var(--ease-out);
+}
+
+.card:hover .follow,
+.card:focus-visible .follow {
+  color: var(--gold);
+}
+
+@media (min-width: 800px) {
+  .cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

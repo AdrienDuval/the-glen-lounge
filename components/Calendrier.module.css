@@ -1,0 +1,414 @@
+.section {
+  padding-block: var(--sect);
+}
+
+.head {
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+}
+
+.title {
+  font-size: var(--fs-h2);
+  max-width: 20ch;
+  text-wrap: balance;
+}
+
+.lede {
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+/* ---- month bar ---- */
+.monthBar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1.1rem;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 1.25rem;
+}
+
+.monthName {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  color: var(--white);
+  text-transform: capitalize;
+}
+
+.monthNav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navBtn {
+  width: 2.6rem;
+  height: 2.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--body);
+  cursor: pointer;
+  transition: border-color 0.25s var(--ease-out), color 0.25s var(--ease-out);
+}
+
+.navBtn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+/* ---- grid chrome ---- */
+.weekHead,
+.month {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 5px;
+}
+
+.weekHead {
+  margin-bottom: 8px;
+}
+
+.weekHead span {
+  padding-block: 0.45rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Short names on phones, full names once the grid is wide enough to earn them. */
+.dFull {
+  display: none;
+}
+
+@media (min-width: 980px) {
+  .dShort {
+    display: none;
+  }
+  .dFull {
+    display: inline;
+  }
+  .weekHead span {
+    text-align: left;
+    padding-inline: 0.8rem;
+  }
+}
+
+/* The popover is positioned against this. */
+.month {
+  position: relative;
+}
+
+.pad {
+  background: transparent;
+}
+
+/* ---- day cells ---- */
+.day {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  aspect-ratio: 1;
+  padding: 0;
+  border: 1px solid transparent;
+  background: var(--ink-2);
+  color: var(--muted);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  text-align: left;
+  cursor: default;
+  transition: background-color 0.25s var(--ease-out),
+    border-color 0.25s var(--ease-out), color 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out);
+}
+
+.day[data-has="1"] {
+  cursor: pointer;
+  color: var(--body);
+}
+
+.day[data-has="1"]:hover,
+.day[data-has="1"]:focus-visible,
+.dayOn {
+  border-color: var(--gold);
+  color: var(--white);
+  background: rgba(232, 188, 62, 0.08);
+  transform: translateY(-2px);
+  z-index: 1;
+}
+
+/* A dated event is news — it reads louder than a recurring night. */
+.daySpecial {
+  border-color: rgba(232, 188, 62, 0.4);
+  background: rgba(232, 188, 62, 0.07);
+}
+
+.daySpecial::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--ember), var(--gold-hi));
+}
+
+.dayToday .num {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--gold);
+}
+
+.num {
+  line-height: 1;
+}
+
+.marks {
+  display: flex;
+  gap: 3px;
+  height: 5px;
+  align-items: center;
+}
+
+.dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--marble-hi);
+}
+
+.dotSpecial {
+  width: 14px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--ember), var(--gold-hi));
+}
+
+/* Inline event names only exist on the wide grid. */
+.cellName,
+.cellTime {
+  display: none;
+}
+
+@media (min-width: 980px) {
+  .day {
+    aspect-ratio: auto;
+    min-height: 7.5rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 0.45rem;
+    padding: 0.7rem 0.8rem;
+  }
+
+  .marks {
+    display: none;
+  }
+
+  .num {
+    font-size: 0.875rem;
+  }
+
+  .cellName {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin-top: auto;
+    font-family: var(--font-display), Georgia, serif;
+    font-size: clamp(0.95rem, 1.15vw, 1.15rem);
+    line-height: 1.18;
+    letter-spacing: 0;
+    color: var(--body);
+    text-transform: none;
+  }
+
+  .daySpecial .cellName,
+  .day[data-has="1"]:hover .cellName,
+  .dayOn .cellName {
+    color: var(--white);
+  }
+
+  .cellTime {
+    display: block;
+    font-size: 0.625rem;
+    letter-spacing: 0.16em;
+    color: var(--gold-dim);
+  }
+
+  .day[data-has="1"]:hover .cellTime,
+  .dayOn .cellTime {
+    color: var(--gold);
+  }
+}
+
+/* ---- legend ---- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 1.1rem;
+}
+
+.legendItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--muted);
+}
+
+/* ---- hover popover (fine pointers on the wide grid only) ---- */
+.pop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 6;
+  width: min(23rem, 92vw);
+  visibility: hidden;
+  opacity: 0;
+  display: none;
+  background: rgba(10, 13, 17, 0.97);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--gold);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.6);
+}
+
+@media (hover: hover) and (pointer: fine) and (min-width: 980px) {
+  .pop {
+    display: block;
+  }
+}
+
+.popMedia {
+  position: relative;
+  height: 8.5rem;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.popMedia img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Event artwork (flyers) is shown whole, not cropped through the middle. */
+.popMediaPoster img {
+  object-fit: contain;
+}
+
+.popBody {
+  padding: 1.1rem 1.25rem 1.2rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.popDate {
+  color: var(--gold);
+  text-transform: capitalize;
+}
+
+.popTitle {
+  font-size: 1.45rem;
+  line-height: 1.12;
+}
+
+.popSummary {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.popRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  color: var(--muted);
+}
+
+.popKey {
+  color: var(--gold-dim);
+  flex: none;
+  min-width: 4.5rem;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.chip {
+  padding: 0.28rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.popLink {
+  margin-top: 0.25rem;
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.popLink:hover,
+.popLink:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---- mobile detail panel (no hover there) ---- */
+.panel {
+  position: relative;
+  margin-top: 1.25rem;
+  padding: clamp(1.25rem, 4vw, 1.75rem);
+  background: var(--ink-2);
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--gold);
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  overflow: hidden;
+}
+
+/* Hidden only where the popover actually exists. Width alone left wide touch
+   devices (iPad landscape) with NEITHER surface — the two queries must mirror
+   each other exactly. (Review finding, high severity.) */
+@media (hover: hover) and (pointer: fine) and (min-width: 980px) {
+  .panel {
+    display: none;
+  }
+}
+
+.panelDate {
+  color: var(--gold);
+  text-transform: capitalize;
+}
+
+.panelTitle {
+  font-size: clamp(1.5rem, 6vw, 2rem);
+  line-height: 1.1;
+}
+
+.panelSummary {
+  color: var(--body);
+}
+
+.empty {
+  color: var(--marble-hi);
+}
+
+.djs {
+  margin-top: 1.5rem;
+  color: var(--muted);
+}

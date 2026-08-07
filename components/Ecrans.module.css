@@ -1,0 +1,261 @@
+/* Type on the left, a designed "screen" on the right.
+   Still no photograph — the one frame showing the giant screen with a live
+   match is consent-blocked (PHOTOS.events_03), and the venue's match flyers
+   are third-party player imagery with dates on them (ASSETS.md). The board is
+   an honest substitute: it is unmistakably a UI object, not a fake photo, and
+   its content is the venue's own claims. */
+
+.section {
+  padding-block: var(--sect);
+  background: var(--ink-2);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 6vw, 4rem);
+  align-items: center;
+}
+
+.copy {
+  display: grid;
+  gap: clamp(1rem, 3vw, 1.75rem);
+}
+
+.title {
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  max-width: 16ch;
+  text-wrap: balance;
+}
+
+.lede {
+  color: var(--muted);
+  max-width: 54ch;
+}
+
+.rule {
+  margin-block: clamp(1rem, 3vw, 2rem);
+}
+
+/* ---- the board ---- */
+
+.board {
+  position: relative;
+  border: 1px solid var(--line);
+  /* Faint scanlines over a vertical falloff — reads as a powered screen
+     against the section's flat --ink-2 wall. */
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.016) 0 1px,
+      transparent 1px 3px
+    ),
+    linear-gradient(180deg, #0b1117, var(--ink));
+  padding: clamp(1.5rem, 3.5vw, 2.5rem);
+  overflow: hidden;
+}
+
+/* The lit top edge. */
+.board::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.65;
+}
+
+.boardHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: clamp(0.9rem, 2vw, 1.25rem);
+  border-bottom: 1px solid var(--line);
+}
+
+.live {
+  color: var(--ember);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 8px var(--ember);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .dot {
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.rows {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  padding-block: clamp(0.85rem, 1.8vw, 1.15rem);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.15rem, 1.9vw, 1.55rem);
+  color: var(--body);
+}
+
+.row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.bullet {
+  color: var(--gold);
+  font-size: 0.6em;
+  flex: none;
+}
+
+@media (min-width: 900px) {
+  .inner {
+    grid-template-columns: 1.1fr 0.9fr;
+    column-gap: clamp(3rem, 7vw, 7rem);
+  }
+}
+
+/* ---- the flyer gallery ----
+   The venue's own match flyers, as an archive carousel (Embla — free drag
+   with momentum; see Ecrans.tsx for why it is hand-driven where « Le lieu »
+   is scrubbed). Common height, variable width: the flyers range from 4:5 to
+   2:3 and forcing one ratio would crop their type. Every movement is
+   user-initiated, so the carousel itself needs no reduced-motion branch. */
+
+.galleryBlock {
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+.galleryHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.galleryLabel {
+  color: var(--muted);
+}
+
+.galleryNav {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.navBtn {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 1px solid var(--line);
+  color: var(--gold);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition:
+    border-color 0.3s var(--ease-out),
+    color 0.3s var(--ease-out),
+    opacity 0.3s var(--ease-out);
+}
+
+.navBtn:hover:not(:disabled),
+.navBtn:focus-visible {
+  border-color: var(--gold-dim);
+}
+
+.navBtn:disabled {
+  color: var(--marble);
+  cursor: default;
+  opacity: 0.45;
+}
+
+.viewport {
+  overflow: hidden;
+  cursor: grab;
+  /* Embla owns horizontal drag; the page keeps vertical scroll. */
+  touch-action: pan-y pinch-zoom;
+  /* Soft edges so the strip reads as continuing past the frame. */
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 1.5rem,
+    #000 calc(100% - 1.5rem),
+    transparent 100%
+  );
+}
+
+.viewport:active {
+  cursor: grabbing;
+}
+
+.gallery {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.card {
+  flex: none;
+  position: relative;
+  height: clamp(18rem, 42vw, 28rem);
+}
+
+.cardFrame {
+  height: 100%;
+}
+
+/* Hover lift on the card, not the frame — useSectionMotion writes inline
+   clip-path/transform onto .frame and its img, and this must not fight it. */
+@media (prefers-reduced-motion: no-preference) {
+  .card {
+    transition: transform 0.4s var(--ease-out);
+  }
+
+  .card:hover {
+    transform: translateY(-0.35rem);
+  }
+}
+
+.progress {
+  position: relative;
+  height: 1px;
+  margin-top: clamp(1rem, 2.5vw, 1.5rem);
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progressFill {
+  position: absolute;
+  inset: 0;
+  background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+}

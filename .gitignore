@@ -32,3 +32,6 @@ next-env.d.ts
 # raw social harvest - 200MB+ of source media, kept beside the project but
 # never committed. See ASSETS.md to regenerate.
 /assets-raw/
+
+# isolated build dir for verification runs (see next.config.ts)
+/.next-*/

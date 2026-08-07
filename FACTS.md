@@ -54,6 +54,12 @@ Where sources disagree, **the later post wins** and the conflict is flagged.
 > ⚠️ **150 m or 300 m?** Everything from launch through 2026-05-29 says 150 m;
 > every post from 2026-07-25 on says 300 m. This is the line customers navigate
 > by — it needs settling.
+>
+> **Updated 2026-08-07.** Every post checked from 2026-07-25 to 2026-08-01 says
+> 300 m, consistently and without exception. Under this file's own rule — the
+> later post wins — 300 m is the venue's current published claim, so the site
+> renders it (`dict.contact.directions`). Still worth confirming, because it is
+> the one line a customer navigates by, but it is no longer a coin toss.
 
 ### Phone numbers — ⚠️ six variants published
 
@@ -66,8 +72,32 @@ Where sources disagree, **the later post wins** and the conflict is flagged.
 | +237 699 96 65 65 | FB contact field | |
 | +237 691 51 35 16 | FB WhatsApp | |
 
-**Working assumption**: the booking line is **691 24 65 90 / 652 81 46 49**.
+**Working assumption**: the booking line is **691 24 65 90**.
 No email address is published anywhere. ⚠️
+
+> **Updated 2026-08-07.** Re-reading the caption digest weakens the earlier
+> inference. The three most recent reservation posts (2026-08-01 « Samedi VIP »,
+> 2026-07-29, 2026-07-27) all print **652 81 45 49**, not `46 49`. So the
+> evidence is genuinely split — recent TikTok says 45, the Facebook page and the
+> oldest posts say 46 — and "the later post wins" now points the *other* way.
+>
+> **Updated again, same day, after the Facebook harvest.** The Bal des Vétérans
+> flyer (their own artwork, posted 2026-08-06) prints
+> **+237 691 24 65 90 / +237 652 81 45 49**. That is a third independent recent
+> source for `45`, and unlike a caption it is a designed asset someone
+> proof-read. The balance has tipped: **`45 49` is now the likelier number**,
+> and `46 49` looks like a stale value sitting in the Facebook intro field.
+>
+> This changes the *recommendation*, not the site. Still one number rendered,
+> still `691 24 65 90`. But when you ask the client, ask them to confirm
+> `652 81 45 49` and to fix the Facebook intro field — do not lead with `46`.
+>
+> **What the site does about it**: renders **only +237 691 24 65 90**, the one
+> number that appears consistently everywhere including the August 2026 posts.
+> The disputed line is kept in `lib/site.ts` but is not rendered anywhere
+> (`components/Contact.tsx`, `components/Footer.tsx`). Publishing a number that
+> might be one digit wrong is worse than publishing a single correct one.
+> **This is still the #1 launch blocker.**
 
 ### Opening hours ⚠️
 
@@ -103,6 +133,11 @@ use the current column, and don't resurrect the old names.
 | Dimanche | **Dimanche Vétéran** (100 % rétro) | **Sunday Brunch**, dès 12h |
 
 - Start times drifted 18h → 16h → 19h across the year. ⚠️ Confirm current times.
+  **Updated 2026-08-07** — the August 2026 posts are consistent on **19h** for
+  Mardi Casino (2026-08-04, `#OpenDoor19H`), Samedi VIP (2026-08-01) and
+  Mercredi Cocktail (2026-07-29). Jeudi and Dimanche are still inferred from
+  older posts; Vendredi has no published time at all, so the site renders that
+  cell empty rather than guessing.
 - **Jeudi Karaoké is the flagship** — most-posted night, and the single
   best-performing post on the account (25 100 plays).
 - ⚠️ **Sunday Brunch** was a named, well-performing product (1 883 plays) that
@@ -121,9 +156,29 @@ use the current column, and don't resurrect the old names.
   with fries and roast carrots (photographed twice); **pizza** (2025-11-10);
   « **Samedi poulet** » — a recurring Saturday chicken plate (2025-12-07, 2026-02-28);
   **Sunday Brunch**; « **Midi express** » lunch service.
-- ⚠️ A **menu with a price grid exists on video** (TT 2026-02-01: « découvre nos
-  menus variés et une grille de prix qui fait plaisir »). Ask for the document —
-  it is the fastest route to a real menu page.
+- ✅ **THE MENU IS IN HAND** (found 2026-08-07 in the Facebook harvest, posted
+  2026-02-01). Four pages, fully legible, complete FCFA price grid, French with
+  English glosses. Files: `122122637{709,745,793,817}015607.jpg` in
+  `assets-raw/facebook/`. This closes the open question that used to be #3.
+
+  | Page | Sections |
+  | --- | --- |
+  | `…817` | Viandes & volailles · Pâtes · Plats locaux |
+  | `…745` | Entrées froides · Entrées chaudes · Produits de mer |
+  | `…793` | Accompagnements & suppléments · Pizzas |
+  | `…709` | Petites faims · Desserts |
+
+  Range: suppléments 1 000 FCFA · desserts 2 000–3 000 · pâtes 3 500–6 000 ·
+  petites faims 3 500–4 000 · pizzas 6 000–10 000 · viandes 3 500–20 000 ·
+  produits de mer 7 000–12 000.
+
+  ⚠️ Two cautions before this ships. The grid is dated **février 2026** — prices
+  need confirming as current. And the artwork carries several typos
+  (« SANWDWICH », « FONDANT AN CHOCOLAT », « TEXAN BEFE BURGER »); a web menu
+  should be set from the *data*, not reproduce the errors.
+
+  ⚠️ **No drinks list.** For a lounge selling cocktails and bottle service, that
+  is a conspicuous gap — the four pages are food only. Worth asking for.
 - ⚠️ « on livre le bonheur en parts égales » (pizza post) *might* indicate
   delivery, but it reads as wordplay. **Do not claim delivery** without asking.
 
@@ -155,7 +210,28 @@ Second-strongest content on the account.
   (« village de la CAN »), Champions League, El Clásico.
 - Reliable traffic driver; « le meilleur spot pour supporter les Éléphants ».
 
-### One-off events seen
+#### ✅ Bal des Vétérans — a real dated event (flyer, FB 2026-08-06)
+
+The first confirmed one-off with full details, and the first genuine candidate
+for a dated banner slide:
+
+| Field | Value |
+| --- | --- |
+| Date | **23 août** (year not printed; the post is dated 2026-08-06, so 2026) |
+| Doors | **18h** («OPEN DOOR 18H») |
+| Entry | **FREE ENTRY** |
+| Artist | **K-Tino** |
+| DJs | **DJ Christian Denon**; mix policy **DJ W / DJ Personica** |
+| Age | **+18** |
+| Address on flyer | « Yaoundé - Omnisport derrière le stade, **300 m de l'école publique** » |
+| Reservations on flyer | **+237 691 24 65 90 / +237 652 81 45 49** |
+
+> Two things this flyer settles on its own. It is the venue's **own current
+> artwork** and it prints **300 m** — see the distance note above. And it prints
+> **652 81 45 49**, which is now the third independent recent source for `45`
+> against the Facebook intro field's `46`.
+
+## One-off events seen
 « Bal des vétérans » (upcoming, FB 2026-08-05) · 8 mars — tombola **200 000 FCFA**,
 from 12h · Saint-Valentin packages · Fête de l'Unité, Fête de la Jeunesse,
 Pâques, Ramadan, Noël, Nouvel An greetings · visit from **@MOUSTIK KARISMATIK**.
@@ -243,7 +319,7 @@ resolution (video *covers* are the low-res ones):
 | `food-01..02.jpg` | Plated main courses | 2160×2880 |
 | `apartment-valentine-01..04.jpg` | Apartment room, Valentine's dressing | 1440×1920 |
 
-⚠️ **Gaps in the photography**: no daytime exterior, no bar/cocktail close-ups,
+⚠️ **Gaps in the photography**: ~~no daytime exterior~~ (found 2026-08-07 in the FB harvest — see ASSETS.md, now cropped into public/photos/exterior-day.jpg), no bar/cocktail close-ups,
 no undressed apartment interiors, no staff/team, no karaoke or event night
 crowd shots at usable resolution.
 
@@ -256,15 +332,30 @@ Ordered by how much they block the build.
 1. **Appartements** — how many, what types, what rates, how does someone book?
    (Blocks the highest-value page on the site.)
 2. **Vector logo** — AI/EPS/SVG from the designer.
-3. **The menu document** with the price grid (it exists — it's in a video).
-4. **150 m or 300 m** from the école publique de Mfandena?
-5. **Which phone number and email** go on the site? Is it `652 81 45 49` or
-   `652 81 46 49`?
+3. ~~**The menu document**~~ — ✅ **FOUND** and transcribed into `lib/menu.ts`
+   (10 sections, ~60 dishes), live at `/fr/carte` · `/en/menu`. What remains:
+   1. **Are the février 2026 prices still current?**
+   2. **Is there a drinks list?** All four pages are food. For a lounge selling
+      cocktails and bottle service this is the conspicuous gap.
+   3. Three lines where the artwork contradicts itself — run
+      `pendingQueries()` for the current list, or read them here:
+      - **Gambas royal** is printed « 12 00FCFA ». Read as 12 000; confirm.
+      - « **Penne arrabiata** » appears twice, at 3 500 and at 5 000. The 5 000
+        line's description is a choose-your-sauce dish, so it is listed as
+        « Pâtes, sauce au choix ». Confirm the name and price.
+      - The **Texan burger** appears twice with identical composition, at 3 500
+        and 4 000. Listed once at 3 500. Confirm which is right.
+4. ~~**150 m or 300 m**~~ — effectively settled at **300 m**: every post since
+   2026-07-25 and their own August flyer say so. Confirm in passing.
+5. **Which phone number and email** go on the site? The evidence now favours
+   `652 81 **45** 49` (their own August flyer plus three recent posts) over
+   `46 49` (the Facebook intro field). Ask them to confirm `45 49` **and fix
+   the Facebook intro field**, which is probably the stale one.
 6. **Closing time** — and confirm whether apartments really are 24h/24 while the
    restaurant is 10h–late.
 7. **Current weekly programme and start times** — is Lundi a night? Is Sunday
    Brunch coming back?
-8. **Original photography**, especially apartments, the bar, and a daytime exterior.
+8. **Original photography**, especially apartments and the bar. (A daytime exterior now exists — a proper facade shoot would still beat the overcast phone snapshot we cropped.)
 9. Event packages — capacity and pricing for private hire.
 10. Is there **delivery**?
 11. Site language: French only, or French + English for travellers?
