@@ -38,12 +38,21 @@ export default function EventsIndex({
 
   const Card = ({ event, featured }: { event: GlenEvent; featured?: boolean }) => {
     const photo = PHOTOS[event.photo];
+    /* Event artwork is a portrait flyer that carries its own typography, so it
+       is shown WHOLE — the hero, the event masthead and the calendar popover
+       all already branch on this and only the index did not. Cover-cropping
+       the Bal des Vétérans flyer into the 16:10 featured frame cut its title
+       off the top and the venue block off the bottom, on the one page whose
+       job is to sell the night. */
+    const poster = event.layout === "poster";
     return (
       <Link
         href={`${base}/${event.slug}`}
         className={`${styles.card} ${featured ? styles.featured : ""}`}
       >
-        <div className={`frame ${styles.media}`}>
+        <div
+          className={`frame ${styles.media} ${poster ? styles.mediaPoster : ""}`}
+        >
           <Image
             src={photo.src}
             alt={photo.alt[lang]}

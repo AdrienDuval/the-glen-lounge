@@ -26,7 +26,6 @@ import styles from "./Nav.module.css";
 const SECTIONS = [
   { hash: "#lieu", key: "lieu" },
   { hash: "#evenements", key: "evenements" },
-  { hash: "#appartements", key: "appartements" },
   { hash: "#contact", key: "contact" },
 ] as const satisfies readonly { hash: string; key: keyof Dict["nav"]["links"] }[];
 
@@ -120,9 +119,10 @@ export default function Nav({ lang, dict }: { lang: Lang; dict: Dict }) {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
     };
-    /* Desktop resize while open: the drawer is display:none ≥900px, which
-       would leave the page scroll-locked behind an invisible overlay. */
-    const mq = window.matchMedia("(min-width: 900px)");
+    /* Desktop resize while open: the drawer is display:none ≥1200px, which
+       would leave the page scroll-locked behind an invisible overlay.
+       This number is the breakpoint in Nav.module.css — keep them in step. */
+    const mq = window.matchMedia("(min-width: 1200px)");
     const onMq = () => mq.matches && close();
     window.addEventListener("keydown", onKey);
     mq.addEventListener("change", onMq);
@@ -213,6 +213,14 @@ export default function Nav({ lang, dict }: { lang: Lang; dict: Dict }) {
         <Link href={href("evenements", lang)} className={`label ${styles.link}`}>
           {dict.nav.links.soirees}
         </Link>
+        {/* Was a `#appartements` hash into the home teaser until the studios got
+            their own page. A real page gets a real Link. */}
+        <Link
+          href={href("appartements", lang)}
+          className={`label ${styles.link}`}
+        >
+          {dict.nav.links.appartements}
+        </Link>
         {SECTIONS.map((s) => (
           <a
             key={s.hash}
@@ -279,12 +287,12 @@ export default function Nav({ lang, dict }: { lang: Lang; dict: Dict }) {
             without this, a VoiceOver user's only exit was navigating away.
             sr-only until focused, so it doesn't visually double the header ✕.
             (Review finding, high.) */}
-        <button
-          type="button"
-          className={styles.drawerClose}
-          onClick={close}
-          data-drawer-item
-        >
+        {/* NOT `data-drawer-item`: the stagger below writes inline
+            `opacity: 1; transform: none` onto every item it animates, which
+            beats the class rule that keeps this control hidden until focus —
+            so it was painted permanently on top of the brand wordmark, both
+            unreadable. It has no entrance because it has no resting state. */}
+        <button type="button" className={styles.drawerClose} onClick={close}>
           {dict.nav.closeMenu}
         </button>
 
@@ -302,6 +310,13 @@ export default function Nav({ lang, dict }: { lang: Lang; dict: Dict }) {
             data-drawer-item
           >
             {dict.nav.links.soirees}
+          </Link>
+          <Link
+            href={href("appartements", lang)}
+            className={styles.drawerLink}
+            data-drawer-item
+          >
+            {dict.nav.links.appartements}
           </Link>
           {SECTIONS.map((s) => (
             <a

@@ -1,0 +1,263 @@
+/* ============================================================
+   ONE STUDIO — opens on the room, then reads as a spec sheet.
+   ============================================================ */
+
+.page {
+  padding-bottom: var(--sect);
+}
+
+/* ---------- masthead, laid over the carousel ----------
+   The frame, the wash and the controls live in StudioGallery.module.css; this
+   file owns only what sits on top of them. */
+.heroCopy {
+  display: grid;
+  gap: clamp(0.6rem, 1.6vw, 1rem);
+  justify-items: start;
+}
+
+.back {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.back:hover {
+  color: var(--gold);
+}
+
+/* The unit code IS the title, so it takes the display size — but stays mono,
+   because a Didone renders "A10-1-A" as typography rather than as a code. */
+.code {
+  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
+  font-size: clamp(2.4rem, 7vw, 4.5rem);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--white);
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1rem;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--line);
+  background: rgba(6, 9, 12, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.available {
+  border-color: rgba(232, 188, 62, 0.55);
+  color: var(--gold);
+}
+
+.occupied {
+  color: var(--muted);
+}
+
+.soon {
+  border-color: rgba(203, 165, 76, 0.5);
+  color: var(--gold-dim);
+}
+
+.fact {
+  color: var(--body);
+}
+
+/* ---------- body ---------- */
+.wrap {
+  padding-top: clamp(2rem, 5vw, 3rem);
+}
+
+.preview {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--gold);
+  background: var(--ink-2);
+  color: var(--body);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  max-width: 72ch;
+}
+
+.previewMark {
+  color: var(--gold);
+  flex: none;
+  font-size: 0.75em;
+  line-height: 1.9;
+}
+
+.layout {
+  display: grid;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  margin-top: clamp(2rem, 5vw, 3rem);
+}
+
+.main {
+  min-width: 0;
+}
+
+.block {
+  display: grid;
+  gap: 1.1rem;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+.blockTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.75rem;
+  color: var(--gold);
+}
+
+.blockCount {
+  color: var(--muted);
+}
+
+/* ---- the spec table ----
+   A definition list, two columns of label/value pairs, hairline-separated so it
+   reads as a spec sheet rather than a paragraph of facts. */
+.specs {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.spec {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.specLabel {
+  color: var(--muted);
+  flex: none;
+}
+
+.specValue {
+  margin: 0;
+  color: var(--white);
+  text-align: right;
+}
+
+/* ---- amenities: a plate each, so the icons read as a set ---- */
+.amenities {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12.5rem, 1fr));
+  gap: 0.6rem;
+}
+
+.amenity {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+  color: var(--body);
+  font-size: 0.9375rem;
+  transition: border-color 0.4s var(--ease-out);
+}
+
+.amenity:hover {
+  border-color: var(--gold-dim);
+}
+
+.amenityIcon {
+  display: inline-flex;
+  color: var(--gold);
+  flex: none;
+}
+
+/* ---- other studios ---- */
+.others {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+  gap: 0.75rem;
+}
+
+.other {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 0.3rem 0.75rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.4s var(--ease-out);
+}
+
+.other:hover {
+  border-color: var(--gold-dim);
+}
+
+.otherCode {
+  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
+  color: var(--white);
+  letter-spacing: 0.06em;
+}
+
+.other .label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.otherArrow {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  color: var(--gold);
+  transition: transform 0.4s var(--ease-out);
+}
+
+.other:hover .otherArrow {
+  transform: translateX(4px);
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 21rem;
+    align-items: start;
+  }
+
+  /* The panel is the conversion point on this page, so it tracks the reader
+     down the amenities and the gallery instead of scrolling away. Lenis drives
+     the page, but `position: sticky` is native layout — it is unaffected. */
+  .layout > :last-child {
+    position: sticky;
+    top: 6.5rem;
+  }
+
+  /* Two columns of label/value once there is room — eleven short rows in one
+     column is a lot of vertical travel for six facts. */
+  .specs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(1.5rem, 3vw, 3rem);
+  }
+}

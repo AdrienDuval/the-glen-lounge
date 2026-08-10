@@ -25,11 +25,11 @@ export default function Footer({ dict }: { dict: Dict }) {
         <div>
           <h2 className={`label ${styles.colTitle}`}>{dict.footer.findUs}</h2>
           <ul className={styles.colList}>
-            <li className="label label--text">
+            <li className={styles.value}>
               {site.address.area}, derrière le stade
             </li>
-            <li className="label label--text">{site.address.detail}</li>
-            <li className="label label--text">
+            <li className={styles.value}>{site.address.detail}</li>
+            <li className={styles.value}>
               {site.address.city}, {site.address.country}
             </li>
           </ul>
@@ -40,7 +40,7 @@ export default function Footer({ dict }: { dict: Dict }) {
           <ul className={styles.colList}>
             <li>
               <a
-                className={`label label--text ${styles.colLink}`}
+                className={`${styles.value} ${styles.phone} ${styles.colLink}`}
                 href={`tel:${site.contact.phonePrimary.tel}`}
               >
                 {site.contact.phonePrimary.display}
@@ -51,7 +51,7 @@ export default function Footer({ dict }: { dict: Dict }) {
                 client settles it; two, one of which may be wrong, is worse. */}
             <li>
               <a
-                className={`label label--text ${styles.colLink} ${styles.iconLink}`}
+                className={`${styles.value} ${styles.colLink} ${styles.iconLink}`}
                 href={`https://wa.me/${site.contact.whatsapp.tel.replace(/\D/g, "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -62,14 +62,14 @@ export default function Footer({ dict }: { dict: Dict }) {
             </li>
           </ul>
 
-          <h2 className={`label ${styles.colTitle}`} style={{ marginTop: "1.75rem" }}>
+          <h2 className={`label ${styles.colTitle} ${styles.colTitleNext}`}>
             {dict.footer.hours}
           </h2>
           <ul className={styles.colList}>
-            <li className="label label--text">
+            <li className={styles.value}>
               {dict.footer.hoursRestaurant} — {dict.footer.hoursRestaurantValue}
             </li>
-            <li className="label label--text">
+            <li className={styles.value}>
               {dict.footer.hoursApartments} — {dict.footer.hoursApartmentsValue}
             </li>
           </ul>
@@ -81,7 +81,7 @@ export default function Footer({ dict }: { dict: Dict }) {
             {(["tiktok", "instagram", "facebook"] as const).map((key) => (
               <li key={key}>
                 <a
-                  className={`label label--text ${styles.colLink} ${styles.iconLink}`}
+                  className={`${styles.value} ${styles.colLink} ${styles.iconLink}`}
                   href={site.social[key].url}
                   target="_blank"
                   rel="noopener noreferrer"

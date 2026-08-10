@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type CSSProperties } from "react";
 import Image from "next/image";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { PHOTOS, shippable, type PhotoId } from "@/lib/photos";
@@ -163,6 +163,46 @@ export default function Lieu({ lang, dict }: { lang: Lang; dict: Dict }) {
           };
         }
       );
+
+      /* Wherever the pin is NOT running, the band is a native snap-scroller —
+         and the progress hairline and counter were driven only from the pinned
+         ScrollTrigger's onUpdate. So on every phone they sat frozen at 0% and
+         « 01 / 06 » while you scrolled through all six cards. Same formula as
+         the pinned branch, fed from scrollLeft instead of scrub progress. */
+      const wireNativeProgress = () => {
+        const report = () => {
+          const max = track.scrollWidth - track.clientWidth;
+          const p = max > 0 ? Math.min(1, Math.max(0, track.scrollLeft / max)) : 0;
+          if (fillRef.current) {
+            fillRef.current.style.width = (p * 100).toFixed(2) + "%";
+          }
+          if (countRef.current && total > 0) {
+            const idx = Math.min(
+              total,
+              Math.max(1, Math.round(p * (total - 1)) + 1)
+            );
+            countRef.current.textContent = `${fmt(idx)} / ${fmt(total)}`;
+          }
+        };
+
+        track.addEventListener("scroll", report, { passive: true });
+        window.addEventListener("resize", report);
+        report();
+
+        return () => {
+          track.removeEventListener("scroll", report);
+          window.removeEventListener("resize", report);
+          if (fillRef.current) fillRef.current.style.width = "0%";
+          if (countRef.current) countRef.current.textContent = `01 / ${fmt(total)}`;
+        };
+      };
+
+      /* The exact complement of the pin's own query. */
+      mm.add("(max-width: 899.98px)", wireNativeProgress);
+      mm.add(
+        "(min-width: 900px) and (prefers-reduced-motion: reduce)",
+        wireNativeProgress
+      );
     },
     { scope: sectionRef }
   );
@@ -200,9 +240,13 @@ export default function Lieu({ lang, dict }: { lang: Lang; dict: Dict }) {
           const photo = PHOTOS[card.id];
           return (
             <figure key={card.id} className={styles.card}>
+              {/* The photo's own ratio travels as a custom property rather
+                  than as `aspect-ratio` directly: an inline aspect-ratio
+                  cannot be overridden by a media query, and the mobile band
+                  needs a different rule from the pinned desktop one. */}
               <div
                 className={`frame ${styles.media}`}
-                style={{ aspectRatio: `${photo.w} / ${photo.h}` }}
+                style={{ "--card-ar": `${photo.w} / ${photo.h}` } as CSSProperties}
               >
                 <div className={styles.para}>
                   <Image

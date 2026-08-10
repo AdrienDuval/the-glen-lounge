@@ -178,7 +178,10 @@
    pattern as the global .skip link. */
 .drawerClose {
   position: absolute;
-  top: calc(var(--gut) + 0.5rem);
+  /* Clear the bar. At `--gut + 0.5rem` this sat inside the header band and
+     landed on the brand wordmark whenever it was focused; the drawer's own
+     padding-top already uses 4.5rem as the height of that bar. */
+  top: calc(var(--gut) + 3.4rem);
   left: var(--gut);
   padding: 0.6rem 1rem;
   border: 1px solid var(--gold);
@@ -239,7 +242,22 @@
   display: none;
 }
 
-@media (min-width: 900px) {
+/* The link row used to switch on at 900px, but the French labels do not fit
+   until ~1180px — and because `body` has `overflow-x: hidden` there was no
+   scrollbar to show it, RÉSERVER simply left the screen. Measured right edge
+   of the CTA against the viewport: 1025 of 900, 1036 of 960, 1050 of 1024
+   (125px, 76px and 26px off-screen), first fitting at 1180 with nothing to
+   spare. 1200 is that floor plus a little air.
+
+   The drawer therefore covers everything below 1200, which is wider than the
+   usual burger range — but a working burger beats a bar whose only call to
+   action is invisible. French is the binding constraint here; English is
+   shorter and fits earlier.
+
+   `Nav.tsx` matches this number in the resize-close guard. The two must stay
+   in step: if the CSS hides the drawer at a width the JS still considers
+   mobile, the page is left scroll-locked behind an invisible overlay. */
+@media (min-width: 1200px) {
   .links {
     display: flex;
   }
@@ -255,10 +273,11 @@
 }
 
 /* The phone number is the bar's least essential element and the first thing
-   to overflow. Measured: 7px over at 1280, fits at 1440 — so it only exists
-   from 1360 up. Every narrower viewport still has RÉSERVER (→ the number) and
-   the drawer's call button. */
-@media (min-width: 1360px) {
+   to overflow. It used to appear at 1360, where it pushed the CTA 3px past the
+   gutter — the number itself was what caused the overflow. 1440 is the first
+   width that carries the full bar with the number in it. Every narrower
+   viewport still has RÉSERVER (→ the number) and the drawer's call button. */
+@media (min-width: 1440px) {
   .phone {
     display: inline-flex;
   }

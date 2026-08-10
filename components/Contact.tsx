@@ -88,11 +88,11 @@ export default function Contact({ lang, dict }: { lang: Lang; dict: Dict }) {
                 {dict.contact.hoursTitle}
               </h3>
               <ul className={styles.rows}>
-                <li className="label label--text">
+                <li className={styles.row}>
                   {dict.footer.hoursRestaurant} —{" "}
                   {dict.footer.hoursRestaurantValue}
                 </li>
-                <li className="label label--text">
+                <li className={styles.row}>
                   {dict.footer.hoursApartments} —{" "}
                   {dict.footer.hoursApartmentsValue}
                 </li>

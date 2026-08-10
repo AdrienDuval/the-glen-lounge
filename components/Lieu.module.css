@@ -53,10 +53,18 @@
   scroll-snap-type: none;
 }
 
-/* A horizontal band wants a COMMON HEIGHT with widths that vary by aspect
-   ratio — not a common width, which makes a 2160×2880 portrait tower over a
-   16:9 landscape and overflow the viewport. Height is fixed here; the inline
-   `aspect-ratio` on .media derives the width. */
+/* Two different bands, not one rule stretched across both.
+
+   DESKTOP is a pinned band seen several cards at a time, so it wants a COMMON
+   HEIGHT with widths that vary by ratio — a common width there makes a
+   2160×2880 portrait tower over a 16:9 landscape.
+
+   MOBILE is a one-up snap scroller, so the axis that has to be consistent is
+   the WIDTH. The old rule kept the desktop height (54vh) and then clamped the
+   width to 86vw, which silently overrode each photo's ratio: every card came
+   out 335×456 — a portrait box — and `object-fit: cover` then cropped five
+   16:9 photographs down to a narrow vertical slice of the room. That is what
+   read as stretched. */
 .card {
   flex: none;
   scroll-snap-align: center;
@@ -80,10 +88,13 @@
   color: var(--muted);
 }
 
+/* Width-led on mobile. 4:3 is the house frame ratio (Split, EventsIndex), so
+   the band matches the rest of the page instead of inventing a shape, and a
+   16:9 photograph loses a little width to it rather than most of it. */
 .media {
-  height: 54vh;
-  width: auto;
-  max-width: 86vw;
+  width: 86vw;
+  max-width: 30rem;
+  aspect-ratio: 4 / 3;
 }
 
 /* Parallax carrier: wider than its frame so the image can drift ±4% inside
@@ -140,12 +151,49 @@
 }
 
 @media (min-width: 900px) {
-  /* The whole section is pinned, so head + track + footer must fit one screen
-     or the band gets clipped at the fold. The second term reserves room for
-     everything that is not the images, which makes the height self-limiting on
-     short viewports instead of overflowing them. */
+  /* The whole section is pinned, so head + track + footer must fit ONE screen
+     or the band is clipped at the fold for the entire scrub — which is exactly
+     what happened: the figcaptions were sheared off and the progress hairline
+     and « 01 / 06 » counter never appeared at all. Measured overflow was 28px
+     at 1024×768, 83px at 1280×800, 93px at 1366×768, 60px at 1440×900 and
+     102px at 1440×700; only 1920×1080 fitted.
+
+     Two causes, both fixed here.
+
+     1. The old reserve was a flat `21rem`, but the section's own
+        `padding-block: var(--sect)` scales with viewport WIDTH
+        (clamp(5rem, 11vw, 10rem) — 225px of padding at 1024, 317px at 1440),
+        so the taller the window got the further out the estimate was. The
+        reserve now subtracts the real padding rather than guessing at it.
+
+     2. `--sect` is the rhythm BETWEEN sections and is far too much inside a
+        section that is already claiming the whole screen. A smaller pinned
+        padding is what buys the photographs their height back — without it,
+        subtracting honestly would collapse them to ~95px at 1440×700. */
+  .section {
+    /* Asymmetric, because the two edges have different jobs. When this section
+       pins, its top edge sits at viewport 0 and the fixed header (~85px) is
+       still over it — a symmetric padding small enough to give the band its
+       height back put the « 04 — LE LIEU » eyebrow underneath the nav. The top
+       therefore has a floor that clears the bar; the bottom does not need one. */
+    --pad-top: clamp(6rem, 7vw, 6.5rem);
+    --pad-bot: clamp(2.5rem, 4vw, 3.5rem);
+    /* Head + figcaption + footer + the gaps between them. Tuned against
+       measurement: 19rem left ~95px unused at every size, so the band was
+       smaller than it needed to be; 16rem keeps 40–60px of slack for
+       font-loading variance and still fits 1024×768 through 2560×1440. */
+    --chrome: 16rem;
+    padding-block: var(--pad-top) var(--pad-bot);
+  }
+
+  /* Height-led again, each card as wide as its own photograph wants to be. */
   .media {
-    height: min(58vh, calc(100svh - 21rem));
+    height: min(
+      58vh,
+      calc(100svh - var(--pad-top) - var(--pad-bot) - var(--chrome))
+    );
+    width: auto;
     max-width: none;
+    aspect-ratio: var(--card-ar);
   }
 }

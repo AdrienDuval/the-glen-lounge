@@ -30,7 +30,7 @@ plain CSS with custom-property tokens (no Tailwind, no CSS-in-JS library).
 - `npm` is **not** on PATH. Use `& "C:\Program Files\nodejs\npm.cmd"` in
   PowerShell, or prepend `C:\Program Files\nodejs` to PATH for child processes.
 - Port 3000 is permanently taken by a Docker/WSL relay (`wslrelay.exe`).
-  `npm run dev` is pinned to **3100**.
+  `npm run dev` is pinned to **3200** (verification builds serve on 3201).
 - The repo sits in a **OneDrive-synced folder**, which corrupts the `.next` dev
   cache after incremental recompiles. Symptoms: 500s,
   `__webpack_modules__[moduleId] is not a function`, or the page rendering
@@ -46,7 +46,7 @@ plain CSS with custom-property tokens (no Tailwind, no CSS-in-JS library).
   cache corruption above, but isn't. Kill the listener first and confirm the
   port is free:
   ```powershell
-  Get-NetTCPConnection -LocalPort 3100 -State Listen |
+  Get-NetTCPConnection -LocalPort 3200 -State Listen |
     Select-Object -ExpandProperty OwningProcess -Unique |
     ForEach-Object { Stop-Process -Id $_ -Force }
   ```

@@ -30,7 +30,7 @@
 }
 
 .note {
-  color: var(--marble-hi);
+  color: var(--muted);
   max-width: 62ch;
   font-size: 0.9375rem;
   line-height: 1.55;

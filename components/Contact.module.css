@@ -54,7 +54,16 @@
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.6rem;
+  gap: 0.35rem;
+}
+
+/* Opening hours are content, not a label. Same reasoning as Footer `.value`:
+   11px uppercase mono at 0.19em is an eyebrow treatment, and it was being
+   asked to carry the information a visitor actually reads. */
+.row {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--body);
 }
 
 .big {

@@ -4,6 +4,7 @@ import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import Carte from "@/components/Carte";
 import EventsIndex from "@/components/EventsIndex";
+import StudiosIndex from "@/components/StudiosIndex";
 import { getDict } from "@/lib/i18n";
 import { isLang, LOCALES, type Lang } from "@/lib/i18n/config";
 import { ROUTES, routeIdFor, staticSlugs } from "@/lib/routes";
@@ -50,6 +51,13 @@ export async function generateMetadata({
           : "What's on — The Glen Lounge, Yaoundé",
       description: dict.evenementsPage.lede,
     },
+    appartements: {
+      title:
+        lang === "fr"
+          ? "Appartements meublés — The Glen Lounge, Yaoundé"
+          : "Furnished apartments — The Glen Lounge, Yaoundé",
+      description: dict.studios.lede,
+    },
     home: { title: "", description: "" },
   }[id];
 
@@ -90,6 +98,8 @@ export default async function InnerPage({
           <Carte lang={lang} dict={dict} />
         ) : id === "evenements" ? (
           <EventsIndex events={activeEvents(new Date())} lang={lang} dict={dict} />
+        ) : id === "appartements" ? (
+          <StudiosIndex lang={lang} dict={dict} />
         ) : (
           notFound()
         )}

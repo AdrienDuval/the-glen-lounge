@@ -2,7 +2,9 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import { PHOTOS, shippable } from "@/lib/photos";
+import Link from "next/link";
+import { isCleared, PHOTOS, shippable } from "@/lib/photos";
+import { href } from "@/lib/routes";
 import { site } from "@/lib/site";
 import type { PhotoId } from "@/lib/photos";
 import type { Lang } from "@/lib/i18n/config";
@@ -48,7 +50,10 @@ export default function Appartements({
   const titleRef = useRef<HTMLHeadingElement>(null);
   useSectionMotion(sectionRef, titleRef);
 
-  const building = PHOTOS.exterior_day;
+  /* Gated like the thumbs below it. The single-image sections all read PHOTOS
+     directly, which quietly opted the biggest frame on the section out of the
+     consent gate the manifest exists to enforce. (Review finding.) */
+  const building = isCleared("exterior_day") ? PHOTOS.exterior_day : null;
   const rooms = shippable(ROOM_IDS);
 
   return (
@@ -68,29 +73,37 @@ export default function Appartements({
           <p className={styles.lede} data-reveal>
             {dict.appartements.lede}
           </p>
-          <p className={`label ${styles.note}`} data-reveal>
+          {/* Not `label`: this is a sentence, and uppercase mono at 0.19em
+              tracking is a style for two or three words. (Review finding.) */}
+          <p className={styles.noteText} data-reveal>
             {dict.appartements.note}
           </p>
 
-          <a
-            href={`tel:${site.contact.phonePrimary.tel}`}
-            className={`btn ${styles.cta}`}
-            data-reveal
-          >
-            {dict.appartements.cta}
-          </a>
+          <div className={styles.ctas} data-reveal>
+            <Link href={href("appartements", lang)} className="btn">
+              {dict.appartements.seeAll}
+            </Link>
+            <a
+              href={`tel:${site.contact.phonePrimary.tel}`}
+              className={`label ${styles.callLink}`}
+            >
+              {dict.appartements.cta}
+            </a>
+          </div>
         </div>
 
         <div className={styles.stack}>
-          <div className={`frame ${styles.media}`}>
-            <Image
-              src={building.src}
-              alt={building.alt[lang]}
-              fill
-              sizes="(max-width: 860px) 92vw, 40rem"
-              quality={72}
-            />
-          </div>
+          {building && (
+            <div className={`frame ${styles.media}`}>
+              <Image
+                src={building.src}
+                alt={building.alt[lang]}
+                fill
+                sizes="(max-width: 860px) 92vw, 40rem"
+                quality={72}
+              />
+            </div>
+          )}
 
           {rooms.length > 0 && (
             <div className={styles.thumbs}>
