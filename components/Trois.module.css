@@ -31,8 +31,43 @@
   gap: 1rem;
 }
 
+/* The two cards that lead somewhere. They differ from the lounge card at rest
+   by one line — the gold « Découvrir → » — which is the point: a card that is
+   clickable should look it, and one that is not should not pretend. */
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
 .media {
   aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.img {
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out);
+}
+
+.cardLink:hover .img,
+.cardLink:focus-visible .img {
+  transform: scale(1.04);
+}
+
+.more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: auto;
+  color: var(--gold);
+}
+
+.arrow {
+  transition: transform 0.4s var(--ease-out);
+}
+
+.cardLink:hover .arrow {
+  transform: translateX(4px);
 }
 
 .cardHead {

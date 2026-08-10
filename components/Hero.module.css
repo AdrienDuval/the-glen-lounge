@@ -302,6 +302,20 @@
   cursor: pointer;
 }
 
+/* Ten slides is where the row stopped fitting on a 360px screen — it wrapped
+   onto a second line, pushing the arrows down with it. The mark shrinks rather
+   than the hit area: `height` stays 1.5rem, so the finger target is untouched.
+   Measured at 360px: 10 dots, one row. */
+@media (max-width: 420px) {
+  .dots {
+    gap: 0.25rem;
+  }
+
+  .dot {
+    width: clamp(0.8rem, 3vw, 1.05rem);
+  }
+}
+
 .dot::before {
   content: "";
   position: absolute;

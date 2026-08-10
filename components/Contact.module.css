@@ -66,6 +66,21 @@
   color: var(--body);
 }
 
+/* Underlined at rest, unlike the footer's equivalent: this row sits in a list
+   of plain metadata, so without it the only thing marking it as a link is a
+   hover state a touch device never shows. */
+.rowLink {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--gold-dim);
+  text-underline-offset: 0.25em;
+  transition: color 0.25s var(--ease-out);
+}
+
+.rowLink:hover {
+  color: var(--gold);
+}
+
 .big {
   display: inline-block;
   font-family: var(--font-display), Georgia, serif;

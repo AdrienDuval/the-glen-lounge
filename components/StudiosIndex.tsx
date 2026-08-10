@@ -172,20 +172,33 @@ export default function StudiosIndex({
 
   return (
     <section ref={rootRef} className={styles.page}>
-      {/* ---- opening frame ---- */}
-      <div ref={heroRef} className={styles.hero}>
-        <div className={styles.heroMedia}>
-          <Image
-            src={cover.src}
-            alt={cover.alt[lang]}
-            fill
-            sizes="100vw"
-            quality={75}
-            priority
-            className={styles.heroImg}
-          />
+      {/* ---- opening frame ----
+          Stacked on a phone (photograph, then copy on the ink ground below),
+          overlaid from 900px. Same split as the main hero, same reason: on a
+          phone the photograph is all there is, so nothing gets laid over it.  */}
+      <div className={styles.heroWrap}>
+        <div ref={heroRef} className={styles.hero}>
+          <div className={styles.heroMedia}>
+            <Image
+              src={cover.src}
+              alt={cover.alt[lang]}
+              fill
+              sizes="100vw"
+              quality={75}
+              priority
+              className={styles.heroImg}
+            />
+          </div>
+          <div className={styles.shade} aria-hidden="true" />
+          <div className={styles.heroWash} aria-hidden="true" />
+
+          {/* Scroll cue: a hairline that runs top-to-bottom on a loop. Purely
+              decorative, so it is aria-hidden and the CSS stops it dead under
+              prefers-reduced-motion. */}
+          <span className={styles.cue} aria-hidden="true">
+            <span className={styles.cueLine} />
+          </span>
         </div>
-        <div className={styles.heroWash} aria-hidden="true" />
 
         <div className={`shell ${styles.heroInner}`}>
           <div className={styles.heroCopy}>
@@ -221,13 +234,6 @@ export default function StudiosIndex({
               the tally), pinned bottom-right from 720px. */}
           <p className={`label ${styles.heroCaption}`}>{t.photoNotice}</p>
         </div>
-
-        {/* Scroll cue: a hairline that runs top-to-bottom on a loop. Purely
-            decorative, so it is aria-hidden and the CSS stops it dead under
-            prefers-reduced-motion. */}
-        <span className={styles.cue} aria-hidden="true">
-          <span className={styles.cueLine} />
-        </span>
       </div>
 
       <div className={`shell ${styles.body2}`}>

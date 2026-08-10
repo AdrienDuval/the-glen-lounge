@@ -196,7 +196,15 @@ use the current column, and don't resurrect the old names.
 - « Réserve maintenant avant que ce soit complet ! » — implies limited stock.
 - **Saint-Valentin packages** with reductions, incl. a room dressed with rose
   petals, candles and balloons (photographed — `public/photos/apartment-valentine-*`).
-- ⚠️ Still unknown: **how many units, what types, what rates, how to book.**
+- ⚠️ Still unknown: **what types, what rates, how to book.**
+- ⚠️ **Where the studios are** relative to the restaurant is NOT recorded. Every
+  published caption gives the three businesses the same *address*
+  (« Omnisport, derrière le stade »), which is co-location, not stacking. The
+  facade photo shows balconies above the signage (ASSETS.md) but that is one
+  overcast snapshot, and the unit-code prefixes (`ST` / `B` / `A` / `SS`) read
+  more like several blocks than one staircase. Copy says « dans la même
+  maison » / « sur place » and stops there — « au-dessus du lounge » was drafted
+  twice and removed twice.
 - ⚠️ Presentation note: the one apartment interior we have looks markedly
   **plainer than the lounge** — painted walls, simple bed frame, visible AC and
   cabling — though it was shot in low light dressed for Valentine's. Don't

@@ -484,7 +484,19 @@ export default function Hero({
                   >
                     {dict.hero.moreDetail}
                   </Link>
-                ) : slide.cta ? (
+                ) : slide.cta?.route ? (
+                  /* An in-app destination: resolved per locale and rendered as
+                     a real Link, so it client-navigates and « Voir les studios »
+                     lands on /en/apartments rather than /fr/appartements for an
+                     English reader. `cta.href` stays an <a> because it is only
+                     ever an anchor, a tel: or an external URL. */
+                  <Link
+                    className={styles.btnSolid}
+                    href={href(slide.cta.route, lang)}
+                  >
+                    {slide.cta.label[lang]}
+                  </Link>
+                ) : slide.cta?.href ? (
                   <a className={styles.btnSolid} href={slide.cta.href}>
                     {slide.cta.label[lang]}
                   </a>

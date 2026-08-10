@@ -151,7 +151,7 @@ export default async function Page({
           notFound()
         )}
       </main>
-      <Footer dict={dict} />
+      <Footer dict={dict} lang={lang} />
     </>
   );
 }

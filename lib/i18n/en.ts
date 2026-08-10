@@ -83,6 +83,7 @@ export const en = {
 
   trois: {
     section: "02 — Three places in one",
+    more: "Explore",
     title: "Restaurant, lounge, apartments",
     lede: "One house to eat in, go out in and stay the night. “The place to be in Yaoundé.”",
     resto: {
@@ -97,7 +98,7 @@ export const en = {
     },
     appart: {
       title: "Apartments",
-      text: "Furnished to a high standard, available around the clock. Comfort, security, privacy — upstairs from the dining room.",
+      text: "Furnished to a high standard, available around the clock. Comfort, security, privacy — in the same house.",
       meta: "24/7",
     },
   },
@@ -208,7 +209,7 @@ export const en = {
 
   studios: {
     eyebrow: "Apartments",
-    title: "Eleven furnished studios, above the lounge",
+    title: "Eleven furnished studios, on site",
     lede: "Glen Appartement — furnished to a high standard, 24-hour access. Comfort, security and privacy, a step away from the room.",
     count: "studios",
     availableNow: "available today",

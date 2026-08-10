@@ -1,4 +1,7 @@
+import Link from "next/link";
 import { site } from "@/lib/site";
+import { href } from "@/lib/routes";
+import type { Lang } from "@/lib/i18n/config";
 import type { Dict } from "@/lib/i18n";
 import SocialIcon from "./SocialIcon";
 import styles from "./Footer.module.css";
@@ -10,8 +13,11 @@ import styles from "./Footer.module.css";
  * the landmark distance (the Contact section carries the current 300 m
  * wording; the footer stays short) and any email address, since none has ever
  * been published.
+ *
+ * `lang` is here for one reason: the footer said « Appartements » and offered
+ * no way to reach them, and a localised route cannot be built without it.
  */
-export default function Footer({ dict }: { dict: Dict }) {
+export default function Footer({ dict, lang }: { dict: Dict; lang: Lang }) {
   const year = new Date().getFullYear();
 
   return (
@@ -70,7 +76,13 @@ export default function Footer({ dict }: { dict: Dict }) {
               {dict.footer.hoursRestaurant} — {dict.footer.hoursRestaurantValue}
             </li>
             <li className={styles.value}>
-              {dict.footer.hoursApartments} — {dict.footer.hoursApartmentsValue}
+              <Link
+                href={href("appartements", lang)}
+                className={styles.colLink}
+              >
+                {dict.footer.hoursApartments}
+              </Link>{" "}
+              — {dict.footer.hoursApartmentsValue}
             </li>
           </ul>
         </div>

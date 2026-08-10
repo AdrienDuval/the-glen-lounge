@@ -97,6 +97,8 @@ export const fr = {
 
   trois: {
     section: "02 — Trois adresses en une",
+    /* Shown on the cards that have a page behind them. */
+    more: "Découvrir",
     title: "Restaurant, lounge, appartements",
     lede: "Une même maison pour dîner, sortir et dormir sur place. « Le spot incontournable à Yaoundé. »",
     resto: {
@@ -113,7 +115,9 @@ export const fr = {
     appart: {
       title: "Appartements",
       // ✅ verbatim — « meublé haut standing », « Confort, sécurité, intimité »
-      text: "Meublé haut standing, disponible 24h/24. Confort, sécurité, intimité — à l’étage au-dessus de la salle.",
+      /* « dans la même maison » and not « à l’étage au-dessus de la salle »:
+         FACTS.md records the address the three share, never a floor. */
+      text: "Meublé haut standing, disponible 24h/24. Confort, sécurité, intimité — dans la même maison.",
       meta: "24h/24",
     },
   },
@@ -243,7 +247,7 @@ export const fr = {
      not yet real. Do not quietly soften it. */
   studios: {
     eyebrow: "Appartements",
-    title: "Onze studios meublés, au-dessus du lounge",
+    title: "Onze studios meublés, sur place",
     lede: "Glen Appartement — meublé haut standing, accès 24h/24. Confort, sécurité, intimité, à deux pas de la salle.",
     count: "studios",
     availableNow: "disponibles aujourd’hui",
