@@ -60,6 +60,17 @@ export type Slide = {
    * from the banner not at all.
    */
   lead?: boolean;
+  /**
+   * The photograph is not this venue, and the slide says so on screen.
+   *
+   * This is the ONLY way a `origin: "placeholder"` image gets past the gate in
+   * `activeSlides()` — declaring it here is what makes the hero render the
+   * « Image d'illustration » caption, so the flag and the disclosure cannot
+   * drift apart. Do not set it on a real venue photograph to "be safe": the
+   * caption is a claim about the picture, and a false one devalues it on the
+   * slide that genuinely needs it.
+   */
+  illustrative?: boolean;
   from?: string;
   to?: string;
 };
@@ -70,11 +81,26 @@ const PROMOS: Slide[] = [
      studios are the highest-value thing the site sells and until now the banner
      offered no route to them at all.
 
-     `exterior_day` and not one of the `studio_*` frames on purpose — those are
-     placeholders of a different building, and the hero has nowhere to put the
-     « image d'illustration » caption they oblige. This one is the actual
-     Glen: signage at street level, three floors of apartment balconies above,
-     which is the « Restaurant Appartement » pitch in a single honest frame.
+     ── THE PHOTOGRAPH, 2026-08-11 ────────────────────────────────────────────
+     Was `exterior_day` — the actual building, signage at street level and three
+     floors of balconies above. It sat here because the `studio_*` frames are
+     placeholders of somewhere else and the hero had nowhere to put the
+     « image d'illustration » caption they oblige.
+
+     Now `studio_hero`, at the client's direction, and the caption is what got
+     built rather than what got skipped: `illustrative: true` below is the only
+     key that lets a placeholder past the gate in `activeSlides()`, and the same
+     flag is what makes `Hero.tsx` render the notice. Silently swapping the
+     photo would have put an uncaptioned picture of another building on the one
+     indexed page of the site; this makes that combination unrepresentable.
+
+     The honest trade, recorded so it can be reversed in one edit: the exterior
+     was the venue and looked like an overcast phone snapshot; this is a
+     showroom and is not the venue. `Appartements.tsx` still renders
+     `exterior_day` further down the same page, so the real building has not
+     left the homepage — which is the « never let it stand alone » rule in
+     ASSETS.md. When the real shoot lands, point this at it and delete
+     `illustrative`.
 
      Every word below is FACTS.md-traceable (« meublé haut standing »,
      « disponibilité 24h/24, tous les jours », « Confort, sécurité, intimité »,
@@ -90,8 +116,9 @@ const PROMOS: Slide[] = [
   {
     id: "appartements",
     kind: "image",
-    photo: "exterior_day",
+    photo: "studio_hero",
     lead: true,
+    illustrative: true,
     eyebrow: { fr: "Appartements", en: "Apartments" },
     title: { fr: "Dormir sur place", en: "Stay the night" },
     meta: {
@@ -156,16 +183,31 @@ export function activeSlides(now: Date): Slide[] {
   /* Consent AND provenance. `isCleared` alone was a hole: every `studio_*`
      placeholder is `consent: "clear"`, so a photograph of a building that is
      not this venue could have sailed into the home-page hero uncaptioned —
-     the one surface with nowhere to put the « illustration » notice. The
+     the one surface that had nowhere to put the « illustration » notice. The
      manifest promises placeholders can only reach a page that asks for them by
-     name; this is the gate that makes that true here. */
-  const usable = (id: PhotoId | undefined) =>
-    id !== undefined && isCleared(id) && !isPlaceholder(id);
+     name; this is the gate that makes that true here.
+
+     Since 2026-08-11 the hero HAS somewhere to put the notice, so the rule is
+     no longer "no placeholders" but "no UNDISCLOSED placeholders": a slide may
+     carry one if, and only if, it sets `illustrative`, which is the same flag
+     that renders the caption. A placeholder without it is still dropped.
+
+     Note this gate reads the SLIDE's flag against the PHOTO's origin, so it
+     also catches the inverse mistake — a slide that claims `illustrative` over
+     a genuine photograph of the venue is a false disclosure, and is dropped
+     too rather than quietly captioning the real building as somewhere else. */
+  const usable = (id: PhotoId | undefined, illustrative = false) =>
+    id !== undefined && isCleared(id) && isPlaceholder(id) === illustrative;
 
   const promos = PROMOS.filter((s) => {
     if (s.from && today < s.from) return false;
     if (s.to && today > s.to) return false;
-    return s.kind === "image" ? usable(s.photo) : s.poster ? usable(s.poster) : true;
+    const flag = s.illustrative === true;
+    return s.kind === "image"
+      ? usable(s.photo, flag)
+      : s.poster
+        ? usable(s.poster, flag)
+        : true;
   });
 
   /* Lead promos first, then the dated programme, then the standing rest. */

@@ -112,6 +112,19 @@ export const STUDIOS: readonly Studio[] = [
 ] as const;
 
 /**
+ * The banner plate for the apartments — the opening frame on the studios index
+ * and the « Appartements » slide in the home hero.
+ *
+ * Named separately from `STUDIO_GALLERY[0]` because those are two different
+ * jobs. The gallery's first frame is a room the visitor is being shown; this is
+ * the plate a full-bleed band is cropped out of, and the index was using the
+ * former for the latter — a 16:9 room photo stretched across a 100vw hero.
+ *
+ * ⚠️ Placeholder, like the gallery. Both surfaces caption it.
+ */
+export const STUDIO_HERO: PhotoId = "studio_hero";
+
+/**
  * The shared gallery. Every studio shows the same seven frames because that is
  * all we hold, and none of them is this building — hence the caption the pages
  * are obliged to render. When the real shoot lands, this becomes a per-unit

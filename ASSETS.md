@@ -68,6 +68,62 @@ Verified with two independent tools:
 Both platforms now serve a login wall to anonymous clients, including for
 public posts. There is no way around this without an authenticated session.
 
+### Manual dump — 2026-08-11 (partly supersedes the above)
+
+The login wall was routed around by hand rather than by tooling: 43 files were
+dumped straight out of the Instagram UI into `assets-raw/instagram-dump/`. That
+folder arrived at `public/photos/events-photo-dump/` and was **moved out of
+`public/`** — everything under `public/` is served and deployed, and most of
+this dump must not be.
+
+Yield, after inspecting every file:
+
+| What | Count | Outcome |
+| --- | --- | --- |
+| Weekly-night flyers, ~512×640 | 4 | **Shipped** — see below |
+| Sport flyers, 360×640 | 3 | Rejected on size |
+| Video cover frames (staff, identifiable) | 3 | Not artwork; consent unresolved |
+| Instagram grid thumbnails, 150×150 | 10 | Unusable at that size |
+| `*_1.jpeg`, 12 bytes, containing the ASCII text `Bad URL hash` | 21 | Failed downloads |
+| One blurred frame, one all-black frame | 2 | Junk |
+
+The four that shipped are the venue's own artwork for four weekly nights, and
+they replaced generic room photography — until now `jeudi-karaoke` was
+illustrated by a picture of the bar and `mardi-casino` by `lounge_hero`, which
+is also the frame the banner opens on, so the carousel showed it twice.
+
+| Flyer | → | Was |
+| --- | --- | --- |
+| `event_jeudi_karaoke` | `jeudi-karaoke` | `bar_monogram` |
+| `event_mardi_casino` | `mardi-casino` | `lounge_hero` (duplicated slide 0) |
+| `event_mercredi_cocktail` | `mercredi-cocktail` | `lounge_detail` |
+| `event_samedi_vip` | `samedi-vip` | `lounge_sofa` |
+
+Two things are still open, both recorded against the entries in `lib/photos.ts`:
+
+- **They are feed renditions, ~512×640, not originals.** Fine for the calendar
+  popover (≈368px) and the index card; soft in the hero, which shows a poster at
+  42vw. `event_bal_veterans` is 1536×2048 — that is the bar. **Ask the client for
+  the source files**; this is the same ask as Option B below.
+- **Each prints a door time that contradicts the published 19h** — karaoke 16h,
+  casino 20h, cocktail 20h, samedi VIP 18h. FACTS.md set 19h on 2026-08-07 from
+  the August posts, and separately logs an 18h → 16h → 19h drift across the year,
+  so the flyers may simply predate the posts.
+
+  Rendered, this was not a footnote: the hero shows a poster at 42vw, so
+  « DÉBUT 16H » landed beside « Tous les jeudis — dès 19h » at full size, both
+  legible. **Resolved 2026-08-11 by removing the site's own claim** for those
+  four nights, so the flyer is the only clock on the page — see the ONE TIME
+  CLAIM block in `lib/events.ts`. The underlying question is still open; FACTS.md
+  carries it. **Do not rewrite the times from the artwork either** — that only
+  moves the guess.
+
+The three rejected sport flyers (Champions League final PSG–Arsenal, World Cup
+quarter-final France–Maroc, round of 16 Argentine–Égypte) are real fixtures the
+`sport_*` set does not cover, but `Ecrans` renders a flyer at ≈352 CSS px, so it
+wants ~704px for a sharp 2× and these are 360px wide. The five already shipping
+are 859–1280px. Re-request them at full size and they are worth adding.
+
 ### Option A — export a cookies.txt yourself (recommended)
 
 I deliberately did **not** read cookies out of your browser profile; that is
@@ -127,6 +183,45 @@ would visibly improve the page.
 
 `events-01.jpg` was also cropped and then discarded: what survived was mostly
 tablecloth, and a figure remained at the edge.
+
+### The studios banner plate (2026-08-11)
+
+`studio_hero` — the opening frame on the studios index and the « Appartements »
+slide in the home hero. Supplied by the client as
+`huy-nguyen-AB-q9lwCVv8-unsplash.jpg`, **7589×4015, 2.4 MB**.
+
+| | |
+| --- | --- |
+| Original | `assets-raw/unsplash/huy-nguyen-AB-q9lwCVv8-unsplash.jpg` |
+| Shipped | `public/photos/studios/studio-hero.webp`, 2400×1270, **119 KB** |
+| Recipe | `sharp(src).resize({ width: 2400 }).webp({ quality: 82 })` |
+
+Three things worth keeping straight about it:
+
+**The original does not ship.** It landed in `public/photos/` and was moved
+out. 2.4 MB is roughly twenty times the whole rest of the apartments page, and
+`next/image` only spares you that if nobody requests the file directly —
+anything under `public/` is a live URL. 2400 px also matches the ceiling
+`next.config.ts` sets (`deviceSizes` stops at 2048; nothing renders above
+~2048 CSS px), so the extra 5000 px of width was pure transfer.
+
+**It is a placeholder, and the home hero is indexed.** Same standing as the
+seven gallery frames — not this building — but the first one to reach a page
+search engines see. `lib/banner.ts` grew `Slide.illustrative` for it: one flag
+that is both the permission past the placeholder gate and the trigger for the
+« Image d'illustration » caption, so the two cannot drift apart. The gate
+rejects the inverse too — a slide claiming `illustrative` over a real venue
+photograph is a false disclosure and is dropped.
+
+**The real building is still on the homepage.** `Appartements.tsx` renders
+`exterior_day` further down the same page. That keeps the "never let it stand
+alone" rule below intact: an acknowledged illustration paired with a genuine
+photograph of the actual block is defensible; the illustration alone is not.
+
+Licence: the filename is Unsplash's download format (photographer Huy Nguyen,
+id `AB-q9lwCVv8`), and the Unsplash Licence allows commercial use without
+attribution — better footing than the seven, whose licence is unknown, but
+unverified. See FACTS.md open question 8.
 
 ### Option B — ask the client for the originals (still worth it)
 

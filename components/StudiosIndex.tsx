@@ -11,6 +11,7 @@ import {
   PREVIEW,
   STUDIOS,
   STUDIO_GALLERY,
+  STUDIO_HERO,
   type Studio,
 } from "@/lib/apartments";
 import { href } from "@/lib/routes";
@@ -34,9 +35,10 @@ import styles from "./StudiosIndex.module.css";
  * grid rather than in a footnote: it is the first thing between a visitor and
  * a room they might try to book.
  *
- * Every card shows the same photograph because that is all we hold — the
- * opening frame carries the « illustration » caption the manifest demands, and
- * the preview notice says the same thing in words.
+ * Every card shows the same photograph because that is all we hold, and the
+ * opening frame is a wide banner plate rather than a twelfth copy of it. Both
+ * are placeholders, so the frame carries the « illustration » caption the
+ * manifest demands and the preview notice says the same thing in words.
  */
 export default function StudiosIndex({
   lang,
@@ -51,6 +53,11 @@ export default function StudiosIndex({
   useSectionMotion(gridRef);
 
   const base = href("appartements", lang);
+  /* Two different pictures for two different jobs. `hero` is the wide banner
+     plate; `cover` is the 16:9 room frame the cards crop. They were the same
+     image until 2026-08-11, which meant the full-bleed opening band was a
+     gallery photo stretched across the viewport. */
+  const hero = PHOTOS[STUDIO_HERO];
   const cover = PHOTOS[STUDIO_GALLERY[0]];
   const free = availableStudios().length;
   const t = dict.studios;
@@ -180,8 +187,8 @@ export default function StudiosIndex({
         <div ref={heroRef} className={styles.hero}>
           <div className={styles.heroMedia}>
             <Image
-              src={cover.src}
-              alt={cover.alt[lang]}
+              src={hero.src}
+              alt={hero.alt[lang]}
               fill
               sizes="100vw"
               quality={75}

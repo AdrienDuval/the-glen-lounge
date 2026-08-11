@@ -51,7 +51,16 @@
 
   /* ---- rhythm ---- */
   --gut: clamp(1.25rem, 4.5vw, 5rem);
-  --sect: clamp(5rem, 11vw, 10rem);
+  /* A section's own top/bottom padding — NOT the gap between two sections.
+     Adjacent sections each contribute one, so the visible band between them is
+     TWICE this. That doubling is what made the old clamp(5rem, 11vw, 10rem)
+     misread as generous when it was not: 158px + 158px put 317px of empty
+     ground between every pair of sections at 1440, and 320px at 1920 — a full
+     screen of nothing on the way from one to the next, measured across the
+     whole site. Halving it lands the band at ~200px desktop / ~112px phone,
+     which still reads as air around a Didone heading without costing a scroll.
+     Check the SUM, not this number, when tuning it. */
+  --sect: clamp(3.5rem, 7vw, 6.25rem);
 
   /* ---- motion ---- */
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);

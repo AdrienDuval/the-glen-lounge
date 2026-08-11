@@ -71,6 +71,21 @@
 .shade {
   position: absolute;
   inset: 0;
+  /* ⚠️ Load-bearing, and it was missing until 2026-08-11.
+     The transition in Hero.tsx drives paint order from JS: the active panel is
+     set to `z-index: 2`, the outgoing one to 1, the rest to 0. This element is
+     last in the DOM but was `z-index: auto`, so a positioned sibling at 2 beat
+     it on every slide — the grade sat UNDER the photograph and never painted.
+     Measured at the « défiler » cue, `elementsFromPoint` returned
+     bar → img → slideInner → slide → shade.
+     Nothing above 2 is used inside the stage, and `.stage` is its own stacking
+     context (`z-index: 0; isolation: isolate` above), so 3 is contained here
+     and cannot climb over the caption panel or the control bar — both of which
+     live outside `.stage`, in `.foot`.
+     Found while swapping the apartments slide to a bright photograph, which is
+     the first slide where an ungraded frame was obvious: every other one is a
+     dark room or a flyer on ink, and a grade that never fired looked fine. */
+  z-index: 3;
   background:
     linear-gradient(
       180deg,
@@ -142,6 +157,11 @@
   align-items: start;
 }
 
+/* Stacked in one cell, so an inactive caption is still laid out on top of the
+   visible one and `opacity: 0` does nothing to stop it taking the click — the
+   last caption in DOM order was eating « Voir les studios ». The hero marks
+   every inactive caption `inert`, which is what actually keeps it out of the
+   way of the pointer and the tab order. Do not hide them with opacity alone. */
 .caption {
   grid-area: 1 / 1;
   display: flex;
@@ -212,6 +232,19 @@
   border-radius: 50%;
   background: var(--gold);
   flex: none;
+}
+
+/* « Image d'illustration ». Keeps the `label` face the studios index sets the
+   same sentence in, so the disclosure reads as one thing in both places. Only
+   the colour moves: `--muted` is tuned for the ink ground, and this sits on a
+   glass panel over a bright photograph, where it stops being readable. Quiet,
+   because it is a disclosure and not a selling point — but a notice nobody can
+   read is not a disclosure. */
+.illustration {
+  margin-top: -0.15rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-wrap: balance;
+  max-width: 44ch;
 }
 
 .actions {

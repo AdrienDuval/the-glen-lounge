@@ -189,6 +189,80 @@ export const PHOTOS = {
     },
   },
 
+  /* ── Weekly-night flyers ──────────────────────────────────────────────────
+     The venue's own artwork for four of the weekly nights, from the Instagram
+     dump of 2026-08-11 (assets-raw/instagram-dump). `consent: "promo"` on the
+     same reading as the flyers above: the venue designed and published these to
+     be circulated, and the people in them are its own models, not customers.
+
+     ⚠️ TWO CAVEATS, both live.
+
+     RESOLUTION. All four are ~512×640 — Instagram feed renditions, not the
+     originals. That is enough for the calendar popover (23rem ≈ 368px) and the
+     events-index card, but the hero shows a poster at 42vw, so on a wide
+     display these upscale roughly 2× and go soft. Compare event_bal_veterans at
+     1536×2048, which is the standard to hold them to. Ask the client for the
+     source files.
+
+     PRINTED TIMES. Each flyer prints a door time in the pixels, and all four
+     disagree with the 19h the site used to publish (FACTS.md, « Updated
+     2026-08-07 », from the August 2026 posts). The printed time is recorded
+     per-entry below so it stays visible at the point of use. Since 2026-08-11
+     the site publishes no competing time for these four nights — the flyer is
+     the only clock on the page; see the ONE TIME CLAIM block in lib/events.ts.
+     Do not "fix" the site's times from these flyers either: the karaoke 16h
+     matches the January 2026 drift FACTS.md already logged as superseded, so
+     the artwork may simply be older than the posts. Client confirmation is the
+     only thing that settles it. */
+  event_jeudi_karaoke: {
+    src: "/photos/event-jeudi-karaoke.jpg",
+    w: 512,
+    h: 640,
+    consent: "promo",
+    alt: {
+      fr: "Affiche du Jeudi Karaoké — « KARAOKE » sur un micro rose fondu entouré de bougainvilliers, mix policy DJ W et DJ Personica",
+      en: "Thursday Karaoke flyer — “KARAOKE” over a melting pink microphone framed by bougainvillea, mix policy DJ W and DJ Personica",
+    },
+    note:
+      "Prints « DÉBUT 16H CE JEUDI ». The site publishes 19h — see the section note. 512×640, soft above ~600px.",
+  },
+  event_mardi_casino: {
+    src: "/photos/event-mardi-casino.jpg",
+    w: 512,
+    h: 640,
+    consent: "promo",
+    alt: {
+      fr: "Affiche du Game Night Show Casino — dés, boule de billard couronnée et rideau rouge, mix policy DJ W et DJ Personica",
+      en: "Game Night Show Casino flyer — dice, a crowned billiard ball and a red curtain, mix policy DJ W and DJ Personica",
+    },
+    note:
+      "Prints « DÉBUT 20H CE MARDI ». The site publishes 19h — see the section note. 512×640, soft above ~600px.",
+  },
+  event_mercredi_cocktail: {
+    src: "/photos/event-mercredi-cocktail.jpg",
+    w: 512,
+    h: 640,
+    consent: "promo",
+    alt: {
+      fr: "Affiche du Mercredi Cocktail — trois cocktails garnis d’agrumes sur un plateau noir dans un bar sombre",
+      en: "Wednesday Cocktails flyer — three citrus-garnished cocktails on a black tray in a dark bar",
+    },
+    note:
+      "Prints « DÉBUT 20H ». The site publishes 19h — see the section note. The only one of the four with no people in frame. 512×640.",
+  },
+  event_samedi_vip: {
+    src: "/photos/event-samedi-vip.jpg",
+    w: 511,
+    h: 640,
+    consent: "promo",
+    alt: {
+      fr: "Affiche du Samedi VIP — lunettes de soleil serties de strass et boa rose, « tous les samedis », sound policy DJ W et DJ Personica",
+      en: "Saturday VIP flyer — rhinestone sunglasses and a pink feather boa, “tous les samedis”, sound policy DJ W and DJ Personica",
+    },
+    note:
+      "Prints « OPEN DOORS 18H ». The site publishes 19h — see the section note. Also the weakest crop of the four: the address line is cut mid-word at the bottom edge, and it reads « 150M de l'école » where the other three read « 300M ». 511×640.",
+  },
+
   /* ── Sport flyers — the venue's own match-night artwork ───────────────────
      ⚠️ DECISION 2026-08-07: these were first evaluated and REJECTED for the
      site because they contain third-party player imagery and league marks
@@ -399,7 +473,50 @@ export const PHOTOS = {
      licence, however, is unknown — see the open question in FACTS.md before any
      of this reaches production.
 
-     All seven are 16:9, so a single `--ratio` covers the gallery. */
+     All seven are 16:9, so a single `--ratio` covers the gallery.
+
+     `studio_hero` (below) joined them 2026-08-11 on the same terms and for the
+     same reason, but from a different source — see its own note. */
+
+  /* ── The studios banner ───────────────────────────────────────────────────
+     Added 2026-08-11 for the two apartment banners: the opening frame on the
+     studios index and the « Appartements » slide in the home hero.
+
+     Deliberately NOT in `STUDIO_GALLERY`. It is a banner plate — 1.89:1 and
+     composed with the room running out to both edges, which is what a
+     full-bleed hero wants and what the 16:9 gallery frames are not. Keeping it
+     out also keeps a promise the gallery makes: those seven are one flat,
+     "here is the room" set, and the eleven detail pages all show the same
+     seven. A wide showroom frame among them would read as an eighth room.
+
+     PLACEHOLDER, on exactly the same footing as the seven above: it is a
+     bright, professionally lit modern apartment — recessed downlights, a
+     framed print wall, a mirrored return — and it is not in Yaoundé. It is a
+     better-looking room than the Glen's own Valentine's frames show, which is
+     the precise reason it is captioned everywhere it renders and the reason
+     `activeSlides()` will not take it without `illustrative: true`.
+
+     PROVENANCE. Source file `huy-nguyen-AB-q9lwCVv8-unsplash.jpg`, 7589×4015,
+     kept at `assets-raw/unsplash/`. The name is Unsplash's own download
+     format — photographer Huy Nguyen, photo id `AB-q9lwCVv8`. The Unsplash
+     Licence does permit commercial use without attribution, so this one is on
+     firmer ground than the seven above, whose licence is simply unknown. That
+     is NOT the same as verified: nobody in this repo watched it be downloaded.
+     See the licence question in FACTS.md before launch. */
+  studio_hero: {
+    src: "/photos/studios/studio-hero.webp",
+    w: 2400,
+    h: 1270,
+    consent: "clear",
+    origin: "placeholder",
+    alt: {
+      fr: "Séjour de studio meublé — téléviseur mural encastré dans un caisson en bois, longue tablette blanche, fauteuil rond crème et coin repas près de la fenêtre",
+      en: "Furnished studio living area — wall-mounted television in a wood surround, a long white shelf, a round cream armchair and a dining corner by the window",
+    },
+    note:
+      "Banner plate only — 1.89:1, wide enough that the full-bleed crop keeps the room. Derived at 2400×1270 webp (119 KB) from a 7589×4015 / 2.4 MB original; do not ship the original.",
+  },
+
   studio_living: {
     src: "/photos/studios/studio-living-02.webp",
     w: 2400,

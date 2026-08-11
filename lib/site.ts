@@ -79,6 +79,14 @@ export const site = {
  * The weekly programme. Start times drifted 18h → 16h → 19h through 2026;
  * these are the most recently published values.
  * TODO: confirm before launch. `night: null` = nothing published since Oct 2025.
+ *
+ * ⚠️ NOT RENDERED, AND NO LONGER AGREES WITH THE SITE. Nothing imports this —
+ * `lib/events.ts` is what the banner, the calendar and the event pages read, and
+ * since 2026-08-11 it publishes NO start time for mardi, mercredi, jeudi and
+ * samedi, because the venue's own flyers for those nights print times that
+ * contradict the 19h below (see the ONE TIME CLAIM block in lib/events.ts).
+ * Fix this table in the same edit as that one, or delete it — as a second,
+ * stale copy of the programme it can only mislead.
  */
 export const programme = [
   { key: "lundi", night: null, start: null },

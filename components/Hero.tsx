@@ -436,7 +436,11 @@ export default function Hero({
         <div className={styles.content}>
           <div ref={captionsRef} className={styles.captions}>
           {/* caption 0 — the brand */}
-          <div className={`${styles.caption} ${styles.captionFirst}`}>
+          <div
+            className={`${styles.caption} ${styles.captionFirst}`}
+            aria-hidden={index === 0 ? undefined : true}
+            inert={index !== 0}
+          >
             <p className={styles.display} data-title>
               {dict.hero.tagline}
             </p>
@@ -453,8 +457,13 @@ export default function Hero({
             </div>
           </div>
 
-          {slides.map((slide) => (
-            <div key={slide.id} className={styles.caption}>
+          {slides.map((slide, i) => (
+            <div
+              key={slide.id}
+              className={styles.caption}
+              aria-hidden={index === i + 1 ? undefined : true}
+              inert={index !== i + 1}
+            >
               <p className={`label ${styles.when}`} data-stagger>
                 {slide.eyebrow[lang]}
               </p>
@@ -474,6 +483,27 @@ export default function Hero({
                     </span>
                   ))}
                 </div>
+              )}
+
+              {/* « Image d'illustration ». Set by `illustrative` on the slide,
+                  which is also the only key that lets a placeholder photograph
+                  past the gate in `activeSlides()` — the disclosure and the
+                  permission are one flag, so the picture cannot appear without
+                  the sentence.
+
+                  It sits in the caption rather than pinned to a corner of the
+                  photograph, as it is on the studios index: here the caption
+                  is a glass panel and the rest of the frame is full-bleed
+                  image behind moving type, so a corner line would be the one
+                  piece of text on the slide with nothing behind it.
+
+                  Same string as the studios page, read out of `dict.studios`
+                  on purpose — one sentence, translated once. Two copies would
+                  eventually disagree, and this is the sentence that must not. */}
+              {slide.illustrative && (
+                <p className={`label ${styles.illustration}`} data-stagger>
+                  {dict.studios.photoNotice}
+                </p>
               )}
 
               <div className={styles.actions} data-stagger>
