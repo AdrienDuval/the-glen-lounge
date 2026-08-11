@@ -461,6 +461,75 @@ export const PHOTOS = {
     note:
       "A detail rather than a room, so it carries the occasion without pretending to document the accommodation. The most attractive of the four.",
   },
+  /* ── SS101 — THE REAL THING ───────────────────────────────────────────────
+     The first photographs of an actual Glen apartment, sent by the client
+     2026-08-11 with the filled characteristics sheet. Note what these are NOT:
+     no `origin: "placeholder"`, so they are `shippable()` and they carry no
+     « image d'illustration » caption, because for once the picture is the room.
+
+     Empty rooms, no people in any frame — `consent: "clear"` on inspection, not
+     by assumption.
+
+     They also corroborate the sheet rather than merely illustrating it: the
+     split AC unit is on the salon wall, an Ariston water heater hangs in both
+     shower rooms, and the kitchen frame shows the hob, microwave, fridge, the
+     dish rack and the utensils. Three of the sheet's « oui » answers are
+     therefore evidenced, not just claimed.
+
+     1080px on the long edge — WhatsApp's cap, since they arrived through the
+     app. Good enough for the gallery and the lightbox at current sizes; the
+     originals are still worth asking for. */
+  ss101_salon: {
+    src: "/photos/studios/ss101/salon.jpg",
+    w: 1080,
+    h: 708,
+    consent: "clear",
+    alt: {
+      fr: "Salon du studio SS101 — sol en marbre blanc, lustre en cristal, fauteuils crème et bleu nuit, climatiseur mural et doubles rideaux",
+      en: "The SS101 living room — white marble floor, crystal chandelier, cream and navy armchairs, wall-mounted air conditioning and full-length curtains",
+    },
+  },
+  ss101_cuisine: {
+    src: "/photos/studios/ss101/cuisine.jpg",
+    w: 1080,
+    h: 868,
+    consent: "clear",
+    alt: {
+      fr: "Cuisine équipée du studio SS101 — plan de travail en granit noir, plaque gaz, micro-ondes, cafetière, réfrigérateur et égouttoir garni",
+      en: "The SS101 fitted kitchen — black granite worktop, gas hob, microwave, coffee maker, fridge and a stocked dish rack",
+    },
+  },
+  ss101_douche_1: {
+    src: "/photos/studios/ss101/douche-1.jpg",
+    w: 1080,
+    h: 922,
+    consent: "clear",
+    alt: {
+      fr: "Première salle d’eau du studio SS101 — faïence marbrée noir et blanc, douche à l’italienne vitrée, vasque et chauffe-eau",
+      en: "The first SS101 shower room — black-and-white marbled tiling, glazed walk-in shower, basin and water heater",
+    },
+  },
+  ss101_douche_2: {
+    src: "/photos/studios/ss101/douche-2.jpg",
+    w: 1080,
+    h: 922,
+    consent: "clear",
+    alt: {
+      fr: "Seconde salle d’eau du studio SS101 — cabine de douche d’angle vitrée, vasque, miroir et chauffe-eau",
+      en: "The second SS101 shower room — glazed corner shower cubicle, basin, mirror and water heater",
+    },
+  },
+  ss101_balcon: {
+    src: "/photos/studios/ss101/balcon.jpg",
+    w: 1080,
+    h: 894,
+    consent: "clear",
+    alt: {
+      fr: "Balcon du studio SS101 — sol en marbre, garde-corps vitré, vue sur les arbres et les toits du quartier",
+      en: "The SS101 balcony — marble floor, glass balustrade, looking out over trees and neighbouring rooftops",
+    },
+  },
+
   /* ── Studios — PLACEHOLDER, NOT THIS VENUE ────────────────────────────────
      Supplied by the client 2026-08-09 to preview the studio pages before the
      real shoot. They are photographs of a modern European apartment — French

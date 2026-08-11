@@ -222,7 +222,46 @@ use the current column, and don't resurrect the old names.
 - « Réserve maintenant avant que ce soit complet ! » — implies limited stock.
 - **Saint-Valentin packages** with reductions, incl. a room dressed with rose
   petals, candles and balloons (photographed — `public/photos/apartment-valentine-*`).
-- ⚠️ Still unknown: **what types, what rates, how to book.**
+- ✅ **SS101 — the first unit confirmed end to end** (`CL`, 2026-08-11, filled
+  characteristics sheet + five photographs of the actual rooms). Live in
+  `lib/apartments.ts` with `confirmed: true`:
+
+  | | |
+  | --- | --- |
+  | Type | studio entier |
+  | Étage | sous-sol **R-2** |
+  | Surface | **48,72 m²** (as given — a decimal, not rounded) |
+  | Chambres / douches | 1 / **2** |
+  | Salon · cuisine · balcon | oui · oui · oui |
+  | Couchages | 2, un grand lit |
+  | Statut | libre |
+  | **Tarif** | **60 000 FCFA la nuit** — the first rate this project has ever held |
+  | Équipements | clim, Wi-Fi, TV, Canal+, frigo, micro-ondes, ustensiles, eau chaude, draps et serviettes, balcon, accès 24h/24 |
+  | Absent, confirmed « non » | ventilateur, machine à laver |
+
+  ⚠️ Left blank on the sheet and still open: **weekly rate, monthly rate,
+  caution.** Nothing multiplies the nightly figure anywhere in the UI because a
+  monthly rate probably exists and we have not been told it.
+
+  ⚠️ **No bedroom photograph** was sent, though the sheet says 1 chambre. The
+  five frames are salon, cuisine, two salles d'eau, balcon. Worth asking.
+
+  ⚠️ **She wrote « SS101 »; the 2026-08-09 code list says `SS101-A`.** The row
+  and its URL now use `SS101` / `/fr/appartements/ss101`, following the newer
+  and more specific answer. If the `-A` suffix is real, this is a rename.
+
+- ✅ **The building services**, answered once for the whole property
+  (`CL`, 2026-08-11): gardien, vidéosurveillance, groupe électrogène, réserve
+  d'eau, parking, ménage compris — all six **oui**. Stored once in
+  `BUILDING_SERVICES` and rendered on every studio page.
+
+- ✅ **THE STUDIOS ARE IN THE SAME BUILDING AS THE RESTAURANT** (`CL`,
+  2026-08-11). This closes the question flagged below since the first harvest.
+  The `SS` prefix on four codes reads as « sous-sol », which corroborates it —
+  SS101 is on R-2. Copy may now say so; « au-dessus du lounge » is still not
+  sourced, only « même immeuble ».
+
+- ⚠️ Still unknown for the other ten units: **types, rates, availability.**
 - ⚠️ **Where the studios are** relative to the restaurant is NOT recorded. Every
   published caption gives the three businesses the same *address*
   (« Omnisport, derrière le stade »), which is co-location, not stacking. The

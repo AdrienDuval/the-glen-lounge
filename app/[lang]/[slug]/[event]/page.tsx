@@ -76,9 +76,17 @@ export async function generateMetadata({
           "x-default": `/fr/${ROUTES.appartements.fr}/${slug}`,
         },
       },
-      /* The pages are built on preview data and placeholder photography, so
-         they must not be indexed or shared as though they described a real
-         room. Lift this in the same commit that sets PREVIEW = false. */
+      /* Preview data and placeholder photography must not be indexed or shared
+         as though they described a real room.
+         ⚠️ 2026-08-11: that is no longer true of every unit. SS101 is confirmed
+         end to end — its own photographs, a real rate — so it is now ELIGIBLE
+         for indexing and this blanket rule is the only thing holding it back.
+         Left on deliberately rather than lifted per-unit: publishing a page
+         carrying a real price to search engines is an outward-facing decision
+         and the site still badges itself « en construction ». To lift it for
+         confirmed units only:
+             robots: { index: studio.confirmed, follow: true }
+         Ask the client first. */
       robots: { index: false, follow: true },
     };
   }

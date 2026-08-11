@@ -24,6 +24,7 @@ import styles from "./StudioLightbox.module.css";
  */
 export default function StudioLightbox({
   photos,
+  illustrative,
   index,
   onClose,
   onMove,
@@ -31,6 +32,8 @@ export default function StudioLightbox({
   dict,
 }: {
   photos: readonly PhotoId[];
+  /** Placeholder frames of another building — see StudioGallery. */
+  illustrative: boolean;
   /** null = closed. */
   index: number | null;
   onClose: () => void;
@@ -129,7 +132,9 @@ export default function StudioLightbox({
           <span className={`label ${styles.counter}`}>
             {index + 1} / {photos.length}
           </span>
-          <span className={`label ${styles.notice}`}>{t.photoNotice}</span>
+          {illustrative && (
+            <span className={`label ${styles.notice}`}>{t.photoNotice}</span>
+          )}
         </figcaption>
       </figure>
 

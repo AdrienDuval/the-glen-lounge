@@ -77,6 +77,16 @@
   color: var(--body);
 }
 
+/* The rate, in the masthead beside the other facts. Gold and a shade larger
+   because it is the one number a visitor came for — and it only renders when a
+   real one exists, so it never advertises a placeholder. */
+.price {
+  color: var(--gold);
+  font-weight: 500;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
 /* ---------- body ---------- */
 .wrap {
   padding-top: clamp(2rem, 5vw, 3rem);
@@ -128,6 +138,21 @@
 
 .blockCount {
   color: var(--muted);
+  /* The building block puts a sentence here rather than a count, so it must be
+     free to wrap instead of stretching the heading row. */
+  text-transform: none;
+  letter-spacing: 0.04em;
+}
+
+/* The one line under the building services: co-location is a fact about the
+   address, confirmed 2026-08-11, and it belongs with them rather than in the
+   spec table for the unit. */
+.buildingNote {
+  margin-top: 1rem;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--gold-dim);
+  color: var(--muted);
+  font-size: 0.9375rem;
 }
 
 /* ---- the spec table ----

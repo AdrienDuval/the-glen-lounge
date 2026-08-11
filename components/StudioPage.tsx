@@ -3,7 +3,15 @@
 import { useRef, useState } from "react";
 import Link from "next/link";
 import { gsap, useGSAP } from "@/lib/gsap";
-import { floorLabel, PREVIEW, STUDIO_GALLERY, type Studio } from "@/lib/apartments";
+import {
+  BUILDING_SERVICES,
+  floorLabel,
+  formatPrice,
+  galleryFor,
+  hasPreviewData,
+  SAME_BUILDING_AS_RESTAURANT,
+  type Studio,
+} from "@/lib/apartments";
 import { href } from "@/lib/routes";
 import { site } from "@/lib/site";
 import type { Lang } from "@/lib/i18n/config";
@@ -47,7 +55,14 @@ export default function StudioPage({
 
   const t = dict.studios;
   const base = href("appartements", lang);
-  const floor = floorLabel(studio, { floor: t.floor, ground: t.groundFloor });
+  const floor = floorLabel(studio, {
+    floor: t.floor,
+    ground: t.groundFloor,
+    basement: t.basement,
+  });
+  const { photos, illustrative } = galleryFor(studio);
+  const price = formatPrice(studio.pricePerNight);
+  const preview = hasPreviewData(studio);
 
   useGSAP(
     () => {
@@ -67,16 +82,31 @@ export default function StudioPage({
   );
 
   /* One row per characteristic. Built here rather than in the markup so the
-     table cannot drift out of step with the data model. */
+     table cannot drift out of step with the data model.
+
+     `48.72` prints as « 48,72 » in French and « 48.72 » in English — the sheet
+     gave a decimal and rounding it to 49 would be inventing precision in the
+     wrong direction. Rooms and shower rooms only appear when there are any: a
+     one-room studio with « Chambres 0 » reads as missing data rather than as
+     the definition of a studio. */
+  const yesNo = (v: boolean) => (v ? t.specs.yes : t.specs.no);
   const specs: { key: string; label: string; value: string }[] = [
     { key: "status", label: t.specs.status, value: t.status[studio.status] },
     {
       key: "size",
       label: t.specs.size,
-      value: `${studio.size} ${t.specs.sizeUnit}`,
+      value: `${studio.size.toLocaleString(lang === "fr" ? "fr-FR" : "en-GB")} ${t.specs.sizeUnit}`,
     },
     { key: "sleeps", label: t.sleeps, value: String(studio.sleeps) },
     { key: "bed", label: t.specs.bed, value: t.beds[studio.bed] },
+    ...(studio.rooms > 0
+      ? [{ key: "rooms", label: t.specs.rooms, value: String(studio.rooms) }]
+      : []),
+    ...(studio.showers > 0
+      ? [{ key: "showers", label: t.specs.showers, value: String(studio.showers) }]
+      : []),
+    { key: "livingRoom", label: t.specs.livingRoom, value: yesNo(studio.livingRoom) },
+    { key: "kitchen", label: t.specs.kitchen, value: yesNo(studio.kitchen) },
     ...(floor ? [{ key: "floor", label: t.floor, value: floor }] : []),
     ...(site.hours.apartments247
       ? [
@@ -92,7 +122,8 @@ export default function StudioPage({
   return (
     <article ref={rootRef} className={styles.page}>
       <StudioGallery
-        photos={STUDIO_GALLERY}
+        photos={photos}
+        illustrative={illustrative}
         lang={lang}
         dict={dict}
         onOpen={setShot}
@@ -108,18 +139,26 @@ export default function StudioPage({
               {t.status[studio.status]}
             </span>
             <span className={styles.fact}>
-              {studio.size} {t.specs.sizeUnit}
+              {studio.size.toLocaleString(lang === "fr" ? "fr-FR" : "en-GB")}{" "}
+              {t.specs.sizeUnit}
             </span>
             <span className={styles.fact}>
               {t.sleeps} {studio.sleeps}
             </span>
             {floor && <span className={styles.fact}>{floor}</span>}
+            {/* The rate leads only when it is real. A unit with no confirmed
+                price shows nothing here rather than « sur demande », which
+                would read as a second-class listing beside SS101. */}
+            {price && <span className={styles.price}>{price} {t.specs.perNight}</span>}
           </div>
         </div>
       </StudioGallery>
 
       <div className={`shell ${styles.wrap}`}>
-        {PREVIEW && (
+        {/* Per-unit now, not global: SS101 is sourced end to end and must not
+            carry a notice saying otherwise, while the ten rows still on
+            invented data must keep it. */}
+        {preview && (
           <p className={styles.preview} role="note">
             <span className={styles.previewMark} aria-hidden="true">
               ◆
@@ -161,6 +200,34 @@ export default function StudioPage({
               </ul>
             </section>
 
+            {/* Building services. Deliberately its own block rather than more
+                rows in « Équipements »: these belong to the address, not the
+                unit, and merging them would let a visitor read « gardien » as
+                something this studio has and the next one might not. Confirmed
+                once by the client, so they are identical on all eleven pages —
+                which is exactly why they are stored once. */}
+            <section className={styles.block}>
+              <h2 className={`label ${styles.blockTitle}`}>
+                {t.building.title}
+                <span className={styles.blockCount}>· {t.building.note}</span>
+              </h2>
+              <ul className={styles.amenities} data-reveal>
+                {BUILDING_SERVICES.map((s) => (
+                  <li key={s} className={styles.amenity}>
+                    <span className={styles.amenityIcon} aria-hidden="true">
+                      <AmenityIcon name={s} size={22} />
+                    </span>
+                    {t.building[s]}
+                  </li>
+                ))}
+              </ul>
+              {SAME_BUILDING_AS_RESTAURANT && (
+                <p className={styles.buildingNote} data-reveal>
+                  {t.building.sameBuilding}
+                </p>
+              )}
+            </section>
+
             {others.length > 0 && (
               <section className={styles.block}>
                 <h2 className={`label ${styles.blockTitle}`}>{t.otherStudios}</h2>
@@ -191,7 +258,8 @@ export default function StudioPage({
       </div>
 
       <StudioLightbox
-        photos={STUDIO_GALLERY}
+        photos={photos}
+        illustrative={illustrative}
         index={shot}
         onClose={() => setShot(null)}
         onMove={setShot}

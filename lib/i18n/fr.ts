@@ -241,10 +241,14 @@ export const fr = {
     status: "Site en construction — informations en cours de validation",
   },
 
-  /* The studio pages. `studios.preview` is the notice that has to stay on the
-     page for as long as `PREVIEW` is true in `lib/apartments.ts` — it is the
-     only thing telling a visitor that the availability and the photographs are
-     not yet real. Do not quietly soften it. */
+  /* The studio pages. `studios.preview` is the notice that has to stay on any
+     page whose unit is still `confirmed: false` in `lib/apartments.ts` — it is
+     the only thing telling a visitor that the availability and the photographs
+     are not yet real. Do not quietly soften it.
+
+     `previewIndex` is the softer version for the index, which now lists a mix:
+     SS101 is real, the other ten are not, so a blanket « tout est faux » there
+     would be a lie in the other direction. */
   studios: {
     eyebrow: "Appartements",
     title: "Onze studios meublés, sur place",
@@ -253,6 +257,8 @@ export const fr = {
     availableNow: "disponibles aujourd’hui",
     preview:
       "Aperçu : les photos, les disponibilités et les équipements affichés ici sont des exemples, le temps que le Glen fournisse les vraies informations. Seuls les numéros de studio sont réels.",
+    previewIndex:
+      "Certains studios sont encore affichés avec des informations d’exemple, le temps que le Glen nous transmette leurs fiches. Les studios déjà vérifiés portent leurs vraies photos et leurs vrais tarifs.",
     photoNotice: "Image d’illustration — photographie d’un autre logement.",
     status: {
       available: "Disponible",
@@ -262,7 +268,24 @@ export const fr = {
     sleeps: "Couchages",
     floor: "Étage",
     groundFloor: "Rez-de-chaussée",
+    /* Rendered « Sous-sol 2 » for floor "R-2". Four unit codes start with SS,
+       which is what the prefix turns out to mean. */
+    basement: "Sous-sol",
     equipment: "Équipements",
+    /* Building-level services — answered once by the client, shown on every
+       studio page under their own heading so they are not mistaken for
+       something this particular unit has and the next one might not. */
+    building: {
+      title: "L’immeuble",
+      note: "Services communs à tout l’immeuble.",
+      guard: "Gardien",
+      cameras: "Vidéosurveillance",
+      generator: "Groupe électrogène",
+      waterReserve: "Réserve d’eau",
+      parking: "Parking",
+      housekeeping: "Ménage compris",
+      sameBuilding: "Dans le même immeuble que le restaurant",
+    },
     /* The spec table. ⚠️ Every VALUE it displays except the status is preview
        data — see the header of lib/apartments.ts. */
     specs: {
@@ -272,6 +295,16 @@ export const fr = {
       sizeUnit: "m²",
       bed: "Literie",
       access: "Accès",
+      rooms: "Chambres",
+      showers: "Salles d’eau",
+      livingRoom: "Salon",
+      kitchen: "Cuisine",
+      /* Rendered as the value of the two boolean rows above. */
+      yes: "Oui",
+      no: "Non",
+      /* « 60 000 FCFA » followed by this, so the unit of time is never
+         guessed from the number alone. */
+      perNight: "la nuit",
       /* Rendered after the count, beside the « Équipements » heading — so it
          reads « Équipements · 9 inclus » rather than repeating the word. */
       equipmentCount: "inclus",
@@ -293,16 +326,20 @@ export const fr = {
     amenities: {
       wifi: "Wi-Fi",
       ac: "Climatisation",
+      fan: "Ventilateur",
       tv: "Télévision",
-      kitchenette: "Kitchenette équipée",
+      canalPlus: "Canal+",
+      kitchenette: "Cuisine équipée",
+      fridge: "Réfrigérateur",
+      microwave: "Micro-ondes",
+      utensils: "Ustensiles de cuisine",
       bathroom: "Salle d’eau privative",
       hotWater: "Eau chaude",
+      linens: "Draps et serviettes fournis",
       balcony: "Balcon",
       desk: "Coin bureau",
       laundry: "Lave-linge",
-      parking: "Parking",
       access24: "Accès 24h/24",
-      housekeeping: "Ménage",
     },
     book: {
       title: "Demander ce studio",

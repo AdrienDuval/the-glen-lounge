@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState } from "react";
 import { site } from "@/lib/site";
-import type { Studio } from "@/lib/apartments";
+import { formatPrice, type Studio } from "@/lib/apartments";
 import type { Lang } from "@/lib/i18n/config";
 import type { Dict } from "@/lib/i18n";
 import styles from "./ReserveStudio.module.css";
@@ -20,8 +20,19 @@ import styles from "./ReserveStudio.module.css";
  * screen to rip out later, and it works the day it ships. When the client wants
  * a true booking engine, this panel is where it goes.
  *
- * No rate is shown. FACTS.md open question #1 has rates unknown, and an invented
- * nightly price is the one number a visitor could hold the venue to.
+ * ── THE RATE ────────────────────────────────────────────────────────────────
+ * Shown when the unit has a confirmed one, « tarif sur demande » when it does
+ * not. Until 2026-08-11 no unit had one and this panel said « sur demande »
+ * unconditionally — which, once SS101 arrived with 60 000 FCFA on its sheet,
+ * put « tarif sur demande » directly beside the masthead quoting the price.
+ *
+ * ⚠️ It deliberately does NOT multiply the rate by the number of nights. The
+ * sheet's weekly and monthly boxes came back BLANK, so a 30-night total at the
+ * nightly rate would quote ~1 800 000 FCFA against a monthly price that
+ * probably exists and that we have never been told. The nightly figure is what
+ * was confirmed, so the nightly figure is all this states; the night count
+ * below travels to WhatsApp, where a human quotes the real total.
+ * Add a total here only once weekly/monthly rates are on record.
  */
 /* Two field marks, local to this panel — they belong to the form, not to the
    amenity vocabulary in AmenityIcon.tsx, and keeping them here stops that set
@@ -96,6 +107,7 @@ export default function ReserveStudio({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [from, to, guests, studio.code, t, lang]);
 
+  const rate = formatPrice(studio.pricePerNight);
   const waNumber = site.contact.whatsapp.tel.replace(/\D/g, "");
   const waHref = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
   const canBook = studio.status !== "occupied";
@@ -106,7 +118,16 @@ export default function ReserveStudio({
         {t.title}
       </h2>
 
-      <p className={styles.price}>{t.price}</p>
+      <p className={styles.price}>
+        {rate ? (
+          <>
+            <span className={styles.rate}>{rate}</span>{" "}
+            <span className={styles.per}>{dict.studios.specs.perNight}</span>
+          </>
+        ) : (
+          t.price
+        )}
+      </p>
 
       {studio.status === "occupied" && (
         <p className={styles.notice}>{t.unavailable}</p>
