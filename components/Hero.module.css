@@ -149,6 +149,14 @@
   gap: clamp(0.7rem, 1.8vh, 1.15rem);
   align-items: flex-start;
   opacity: 0;
+  /* Belt-and-braces for browsers without `inert` (same reasoning as the nav
+     drawer). Sharing one grid cell means an inactive caption is stacked over
+     the active one, and `opacity: 0` does not stop it eating the click. */
+  pointer-events: none;
+}
+
+.captionOn {
+  pointer-events: auto;
 }
 
 .captionFirst {

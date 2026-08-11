@@ -355,6 +355,24 @@ not ours to close.
 | The phone number was itself the thing that overflowed | appeared at 1360 and pushed the CTA 3px past the gutter | Moved to 1440, the first width that carries the full bar with it. |
 | **The events index ignored `layout: "poster"`** | the Bal des Vétérans flyer cover-cropped into a 16:10 frame, losing its title off the top and the venue block off the bottom — on the page whose job is to sell the night | `EventsIndex` now branches like the hero, the event masthead and the calendar popover already did. And the frame is 3:4, not 16:10-with-`contain`: a portrait flyer letterboxed into a landscape slot just trades a crop for two bands of dead ground. The venue's artwork is exactly 3:4, so it fills the frame; `contain` still handles anything that is not. The featured card caps the poster at 20rem so a 3:4 frame does not become 800px tall — a flyer beside its details, which is the right composition anyway. |
 
+## Hero captions were eating their own clicks (2026-08-11)
+
+Reported as « Voir les studios » not going to the apartments page. Both call
+sites were already correct in source — `Appartements.tsx` and the banner slide
+in `lib/banner.ts` each resolve through `href("appartements", lang)` and emit
+`/fr/appartements`. The link was right; the click never reached it.
+
+| Finding | Measured | Decision |
+| --- | --- | --- |
+| **Inactive hero captions were swallowing every press** | the CTA was `opacity: 1`, not inert, box `20,769 184x47` — but `document.elementFromPoint` at its own centre returned a *different* caption. Playwright's actionability check timed out on every hero CTA, touch and mouse, on local and on production | All nine captions share one grid cell so the block never resizes between slides — which also means the inactive ones stay stacked over the active one, and `opacity: 0` hides an element without stopping it receiving clicks. Whichever caption was last in DOM order took the press. They now carry the same `inert` + `aria-hidden` contract the *slides* directly above them already used, plus a `pointer-events` fallback for browsers without `inert` (the nav drawer's reasoning). Fixes the keyboard path too: tab order was running through nine sets of hidden buttons. |
+
+**Not changed, needs a decision:** the banner rotates every 7s and only pauses
+on hover and focus. Measured: idle for 8s and the slide advances under you.
+There is no hover on a phone, so a reader reaching for « Voir les studios » can
+have it slide away mid-reach — which produces the same complaint as the bug
+above. Options are a longer dwell, pausing on touch, or stopping rotation after
+the first interaction of any kind. That is a design call, not a defect.
+
 ### Open after Phase 1
 
 - [ ] **No section nav on mobile.** Below 900 px the links are hidden; the brand,

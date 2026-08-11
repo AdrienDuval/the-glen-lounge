@@ -435,8 +435,22 @@ export default function Hero({
       <div className={styles.foot}>
         <div className={styles.content}>
           <div ref={captionsRef} className={styles.captions}>
-          {/* caption 0 — the brand */}
-          <div className={`${styles.caption} ${styles.captionFirst}`}>
+          {/* caption 0 — the brand.
+
+              Every caption sits in the SAME grid cell so the block never
+              resizes between slides — which means the inactive ones are still
+              stacked on top of the active one. `opacity: 0` hides a thing; it
+              does not stop it receiving clicks, so the last caption in DOM
+              order was swallowing every press aimed at the visible one and
+              « Voir les studios » never navigated. Same `inert` + aria-hidden
+              contract the slides above already use. */}
+          <div
+            className={`${styles.caption} ${styles.captionFirst} ${
+              index === 0 ? styles.captionOn : ""
+            }`}
+            aria-hidden={index === 0 ? undefined : true}
+            inert={index !== 0}
+          >
             <p className={styles.display} data-title>
               {dict.hero.tagline}
             </p>
@@ -453,8 +467,15 @@ export default function Hero({
             </div>
           </div>
 
-          {slides.map((slide) => (
-            <div key={slide.id} className={styles.caption}>
+          {slides.map((slide, i) => (
+            <div
+              key={slide.id}
+              className={`${styles.caption} ${
+                index === i + 1 ? styles.captionOn : ""
+              }`}
+              aria-hidden={index === i + 1 ? undefined : true}
+              inert={index !== i + 1}
+            >
               <p className={`label ${styles.when}`} data-stagger>
                 {slide.eyebrow[lang]}
               </p>
