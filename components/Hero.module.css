@@ -96,7 +96,20 @@
     linear-gradient(180deg, transparent 66%, var(--ink) 100%);
 }
 
-/* ---- poster slides (event artwork, shown whole) ---- */
+/* ---- poster slides (event artwork, shown whole) ----
+   Portrait flyers. `layout: "poster"` exists so they are NOT cover-cropped:
+   a 4:5 flyer cropped to a landscape stage loses its own typography, which is
+   most of what a flyer is. Five of the ten banner slides are posters now, so
+   this path carries the majority of the banner.
+
+   ⚠️ The top padding must clear the fixed nav (measured 73px at every mobile
+   width), or the flyer's masthead — logo and venue name — renders underneath
+   it. The old floor was 3.4rem/54px, and `9vh` only reaches 73px on a viewport
+   taller than ~810px, so every short phone hid the top of the artwork. The
+   floor is now 5rem/80px — measured clearance +7px at 320×720 through 430×932
+   and +26px on desktop. 4.75rem also cleared, at +3px, which is inside the
+   margin a font-metric change could eat. If the nav's padding changes,
+   re-measure rather than assuming this still holds. */
 .poster {
   position: absolute;
   inset: 0;
@@ -106,10 +119,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: clamp(3.4rem, 9vh, 5rem) var(--gut) clamp(1.5rem, 4vh, 2.5rem);
+  /* Bottom is deliberately tight: the stage is height-bound for a portrait
+     poster, so every pixel of padding comes straight off the artwork's width. */
+  padding: clamp(5rem, 9vh, 5.25rem) var(--gut) clamp(0.75rem, 2vh, 1.25rem);
 }
 
-.posterImg {
+/* ⚠️ SPECIFICITY, NOT PREFERENCE — do not weaken this selector to `.posterImg`.
+   `.slide img` above sets `object-fit: cover` at (0,1,1); a bare `.posterImg`
+   is (0,1,0) and LOSES, whatever the source order. That is not academic: it is
+   the bug that shipped. Every poster in the banner was cover-cropped — 17% of
+   the artwork cut on mobile, 10% on desktop — while the events index and the
+   event page, which set `contain` with no competing rule, showed the same
+   images whole. `width: auto` is part of the same fix: without it the element
+   box fills the stage and the border and shadow below draw a rectangle out in
+   the letterbox, detached from the artwork. */
+.slide .posterImg {
   width: auto;
   height: 100%;
   max-width: 100%;
@@ -459,7 +483,8 @@
       clamp(5rem, 12vh, 7rem) var(--gut);
   }
 
-  .posterImg {
+  /* Same specificity trap as the base rule — see the warning there. */
+  .slide .posterImg {
     max-width: 42vw;
   }
 

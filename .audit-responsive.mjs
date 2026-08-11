@@ -34,9 +34,11 @@ for (const [rname, route] of ROUTES) {
     page.on("pageerror", (e) => errs.push("pageerror: " + e.message.slice(0, 110)));
     page.on("console", (m) => m.type() === "error" && errs.push("console: " + m.text().slice(0, 110)));
 
+    /* NOT networkidle: GSAP/Lenis keep the page busy and it never settles —
+       a first attempt sat at 90s per load. The site raises its own flag. */
     let status = 0;
     try {
-      const r = await page.goto(BASE + route, { waitUntil: "networkidle", timeout: 90000 });
+      const r = await page.goto(BASE + route, { waitUntil: "domcontentloaded", timeout: 45000 });
       status = r?.status() ?? 0;
     } catch (e) {
       findings.push({ route: rname, w, kind: "NAV FAIL", detail: e.message.slice(0, 90) });
@@ -44,21 +46,22 @@ for (const [rname, route] of ROUTES) {
       continue;
     }
     await page
-      .waitForFunction(() => document.documentElement.dataset.loaded === "1", { timeout: 15000 })
+      .waitForFunction(() => document.documentElement.dataset.loaded === "1", { timeout: 12000 })
       .catch(() => {});
-    await page.waitForTimeout(900);
+    await page.waitForLoadState("load", { timeout: 15000 }).catch(() => {});
+    await page.waitForTimeout(500);
 
     /* Scroll the whole page so lazy/scroll-triggered sections lay out, then
        come back: a section that only overflows once revealed still overflows. */
     await page.evaluate(async () => {
       const h = document.body.scrollHeight;
-      for (let y = 0; y < h; y += 600) {
+      for (let y = 0; y < h; y += 900) {
         window.scrollTo(0, y);
-        await new Promise((r) => setTimeout(r, 60));
+        await new Promise((r) => setTimeout(r, 45));
       }
       window.scrollTo(0, 0);
     });
-    await page.waitForTimeout(600);
+    await page.waitForTimeout(350);
 
     const res = await page.evaluate((vw) => {
       const de = document.documentElement;

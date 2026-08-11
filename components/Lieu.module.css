@@ -184,6 +184,20 @@
        font-loading variance and still fits 1024×768 through 2560×1440. */
     --chrome: 16rem;
     padding-block: var(--pad-top) var(--pad-bot);
+    /* The pinned track is `overflow-x: visible` (see `.trackPinned`) so the
+       scrub and a native scroller do not fight. Nothing then clipped it, and
+       the track is as wide as all six cards laid end to end — measured 4691px
+       at 1440 — so the DOCUMENT became horizontally scrollable: the whole page
+       dragged 3251px sideways at 1440, and at every width from 900 up. Below
+       900 the track keeps `overflow-x: auto` and clips itself, which is why
+       899 was clean and 900 was not.
+
+       `clip`, not `hidden`: hidden would make this a scroll container, and an
+       ancestor scroll container is exactly what breaks ScrollTrigger's pin.
+       `clip` clips without one. Pairing `overflow-x: clip` with an implicit
+       `overflow-y: visible` is legal and stays as written — the "computes to
+       auto" rule only bites when the other axis is a scrolling value. */
+    overflow-x: clip;
   }
 
   /* Height-led again, each card as wide as its own photograph wants to be. */
