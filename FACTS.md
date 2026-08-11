@@ -139,6 +139,32 @@ use the current column, and don't resurrect the old names.
   Mercredi Cocktail (2026-07-29). Jeudi and Dimanche are still inferred from
   older posts; Vendredi has no published time at all, so the site renders that
   cell empty rather than guessing.
+
+  **Updated 2026-08-11 — ⚠️ STILL THE BIGGEST OPEN QUESTION ON THE SITE.** The
+  Instagram dump (ASSETS.md) brought the venue's own flyers for four nights, and
+  every one of them prints a door time that contradicts the 19h above:
+
+  | Night | Flyer prints | August posts said |
+  | --- | --- | --- |
+  | Jeudi Karaoké | **16H** (« DÉBUT 16H CE JEUDI ») | 19h (inferred) |
+  | Mardi Casino | **20H** (« DÉBUT 20H CE MARDI ») | 19h (`#OpenDoor19H`, 08-04) |
+  | Mercredi Cocktail | **20H** (« DÉBUT 20H ») | 19h (07-29) |
+  | Samedi VIP | **18H** (« OPEN DOORS 18H ») | 19h (08-01) |
+
+  Note the karaoke 16h is exactly the January 2026 value in the "Was" column
+  above — the one this table already treats as superseded — so the flyers may
+  simply be the older asset. The Mardi row is the sharpest: a post dated
+  2026-08-04 tagged `#OpenDoor19H` against artwork printing 20H.
+
+  **Decision (client, 2026-08-11): the site publishes no time of its own for
+  those four.** The flyer is the only clock on the page, so there is exactly one
+  time claim per night instead of two contradicting ones. `lib/events.ts` carries
+  the rule. **The question is not resolved, only made safe** — ask the client for
+  the four door times and put them back.
+
+  Dimanche Vétéran keeps 19h (no flyer, so nothing contradicts it), and the
+  « Dès 19h » on the lounge card in the Trois section is a general opening claim,
+  not a night's door time — both left alone.
 - **Jeudi Karaoké is the flagship** — most-posted night, and the single
   best-performing post on the account (25 100 plays).
 - ⚠️ **Sunday Brunch** was a named, well-performing product (1 883 plays) that
@@ -196,7 +222,46 @@ use the current column, and don't resurrect the old names.
 - « Réserve maintenant avant que ce soit complet ! » — implies limited stock.
 - **Saint-Valentin packages** with reductions, incl. a room dressed with rose
   petals, candles and balloons (photographed — `public/photos/apartment-valentine-*`).
-- ⚠️ Still unknown: **what types, what rates, how to book.**
+- ✅ **SS101 — the first unit confirmed end to end** (`CL`, 2026-08-11, filled
+  characteristics sheet + five photographs of the actual rooms). Live in
+  `lib/apartments.ts` with `confirmed: true`:
+
+  | | |
+  | --- | --- |
+  | Type | studio entier |
+  | Étage | sous-sol **R-2** |
+  | Surface | **48,72 m²** (as given — a decimal, not rounded) |
+  | Chambres / douches | 1 / **2** |
+  | Salon · cuisine · balcon | oui · oui · oui |
+  | Couchages | 2, un grand lit |
+  | Statut | libre |
+  | **Tarif** | **60 000 FCFA la nuit** — the first rate this project has ever held |
+  | Équipements | clim, Wi-Fi, TV, Canal+, frigo, micro-ondes, ustensiles, eau chaude, draps et serviettes, balcon, accès 24h/24 |
+  | Absent, confirmed « non » | ventilateur, machine à laver |
+
+  ⚠️ Left blank on the sheet and still open: **weekly rate, monthly rate,
+  caution.** Nothing multiplies the nightly figure anywhere in the UI because a
+  monthly rate probably exists and we have not been told it.
+
+  ⚠️ **No bedroom photograph** was sent, though the sheet says 1 chambre. The
+  five frames are salon, cuisine, two salles d'eau, balcon. Worth asking.
+
+  ⚠️ **She wrote « SS101 »; the 2026-08-09 code list says `SS101-A`.** The row
+  and its URL now use `SS101` / `/fr/appartements/ss101`, following the newer
+  and more specific answer. If the `-A` suffix is real, this is a rename.
+
+- ✅ **The building services**, answered once for the whole property
+  (`CL`, 2026-08-11): gardien, vidéosurveillance, groupe électrogène, réserve
+  d'eau, parking, ménage compris — all six **oui**. Stored once in
+  `BUILDING_SERVICES` and rendered on every studio page.
+
+- ✅ **THE STUDIOS ARE IN THE SAME BUILDING AS THE RESTAURANT** (`CL`,
+  2026-08-11). This closes the question flagged below since the first harvest.
+  The `SS` prefix on four codes reads as « sous-sol », which corroborates it —
+  SS101 is on R-2. Copy may now say so; « au-dessus du lounge » is still not
+  sourced, only « même immeuble ».
+
+- ⚠️ Still unknown for the other ten units: **types, rates, availability.**
 - ⚠️ **Where the studios are** relative to the restaurant is NOT recorded. Every
   published caption gives the three businesses the same *address*
   (« Omnisport, derrière le stade »), which is co-location, not stacking. The
@@ -382,13 +447,33 @@ Ordered by how much they block the build.
 7. **Current weekly programme and start times** — is Lundi a night? Is Sunday
    Brunch coming back?
 8. **Original photography**, especially apartments and the bar. (A daytime exterior now exists — a proper facade shoot would still beat the overcast phone snapshot we cropped.)
-   ⚠️ **Where did the seven studio images come from?** Supplied 2026-08-09 to
-   preview the pages. They are professional interiors of a modern European
-   apartment — wall radiators, French windows, a suburban tower block through
-   the balcony door — so they are not the Glen and the licence is unknown. They
-   are marked `origin: "placeholder"` in `lib/photos.ts`, captioned wherever
-   they render, and the studio pages are `noindex`. **Before launch**: either a
-   real shoot, or written proof of a licence that permits commercial use.
+   ⚠️ **Where did the eight studio images come from?** All eight are
+   `origin: "placeholder"` in `lib/photos.ts` and captioned wherever they
+   render, but they arrived from two different places and the licence question
+   is not the same for both.
+
+   - **The seven gallery frames** (`studio_living` … `studio_balcony`),
+     supplied 2026-08-09 to preview the pages. Professional interiors of a
+     modern European apartment — wall radiators, French windows, a suburban
+     tower block through the balcony door — so they are not the Glen and the
+     licence is **unknown**. The studio pages are `noindex`.
+   - **The banner plate** (`studio_hero`), added 2026-08-11 at the client's
+     direction. Source file `huy-nguyen-AB-q9lwCVv8-unsplash.jpg`, kept at
+     `assets-raw/unsplash/`. The filename is Unsplash's own download format —
+     photographer **Huy Nguyen**, photo id `AB-q9lwCVv8` — and the Unsplash
+     Licence permits commercial use with no attribution required. So the
+     licence here is *probably* fine, which is not the same as checked: nobody
+     in this repo saw it downloaded. **Confirm the source**, and credit Huy
+     Nguyen anyway if the site gains a colophon — it costs nothing and it is
+     what the licence asks for even where it does not require it.
+
+   This one is also the first placeholder to reach an **indexed** page: it is
+   the « Appartements » slide in the home hero. That is why `Slide.illustrative`
+   exists — it is simultaneously the permission and the caption, so the picture
+   cannot appear there without the sentence. See `lib/banner.ts`.
+
+   **Before launch, for all eight**: either a real shoot, or written proof of a
+   licence that permits commercial use.
 9. Event packages — capacity and pricing for private hire.
 10. Is there **delivery**?
 11. Site language: French only, or French + English for travellers?

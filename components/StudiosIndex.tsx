@@ -6,11 +6,13 @@ import Link from "next/link";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { PHOTOS } from "@/lib/photos";
 import {
+  ANY_PREVIEW,
   availableStudios,
   floorLabel,
-  PREVIEW,
+  formatPrice,
   STUDIOS,
   STUDIO_GALLERY,
+  STUDIO_HERO,
   type Studio,
 } from "@/lib/apartments";
 import { href } from "@/lib/routes";
@@ -29,14 +31,15 @@ import styles from "./StudiosIndex.module.css";
  * and the rest in a grid. The earlier version put eleven identical cards on a
  * black page and read like a stock table.
  *
- * The codes are the client's. Availability, amenities and the photography are
- * preview data (`lib/apartments.ts`), which is why the notice sits above the
- * grid rather than in a footnote: it is the first thing between a visitor and
- * a room they might try to book.
+ * The codes are the client's. As of 2026-08-11 SS101 is real end to end — its
+ * own photographs, its own rate — and the other ten are still preview data
+ * (`lib/apartments.ts`). The notice above the grid therefore says « certains »
+ * rather than « tous »: a blanket warning over a grid that now contains one
+ * fully sourced listing would be inaccurate in the other direction.
  *
- * Every card shows the same photograph because that is all we hold — the
- * opening frame carries the « illustration » caption the manifest demands, and
- * the preview notice says the same thing in words.
+ * A card uses the unit's OWN first photograph when it has one and falls back to
+ * the shared placeholder otherwise, so the real listing is visibly the real one
+ * before you click it.
  */
 export default function StudiosIndex({
   lang,
@@ -51,6 +54,11 @@ export default function StudiosIndex({
   useSectionMotion(gridRef);
 
   const base = href("appartements", lang);
+  /* Two different pictures for two different jobs. `hero` is the wide banner
+     plate; `cover` is the 16:9 room frame the cards crop. They were the same
+     image until 2026-08-11, which meant the full-bleed opening band was a
+     gallery photo stretched across the viewport. */
+  const hero = PHOTOS[STUDIO_HERO];
   const cover = PHOTOS[STUDIO_GALLERY[0]];
   const free = availableStudios().length;
   const t = dict.studios;
@@ -112,7 +120,15 @@ export default function StudiosIndex({
   );
 
   const Card = ({ studio, wide }: { studio: Studio; wide?: boolean }) => {
-    const floor = floorLabel(studio, { floor: t.floor, ground: t.groundFloor });
+    const floor = floorLabel(studio, {
+      floor: t.floor,
+      ground: t.groundFloor,
+      basement: t.basement,
+    });
+    /* Its own photograph when it has one — the alt travels with it, so a real
+       room is never described with the placeholder's caption. */
+    const shot = studio.photos.length ? PHOTOS[studio.photos[0]] : cover;
+    const price = formatPrice(studio.pricePerNight);
     return (
       <Link
         href={`${base}/${studio.slug}`}
@@ -121,8 +137,8 @@ export default function StudiosIndex({
       >
         <div className={`frame ${styles.media}`}>
           <Image
-            src={cover.src}
-            alt={cover.alt[lang]}
+            src={shot.src}
+            alt={shot.alt[lang]}
             fill
             sizes={wide ? "(max-width: 720px) 92vw, 60rem" : "(max-width: 720px) 92vw, 28rem"}
             quality={72}
@@ -151,6 +167,7 @@ export default function StudiosIndex({
           <p className={styles.meta}>
             {t.sleeps} {studio.sleeps}
             {floor && ` · ${floor}`}
+            {price && ` · ${price} ${t.specs.perNight}`}
           </p>
           <ul className={styles.chips}>
             {studio.amenities.slice(0, wide ? 6 : 4).map((a) => (
@@ -180,8 +197,8 @@ export default function StudiosIndex({
         <div ref={heroRef} className={styles.hero}>
           <div className={styles.heroMedia}>
             <Image
-              src={cover.src}
-              alt={cover.alt[lang]}
+              src={hero.src}
+              alt={hero.alt[lang]}
               fill
               sizes="100vw"
               quality={75}
@@ -237,12 +254,13 @@ export default function StudiosIndex({
       </div>
 
       <div className={`shell ${styles.body2}`}>
-        {PREVIEW && (
+        {/* « certains », not « tous » — the grid is now mixed. See the header. */}
+        {ANY_PREVIEW && (
           <p className={styles.preview} role="note">
             <span className={styles.previewMark} aria-hidden="true">
               ◆
             </span>
-            {t.preview}
+            {t.previewIndex}
           </p>
         )}
 

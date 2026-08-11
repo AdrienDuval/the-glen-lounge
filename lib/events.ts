@@ -21,6 +21,27 @@ import type { Lang } from "./i18n/config";
  * Every fact below is traceable to FACTS.md. The `body` paragraphs are our
  * editorial voice built on those facts — that is allowed; inventing facts
  * is not.
+ *
+ * ── ONE TIME CLAIM PER NIGHT (decided 2026-08-11) ───────────────────────────
+ * Four nights are now illustrated by the venue's own flyer, and each flyer
+ * prints its own door time in the pixels: karaoke 16h, casino 20h, cocktail
+ * 20h, samedi VIP 18h. All four disagree with the 19h this file used to
+ * publish (FACTS.md, « Updated 2026-08-07 », from the August 2026 posts), and
+ * nothing we hold settles which is current — FACTS.md separately logs times
+ * drifting 18h → 16h → 19h across the year.
+ *
+ * Rendered side by side that was not a footnote: the hero shows the poster at
+ * 42vw, so « DÉBUT 16H » sat next to « Tous les jeudis — dès 19h » at full
+ * size, both legible, with no way for a reader to tell which one to believe.
+ *
+ * So those four carry NO time of our own — no `time`, no hour in `when`, no
+ * « Dès 19h » chip, no hour in the prose. The flyer is the only clock on the
+ * page. This is the rule `after-work` already followed for the opposite
+ * reason (nothing published at all), and it is reversible in one edit the day
+ * the client confirms: put `time` back and the calendar cell prints it again.
+ *
+ * ⚠️ Do NOT re-add an hour to these four from the artwork either — that just
+ * moves the guess. Confirm with the client, then set it in one place here.
  */
 
 type L = { fr: string; en: string };
@@ -113,10 +134,17 @@ export const EVENTS: GlenEvent[] = [
     slug: "jeudi-karaoke",
     kind: "weekly",
     day: "jeudi",
-    time: "19h",
-    photo: "bar_monogram",
+    /* ⏰ NO `time`, and no hour in `when`, the chips or the prose — see the
+       ONE TIME CLAIM note above the array. The flyer prints « DÉBUT 16H ». */
+    /* The venue's own karaoke flyer, not a photo of the bar. Every weekly night
+       used to borrow a generic room frame, which meant the calendar popover and
+       the banner illustrated « karaoké » with furniture. `poster` because these
+       are portrait artwork: cover-cropping one into a landscape hero throws away
+       its own typography. */
+    photo: "event_jeudi_karaoke",
+    layout: "poster",
     title: { fr: "Jeudi Karaoké", en: "Thursday Karaoke" },
-    when: { fr: "Tous les jeudis — dès 19h", en: "Every Thursday — from 7pm" },
+    when: { fr: "Tous les jeudis", en: "Every Thursday" },
     summary: {
       // ✅ verbatim — their single best-performing post, 25 100 vues
       fr: "« Tu chantes bien ou faux ? On s’en fout. »",
@@ -124,17 +152,16 @@ export const EVENTS: GlenEvent[] = [
     },
     highlights: [
       { fr: "Le rendez-vous de la maison", en: "The house favourite" },
-      { fr: "Dès 19h", en: "From 7pm" },
       { fr: "Micro ouvert", en: "Open mic" },
     ],
     body: {
       fr: [
         "Le jeudi karaoké est, de loin, le rendez-vous le plus suivi de la maison. Micro ouvert, salle pleine, et personne pour juger votre justesse.",
-        "Venez seul, à deux ou en bande. Les portes ouvrent à 19h — arrivez tôt si vous voulez une table près de la scène.",
+        "Venez seul, à deux ou en bande. Arrivez tôt si vous voulez une table près de la scène — l’heure d’ouverture est celle annoncée sur l’affiche.",
       ],
       en: [
         "Thursday karaoke is comfortably the busiest night here. Open mic, full room, and nobody keeping score on your pitch.",
-        "Come alone, as a pair or mob-handed. Doors at 7pm — arrive early if you want a table near the stage.",
+        "Come alone, as a pair or mob-handed. Arrive early if you want a table near the stage — doors open at the time given on the flyer.",
       ],
     },
   },
@@ -142,17 +169,17 @@ export const EVENTS: GlenEvent[] = [
     slug: "samedi-vip",
     kind: "weekly",
     day: "samedi",
-    time: "19h",
-    photo: "lounge_sofa",
+    /* ⏰ No `time` — the flyer prints « OPEN DOORS 18H ». See the note above. */
+    photo: "event_samedi_vip",
+    layout: "poster",
     title: { fr: "Samedi VIP", en: "Saturday VIP" },
-    when: { fr: "Tous les samedis — dès 19h", en: "Every Saturday — from 7pm" },
+    when: { fr: "Tous les samedis", en: "Every Saturday" },
     summary: {
       fr: "Le style, la musique et l’ambiance, réunis pour la soirée la plus chic de la semaine.",
       en: "Style, music and atmosphere, for the sharpest night of the week.",
     },
     highlights: [
       { fr: "DJ W & DJ Personica", en: "DJ W & DJ Personica" },
-      { fr: "Dès 19h", en: "From 7pm" },
       { fr: "Tenue soignée", en: "Dress sharp" },
     ],
     lineup: ["DJ W", "DJ Personica"],
@@ -171,17 +198,17 @@ export const EVENTS: GlenEvent[] = [
     slug: "mercredi-cocktail",
     kind: "weekly",
     day: "mercredi",
-    time: "19h",
-    photo: "lounge_detail",
+    /* ⏰ No `time` — the flyer prints « DÉBUT 20H ». See the note above. */
+    photo: "event_mercredi_cocktail",
+    layout: "poster",
     title: { fr: "Mercredi Cocktail", en: "Wednesday Cocktails" },
-    when: { fr: "Tous les mercredis — dès 19h", en: "Every Wednesday — from 7pm" },
+    when: { fr: "Tous les mercredis", en: "Every Wednesday" },
     summary: {
       fr: "Le rendez-vous du milieu de semaine : ambiance chic et cocktails soignés.",
       en: "The midweek fixture: a chic room and cocktails made properly.",
     },
     highlights: [
       { fr: "Cocktails", en: "Cocktails" },
-      { fr: "Dès 19h", en: "From 7pm" },
       { fr: "DJ résidents", en: "Resident DJs" },
     ],
     lineup: ["DJ W", "DJ Personica"],
@@ -200,27 +227,29 @@ export const EVENTS: GlenEvent[] = [
     slug: "mardi-casino",
     kind: "weekly",
     day: "mardi",
-    time: "19h",
-    photo: "lounge_hero",
+    /* ⏰ No `time` — the flyer prints « DÉBUT 20H CE MARDI ». See the note above. */
+    /* Was `lounge_hero` — the same frame the banner opens on, so the carousel
+       showed one photograph twice. */
+    photo: "event_mardi_casino",
+    layout: "poster",
     title: { fr: "Mardi Casino", en: "Tuesday Casino" },
-    when: { fr: "Tous les mardis — dès 19h", en: "Every Tuesday — from 7pm" },
+    when: { fr: "Tous les mardis", en: "Every Tuesday" },
     summary: {
       fr: "Tentez votre chance : musique, convivialité et un peu d’adrénaline.",
       en: "Try your luck: music, good company and a little adrenaline.",
     },
     highlights: [
       { fr: "Game night", en: "Game night" },
-      { fr: "Dès 19h", en: "From 7pm" },
       { fr: "Entre amis", en: "Bring friends" },
     ],
     body: {
       fr: [
         "Le mardi, la salle se transforme en game night. Musique, convivialité et ce qu’il faut d’émotions autour des tables.",
-        "Les portes ouvrent à 19h.",
+        "L’heure d’ouverture est celle annoncée sur l’affiche.",
       ],
       en: [
         "On Tuesdays the room turns into a game night. Music, good company, and enough drama around the tables to keep it interesting.",
-        "Doors at 7pm.",
+        "Doors open at the time given on the flyer.",
       ],
     },
   },

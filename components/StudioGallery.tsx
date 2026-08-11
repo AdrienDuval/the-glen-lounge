@@ -27,12 +27,23 @@ import styles from "./StudioGallery.module.css";
  */
 export default function StudioGallery({
   photos,
+  illustrative,
   lang,
   dict,
   onOpen,
   children,
 }: {
   photos: readonly PhotoId[];
+  /**
+   * True when these frames are the shared placeholder set — a different
+   * building — which obliges the « image d'illustration » caption below.
+   *
+   * It is a prop and not a constant because the two cases now coexist: SS101
+   * ships its own photographs and must NOT be captioned as an illustration,
+   * while the ten units still awaiting a shoot must be. Hard-coding the caption
+   * here would have quietly libelled the one real gallery we have.
+   */
+  illustrative: boolean;
   lang: Lang;
   dict: Dict;
   onOpen: (index: number) => void;
@@ -222,7 +233,9 @@ export default function StudioGallery({
             );
           })}
         </ul>
-        <p className={`label ${styles.caption}`}>{t.photoNotice}</p>
+        {illustrative && (
+          <p className={`label ${styles.caption}`}>{t.photoNotice}</p>
+        )}
       </div>
     </div>
   );

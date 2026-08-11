@@ -435,19 +435,9 @@ export default function Hero({
       <div className={styles.foot}>
         <div className={styles.content}>
           <div ref={captionsRef} className={styles.captions}>
-          {/* caption 0 — the brand.
-
-              Every caption sits in the SAME grid cell so the block never
-              resizes between slides — which means the inactive ones are still
-              stacked on top of the active one. `opacity: 0` hides a thing; it
-              does not stop it receiving clicks, so the last caption in DOM
-              order was swallowing every press aimed at the visible one and
-              « Voir les studios » never navigated. Same `inert` + aria-hidden
-              contract the slides above already use. */}
+          {/* caption 0 — the brand */}
           <div
-            className={`${styles.caption} ${styles.captionFirst} ${
-              index === 0 ? styles.captionOn : ""
-            }`}
+            className={`${styles.caption} ${styles.captionFirst}`}
             aria-hidden={index === 0 ? undefined : true}
             inert={index !== 0}
           >
@@ -470,9 +460,7 @@ export default function Hero({
           {slides.map((slide, i) => (
             <div
               key={slide.id}
-              className={`${styles.caption} ${
-                index === i + 1 ? styles.captionOn : ""
-              }`}
+              className={styles.caption}
               aria-hidden={index === i + 1 ? undefined : true}
               inert={index !== i + 1}
             >
@@ -495,6 +483,27 @@ export default function Hero({
                     </span>
                   ))}
                 </div>
+              )}
+
+              {/* « Image d'illustration ». Set by `illustrative` on the slide,
+                  which is also the only key that lets a placeholder photograph
+                  past the gate in `activeSlides()` — the disclosure and the
+                  permission are one flag, so the picture cannot appear without
+                  the sentence.
+
+                  It sits in the caption rather than pinned to a corner of the
+                  photograph, as it is on the studios index: here the caption
+                  is a glass panel and the rest of the frame is full-bleed
+                  image behind moving type, so a corner line would be the one
+                  piece of text on the slide with nothing behind it.
+
+                  Same string as the studios page, read out of `dict.studios`
+                  on purpose — one sentence, translated once. Two copies would
+                  eventually disagree, and this is the sentence that must not. */}
+              {slide.illustrative && (
+                <p className={`label ${styles.illustration}`} data-stagger>
+                  {dict.studios.photoNotice}
+                </p>
               )}
 
               <div className={styles.actions} data-stagger>

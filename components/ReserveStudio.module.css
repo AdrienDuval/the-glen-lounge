@@ -16,6 +16,21 @@
   color: var(--gold);
 }
 
+/* A confirmed rate is the headline of this panel, so it is set at display size
+   rather than sitting in the body run — « tarif sur demande » keeps the quiet
+   treatment above, because it is a placeholder, not an offer. */
+.rate {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: 1.6rem;
+  line-height: 1.1;
+  color: var(--gold);
+}
+
+.per {
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
 .notice {
   color: var(--body);
   font-size: 0.9375rem;

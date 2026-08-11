@@ -28,59 +28,198 @@
   gap: clamp(0.75rem, 2vw, 1.25rem);
 }
 
-/* One bordered card per platform. The whole card is the link — when the feed
-   lands (see Social.tsx), the thumbnails join inside this same chassis. */
+.cards > li {
+  display: flex;
+}
+
+/* One card per platform. The whole card is the link — when the feed lands (see
+   Social.tsx), the thumbnails join inside this same chassis, above `.follow`.
+
+   `--a1` / `--a2` are set per-card from the component; every accent below reads
+   from them, so a platform's colour is declared in exactly one place. `--mx` /
+   `--my` are the pointer position, defaulted to a fixed spot so the resting
+   card is already lit for touch and keyboard, which never set them. */
 .card {
-  display: grid;
-  gap: 0.6rem;
-  padding: clamp(1.5rem, 3.5vw, 2.25rem);
+  --mx: 78%;
+  --my: 12%;
+
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
+  min-height: clamp(13rem, 20vw, 15.5rem);
+  padding: clamp(1.5rem, 3.2vw, 2rem);
   border: 1px solid var(--line);
   background: var(--ink-2);
   text-decoration: none;
   transition:
-    border-color 0.3s var(--ease-out),
-    background-color 0.3s var(--ease-out);
+    border-color 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out),
+    box-shadow 0.4s var(--ease-out);
+}
+
+/* The bloom. Sits under everything (`isolation: isolate` on the card keeps this
+   stacking context to itself) and follows the pointer on mouse. */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: -2;
+  background: radial-gradient(
+    38% 38% at var(--mx) var(--my),
+    color-mix(in srgb, var(--a1) 42%, transparent),
+    transparent 70%
+  );
+  opacity: 0.5;
+  transition: opacity 0.45s var(--ease-out);
+}
+
+/* The lit top edge — the site's luminous-rule motif, held permanently on so the
+   card carries colour at rest rather than only under a pointer. */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: -1;
+  background: linear-gradient(90deg, var(--a1), var(--a2) 62%, transparent);
+  opacity: 0.85;
+  transition: opacity 0.4s var(--ease-out);
 }
 
 .card:hover,
 .card:focus-visible {
-  border-color: var(--gold-dim);
+  border-color: color-mix(in srgb, var(--a1) 55%, transparent);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 44px -22px color-mix(in srgb, var(--a1) 70%, transparent);
 }
 
-/* The mark sits quiet at rest and warms with the card — same contract as the
-   text, because it inherits currentColor. */
-.icon {
+.card:hover::before,
+.card:focus-visible::before {
+  opacity: 1;
+}
+
+.card:hover::after,
+.card:focus-visible::after {
+  opacity: 1;
+}
+
+/* ---- the oversized mark ----
+   Bled off the bottom-right corner so each card is recognisable as its platform
+   from across the page, before a single word is read. Low alpha keeps it a
+   texture rather than a second logo competing with the venue's own. */
+.watermark {
+  position: absolute;
+  right: -2.75rem;
+  bottom: -3.25rem;
+  z-index: -1;
+  display: block;
+  color: var(--a1);
+  opacity: 0.13;
+  transform: rotate(-8deg);
+  transform-origin: 100% 100%;
+  transition:
+    opacity 0.55s var(--ease-out),
+    transform 0.55s var(--ease-out);
+  pointer-events: none;
+}
+
+.card:hover .watermark,
+.card:focus-visible .watermark {
+  opacity: 0.22;
+  transform: rotate(-8deg) scale(1.09) translate(-0.35rem, -0.35rem);
+}
+
+/* ---- the icon chip ----
+   The single loudest element at rest: a filled tile in the platform's own
+   gradient. This is what replaced a 26px grey glyph. */
+.chip {
   display: inline-flex;
-  color: var(--muted);
-  transition: color 0.3s var(--ease-out), transform 0.3s var(--ease-out);
+  align-items: center;
+  justify-content: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  margin-bottom: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--a1) 45%, transparent);
+  border-radius: 0.9rem;
+  background: linear-gradient(
+    140deg,
+    color-mix(in srgb, var(--a1) 26%, transparent),
+    color-mix(in srgb, var(--a2) 20%, transparent)
+  );
+  color: var(--a1);
+  transition:
+    background 0.4s var(--ease-out),
+    color 0.4s var(--ease-out),
+    border-color 0.4s var(--ease-out),
+    transform 0.4s var(--ease-out);
 }
 
-.card:hover .icon,
-.card:focus-visible .icon {
-  color: var(--gold);
+.card:hover .chip,
+.card:focus-visible .chip {
+  border-color: transparent;
+  background: linear-gradient(140deg, var(--a1), var(--a2));
+  /* Against a fully saturated tile, the glyph has to go dark to stay legible. */
+  color: var(--ink);
   transform: translateY(-2px);
 }
 
+/* The eyebrow stays gold on every card: it is the house voice, and it is what
+   keeps three differently-lit cards reading as one section. */
 .platform {
   color: var(--gold);
 }
 
 .handle {
   font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(1.3rem, 2.2vw, 1.75rem);
+  font-size: clamp(1.35rem, 2.3vw, 1.8rem);
+  line-height: 1.15;
   color: var(--white);
   overflow-wrap: anywhere;
 }
 
 .follow {
-  color: var(--muted);
-  margin-top: 0.5rem;
-  transition: color 0.3s var(--ease-out);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: auto;
+  padding-top: 0.9rem;
+  color: var(--a1);
 }
 
-.card:hover .follow,
-.card:focus-visible .follow {
-  color: var(--gold);
+.arrow {
+  transition: transform 0.4s var(--ease-out);
+}
+
+.card:hover .arrow,
+.card:focus-visible .arrow {
+  transform: translateX(5px);
+}
+
+/* Lift and drift are decoration; the colour is the information, so only the
+   movement is dropped. The global reduced-motion rule already flattens every
+   transition duration — this stops the hover *destination* from moving too. */
+@media (prefers-reduced-motion: reduce) {
+  .card:hover,
+  .card:focus-visible {
+    transform: none;
+  }
+
+  .card:hover .watermark,
+  .card:focus-visible .watermark {
+    transform: rotate(-8deg);
+  }
+
+  .card:hover .chip,
+  .card:focus-visible .chip,
+  .card:hover .arrow,
+  .card:focus-visible .arrow {
+    transform: none;
+  }
 }
 
 @media (min-width: 800px) {
