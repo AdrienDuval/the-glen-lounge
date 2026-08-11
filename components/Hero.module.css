@@ -20,6 +20,10 @@
   overflow: hidden;
   padding-bottom: clamp(1.25rem, 4vh, 2rem);
   background: var(--ink);
+  /* The banner owns horizontal drag (see the swipe handler in Hero.tsx); the
+     page keeps the vertical axis. Without this the browser can claim the
+     gesture before pointermove reports it. */
+  touch-action: pan-y;
 }
 
 /* ---- the media block ----
@@ -107,7 +111,7 @@
 }
 
 .eyebrow {
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--white);
 }
 
 /* ---- caption + controls ---- */
@@ -258,10 +262,21 @@
   color: var(--gold);
 }
 
-/* ---- controls ---- */
+/* ---- controls ----
+   On mobile the bar is drawn FIRST, directly under the photograph.
+
+   All captions share one grid cell so the block never resizes between slides,
+   which means the cell is as tall as the TALLEST caption — an event slide with
+   eyebrow, title, lede, chips and two buttons. Slide 0 is 166px shorter, and
+   with the bar after the cell that slack sat between the copy and the controls
+   and pushed them off the first screen (measured: 174px below the fold at
+   320px, 106px at 360px, 70px at 390px). Ordering the bar first puts the
+   controls under the image where a pagination row belongs, and moves the
+   slack to the foot of the section, where it reads as section spacing. */
 .bar {
   position: relative;
   z-index: 1;
+  order: -1;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -285,6 +300,20 @@
   border: 0;
   background: transparent;
   cursor: pointer;
+}
+
+/* Ten slides is where the row stopped fitting on a 360px screen — it wrapped
+   onto a second line, pushing the arrows down with it. The mark shrinks rather
+   than the hit area: `height` stays 1.5rem, so the finger target is untouched.
+   Measured at 360px: 10 dots, one row. */
+@media (max-width: 420px) {
+  .dots {
+    gap: 0.25rem;
+  }
+
+  .dot {
+    width: clamp(0.8rem, 3vw, 1.05rem);
+  }
 }
 
 .dot::before {
@@ -450,6 +479,8 @@
   }
 
   .bar {
+    /* Back to last: the desktop composition anchors on the panel foot. */
+    order: 0;
     flex-wrap: wrap;
     gap: 1rem;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 18px rgba(0, 0, 0, 0.85);

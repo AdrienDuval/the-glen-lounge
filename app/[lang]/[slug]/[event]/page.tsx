@@ -3,18 +3,24 @@ import { notFound } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 import EventPage from "@/components/EventPage";
+import StudioPage from "@/components/StudioPage";
 import { getDict } from "@/lib/i18n";
 import { isLang, LOCALES, type Lang } from "@/lib/i18n/config";
 import { ROUTES } from "@/lib/routes";
 import { allEventSlugs, eventBySlug, isPast } from "@/lib/events";
+import { allStudioSlugs, otherStudios, studioBySlug } from "@/lib/apartments";
 import { PHOTOS } from "@/lib/photos";
 
 /**
- * One page per event, generated from `lib/events.ts`.
+ * Detail pages, two segments deep — one per event, one per studio.
  *
- * The parent segment is the localised « evenements » / « events » slug, so the
- * pair of params is (localised section, event slug). Adding an event to the
- * data file creates both language versions of its page — nobody writes a route.
+ * The parent segment decides which: `/fr/evenements/<slug>` renders an event,
+ * `/fr/appartements/<slug>` a studio. The folder is still called `[event]`
+ * because renaming a route segment rewrites every generated path; read it as
+ * "the second segment", whatever it names.
+ *
+ * Adding an event to `lib/events.ts` or a studio to `lib/apartments.ts` creates
+ * both language versions of its page — nobody writes a route.
  *
  * `allEventSlugs()` deliberately includes expired one-offs. Their page keeps
  * working so shared links and search results do not rot; the page itself says
@@ -24,13 +30,25 @@ import { PHOTOS } from "@/lib/photos";
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return LOCALES.flatMap((lang) =>
-    allEventSlugs().map((event) => ({
+  return LOCALES.flatMap((lang) => [
+    ...allEventSlugs().map((event) => ({
       lang,
       slug: ROUTES.evenements[lang],
       event,
-    }))
-  );
+    })),
+    ...allStudioSlugs().map((event) => ({
+      lang,
+      slug: ROUTES.appartements[lang],
+      event,
+    })),
+  ]);
+}
+
+/** Which section a localised parent segment belongs to. */
+function sectionOf(lang: Lang, slug: string): "evenements" | "appartements" | null {
+  if (slug === ROUTES.evenements[lang]) return "evenements";
+  if (slug === ROUTES.appartements[lang]) return "appartements";
+  return null;
 }
 
 export async function generateMetadata({
@@ -38,8 +56,33 @@ export async function generateMetadata({
 }: {
   params: Promise<{ lang: string; slug: string; event: string }>;
 }): Promise<Metadata> {
-  const { lang, event: slug } = await params;
+  const { lang, slug: parent, event: slug } = await params;
   if (!isLang(lang)) notFound();
+
+  if (sectionOf(lang, parent) === "appartements") {
+    const studio = studioBySlug(slug);
+    if (!studio) notFound();
+    const dict = getDict(lang);
+    const languages = Object.fromEntries(
+      LOCALES.map((l) => [l, `/${l}/${ROUTES.appartements[l as Lang]}/${slug}`])
+    );
+    return {
+      title: `${lang === "fr" ? "Studio" : "Studio"} ${studio.code} — Glen Appartement, Yaoundé`,
+      description: dict.studios.lede,
+      alternates: {
+        canonical: `/${lang}/${ROUTES.appartements[lang]}/${slug}`,
+        languages: {
+          ...languages,
+          "x-default": `/fr/${ROUTES.appartements.fr}/${slug}`,
+        },
+      },
+      /* The pages are built on preview data and placeholder photography, so
+         they must not be indexed or shared as though they described a real
+         room. Lift this in the same commit that sets PREVIEW = false. */
+      robots: { index: false, follow: true },
+    };
+  }
+
   const event = eventBySlug(slug);
   if (!event) notFound();
 
@@ -72,11 +115,16 @@ export default async function Page({
 }: {
   params: Promise<{ lang: string; slug: string; event: string }>;
 }) {
-  const { lang, event: slug } = await params;
+  const { lang, slug: parent, event: slug } = await params;
   if (!isLang(lang)) notFound();
-  const event = eventBySlug(slug);
-  if (!event) notFound();
   const dict = getDict(lang);
+  const section = sectionOf(lang, parent);
+
+  const studio = section === "appartements" ? studioBySlug(slug) : undefined;
+  if (section === "appartements" && !studio) notFound();
+
+  const event = section === "evenements" ? eventBySlug(slug) : undefined;
+  if (section === "evenements" && !event) notFound();
 
   return (
     <>
@@ -85,14 +133,25 @@ export default async function Page({
       </a>
       <Nav lang={lang} dict={dict} />
       <main id="main">
-        <EventPage
-          event={event}
-          past={isPast(event, new Date())}
-          lang={lang}
-          dict={dict}
-        />
+        {studio ? (
+          <StudioPage
+            studio={studio}
+            others={otherStudios(studio.slug)}
+            lang={lang}
+            dict={dict}
+          />
+        ) : event ? (
+          <EventPage
+            event={event}
+            past={isPast(event, new Date())}
+            lang={lang}
+            dict={dict}
+          />
+        ) : (
+          notFound()
+        )}
       </main>
-      <Footer dict={dict} />
+      <Footer dict={dict} lang={lang} />
     </>
   );
 }

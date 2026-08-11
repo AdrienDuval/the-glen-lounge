@@ -12,6 +12,8 @@ import type { Dict } from "@/lib/i18n";
 import styles from "./Hero.module.css";
 
 const INTERVAL = 7000;
+/** How far a finger has to travel before it counts as a slide change. */
+const SWIPE_MIN = 45;
 
 /**
  * The hero IS the banner. Slide 0 is the brand statement; the rest come from
@@ -156,19 +158,32 @@ export default function Hero({
       const q = gsap.utils.selector(section);
       const mm = gsap.matchMedia();
 
-      mm.add("(prefers-reduced-motion: no-preference)", (ctx) => {
-        gsap.to(section.querySelector(`.${styles.content}`), {
-          yPercent: -8,
-          opacity: 0.3,
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
+      /* Parallax on the caption — DESKTOP ONLY, deliberately.
+         There the caption is a glass panel over a full-viewport photograph
+         that is on its way out, so fading it is the point. On mobile the
+         composition is stacked: the same tween dims plain body copy and two
+         CTAs while they are still the only thing on screen (measured 0.78 at
+         300px of scroll, 0.67 at 450px). It also weakens the panel's own
+         `backdrop-filter: brightness()` as it goes, so the contrast that was
+         measured at rest does not survive the scroll. */
+      mm.add(
+        "(min-width: 900px) and (prefers-reduced-motion: no-preference)",
+        () => {
+          gsap.to(section.querySelector(`.${styles.content}`), {
+            yPercent: -8,
+            opacity: 0.3,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          });
+        }
+      );
 
+      mm.add("(prefers-reduced-motion: no-preference)", (ctx) => {
         const play = () => {
           ctx.add(() => {
             const first = captionsRef.current?.querySelector<HTMLElement>(
@@ -284,8 +299,53 @@ export default function Hero({
     fn();
   };
 
+  /* ---- swipe ----
+     Phones expect to drag a banner, and dots + arrows were the only way to
+     move it. Pointer events cover touch, pen and mouse drag from one path.
+
+     The axis is decided once, on the first few pixels of travel, and a
+     gesture that starts out vertical is abandoned — otherwise a plain scroll
+     that drifts sideways would steal a slide. `touch-action: pan-y` on the
+     section keeps the page scrolling vertically while we own the x axis. */
+  const drag = useRef<{ x: number; y: number; axis: "" | "x" | "y" } | null>(null);
+
+  const onPointerDown = (e: React.PointerEvent) => {
+    /* Never swallow a press that was aimed at a control or a link. */
+    if (count < 2 || (e.target as HTMLElement).closest("a, button")) return;
+    drag.current = { x: e.clientX, y: e.clientY, axis: "" };
+  };
+
+  const onPointerMove = (e: React.PointerEvent) => {
+    const d = drag.current;
+    if (!d || d.axis) return;
+    const dx = e.clientX - d.x;
+    const dy = e.clientY - d.y;
+    if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+    d.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+  };
+
+  const onPointerUp = (e: React.PointerEvent) => {
+    const d = drag.current;
+    drag.current = null;
+    if (!d || d.axis !== "x") return;
+    const dx = e.clientX - d.x;
+    if (Math.abs(dx) < SWIPE_MIN) return;
+    const step = dx < 0 ? 1 : -1;
+    setTaken(true);
+    dirRef.current = step;
+    setIndex((i) => (i + step + count) % count);
+  };
+
   return (
-    <section id="top" ref={sectionRef} className={styles.hero}>
+    <section
+      id="top"
+      ref={sectionRef}
+      className={styles.hero}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={() => (drag.current = null)}
+    >
       <h1 className="sr-only">{dict.hero.h1}</h1>
 
       <div
@@ -424,7 +484,19 @@ export default function Hero({
                   >
                     {dict.hero.moreDetail}
                   </Link>
-                ) : slide.cta ? (
+                ) : slide.cta?.route ? (
+                  /* An in-app destination: resolved per locale and rendered as
+                     a real Link, so it client-navigates and « Voir les studios »
+                     lands on /en/apartments rather than /fr/appartements for an
+                     English reader. `cta.href` stays an <a> because it is only
+                     ever an anchor, a tel: or an external URL. */
+                  <Link
+                    className={styles.btnSolid}
+                    href={href(slide.cta.route, lang)}
+                  >
+                    {slide.cta.label[lang]}
+                  </Link>
+                ) : slide.cta?.href ? (
                   <a className={styles.btnSolid} href={slide.cta.href}>
                     {slide.cta.label[lang]}
                   </a>

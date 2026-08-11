@@ -26,7 +26,7 @@
 }
 
 .alt {
-  color: var(--marble-hi);
+  color: var(--muted);
   max-width: 44ch;
 }
 

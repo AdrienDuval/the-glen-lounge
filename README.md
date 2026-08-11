@@ -12,7 +12,7 @@ GSAP + Lenis · plain CSS with custom-property tokens.
 & "C:\Program Files\nodejs\npm.cmd" run dev
 ```
 
-Dev server runs on **port 3100** (3000 is held by a Docker/WSL relay).
+Dev server runs on **port 3200** (3000 is held by a Docker/WSL relay).
 
 ## Layout
 

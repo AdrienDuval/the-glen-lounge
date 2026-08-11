@@ -56,7 +56,7 @@ export default async function Home({
         <Social dict={dict} />
         <Contact lang={lang} dict={dict} />
       </main>
-      <Footer dict={dict} />
+      <Footer dict={dict} lang={lang} />
     </>
   );
 }

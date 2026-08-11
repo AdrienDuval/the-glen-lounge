@@ -36,8 +36,13 @@ export type Photo = {
    * commissioned illustrative imagery (see ASSETS.md, Option C) — any render
    * of such an entry must carry an « Image d'illustration » caption, so the
    * gap between picture and reality is never discovered in person.
+   *
+   * `"placeholder"` is the same promise for a stronger reason: a real
+   * photograph of a DIFFERENT property, standing in until the venue shoots its
+   * own. It carries the same caption obligation, and `shippable()` refuses it,
+   * so it can only reach a page that asks for it by name.
    */
-  origin?: "photograph" | "generated";
+  origin?: "photograph" | "generated" | "placeholder";
   /** Alt text is content, so it is bilingual and lives with the image. */
   alt: { fr: string; en: string };
   /** Anything that constrains how the image may be used. */
@@ -382,6 +387,96 @@ export const PHOTOS = {
     note:
       "A detail rather than a room, so it carries the occasion without pretending to document the accommodation. The most attractive of the four.",
   },
+  /* ── Studios — PLACEHOLDER, NOT THIS VENUE ────────────────────────────────
+     Supplied by the client 2026-08-09 to preview the studio pages before the
+     real shoot. They are photographs of a modern European apartment — French
+     windows, wall radiators, a suburban tower block through the balcony door —
+     and they document a building that is not in Yaoundé.
+
+     Every one is `origin: "placeholder"`, which keeps them out of `shippable()`
+     and forces the « Image d'illustration » caption wherever they render. The
+     consent field is honest on its own terms: no people are in frame. The
+     licence, however, is unknown — see the open question in FACTS.md before any
+     of this reaches production.
+
+     All seven are 16:9, so a single `--ratio` covers the gallery. */
+  studio_living: {
+    src: "/photos/studios/studio-living-02.webp",
+    w: 2400,
+    h: 1349,
+    consent: "clear",
+    origin: "placeholder",
+    alt: {
+      fr: "Séjour de studio — canapé clair, tables basses rondes, porte-fenêtre ouvrant sur un balcon",
+      en: "Studio living area — pale sofa, round coffee tables, French window onto a balcony",
+    },
+  },
+  studio_living_kitchen: {
+    src: "/photos/studios/studio-living-01.webp",
+    w: 2400,
+    h: 1349,
+    consent: "clear",
+    origin: "placeholder",
+    alt: {
+      fr: "Studio en enfilade — kitchenette équipée à gauche, coin salon et tapis à droite",
+      en: "Open-plan studio — fitted kitchenette on the left, seating area and rug on the right",
+    },
+  },
+  studio_bedroom: {
+    src: "/photos/studios/studio-bedroom-02.avif",
+    w: 2048,
+    h: 1151,
+    consent: "clear",
+    origin: "placeholder",
+    alt: {
+      fr: "Chambre de studio — lit double, penderie à portes coulissantes et fenêtre voilée",
+      en: "Studio bedroom — double bed, sliding-door wardrobe and a sheer-curtained window",
+    },
+  },
+  studio_bedroom_desk: {
+    src: "/photos/studios/studio-bedroom-01.webp",
+    w: 2400,
+    h: 1349,
+    consent: "clear",
+    origin: "placeholder",
+    alt: {
+      fr: "Chambre de studio — lit fait, grand miroir doré et petit bureau sous la fenêtre",
+      en: "Studio bedroom — made bed, tall gold mirror and a small desk under the window",
+    },
+  },
+  studio_kitchen: {
+    src: "/photos/studios/studio-kitchen.webp",
+    w: 2400,
+    h: 1349,
+    consent: "clear",
+    origin: "placeholder",
+    alt: {
+      fr: "Coin repas et kitchenette — table en bois deux couverts, micro-ondes et bouilloire",
+      en: "Dining corner and kitchenette — wooden table laid for two, microwave and kettle",
+    },
+  },
+  studio_bathroom: {
+    src: "/photos/studios/studio-bathroom.avif",
+    w: 2048,
+    h: 1151,
+    consent: "clear",
+    origin: "placeholder",
+    alt: {
+      fr: "Salle d’eau — douche à l’italienne vitrée, vasque et rangements en bois clair",
+      en: "Shower room — glazed walk-in shower, basin and pale wood storage",
+    },
+  },
+  studio_balcony: {
+    src: "/photos/studios/studio-balcony.webp",
+    w: 2400,
+    h: 1349,
+    consent: "clear",
+    origin: "placeholder",
+    alt: {
+      fr: "Balcon meublé — table ronde et deux chaises, vue sur les arbres et les tours",
+      en: "Furnished balcony — round table and two chairs looking out over trees and towers",
+    },
+  },
 } as const satisfies Record<string, Photo>;
 
 export type PhotoId = keyof typeof PHOTOS;
@@ -392,10 +487,20 @@ export function isCleared(id: PhotoId): boolean {
   return c === "clear" || c === "staff" || c === "promo";
 }
 
+/** True when the image shows somewhere other than this venue.
+    Widened to `Photo` on purpose: `as const` gives every entry its own literal
+    type, and the ones that never wrote `origin` simply have no such key. */
+export function isPlaceholder(id: PhotoId): boolean {
+  return (PHOTOS[id] as Photo).origin === "placeholder";
+}
+
 /**
  * Filter a list down to what may legally ship today. Sections that render
  * photography should map over this rather than over PHOTOS directly.
+ *
+ * Placeholders are excluded on purpose: a page that wants one has to name it,
+ * which is also the page that owes the viewer the « illustration » caption.
  */
 export function shippable(ids: readonly PhotoId[]): PhotoId[] {
-  return ids.filter(isCleared);
+  return ids.filter((id) => isCleared(id) && !isPlaceholder(id));
 }

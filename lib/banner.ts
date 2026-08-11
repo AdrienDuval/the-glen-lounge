@@ -1,5 +1,6 @@
 import type { PhotoId } from "./photos";
-import { isCleared } from "./photos";
+import { isCleared, isPlaceholder } from "./photos";
+import type { RouteId } from "./routes";
 import { bannerEvents } from "./events";
 
 /**
@@ -37,14 +38,76 @@ export type Slide = {
   highlights?: L[];
   /** When set, the slide gets a « Voir le détail » link to that event page. */
   eventSlug?: string;
-  /** Extra action. `href` is used as-is (anchor or tel:). */
-  cta?: { label: L; href: string };
+  /**
+   * Extra action.
+   *
+   * `href` is emitted verbatim, so it is only safe for things that are the same
+   * in both languages — an anchor, a `tel:`, an external URL. An in-app path
+   * written here would be wrong in one of the two locales AND would navigate as
+   * a full page reload, because it renders as an `<a>` and not a `Link`.
+   *
+   * For an in-app destination use `route` instead: the hero resolves it through
+   * `href(route, lang)` and renders a real `Link`.
+   */
+  cta?: { label: L } & (
+    | { route: RouteId; href?: never }
+    | { href: string; route?: never }
+  );
+  /**
+   * Put this promo before the events rather than after them. Reserved for the
+   * standing offers the venue most wants sold — currently only the apartments,
+   * which are the highest-value thing on the site and were previously reachable
+   * from the banner not at all.
+   */
+  lead?: boolean;
   from?: string;
   to?: string;
 };
 
 /** Slides that are NOT events — standing promos for the venue's services. */
 const PROMOS: Slide[] = [
+  /* The apartments. `lead: true` puts this ahead of the event slides: the
+     studios are the highest-value thing the site sells and until now the banner
+     offered no route to them at all.
+
+     `exterior_day` and not one of the `studio_*` frames on purpose — those are
+     placeholders of a different building, and the hero has nowhere to put the
+     « image d'illustration » caption they oblige. This one is the actual
+     Glen: signage at street level, three floors of apartment balconies above,
+     which is the « Restaurant Appartement » pitch in a single honest frame.
+
+     Every word below is FACTS.md-traceable (« meublé haut standing »,
+     « disponibilité 24h/24, tous les jours », « Confort, sécurité, intimité »,
+     eleven units confirmed by the client 2026-08-09). No rate, no unit type —
+     both are still open questions, and « luxe » is ruled out twice over.
+
+     Deliberately NOT here: where the studios are. « au-dessus du lounge » was
+     in the first draft of this slide and came out again — FACTS.md records the
+     address the three businesses share and nothing about a vertical
+     relationship, the unit-code prefixes (ST/B/A/SS) read more like several
+     blocks than one staircase, and `lib/apartments.ts` has ST005-A on the
+     ground floor. Co-location is sourced; stacking is not. */
+  {
+    id: "appartements",
+    kind: "image",
+    photo: "exterior_day",
+    lead: true,
+    eyebrow: { fr: "Appartements", en: "Apartments" },
+    title: { fr: "Dormir sur place", en: "Stay the night" },
+    meta: {
+      fr: "Glen Appartement — onze studios meublés haut standing, disponibles 24h/24. Confort, sécurité, intimité.",
+      en: "Glen Appartement — eleven studios furnished to a high standard, available around the clock. Comfort, security, privacy.",
+    },
+    highlights: [
+      { fr: "11 studios", en: "11 studios" },
+      { fr: "Meublé", en: "Furnished" },
+      { fr: "24h/24", en: "24/7" },
+    ],
+    cta: {
+      label: { fr: "Voir les studios", en: "View the studios" },
+      route: "appartements",
+    },
+  },
   {
     id: "privatisation",
     kind: "image",
@@ -90,12 +153,25 @@ export function activeSlides(now: Date): Slide[] {
     eventSlug: e.slug,
   }));
 
+  /* Consent AND provenance. `isCleared` alone was a hole: every `studio_*`
+     placeholder is `consent: "clear"`, so a photograph of a building that is
+     not this venue could have sailed into the home-page hero uncaptioned —
+     the one surface with nowhere to put the « illustration » notice. The
+     manifest promises placeholders can only reach a page that asks for them by
+     name; this is the gate that makes that true here. */
+  const usable = (id: PhotoId | undefined) =>
+    id !== undefined && isCleared(id) && !isPlaceholder(id);
+
   const promos = PROMOS.filter((s) => {
     if (s.from && today < s.from) return false;
     if (s.to && today > s.to) return false;
-    if (s.kind === "image") return s.photo ? isCleared(s.photo) : false;
-    return s.poster ? isCleared(s.poster) : true;
+    return s.kind === "image" ? usable(s.photo) : s.poster ? usable(s.poster) : true;
   });
 
-  return [...fromEvents, ...promos];
+  /* Lead promos first, then the dated programme, then the standing rest. */
+  return [
+    ...promos.filter((s) => s.lead),
+    ...fromEvents,
+    ...promos.filter((s) => !s.lead),
+  ];
 }

@@ -1,0 +1,103 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  padding: clamp(3.5rem, 8vh, 5rem) clamp(0.75rem, 3vw, 2.5rem)
+    clamp(1.5rem, 4vh, 2.5rem);
+  background: rgba(3, 5, 7, 0.94);
+  backdrop-filter: blur(10px);
+  animation: fade 0.35s var(--ease-out);
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.figure {
+  margin: 0;
+  display: grid;
+  gap: 0.9rem;
+  justify-items: center;
+  min-width: 0;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  /* Caps the image so the caption and the controls always have room, whatever
+     the viewport shape. */
+  aspect-ratio: 16 / 9;
+  max-height: 76svh;
+  background: var(--ink-2);
+  animation: rise 0.5s var(--ease-out);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+  }
+}
+
+.img {
+  object-fit: contain;
+}
+
+.caption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.6rem 1.25rem;
+  text-align: center;
+}
+
+.counter {
+  color: var(--gold);
+}
+
+.notice {
+  color: var(--muted);
+}
+
+.close,
+.nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.9rem;
+  height: 2.9rem;
+  border: 1px solid var(--line);
+  background: rgba(6, 9, 12, 0.6);
+  color: var(--body);
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out),
+    background-color 0.3s var(--ease-out);
+}
+
+.close:hover,
+.nav:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.close {
+  position: absolute;
+  top: clamp(0.9rem, 3vh, 1.6rem);
+  right: clamp(0.75rem, 3vw, 2.5rem);
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .stage {
+    animation: none;
+  }
+}

@@ -1,0 +1,375 @@
+/* ============================================================
+   STUDIO CAROUSEL — two compositions, not one squeezed into two.
+
+   MOBILE (default): STACKED. The photograph gets its own band,
+   full bleed, and the ONLY grade on it is a dark strip at the top
+   to seat the nav plus a melt into the ink at the foot. The middle
+   of the frame — the part that is actually the room — is left
+   alone. The masthead sits BELOW, on the page's own ground.
+
+   DESKTOP (≥900px): OVERLAY. The frame is the viewport and the
+   masthead lies over its foot, so there the wash has to do real
+   work and it is switched on.
+
+   This is the same split, for the same reason, as the main hero:
+   see the comment block at the top of Hero.module.css. Overlaying
+   type on a photograph costs the photograph, and on a phone the
+   photograph is all there is.
+   ============================================================ */
+
+.wrap {
+  position: relative;
+}
+
+/* Sized by RATIO, not by a slice of the viewport. Every frame in
+   STUDIO_GALLERY is 16:9 (see the studio block in lib/photos.ts), and a frame
+   whose height came from `svh` had no relationship to that: at 390×844 the box
+   came out 390×473 — PORTRAIT — and `object-fit: cover` answered by discarding
+   54% of the image's width. You were looking at the middle of a sofa.
+   3:2 here rather than a straight 16:9 because the mobile composition wants a
+   band with some presence under the nav, and it is the ratio the thumb strip
+   below already uses; 3:2 against a 1.78:1 source costs 16% of the width, not
+   54%. `max-height` still keeps it off a landscape phone's whole screen, and
+   `min-height` is low enough that a 320px viewport cannot force portrait again. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  /* `width: 100%` is load-bearing, not tidiness. With width left `auto`, the
+     moment `max-height` clamps the box the ratio resolves the OTHER way and
+     shrinks the width to match — the frame came out 910px wide inside a 1365px
+     viewport and the full-bleed band quietly stopped being full-bleed. Definite
+     width, ratio-derived height, cap on top. */
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  max-height: 56svh;
+  min-height: 13rem;
+  overflow: hidden;
+  /* `--ink`, not `--ink-2`: the bottom melt terminates in `--ink` and butts
+     straight against the masthead's ground, so a 7-point luminance step across
+     that hard horizontal line would be visible on an OLED phone. The frame
+     backing goes back to `--ink-2` at 900px, where the melt never reaches the
+     element's edge unobscured. */
+  background: var(--ink);
+}
+
+.viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.container {
+  display: flex;
+  height: 100%;
+  /* Embla measures the flex track; the slides below are each 100% wide. */
+  touch-action: pan-y pinch-zoom;
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+/* No filter on mobile. The grade that seats these bright interiors on a dark
+   page is a desktop nicety; on a phone it was one more layer between the client
+   and the room they are trying to look at. */
+.img {
+  object-fit: cover;
+}
+
+/* Mobile grade — top strip for the nav, bottom melt into the ink the masthead
+   sits on. Nothing between 32% and 66%: the room stays bright. */
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(6, 9, 12, 0.78) 0%,
+      rgba(6, 9, 12, 0.18) 16%,
+      transparent 32%
+    ),
+    linear-gradient(180deg, transparent 66%, var(--ink) 100%);
+}
+
+/* Desktop overlay ground. Off on mobile — nothing is laid over the image there.
+
+   Rebuilt to spend its darkness only where the type actually lands. The previous
+   version stacked three grades that each covered the WHOLE frame — a radial
+   vignette, a bottom-to-top ramp that never reached zero (0.2 at the very top),
+   and a left curtain at 0.82 running full height. Sampled against the bare
+   source, that left the photograph at 17% of its true luminance down the left
+   edge, ~50% through the middle, and 12% across the whole foot: the frame read
+   as a dark rectangle with a legible patch right of centre.
+   Measured, not eyeballed — see the note under `.mast`.
+
+   Now: one ramp that reaches zero, plus a weak left vignette gone by the
+   halfway line. The ramp's stops are in `rem`, NOT in `%`, and that is the
+   whole trick. The scrim exists to seat the masthead, the masthead's height is
+   set in `rem` — but the frame's height is a slice of the viewport, so with
+   percentage stops the dark band stretched and shrank underneath type that did
+   not move. At 1440×900 (a 704px frame) the h1 landed deep in the ramp and
+   measured 6.1:1 against white; at 1365×640 (a 512px frame) the same stops put
+   it in the shallows at 3.56:1, under the 4.5 floor. Absolute lengths pin the
+   band to the type it is there for, at every frame height. */
+.wash {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top,
+      var(--ink) 0,
+      rgba(6, 9, 12, 0.86) 4rem,
+      rgba(6, 9, 12, 0.6) 9rem,
+      rgba(6, 9, 12, 0.2) 15rem,
+      transparent 20rem
+    ),
+    linear-gradient(
+      to right,
+      rgba(6, 9, 12, 0.26) 0%,
+      rgba(6, 9, 12, 0.08) 26%,
+      transparent 44%
+    );
+}
+
+/* ---- masthead ---- */
+.mast {
+  position: relative;
+  z-index: 2;
+  padding-top: clamp(1rem, 3vw, 1.5rem);
+}
+
+/* ---- controls ----
+   Sit on the melted foot of the frame, which is ink on mobile and washed on
+   desktop — either way they have ground under them. */
+.controls {
+  position: absolute;
+  z-index: 3;
+  right: var(--gut);
+  bottom: clamp(1rem, 3vh, 2.2rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Heavier plate than the desktop control: on a phone these sit over the melted
+   foot of a photograph whose brightness we do not control (the placeholders get
+   swapped for the client's own shoot), so the button carries its own ground
+   rather than borrowing the wash's. */
+.navBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line);
+  background: rgba(6, 9, 12, 0.78);
+  backdrop-filter: blur(8px);
+  color: var(--body);
+  cursor: pointer;
+  transition: border-color 0.3s var(--ease-out), color 0.3s var(--ease-out),
+    background-color 0.3s var(--ease-out);
+}
+
+.navBtn:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(6, 9, 12, 0.75);
+}
+
+/* Same reasoning as `.navBtn` — the counter is bare text over a photograph, so
+   it gets a plate of its own instead of relying on what happens to be behind. */
+.counter {
+  padding: 0.5rem 0.7rem;
+  background: rgba(6, 9, 12, 0.78);
+  backdrop-filter: blur(8px);
+  color: var(--body);
+  font-variant-numeric: tabular-nums;
+  min-width: 4.75rem;
+  text-align: center;
+}
+
+.counterSep {
+  color: var(--gold);
+  margin-inline: 0.35rem;
+}
+
+/* ---- progress hairline, pinned to the foot of the frame ---- */
+.progress {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progressFill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--ember), var(--gold-hi));
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 0.6s var(--ease-out);
+}
+
+/* ---- thumbs ---- */
+.thumbsWrap {
+  display: grid;
+  gap: 0.75rem;
+  padding-top: clamp(0.9rem, 2vw, 1.25rem);
+}
+
+.thumbs {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0.35rem;
+  display: flex;
+  gap: 0.5rem;
+  /* Horizontal scroll on a phone rather than a wrap — the strip stays one
+     line, which is what makes it read as a filmstrip. */
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.thumbs::-webkit-scrollbar {
+  display: none;
+}
+
+.thumb {
+  position: relative;
+  display: block;
+  flex: 0 0 auto;
+  width: clamp(5rem, 11vw, 8rem);
+  aspect-ratio: 3 / 2;
+  padding: 0;
+  /* Brighter at rest than the desktop strip: on a phone this IS the index of
+     the gallery, and a half-faded filmstrip is the thing the client could not
+     see. Only the inactive ones are held back, and only slightly. */
+  border: 1px solid transparent;
+  background: var(--ink-2);
+  cursor: pointer;
+  opacity: 0.72;
+  transition: opacity 0.4s var(--ease-out), border-color 0.4s var(--ease-out);
+}
+
+/* `:not(.thumbOn)` matters: `.thumb:hover` is one class more specific than
+   `.thumbOn`, so hovering the ACTIVE thumbnail was dimming it from 1 to 0.9 —
+   the one frame that must never look inactive. */
+.thumb:not(.thumbOn):hover {
+  opacity: 0.9;
+}
+
+.thumbOn {
+  opacity: 1;
+  border-color: var(--gold);
+}
+
+.thumbImg {
+  object-fit: cover;
+}
+
+.caption {
+  color: var(--muted);
+}
+
+@media (min-width: 720px) {
+  .caption {
+    text-align: right;
+  }
+}
+
+@media (min-width: 900px) {
+  /* The source ratio, so a window with the room to show a whole frame does.
+     The cap is what stops it, and what sets the cap is the THUMB STRIP: the
+     strip is how a visitor sees the part of a frame this band had to crop, so a
+     band tall enough to push it below the fold has taken more than it gave.
+     So the cap is written as "the viewport, less room for the strip" rather than
+     as a percentage of it. `80svh` did not encode that at all: it left the strip
+     13px below the fold at 1365×640 and 5px below at 960×600 — measured, and
+     true before this change too — while on a 1920×1080 monitor the old 44rem cap
+     cropped 35% off every photograph and left 237px of empty page underneath.
+     A percentage cannot be right at both ends; a subtraction can.
+     10rem covers the strip's tallest measured layout (141px at 1920) with slack.
+     54rem then stops the band on a very tall window, where `svh` alone would
+     make a 16:9 hero taller than the photograph has detail to fill.
+     On a short window the subtraction binds, and there the crop is unavoidable
+     geometry for a full-bleed band; `object-position: center` spends it evenly on
+     ceiling and floor, which is the right place to lose a room. */
+  .hero {
+    aspect-ratio: 16 / 9;
+    max-height: min(calc(100svh - 10rem), 54rem);
+    background: var(--ink-2);
+  }
+
+  /* Graded to sit on a near-black page — see StudiosIndex.module.css.
+     No `brightness()` any more: it was compounding with a wash that already took
+     most of the light out of the frame, and the grade is meant to seat the
+     photograph on the page, not to dim it. Contrast and saturation only. */
+  .img {
+    filter: contrast(1.04) saturate(1.03);
+  }
+
+  .shade {
+    display: none;
+  }
+
+  .wash {
+    display: block;
+  }
+
+  /* The same masthead, lifted back over the foot of the frame. */
+  .mast {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-bottom: clamp(3.5rem, 9vh, 5rem);
+    /* Must not swallow a click meant for the slide underneath; the
+       interactive bits inside switch pointer events back on. */
+    pointer-events: none;
+  }
+
+  .mast a,
+  .mast button {
+    pointer-events: auto;
+  }
+
+  /* Local ground for the type, and it belongs to `.mast` at this breakpoint
+     specifically, because 900px is where the masthead stops sitting on the
+     page's own ink and starts lying over a photograph.
+     The wash above is now only as dark as it has to be, which means the margin
+     that used to come free from a near-opaque overlay is gone. Same reasoning as
+     the plates on `.navBtn` and `.counter`: the gallery is placeholder
+     photography today and the client's own shoot may be far brighter, so the
+     type carries its own ground rather than trusting what lands behind it. */
+  .mast :is(h1, a, span) {
+    text-shadow: 0 1px 2px rgba(6, 9, 12, 0.75), 0 2px 20px rgba(6, 9, 12, 0.6);
+  }
+
+  /* `:not(.thumbOn)` again, and for a second reason: this block sits BELOW
+     `.thumbOn` in the file, so a bare `.thumb { opacity: .5 }` has equal
+     specificity and later source order — it was winning, and the active
+     thumbnail was being dimmed to 0.5 along with the rest. Measured, not
+     guessed: computed opacity read 0.5 on the selected thumb at 1440px. */
+  .thumb:not(.thumbOn) {
+    opacity: 0.5;
+  }
+
+  .thumb:not(.thumbOn):hover {
+    opacity: 0.85;
+  }
+}

@@ -1,4 +1,7 @@
+import Link from "next/link";
 import { site } from "@/lib/site";
+import { href } from "@/lib/routes";
+import type { Lang } from "@/lib/i18n/config";
 import type { Dict } from "@/lib/i18n";
 import SocialIcon from "./SocialIcon";
 import styles from "./Footer.module.css";
@@ -10,8 +13,11 @@ import styles from "./Footer.module.css";
  * the landmark distance (the Contact section carries the current 300 m
  * wording; the footer stays short) and any email address, since none has ever
  * been published.
+ *
+ * `lang` is here for one reason: the footer said « Appartements » and offered
+ * no way to reach them, and a localised route cannot be built without it.
  */
-export default function Footer({ dict }: { dict: Dict }) {
+export default function Footer({ dict, lang }: { dict: Dict; lang: Lang }) {
   const year = new Date().getFullYear();
 
   return (
@@ -25,11 +31,11 @@ export default function Footer({ dict }: { dict: Dict }) {
         <div>
           <h2 className={`label ${styles.colTitle}`}>{dict.footer.findUs}</h2>
           <ul className={styles.colList}>
-            <li className="label label--text">
+            <li className={styles.value}>
               {site.address.area}, derrière le stade
             </li>
-            <li className="label label--text">{site.address.detail}</li>
-            <li className="label label--text">
+            <li className={styles.value}>{site.address.detail}</li>
+            <li className={styles.value}>
               {site.address.city}, {site.address.country}
             </li>
           </ul>
@@ -40,7 +46,7 @@ export default function Footer({ dict }: { dict: Dict }) {
           <ul className={styles.colList}>
             <li>
               <a
-                className={`label label--text ${styles.colLink}`}
+                className={`${styles.value} ${styles.phone} ${styles.colLink}`}
                 href={`tel:${site.contact.phonePrimary.tel}`}
               >
                 {site.contact.phonePrimary.display}
@@ -51,7 +57,7 @@ export default function Footer({ dict }: { dict: Dict }) {
                 client settles it; two, one of which may be wrong, is worse. */}
             <li>
               <a
-                className={`label label--text ${styles.colLink} ${styles.iconLink}`}
+                className={`${styles.value} ${styles.colLink} ${styles.iconLink}`}
                 href={`https://wa.me/${site.contact.whatsapp.tel.replace(/\D/g, "")}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -62,15 +68,21 @@ export default function Footer({ dict }: { dict: Dict }) {
             </li>
           </ul>
 
-          <h2 className={`label ${styles.colTitle}`} style={{ marginTop: "1.75rem" }}>
+          <h2 className={`label ${styles.colTitle} ${styles.colTitleNext}`}>
             {dict.footer.hours}
           </h2>
           <ul className={styles.colList}>
-            <li className="label label--text">
+            <li className={styles.value}>
               {dict.footer.hoursRestaurant} — {dict.footer.hoursRestaurantValue}
             </li>
-            <li className="label label--text">
-              {dict.footer.hoursApartments} — {dict.footer.hoursApartmentsValue}
+            <li className={styles.value}>
+              <Link
+                href={href("appartements", lang)}
+                className={styles.colLink}
+              >
+                {dict.footer.hoursApartments}
+              </Link>{" "}
+              — {dict.footer.hoursApartmentsValue}
             </li>
           </ul>
         </div>
@@ -81,7 +93,7 @@ export default function Footer({ dict }: { dict: Dict }) {
             {(["tiktok", "instagram", "facebook"] as const).map((key) => (
               <li key={key}>
                 <a
-                  className={`label label--text ${styles.colLink} ${styles.iconLink}`}
+                  className={`${styles.value} ${styles.colLink} ${styles.iconLink}`}
                   href={site.social[key].url}
                   target="_blank"
                   rel="noopener noreferrer"

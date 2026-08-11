@@ -97,6 +97,8 @@ export const fr = {
 
   trois: {
     section: "02 — Trois adresses en une",
+    /* Shown on the cards that have a page behind them. */
+    more: "Découvrir",
     title: "Restaurant, lounge, appartements",
     lede: "Une même maison pour dîner, sortir et dormir sur place. « Le spot incontournable à Yaoundé. »",
     resto: {
@@ -113,7 +115,9 @@ export const fr = {
     appart: {
       title: "Appartements",
       // ✅ verbatim — « meublé haut standing », « Confort, sécurité, intimité »
-      text: "Meublé haut standing, disponible 24h/24. Confort, sécurité, intimité — à l’étage au-dessus de la salle.",
+      /* « dans la même maison » and not « à l’étage au-dessus de la salle »:
+         FACTS.md records the address the three share, never a floor. */
+      text: "Meublé haut standing, disponible 24h/24. Confort, sécurité, intimité — dans la même maison.",
       meta: "24h/24",
     },
   },
@@ -172,7 +176,8 @@ export const fr = {
     section: "06 — Appartements",
     title: "Dormir sur place",
     lede: "Glen Appartement — meublé haut standing, disponibilité 24h/24, tous les jours. Confort, sécurité, intimité.",
-    note: "Nombre de logements, types et tarifs communiqués par téléphone.",
+    note: "Types et tarifs communiqués par téléphone.",
+    seeAll: "Voir les 11 studios",
     cta: "Demander une disponibilité",
   },
 
@@ -234,6 +239,92 @@ export const fr = {
     rights: "Tous droits réservés",
     // Honest status badge — mirrors the maquette badge on the Stand'Up build.
     status: "Site en construction — informations en cours de validation",
+  },
+
+  /* The studio pages. `studios.preview` is the notice that has to stay on the
+     page for as long as `PREVIEW` is true in `lib/apartments.ts` — it is the
+     only thing telling a visitor that the availability and the photographs are
+     not yet real. Do not quietly soften it. */
+  studios: {
+    eyebrow: "Appartements",
+    title: "Onze studios meublés, sur place",
+    lede: "Glen Appartement — meublé haut standing, accès 24h/24. Confort, sécurité, intimité, à deux pas de la salle.",
+    count: "studios",
+    availableNow: "disponibles aujourd’hui",
+    preview:
+      "Aperçu : les photos, les disponibilités et les équipements affichés ici sont des exemples, le temps que le Glen fournisse les vraies informations. Seuls les numéros de studio sont réels.",
+    photoNotice: "Image d’illustration — photographie d’un autre logement.",
+    status: {
+      available: "Disponible",
+      occupied: "Occupé",
+      soon: "Bientôt libre",
+    },
+    sleeps: "Couchages",
+    floor: "Étage",
+    groundFloor: "Rez-de-chaussée",
+    equipment: "Équipements",
+    /* The spec table. ⚠️ Every VALUE it displays except the status is preview
+       data — see the header of lib/apartments.ts. */
+    specs: {
+      title: "Caractéristiques",
+      status: "Statut",
+      size: "Surface",
+      sizeUnit: "m²",
+      bed: "Literie",
+      access: "Accès",
+      /* Rendered after the count, beside the « Équipements » heading — so it
+         reads « Équipements · 9 inclus » rather than repeating the word. */
+      equipmentCount: "inclus",
+    },
+    beds: {
+      double: "Un lit double",
+      twin: "Deux lits simples",
+      doubleSingle: "Un lit double + un lit simple",
+    },
+    gallery: "Le studio en images",
+    openGallery: "Agrandir",
+    prev: "Image précédente",
+    next: "Image suivante",
+    backToStudios: "Tous les studios",
+    seeStudio: "Voir le studio",
+    otherStudios: "Autres studios",
+    /* One line per amenity id in `lib/apartments.ts`. A missing key fails tsc
+       in en.ts, which is exactly what we want. */
+    amenities: {
+      wifi: "Wi-Fi",
+      ac: "Climatisation",
+      tv: "Télévision",
+      kitchenette: "Kitchenette équipée",
+      bathroom: "Salle d’eau privative",
+      hotWater: "Eau chaude",
+      balcony: "Balcon",
+      desk: "Coin bureau",
+      laundry: "Lave-linge",
+      parking: "Parking",
+      access24: "Accès 24h/24",
+      housekeeping: "Ménage",
+    },
+    book: {
+      title: "Demander ce studio",
+      arrival: "Arrivée",
+      departure: "Départ",
+      guests: "Personnes",
+      nights: "nuit",
+      nightsPlural: "nuits",
+      /* No rate has ever been published — see FACTS.md open question #1. */
+      price: "Tarif sur demande",
+      whatsapp: "Demander par WhatsApp",
+      call: "Appeler le Glen",
+      unavailable: "Ce studio est occupé. Demandez-nous les prochaines dates, ou choisissez-en un autre.",
+      soon: "Ce studio se libère bientôt. Appelez-nous pour connaître la date exacte.",
+      /* Prefilled into WhatsApp. `{code}`, `{dates}` and `{guests}` are
+         replaced in ReserveStudio.tsx — keep the braces. */
+      message:
+        "Bonjour, je souhaite réserver le studio {code} du Glen Appartement. {dates}, {guests}. Merci de me confirmer la disponibilité et le tarif.",
+      messageDates: "Du {from} au {to}",
+      messageNoDates: "Dates à confirmer",
+      messageGuests: "{n} personne(s)",
+    },
   },
 
   langSwitch: {

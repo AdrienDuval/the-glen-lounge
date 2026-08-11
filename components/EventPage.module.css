@@ -210,7 +210,7 @@
   padding: 1rem 1.25rem;
   border-left: 2px solid var(--gold-dim);
   background: var(--ink-2);
-  color: var(--marble-hi);
+  color: var(--muted);
   font-size: 0.9375rem;
   line-height: 1.55;
 }

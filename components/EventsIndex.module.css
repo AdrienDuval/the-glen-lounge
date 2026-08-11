@@ -47,6 +47,27 @@
   aspect-ratio: 4 / 3;
 }
 
+/* Flyer artwork, shown whole rather than cropped — and given a flyer-shaped
+   frame, because `contain` inside a landscape slot just trades a crop for two
+   large bands of empty ground. The venue's artwork is 3:4, so at this ratio it
+   fills the frame exactly; `contain` still letterboxes anything that is not,
+   onto the same gold-on-ink ground the event masthead uses, so it reads as a
+   mount rather than as a gap. */
+.mediaPoster {
+  aspect-ratio: 3 / 4;
+  background:
+    radial-gradient(
+      70% 60% at 50% 45%,
+      rgba(232, 188, 62, 0.13),
+      transparent 66%
+    ),
+    var(--ink);
+}
+
+.mediaPoster img {
+  object-fit: contain;
+}
+
 .card:hover .cardTitle {
   color: var(--gold);
 }
@@ -94,6 +115,12 @@
   aspect-ratio: 16 / 10;
 }
 
+/* …unless it is a flyer, which keeps its own shape. Needs the same specificity
+   as the rule above to win. */
+.featured .mediaPoster {
+  aspect-ratio: 3 / 4;
+}
+
 @media (min-width: 720px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -107,6 +134,15 @@
   .featured .media {
     flex: 1 1 55%;
     aspect-ratio: 16 / 10;
+  }
+
+  /* A flyer beside its details, not a flyer stranded in a 55% landscape slot.
+     Capping the width is what stops a 3:4 frame from becoming 800px tall at
+     1440; the copy takes the room it gives back. */
+  .featured .mediaPoster {
+    flex: 0 1 auto;
+    width: min(100%, 20rem);
+    aspect-ratio: 3 / 4;
   }
   .featured .body {
     flex: 1 1 45%;

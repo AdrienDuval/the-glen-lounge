@@ -10,6 +10,7 @@ never a plausible guess.
   [@the.glen.lounge](https://www.tiktok.com/@the.glen.lounge) on 2026-08-05
   (public, no login). Digest: `content/tiktok-captions.md`.
   Manifest: `content/harvest-manifest.md`.
+- `CL` — stated directly by the client during the build. Dated per line.
 
 Where sources disagree, **the later post wins** and the conflict is flagged.
 
@@ -186,10 +187,24 @@ use the current column, and don't resurrect the old names.
 - « **Glen Appartement – meublé haut standing** » — furnished, high-standard.
 - « **disponibilité 24h/24, tous les jours** », « Confort, sécurité, intimité ».
 - Marketed for **location** (rental) — `#AppartementMeublé` `#LocationYaoundé`.
+- ✅ **Eleven studios**, with these unit codes (`CL`, 2026-08-09):
+  `ST005-A` · `B35-A` · `B15-A` · `A10-A` · `A10-1-A` · `A10-2-A` · `A10-3-A` ·
+  `SS130-A` · `SS140-A` · `SS101-A` · `SS110-A`. Live in `lib/apartments.ts`;
+  they are the only confirmed field in that file. ⚠️ The codes look like they
+  encode a building and a floor (`A10-*` reads as one unit split three ways) —
+  unconfirmed, so nothing in the UI interprets them.
 - « Réserve maintenant avant que ce soit complet ! » — implies limited stock.
 - **Saint-Valentin packages** with reductions, incl. a room dressed with rose
   petals, candles and balloons (photographed — `public/photos/apartment-valentine-*`).
-- ⚠️ Still unknown: **how many units, what types, what rates, how to book.**
+- ⚠️ Still unknown: **what types, what rates, how to book.**
+- ⚠️ **Where the studios are** relative to the restaurant is NOT recorded. Every
+  published caption gives the three businesses the same *address*
+  (« Omnisport, derrière le stade »), which is co-location, not stacking. The
+  facade photo shows balconies above the signage (ASSETS.md) but that is one
+  overcast snapshot, and the unit-code prefixes (`ST` / `B` / `A` / `SS`) read
+  more like several blocks than one staircase. Copy says « dans la même
+  maison » / « sur place » and stops there — « au-dessus du lounge » was drafted
+  twice and removed twice.
 - ⚠️ Presentation note: the one apartment interior we have looks markedly
   **plainer than the lounge** — painted walls, simple bed frame, visible AC and
   cabling — though it was shot in low light dressed for Valentine's. Don't
@@ -329,8 +344,19 @@ crowd shots at usable resolution.
 
 Ordered by how much they block the build.
 
-1. **Appartements** — how many, what types, what rates, how does someone book?
-   (Blocks the highest-value page on the site.)
+1. **Appartements** — ✅ **how many is answered**: eleven, with codes (above).
+   Still open, and now blocking a page that exists and is running on invented
+   data (`PREVIEW` in `lib/apartments.ts`):
+   1. **Rates.** Nothing has ever been published. The pages say « tarif sur
+      demande » rather than carry a number we made up.
+   2. **Types.** Do the units differ — size, sleeps, equipment — or are they
+      eleven of the same thing? The preview data pretends they differ.
+   3. **Availability.** Is there a list, a book, a spreadsheet? Whatever it is
+      is what the status chips have to read from.
+   4. **How someone books**, and whether a stay is nightly, monthly or both —
+      `#LocationYaoundé` suggests longer lets than "stay the night" implies.
+   5. **Photography.** All eleven pages currently show the same seven images of
+      a different building. See the licence question below.
 2. **Vector logo** — AI/EPS/SVG from the designer.
 3. ~~**The menu document**~~ — ✅ **FOUND** and transcribed into `lib/menu.ts`
    (10 sections, ~60 dishes), live at `/fr/carte` · `/en/menu`. What remains:
@@ -356,6 +382,13 @@ Ordered by how much they block the build.
 7. **Current weekly programme and start times** — is Lundi a night? Is Sunday
    Brunch coming back?
 8. **Original photography**, especially apartments and the bar. (A daytime exterior now exists — a proper facade shoot would still beat the overcast phone snapshot we cropped.)
+   ⚠️ **Where did the seven studio images come from?** Supplied 2026-08-09 to
+   preview the pages. They are professional interiors of a modern European
+   apartment — wall radiators, French windows, a suburban tower block through
+   the balcony door — so they are not the Glen and the licence is unknown. They
+   are marked `origin: "placeholder"` in `lib/photos.ts`, captioned wherever
+   they render, and the studio pages are `noindex`. **Before launch**: either a
+   real shoot, or written proof of a licence that permits commercial use.
 9. Event packages — capacity and pricing for private hire.
 10. Is there **delivery**?
 11. Site language: French only, or French + English for travellers?

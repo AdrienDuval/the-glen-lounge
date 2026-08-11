@@ -12,6 +12,7 @@ export const ROUTES = {
   home: { fr: "", en: "" },
   carte: { fr: "carte", en: "menu" },
   evenements: { fr: "evenements", en: "events" },
+  appartements: { fr: "appartements", en: "apartments" },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 /** Every localised slug that is a real page, for `generateStaticParams`. */

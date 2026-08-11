@@ -12,7 +12,7 @@ const nextConfig: NextConfig = {
    *
    * Set NEXT_DIST_DIR to give a one-off build its own directory:
    *   NEXT_DIST_DIR=.next-verify npx next build
-   *   NEXT_DIST_DIR=.next-verify npx next start -p 3101
+   *   NEXT_DIST_DIR=.next-verify npx next start -p 3201
    */
   distDir: process.env.NEXT_DIST_DIR || ".next",
 

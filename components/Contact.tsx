@@ -2,7 +2,9 @@
 
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { PHOTOS } from "@/lib/photos";
+import { href } from "@/lib/routes";
 import { site } from "@/lib/site";
 import type { Lang } from "@/lib/i18n/config";
 import type { Dict } from "@/lib/i18n";
@@ -88,13 +90,20 @@ export default function Contact({ lang, dict }: { lang: Lang; dict: Dict }) {
                 {dict.contact.hoursTitle}
               </h3>
               <ul className={styles.rows}>
-                <li className="label label--text">
+                <li className={styles.row}>
                   {dict.footer.hoursRestaurant} —{" "}
                   {dict.footer.hoursRestaurantValue}
                 </li>
-                <li className="label label--text">
-                  {dict.footer.hoursApartments} —{" "}
-                  {dict.footer.hoursApartmentsValue}
+                <li className={styles.row}>
+                  {/* The only apartments mention in the site's conversion
+                      section, and it used to dead-end as plain text. */}
+                  <Link
+                    href={href("appartements", lang)}
+                    className={styles.rowLink}
+                  >
+                    {dict.footer.hoursApartments}
+                  </Link>{" "}
+                  — {dict.footer.hoursApartmentsValue}
                 </li>
               </ul>
             </div>

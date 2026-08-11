@@ -51,7 +51,7 @@ export function generateStaticParams() {
  * OG/canonical URLs resolvable without inventing a hostname. Set
  * NEXT_PUBLIC_SITE_URL in the Vercel project and this becomes correct.
  */
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3100";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3200";
 
 export async function generateMetadata({
   params,

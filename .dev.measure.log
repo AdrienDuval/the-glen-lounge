@@ -1,0 +1,51 @@
+
+> the-glen-lounge@0.1.0 dev
+> next dev -p 3200
+
+   ▲ Next.js 15.5.22
+   - Local:        http://localhost:3200
+   - Network:      http://192.168.2.156:3200
+   - Experiments (use with caution):
+     ✓ globalNotFound
+
+ ✓ Starting...
+ ✓ Ready in 5s
+ ○ Compiling /[lang] ...
+ ✓ Compiled /[lang] in 14.2s (1010 modules)
+ GET /fr 200 in 18676ms
+ GET /fr 200 in 19056ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 744ms (515 modules)
+ GET /favicon.ico 200 in 1373ms
+ GET /fr 200 in 2189ms
+ ○ Compiling /[lang]/[slug]/[event] ...
+ ✓ Compiled /[lang]/[slug]/[event] in 2.1s (916 modules)
+ GET /fr/appartements/st005-a 200 in 5388ms
+ GET /favicon.ico 200 in 70ms
+ GET /fr 200 in 872ms
+ GET /favicon.ico 200 in 43ms
+ GET /fr 200 in 603ms
+ GET /favicon.ico 200 in 38ms
+ GET /fr 200 in 711ms
+ GET /favicon.ico 200 in 180ms
+ GET /fr 200 in 1498ms
+ GET /favicon.ico 200 in 50ms
+ GET /fr 200 in 634ms
+ GET /favicon.ico 200 in 50ms
+ GET /fr 200 in 626ms
+ GET /favicon.ico 200 in 27ms
+ GET /fr 200 in 595ms
+ GET /favicon.ico 200 in 30ms
+ GET /fr 200 in 1627ms
+ GET /favicon.ico 200 in 2166ms
+ GET /favicon.ico 200 in 834ms
+ GET /fr 200 in 1115ms
+ GET /favicon.ico 200 in 44ms
+ GET /fr 200 in 988ms
+ GET /favicon.ico 200 in 36ms
+ GET /fr 200 in 804ms
+ GET /favicon.ico 200 in 29ms
+ GET /fr 200 in 702ms
+ GET /favicon.ico 200 in 33ms
+ GET /fr 200 in 601ms
+ GET /favicon.ico 200 in 29ms

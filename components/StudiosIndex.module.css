@@ -1,0 +1,522 @@
+/* ============================================================
+   STUDIOS INDEX — an opening frame, then a spread.
+
+   The page opens full-bleed under the nav rather than with type on
+   black: accommodation is sold by the room, and the count is set
+   INTO the photograph so the two facts arrive together.
+   ============================================================ */
+
+.page {
+  padding-bottom: var(--sect);
+}
+
+/* ---------- opening frame ----------
+   Stacked on a phone, overlaid from 900px — the split documented at the top of
+   StudioGallery.module.css and, before that, Hero.module.css. */
+.heroWrap {
+  position: relative;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  height: 52svh;
+  min-height: 19rem;
+  overflow: hidden;
+  /* `--ink` so the bottom melt meets the copy's ground with no luminance step —
+     see the note in StudioGallery.module.css. */
+  background: var(--ink);
+}
+
+.heroMedia {
+  position: absolute;
+  /* Overscan: the parallax moves the image ±6%, so a flush inset would swing
+     the ink ground into frame at both ends of the scrub. */
+  inset: -8% 0;
+  z-index: 0;
+}
+
+/* No filter on mobile — the grade that seats these bright interiors on a dark
+   page is a desktop nicety, and on a phone it was one more layer between the
+   client and the room. It comes back at 900px, where the type sits on top of
+   the image and the frame needs the depth. */
+.heroImg {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Mobile grade: a dark strip to seat the nav, then a melt into the ink the
+   copy sits on. Nothing in between — the room stays bright. */
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(6, 9, 12, 0.78) 0%,
+      rgba(6, 9, 12, 0.18) 16%,
+      transparent 32%
+    ),
+    linear-gradient(180deg, transparent 68%, var(--ink) 100%);
+}
+
+/* Three layers, each doing one job. A single flat scrim is what turned this
+   into grey fog: it dimmed the lit part of the room by exactly as much as the
+   dark part, so nothing read as light any more.
+     · vignette  — holds the eye on the window wall
+     · vertical  — buys the type its contrast at the foot
+     · horizontal— clears the left third for the masthead only */
+.heroWash {
+  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      118% 88% at 72% 34%,
+      transparent 0%,
+      rgba(6, 9, 12, 0.28) 58%,
+      rgba(6, 9, 12, 0.72) 100%
+    ),
+    linear-gradient(
+      to top,
+      var(--ink) 0%,
+      rgba(6, 9, 12, 0.94) 17%,
+      rgba(6, 9, 12, 0.3) 54%,
+      rgba(6, 9, 12, 0.22) 100%
+    ),
+    linear-gradient(
+      to right,
+      rgba(6, 9, 12, 0.88) 0%,
+      rgba(6, 9, 12, 0.35) 42%,
+      transparent 68%
+    );
+}
+
+.heroInner {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding-top: clamp(1.25rem, 4vw, 2rem);
+}
+
+.heroCopy {
+  display: grid;
+  gap: clamp(0.75rem, 2vw, 1.1rem);
+  max-width: 46rem;
+}
+
+.title {
+  font-size: clamp(2.4rem, 6.4vw, 5rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--white);
+}
+
+.lede {
+  color: var(--body);
+  max-width: 46ch;
+  font-size: clamp(1rem, 1.25vw, 1.15rem);
+}
+
+/* ---- the tally, set as a definition list so the numbers have names ---- */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  margin: clamp(0.75rem, 2vw, 1.25rem) 0 0;
+  padding-top: clamp(1rem, 2.5vw, 1.5rem);
+  border-top: 1px solid var(--line);
+}
+
+.stat {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.statLabel {
+  color: var(--muted);
+  order: 2;
+}
+
+.statNum,
+.statText {
+  margin: 0;
+  order: 1;
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(2rem, 3.6vw, 3rem);
+  line-height: 1;
+  color: var(--gold);
+  /* The GSAP counter rewrites this text every frame; tabular figures stop the
+     row from twitching as the digits change width. */
+  font-variant-numeric: tabular-nums;
+}
+
+.cue {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: 0;
+  width: 1px;
+  height: 4.5rem;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.cueLine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--gold));
+  animation: cue 2.4s var(--ease-out) infinite;
+}
+
+@keyframes cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  60%,
+  100% {
+    transform: translateY(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cueLine {
+    animation: none;
+    background: var(--gold-dim);
+  }
+}
+
+.heroCaption {
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+  color: var(--muted);
+}
+
+/* ---------- body ---------- */
+.body2 {
+  position: relative;
+  padding-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.preview {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: clamp(2rem, 5vw, 3rem);
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--gold);
+  background: var(--ink-2);
+  color: var(--body);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  max-width: 72ch;
+}
+
+.previewMark {
+  color: var(--gold);
+  flex: none;
+  font-size: 0.75em;
+  line-height: 1.9;
+}
+
+/* ---------- the spread ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 4vw, 3rem);
+  margin-top: clamp(2.5rem, 6vw, 4rem);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--ink-2);
+}
+
+.cardWide .media {
+  aspect-ratio: 3 / 2;
+}
+
+.img {
+  object-fit: cover;
+  transition: transform 0.9s var(--ease-out);
+}
+
+.card:hover .img,
+.card:focus-visible .img {
+  transform: scale(1.045);
+}
+
+/* Bottom-weighted so the status chip and the ticks always have ground under
+   them, whatever the photograph does. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(6, 9, 12, 0.55),
+    transparent 42%,
+    rgba(6, 9, 12, 0.35)
+  );
+  opacity: 0.9;
+  transition: opacity 0.5s var(--ease-out);
+}
+
+.card:hover .scrim {
+  opacity: 0.55;
+}
+
+.status {
+  position: absolute;
+  z-index: 2;
+  top: 0.85rem;
+  left: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.7rem;
+  background: rgba(6, 9, 12, 0.72);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--line);
+  color: var(--body);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.available {
+  border-color: rgba(232, 188, 62, 0.55);
+  color: var(--gold);
+}
+
+.occupied {
+  color: var(--muted);
+}
+
+.soon {
+  border-color: rgba(203, 165, 76, 0.5);
+  color: var(--gold-dim);
+}
+
+/* Two gold corner ticks that grow on hover. */
+.tick {
+  position: absolute;
+  z-index: 2;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 1px solid var(--gold);
+  border-right: 0;
+  border-bottom: 0;
+  top: 0.6rem;
+  left: 0.6rem;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-out), width 0.45s var(--ease-out),
+    height 0.45s var(--ease-out);
+}
+
+.tickEnd {
+  top: auto;
+  left: auto;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  border: 1px solid var(--gold);
+  border-left: 0;
+  border-top: 0;
+}
+
+.card:hover .tick,
+.card:focus-visible .tick {
+  opacity: 1;
+  width: 2.1rem;
+  height: 2.1rem;
+}
+
+.body {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.codeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.code {
+  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  letter-spacing: 0.08em;
+  color: var(--white);
+  flex: none;
+}
+
+.cardWide .code {
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+}
+
+/* The hairline eats the space between the code and the call to action, so the
+   row reads as one line of a contents page. */
+.rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  transition: background-color 0.45s var(--ease-out);
+}
+
+.card:hover .rule {
+  background: var(--gold-dim);
+}
+
+.more {
+  color: var(--gold);
+  flex: none;
+}
+
+.arrow {
+  color: var(--gold);
+  flex: none;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.card:hover .arrow {
+  transform: translateX(4px);
+}
+
+.meta {
+  color: var(--muted);
+}
+
+.chips {
+  list-style: none;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--line);
+  color: var(--body);
+  font-size: 0.8125rem;
+  transition: border-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
+}
+
+.chip svg {
+  color: var(--gold-dim);
+  transition: color 0.4s var(--ease-out);
+}
+
+.card:hover .chip {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.card:hover .chip svg {
+  color: var(--gold);
+}
+
+.chipMore {
+  color: var(--muted);
+}
+
+/* Breakpoints ascend from here — 720, 900, 1100. Keep them in that order: the
+   900 block used to sit above the 720 one, which happened to be harmless only
+   because the two share no selectors. */
+@media (min-width: 720px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* The first unit gets the full measure — a spread needs an opening plate. */
+  .cardWide {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .cardWide .media {
+    flex: 1 1 62%;
+    aspect-ratio: 16 / 10;
+  }
+
+  .cardWide .body {
+    flex: 1 1 38%;
+    gap: 0.85rem;
+  }
+}
+
+/* The stack/overlay line. Same value as Hero.module.css — one decision, one
+   number. */
+@media (min-width: 900px) {
+  .hero {
+    height: min(88svh, 46rem);
+    background: var(--ink-2);
+  }
+
+  /* The grade that seats a bright interior on a near-black page — desktop
+     only, where the type is laid over it. */
+  .heroImg {
+    filter: brightness(0.9) contrast(1.06) saturate(1.03);
+  }
+
+  .shade {
+    display: none;
+  }
+
+  .heroWash {
+    display: block;
+  }
+
+  /* The same copy block, lifted back over the foot of the frame. */
+  .heroInner {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding-top: 0;
+    padding-bottom: clamp(2.5rem, 7vh, 4.5rem);
+  }
+
+  .heroCaption {
+    position: absolute;
+    right: var(--gut);
+    bottom: 0.9rem;
+    margin: 0;
+    text-align: right;
+    max-width: 55vw;
+  }
+}
+
+@media (min-width: 1100px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cardWide .media {
+    aspect-ratio: 21 / 9;
+  }
+}

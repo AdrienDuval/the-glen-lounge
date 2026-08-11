@@ -87,12 +87,40 @@
 }
 
 .note {
-  color: var(--marble-hi);
+  color: var(--muted);
   margin-top: 0.25rem;
+}
+
+/* Same job as `.note`, minus the `label` class the markup used to pair with it.
+   A caveat sentence needs to be readable more than it needs to look like a
+   label — uppercase at 0.19em tracking is for two or three words. */
+.noteText {
+  color: var(--muted);
+  margin-top: 0.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  max-width: 46ch;
 }
 
 .cta {
   margin-top: 0.75rem;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 0.75rem;
+}
+
+.callLink {
+  color: var(--body);
+  text-decoration: none;
+}
+
+.callLink:hover {
+  color: var(--gold);
 }
 
 @media (min-width: 860px) {

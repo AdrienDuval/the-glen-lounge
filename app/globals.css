@@ -18,10 +18,15 @@
   --marble: #565050;
   --marble-hi: #81817f;
 
-  /* ---- ink ---- */
+  /* ---- ink ----
+     Text sits on `--ink`, so these are tuned by contrast ratio, not by mood:
+     `--body` 18:1, `--muted` 11.4:1. The earlier warm-grey pair (#e9e7e2 /
+     #9a988f) measured 16:1 / 6.9:1 — the secondary tier passed AA on paper
+     and still read as dim grey on a phone in daylight. The marble ramp below
+     is a *surface* ramp; it is not to be used as a text colour. */
   --white: #ffffff;
-  --body: #e9e7e2;
-  --muted: #9a988f;
+  --body: #f7f7f5;
+  --muted: #c6c4be;
   --line: rgba(255, 255, 255, 0.13);
 
   /* ---- light ----
@@ -30,7 +35,10 @@
      `--ember` are the gradient's two ends, used for sweeps and glow only. */
   --gold: #e8bc3e;
   --gold-hi: #ffcc03;
-  --gold-dim: #a9873a;
+  /* The quiet gold: mono labels and hairline borders. 8.6:1 — dim enough that
+     the step up to `--gold` still reads on hover, bright enough to be legible
+     at 0.625rem with 0.16em tracking. */
+  --gold-dim: #cba54c;
   --ember: #f16b2e;
 
   /* ---- type scale ----
@@ -218,6 +226,20 @@ textarea {
 .btn:hover {
   background: var(--gold);
   color: var(--ink);
+}
+
+/* Lives here rather than in the module that needed it: `.btn` is global, and a
+   bare `.btn` selector written inside a *.module.css gets scoped along with
+   everything else, so the rule silently matches nothing. */
+.btn:disabled {
+  border-color: var(--line);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+
+.btn:disabled:hover {
+  background: transparent;
+  color: var(--muted);
 }
 
 /* ---------- accessibility ---------- */

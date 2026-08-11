@@ -405,7 +405,7 @@
 }
 
 .empty {
-  color: var(--marble-hi);
+  color: var(--muted);
 }
 
 .djs {
