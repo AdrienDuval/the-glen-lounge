@@ -192,37 +192,16 @@
   }
 }
 
-.heroCaption {
-  margin-top: clamp(1.25rem, 3vw, 1.75rem);
-  color: var(--muted);
-}
-
 /* ---------- body ---------- */
 .body2 {
   position: relative;
   padding-top: clamp(2.5rem, 6vw, 4rem);
 }
 
-.preview {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: clamp(2rem, 5vw, 3rem);
-  padding: 1rem 1.25rem;
-  border: 1px solid var(--line);
-  border-left: 2px solid var(--gold);
-  background: var(--ink-2);
-  color: var(--body);
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  max-width: 72ch;
-}
-
-.previewMark {
-  color: var(--gold);
-  flex: none;
-  font-size: 0.75em;
-  line-height: 1.9;
-}
+/* Removed 2026-08-12 with the placeholder listings and the stock banner they
+   described: `.preview` / `.previewMark` (the fake-data notice) and
+   `.heroCaption` (the « image d'illustration » line over the opening frame,
+   which also had an absolutely-positioned variant in the 720px block below). */
 
 /* ---------- the spread ---------- */
 .grid {
@@ -501,14 +480,6 @@
     padding-bottom: clamp(2.5rem, 7vh, 4.5rem);
   }
 
-  .heroCaption {
-    position: absolute;
-    right: var(--gut);
-    bottom: 0.9rem;
-    margin: 0;
-    text-align: right;
-    max-width: 55vw;
-  }
 }
 
 @media (min-width: 1100px) {

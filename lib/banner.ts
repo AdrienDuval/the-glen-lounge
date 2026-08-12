@@ -81,44 +81,41 @@ const PROMOS: Slide[] = [
      studios are the highest-value thing the site sells and until now the banner
      offered no route to them at all.
 
-     ── THE PHOTOGRAPH, 2026-08-11 ────────────────────────────────────────────
-     Was `exterior_day` — the actual building, signage at street level and three
-     floors of balconies above. It sat here because the `studio_*` frames are
-     placeholders of somewhere else and the hero had nowhere to put the
-     « image d'illustration » caption they oblige.
+     ── THE PHOTOGRAPH, 2026-08-12 ────────────────────────────────────────────
+     `ss140_salon` — a real room in the real building, so no caption is owed.
 
-     Now `studio_hero`, at the client's direction, and the caption is what got
-     built rather than what got skipped: `illustrative: true` below is the only
-     key that lets a placeholder past the gate in `activeSlides()`, and the same
-     flag is what makes `Hero.tsx` render the notice. Silently swapping the
-     photo would have put an uncaptioned picture of another building on the one
-     indexed page of the site; this makes that combination unrepresentable.
+     Two earlier versions, kept as a record of why this one is right. First
+     `exterior_day` (the actual building, but an overcast phone snapshot), then
+     `studio_hero`: a handsome stock European interior that was NOT this venue
+     and therefore had to carry `illustrative: true` and an « image
+     d'illustration » notice on the one indexed page of the site.
 
-     The honest trade, recorded so it can be reversed in one edit: the exterior
-     was the venue and looked like an overcast phone snapshot; this is a
-     showroom and is not the venue. `Appartements.tsx` still renders
-     `exterior_day` further down the same page, so the real building has not
-     left the homepage — which is the « never let it stand alone » rule in
-     ASSETS.md. When the real shoot lands, point this at it and delete
-     `illustrative`.
+     Both compromises are now unnecessary. The client sent photographs of SS101
+     and SS140-A, so the slide can show an actual Glen apartment that also
+     happens to be the best-looking frame we hold. `illustrative` is gone from
+     this slide — it is a claim about the picture, and it would now be false.
 
      Every word below is FACTS.md-traceable (« meublé haut standing »,
      « disponibilité 24h/24, tous les jours », « Confort, sécurité, intimité »,
      eleven units confirmed by the client 2026-08-09). No rate, no unit type —
      both are still open questions, and « luxe » is ruled out twice over.
 
+     ⚠️ « onze studios » stays, and it is deliberately NOT the number the
+     studios index now shows. Eleven is what the venue has (FACTS.md, client
+     2026-08-09); two is what we can document well enough to list. Advertising
+     the true inventory here while only detailing what we can stand behind is
+     the intended split — do not "fix" one to match the other.
+
      Deliberately NOT here: where the studios are. « au-dessus du lounge » was
      in the first draft of this slide and came out again — FACTS.md records the
      address the three businesses share and nothing about a vertical
-     relationship, the unit-code prefixes (ST/B/A/SS) read more like several
-     blocks than one staircase, and `lib/apartments.ts` has ST005-A on the
-     ground floor. Co-location is sourced; stacking is not. */
+     relationship, and the unit-code prefixes (ST/B/A/SS) read more like several
+     blocks than one staircase. Co-location is sourced; stacking is not. */
   {
     id: "appartements",
     kind: "image",
-    photo: "studio_hero",
+    photo: "ss140_salon",
     lead: true,
-    illustrative: true,
     eyebrow: { fr: "Appartements", en: "Apartments" },
     title: { fr: "Dormir sur place", en: "Stay the night" },
     meta: {

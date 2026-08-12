@@ -209,15 +209,10 @@ export const en = {
 
   studios: {
     eyebrow: "Apartments",
-    title: "Eleven furnished studios, on site",
-    lede: "Glen Appartement — furnished to a high standard, 24-hour access. Comfort, security and privacy, a step away from the room.",
-    count: "studios",
+    title: "Furnished studios, on site",
+    lede: "Glen Appartement — furnished to a high standard, 24-hour access. Comfort, security and privacy, a step away from the room. Eleven studios in the building; those we can show you in full are below.",
+    count: "studios shown",
     availableNow: "available today",
-    preview:
-      "Preview: the photographs, availability and amenities shown here are examples, pending the real details from the Glen. Only the studio numbers are real.",
-    previewIndex:
-      "Some studios are still shown with example details, pending their fact sheets from the Glen. The studios already verified carry their real photographs and their real rates.",
-    photoNotice: "Illustrative image — a photograph of a different property.",
     status: {
       available: "Available",
       occupied: "Occupied",
@@ -264,6 +259,8 @@ export const en = {
     openGallery: "Enlarge",
     prev: "Previous image",
     next: "Next image",
+    videoLabel: "Video walkthrough",
+    playVideo: "Play the walkthrough",
     backToStudios: "All studios",
     seeStudio: "View studio",
     otherStudios: "Other studios",

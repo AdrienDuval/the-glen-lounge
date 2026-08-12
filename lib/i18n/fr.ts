@@ -241,25 +241,24 @@ export const fr = {
     status: "Site en construction — informations en cours de validation",
   },
 
-  /* The studio pages. `studios.preview` is the notice that has to stay on any
-     page whose unit is still `confirmed: false` in `lib/apartments.ts` — it is
-     the only thing telling a visitor that the availability and the photographs
-     are not yet real. Do not quietly soften it.
+  /* The studio pages.
+     `preview`, `previewIndex` and `photoNotice` were removed 2026-08-12 with the
+     placeholder listings and stock photographs they disclaimed. Nothing on these
+     pages is invented any more, so there is nothing to warn about — do not
+     reintroduce a notice; if a unit cannot be documented, leave it unlisted.
 
-     `previewIndex` is the softer version for the index, which now lists a mix:
-     SS101 is real, the other ten are not, so a blanket « tout est faux » there
-     would be a lie in the other direction. */
+     ⚠️ The title deliberately does NOT count the studios. The venue has eleven
+     (FACTS.md); the index lists only the ones we hold photographs and answers
+     for. « Onze studios meublés » as a heading over two cards read as a broken
+     page, and changing it to « Deux » would undersell the building — so the
+     eleven is stated in the lede as a fact about the property, and the tally
+     below is labelled « studios présentés ». */
   studios: {
     eyebrow: "Appartements",
-    title: "Onze studios meublés, sur place",
-    lede: "Glen Appartement — meublé haut standing, accès 24h/24. Confort, sécurité, intimité, à deux pas de la salle.",
-    count: "studios",
+    title: "Studios meublés, sur place",
+    lede: "Glen Appartement — meublé haut standing, accès 24h/24. Confort, sécurité, intimité, à deux pas de la salle. Onze studios dans l’immeuble ; ceux que nous pouvons vous montrer en détail sont ci-dessous.",
+    count: "studios présentés",
     availableNow: "disponibles aujourd’hui",
-    preview:
-      "Aperçu : les photos, les disponibilités et les équipements affichés ici sont des exemples, le temps que le Glen fournisse les vraies informations. Seuls les numéros de studio sont réels.",
-    previewIndex:
-      "Certains studios sont encore affichés avec des informations d’exemple, le temps que le Glen nous transmette leurs fiches. Les studios déjà vérifiés portent leurs vraies photos et leurs vrais tarifs.",
-    photoNotice: "Image d’illustration — photographie d’un autre logement.",
     status: {
       available: "Disponible",
       occupied: "Occupé",
@@ -318,6 +317,9 @@ export const fr = {
     openGallery: "Agrandir",
     prev: "Image précédente",
     next: "Image suivante",
+    /* The walkthrough clip — last slide, and only on units that sent one. */
+    videoLabel: "Visite en vidéo",
+    playVideo: "Lire la visite",
     backToStudios: "Tous les studios",
     seeStudio: "Voir le studio",
     otherStudios: "Autres studios",

@@ -6,12 +6,10 @@ import Link from "next/link";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { PHOTOS } from "@/lib/photos";
 import {
-  ANY_PREVIEW,
   availableStudios,
   floorLabel,
   formatPrice,
   STUDIOS,
-  STUDIO_GALLERY,
   STUDIO_HERO,
   type Studio,
 } from "@/lib/apartments";
@@ -31,15 +29,16 @@ import styles from "./StudiosIndex.module.css";
  * and the rest in a grid. The earlier version put eleven identical cards on a
  * black page and read like a stock table.
  *
- * The codes are the client's. As of 2026-08-11 SS101 is real end to end — its
- * own photographs, its own rate — and the other ten are still preview data
- * (`lib/apartments.ts`). The notice above the grid therefore says « certains »
- * rather than « tous »: a blanket warning over a grid that now contains one
- * fully sourced listing would be inaccurate in the other direction.
+ * Every card is a documented unit with its own photographs (2026-08-12). The
+ * nine placeholder listings and the notice that used to sit above the grid are
+ * both gone — see the header of `lib/apartments.ts` for what was removed and
+ * why, and note that the venue still HAS eleven units; we can only describe the
+ * ones we hold photographs and answers for.
  *
- * A card uses the unit's OWN first photograph when it has one and falls back to
- * the shared placeholder otherwise, so the real listing is visibly the real one
- * before you click it.
+ * The tally is therefore labelled « studios présentés » rather than « studios »,
+ * and the heading no longer counts them: the lede states the building's eleven
+ * as a fact about the property, and the grid shows what we can stand behind.
+ * An accurate small number beats eleven listings a visitor cannot rely on.
  */
 export default function StudiosIndex({
   lang,
@@ -54,12 +53,9 @@ export default function StudiosIndex({
   useSectionMotion(gridRef);
 
   const base = href("appartements", lang);
-  /* Two different pictures for two different jobs. `hero` is the wide banner
-     plate; `cover` is the 16:9 room frame the cards crop. They were the same
-     image until 2026-08-11, which meant the full-bleed opening band was a
-     gallery photo stretched across the viewport. */
+  /* The wide banner plate. Now SS140-A's salon — a room in this building —
+     where it used to be a stock European interior that needed a caption. */
   const hero = PHOTOS[STUDIO_HERO];
-  const cover = PHOTOS[STUDIO_GALLERY[0]];
   const free = availableStudios().length;
   const t = dict.studios;
   const [featured, ...restStudios] = STUDIOS;
@@ -125,9 +121,9 @@ export default function StudiosIndex({
       ground: t.groundFloor,
       basement: t.basement,
     });
-    /* Its own photograph when it has one — the alt travels with it, so a real
-       room is never described with the placeholder's caption. */
-    const shot = studio.photos.length ? PHOTOS[studio.photos[0]] : cover;
+    /* Its own first photograph. No fallback: an undocumented unit is not listed
+       at all, so `photos` is never empty. */
+    const shot = PHOTOS[studio.photos[0]];
     const price = formatPrice(studio.pricePerNight);
     return (
       <Link
@@ -145,10 +141,14 @@ export default function StudiosIndex({
             className={styles.img}
           />
           <span className={styles.scrim} aria-hidden="true" />
-          <span className={`label ${styles.status} ${styles[studio.status]}`}>
-            <span className={styles.dot} aria-hidden="true" />
-            {t.status[studio.status]}
-          </span>
+          {/* No badge at all when availability was never given — better a card
+              that says nothing about it than one that guesses. */}
+          {studio.status && (
+            <span className={`label ${styles.status} ${styles[studio.status]}`}>
+              <span className={styles.dot} aria-hidden="true" />
+              {t.status[studio.status]}
+            </span>
+          )}
           {/* Corner ticks — the frame reads as a mount rather than a rectangle,
               and they are what the hover animates. */}
           <span className={styles.tick} aria-hidden="true" />
@@ -247,23 +247,15 @@ export default function StudiosIndex({
             </dl>
           </div>
 
-          {/* In the flow on a phone (where an absolute caption landed on top of
-              the tally), pinned bottom-right from 720px. */}
-          <p className={`label ${styles.heroCaption}`}>{t.photoNotice}</p>
+          {/* The « image d'illustration » caption sat here while the banner was
+              a stock European interior. The banner is now SS140-A's salon, so
+              there is nothing to disclaim. */}
         </div>
       </div>
 
       <div className={`shell ${styles.body2}`}>
-        {/* « certains », not « tous » — the grid is now mixed. See the header. */}
-        {ANY_PREVIEW && (
-          <p className={styles.preview} role="note">
-            <span className={styles.previewMark} aria-hidden="true">
-              ◆
-            </span>
-            {t.previewIndex}
-          </p>
-        )}
-
+        {/* The preview notice sat here. Gone with the placeholder listings it
+            described — see the header. */}
         <div className="rule" data-rule />
 
         <div ref={gridRef} className={styles.grid}>

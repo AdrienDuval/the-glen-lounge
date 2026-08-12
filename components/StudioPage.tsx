@@ -7,9 +7,8 @@ import {
   BUILDING_SERVICES,
   floorLabel,
   formatPrice,
-  galleryFor,
-  hasPreviewData,
   SAME_BUILDING_AS_RESTAURANT,
+  slidesFor,
   type Studio,
 } from "@/lib/apartments";
 import { href } from "@/lib/routes";
@@ -26,16 +25,19 @@ import styles from "./StudioPage.module.css";
 /**
  * One studio.
  *
- * Opens on the carousel — seven frames of the room, swipeable, with the unit
- * code laid over them. The code is the only thing on this page the client has
- * confirmed and the photographs are the only thing a visitor is really here
- * for, so both arrive before a single line of copy. The spec table and the
- * amenities follow; the enquiry panel tracks alongside.
+ * Opens on the carousel — this unit's own frames, swipeable, with the code laid
+ * over them. The photographs are the only thing a visitor is really here for, so
+ * they arrive before a single line of copy. The spec table and the amenities
+ * follow; the enquiry panel tracks alongside.
  *
- * The gallery is shared by all eleven units and shows a different property, so
- * the caption travels with the images — under the thumb strip and into the
- * lightbox. Without it the page shows a Yaoundé visitor a European apartment
- * and lets them assume it is the room they would be sleeping in.
+ * Every gallery is now photographs of THIS building (2026-08-12): the shared
+ * stock-European fallback and the « image d'illustration » caption that had to
+ * travel with it are both gone, along with the undocumented units that were the
+ * only reason for either.
+ *
+ * A spec row is omitted rather than guessed. `status` and `size` are nullable,
+ * and where they are null the row simply does not appear and the enquiry panel
+ * says « sur demande » — see SS140-A, which has photographs but no sheet.
  */
 export default function StudioPage({
   studio,
@@ -60,9 +62,14 @@ export default function StudioPage({
     ground: t.groundFloor,
     basement: t.basement,
   });
-  const { photos, illustrative } = galleryFor(studio);
+  const { slides } = slidesFor(studio);
   const price = formatPrice(studio.pricePerNight);
-  const preview = hasPreviewData(studio);
+  /* Formatted once — the masthead and the spec table must not disagree, and
+     both have to cope with a unit whose surface was never measured. */
+  const size =
+    studio.size === null
+      ? null
+      : `${studio.size.toLocaleString(lang === "fr" ? "fr-FR" : "en-GB")} ${t.specs.sizeUnit}`;
 
   useGSAP(
     () => {
@@ -88,15 +95,17 @@ export default function StudioPage({
      gave a decimal and rounding it to 49 would be inventing precision in the
      wrong direction. Rooms and shower rooms only appear when there are any: a
      one-room studio with « Chambres 0 » reads as missing data rather than as
-     the definition of a studio. */
+     the definition of a studio.
+
+     Status and surface are dropped entirely when unknown, for the same reason.
+     There is no longer a preview notice to explain a placeholder value, so an
+     absent row is the only honest way to say « we were not told ». */
   const yesNo = (v: boolean) => (v ? t.specs.yes : t.specs.no);
   const specs: { key: string; label: string; value: string }[] = [
-    { key: "status", label: t.specs.status, value: t.status[studio.status] },
-    {
-      key: "size",
-      label: t.specs.size,
-      value: `${studio.size.toLocaleString(lang === "fr" ? "fr-FR" : "en-GB")} ${t.specs.sizeUnit}`,
-    },
+    ...(studio.status
+      ? [{ key: "status", label: t.specs.status, value: t.status[studio.status] }]
+      : []),
+    ...(size ? [{ key: "size", label: t.specs.size, value: size }] : []),
     { key: "sleeps", label: t.sleeps, value: String(studio.sleeps) },
     { key: "bed", label: t.specs.bed, value: t.beds[studio.bed] },
     ...(studio.rooms > 0
@@ -122,8 +131,7 @@ export default function StudioPage({
   return (
     <article ref={rootRef} className={styles.page}>
       <StudioGallery
-        photos={photos}
-        illustrative={illustrative}
+        slides={slides}
         lang={lang}
         dict={dict}
         onOpen={setShot}
@@ -134,14 +142,16 @@ export default function StudioPage({
           </Link>
           <h1 className={styles.code}>{studio.code}</h1>
           <div className={styles.facts}>
-            <span className={`label ${styles.status} ${styles[studio.status]}`}>
-              <span className={styles.dot} aria-hidden="true" />
-              {t.status[studio.status]}
-            </span>
-            <span className={styles.fact}>
-              {studio.size.toLocaleString(lang === "fr" ? "fr-FR" : "en-GB")}{" "}
-              {t.specs.sizeUnit}
-            </span>
+            {/* Each fact appears only if we hold it. A unit with no sheet leads
+                on its code, its couchages and its floor — which is thin, but
+                every word of it is true. */}
+            {studio.status && (
+              <span className={`label ${styles.status} ${styles[studio.status]}`}>
+                <span className={styles.dot} aria-hidden="true" />
+                {t.status[studio.status]}
+              </span>
+            )}
+            {size && <span className={styles.fact}>{size}</span>}
             <span className={styles.fact}>
               {t.sleeps} {studio.sleeps}
             </span>
@@ -155,18 +165,9 @@ export default function StudioPage({
       </StudioGallery>
 
       <div className={`shell ${styles.wrap}`}>
-        {/* Per-unit now, not global: SS101 is sourced end to end and must not
-            carry a notice saying otherwise, while the ten rows still on
-            invented data must keep it. */}
-        {preview && (
-          <p className={styles.preview} role="note">
-            <span className={styles.previewMark} aria-hidden="true">
-              ◆
-            </span>
-            {t.preview}
-          </p>
-        )}
-
+        {/* The preview notice used to sit here. Removed 2026-08-12 with the
+            undocumented units it described — nothing on this page is invented
+            any more, so there is nothing left to disclaim. */}
         <div ref={bodyRef} className={styles.layout}>
           <div className={styles.main}>
             <section className={styles.block}>
@@ -204,7 +205,7 @@ export default function StudioPage({
                 rows in « Équipements »: these belong to the address, not the
                 unit, and merging them would let a visitor read « gardien » as
                 something this studio has and the next one might not. Confirmed
-                once by the client, so they are identical on all eleven pages —
+                once by the client, so they are identical on every studio page —
                 which is exactly why they are stored once. */}
             <section className={styles.block}>
               <h2 className={`label ${styles.blockTitle}`}>
@@ -239,10 +240,12 @@ export default function StudioPage({
                       className={styles.other}
                     >
                       <span className={styles.otherCode}>{o.code}</span>
-                      <span className={`label ${styles[o.status]}`}>
-                        <span className={styles.dot} aria-hidden="true" />
-                        {t.status[o.status]}
-                      </span>
+                      {o.status && (
+                        <span className={`label ${styles[o.status]}`}>
+                          <span className={styles.dot} aria-hidden="true" />
+                          {t.status[o.status]}
+                        </span>
+                      )}
                       <span className={styles.otherArrow} aria-hidden="true">
                         →
                       </span>
@@ -258,8 +261,7 @@ export default function StudioPage({
       </div>
 
       <StudioLightbox
-        photos={photos}
-        illustrative={illustrative}
+        slides={slides}
         index={shot}
         onClose={() => setShot(null)}
         onMove={setShot}

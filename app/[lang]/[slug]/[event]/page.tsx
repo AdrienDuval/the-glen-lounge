@@ -76,17 +76,17 @@ export async function generateMetadata({
           "x-default": `/fr/${ROUTES.appartements.fr}/${slug}`,
         },
       },
-      /* Preview data and placeholder photography must not be indexed or shared
-         as though they described a real room.
-         ⚠️ 2026-08-11: that is no longer true of every unit. SS101 is confirmed
-         end to end — its own photographs, a real rate — so it is now ELIGIBLE
-         for indexing and this blanket rule is the only thing holding it back.
-         Left on deliberately rather than lifted per-unit: publishing a page
-         carrying a real price to search engines is an outward-facing decision
-         and the site still badges itself « en construction ». To lift it for
-         confirmed units only:
-             robots: { index: studio.confirmed, follow: true }
-         Ask the client first. */
+      /* This was here because preview data and placeholder photography must not
+         be indexed as though they described a real room.
+         ⚠️ 2026-08-12: that reason is gone. The undocumented units are unlisted
+         and the stock photography is deleted, so every studio page that exists
+         now shows this building and states only what the client told us. There
+         is no longer a `confirmed` flag to gate on — every remaining unit would
+         have passed it.
+         Still `index: false`, and deliberately so: publishing these pages to
+         search engines is an outward-facing decision that is the client's, not
+         ours, and the site still badges itself « en construction ». Flip this to
+         `true` once they say go. */
       robots: { index: false, follow: true },
     };
   }

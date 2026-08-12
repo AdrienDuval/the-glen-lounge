@@ -76,6 +76,12 @@
   cursor: zoom-in;
 }
 
+/* `zoom-in` promises a bigger version of the same still; this slide opens a
+   clip and plays it, so it gets the ordinary affordance instead. */
+.slide:has(.playWrap) {
+  cursor: pointer;
+}
+
 /* No filter on mobile. The grade that seats these bright interiors on a dark
    page is a desktop nicety; on a phone it was one more layer between the client
    and the room they are trying to look at. */
@@ -84,7 +90,14 @@
 }
 
 /* Mobile grade — top strip for the nav, bottom melt into the ink the masthead
-   sits on. Nothing between 32% and 66%: the room stays bright. */
+   sits on. Nothing between 26% and 74%: the room stays bright.
+
+   Lightened from 0.78/0.18 to 0.58/0.10, the top strip ends at 26% instead of
+   32%, and the bottom melt starts at 74% instead of 66%. The strip only has to
+   seat the nav — which carries its own backdrop-filtered plate — and at 0.78 it
+   was taking three-quarters of the light out of the top third of every frame,
+   which on these interiors is the ceiling, the chandelier and the top of the
+   windows. The clear middle band is now 48% of the height rather than 34%. */
 .shade {
   position: absolute;
   inset: 0;
@@ -93,11 +106,11 @@
   background:
     linear-gradient(
       180deg,
-      rgba(6, 9, 12, 0.78) 0%,
-      rgba(6, 9, 12, 0.18) 16%,
-      transparent 32%
+      rgba(6, 9, 12, 0.58) 0%,
+      rgba(6, 9, 12, 0.1) 14%,
+      transparent 26%
     ),
-    linear-gradient(180deg, transparent 66%, var(--ink) 100%);
+    linear-gradient(180deg, transparent 74%, var(--ink) 100%);
 }
 
 /* Desktop overlay ground. Off on mobile — nothing is laid over the image there.
@@ -120,27 +133,101 @@
    measured 6.1:1 against white; at 1365×640 (a 512px frame) the same stops put
    it in the shallows at 3.56:1, under the 4.5 floor. Absolute lengths pin the
    band to the type it is there for, at every frame height. */
+/* Toned down again, and the left vignette is gone entirely. The ramp still has
+   to seat the masthead — it keeps its `rem` stops for the reason above, and the
+   type keeps the text-shadow that is its real defence — but the previous stops
+   put 0.6 opacity 9rem up the frame and did not clear until 20rem, which on a
+   512px-tall band is 62% of the picture under some amount of black. The
+   masthead's own ground plus a shorter, shallower ramp does the same job: 0.78
+   at the very foot where the type sits, clear by 13rem. The left curtain was
+   pure decoration and cost the left third of every frame ~26% of its light. */
 .wash {
   display: none;
   position: absolute;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    linear-gradient(
-      to top,
-      var(--ink) 0,
-      rgba(6, 9, 12, 0.86) 4rem,
-      rgba(6, 9, 12, 0.6) 9rem,
-      rgba(6, 9, 12, 0.2) 15rem,
-      transparent 20rem
-    ),
-    linear-gradient(
-      to right,
-      rgba(6, 9, 12, 0.26) 0%,
-      rgba(6, 9, 12, 0.08) 26%,
-      transparent 44%
-    );
+  background: linear-gradient(
+    to top,
+    var(--ink) 0,
+    rgba(6, 9, 12, 0.9) 5rem,
+    rgba(6, 9, 12, 0.66) 8.5rem,
+    rgba(6, 9, 12, 0.16) 12rem,
+    transparent 15rem
+  );
+}
+
+/* ---- video slide badge ----
+   Sits above the grades (z-index 1) but below the controls (3), and centred on
+   the upper-middle of the frame rather than dead centre: on mobile the masthead
+   and the melt own the foot, and a badge in the exact middle collided with the
+   counter plate at short viewport heights. */
+.playWrap {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 44%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  justify-items: center;
+  gap: 0.6rem;
+  pointer-events: none;
+}
+
+.play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.75rem;
+  height: 3.75rem;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: rgba(6, 9, 12, 0.62);
+  backdrop-filter: blur(8px);
+  color: var(--gold);
+  font-size: 1.1rem;
+  /* The glyph's own bearing sits it left of the circle's centre. */
+  padding-left: 0.18em;
+  transition: background-color 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+
+.playText {
+  padding: 0.3rem 0.6rem;
+  background: rgba(6, 9, 12, 0.72);
+  backdrop-filter: blur(8px);
+  color: var(--body);
+}
+
+.slide:hover .play {
+  background: rgba(6, 9, 12, 0.8);
+  transform: scale(1.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .play,
+  .slide:hover .play {
+    transition: none;
+    transform: none;
+  }
+}
+
+/* Thumbnail marker for the clip — the strip is small, so this is the glyph
+   alone on a plate rather than the full badge. */
+.thumbPlay {
+  position: absolute;
+  right: 0.3rem;
+  bottom: 0.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  background: rgba(6, 9, 12, 0.78);
+  color: var(--gold);
+  font-size: 0.55rem;
+  padding-left: 0.12em;
 }
 
 /* ---- masthead ---- */
@@ -282,15 +369,8 @@
   object-fit: cover;
 }
 
-.caption {
-  color: var(--muted);
-}
-
-@media (min-width: 720px) {
-  .caption {
-    text-align: right;
-  }
-}
+/* `.caption` — the « image d'illustration » line under the thumb strip —
+   removed 2026-08-12. Every gallery is now this building. */
 
 @media (min-width: 900px) {
   /* The source ratio, so a window with the room to show a whole frame does.

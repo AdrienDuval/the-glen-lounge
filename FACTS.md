@@ -215,10 +215,22 @@ use the current column, and don't resurrect the old names.
 - Marketed for **location** (rental) — `#AppartementMeublé` `#LocationYaoundé`.
 - ✅ **Eleven studios**, with these unit codes (`CL`, 2026-08-09):
   `ST005-A` · `B35-A` · `B15-A` · `A10-A` · `A10-1-A` · `A10-2-A` · `A10-3-A` ·
-  `SS130-A` · `SS140-A` · `SS101-A` · `SS110-A`. Live in `lib/apartments.ts`;
-  they are the only confirmed field in that file. ⚠️ The codes look like they
+  `SS130-A` · `SS140-A` · `SS101-A` · `SS110-A`. ⚠️ The codes look like they
   encode a building and a floor (`A10-*` reads as one unit split three ways) —
   unconfirmed, so nothing in the UI interprets them.
+
+  ⚠️ **THIS LIST IS THE INVENTORY; `lib/apartments.ts` IS NOT.** As of
+  2026-08-12 that file holds only the **two** units we can document — `SS101`
+  and `SS140-A` — because the nine others had nothing but a code and were being
+  rendered with invented surfaces, couchages and availability under two
+  disclaimers. Those nine rows and both disclaimers were removed.
+
+  So the site now says « onze studios » in the banner and the studios lede
+  (true of the building, sourced here) while the index grid shows two
+  (« studios présentés »). That gap is deliberate and documented in both files —
+  do not "fix" it by re-inventing the nine rows. **The nine codes above are the
+  only record of them; restore a row from a client sheet, never from git
+  history.**
 - « Réserve maintenant avant que ce soit complet ! » — implies limited stock.
 - **Saint-Valentin packages** with reductions, incl. a room dressed with rose
   petals, candles and balloons (photographed — `public/photos/apartment-valentine-*`).
@@ -249,6 +261,51 @@ use the current column, and don't resurrect the old names.
   ⚠️ **She wrote « SS101 »; the 2026-08-09 code list says `SS101-A`.** The row
   and its URL now use `SS101` / `/fr/appartements/ss101`, following the newer
   and more specific answer. If the `-A` suffix is real, this is a rename.
+
+- ✅ **SS140-A — the second unit confirmed end to end.** Five photographs
+  (`CL`, 2026-08-11, sent alongside SS101's) at
+  `public/photos/studios/ss140/`, then (`CL`, 2026-08-12) the answer that
+  settles the specs: **it has the same informations and caractéristiques as
+  SS101, including the tarif.**
+
+  So SS140-A carries SS101's whole sheet — sous-sol R-2, **48,72 m²**, 1 chambre,
+  **2 douches**, salon · cuisine · balcon, 2 couchages / grand lit, libre,
+  **60 000 FCFA la nuit**, and the same équipements including Canal+.
+
+  Implemented as a **shared spec object** (`SS101_SPEC` in `lib/apartments.ts`)
+  that both rows spread, rather than two hand-copied rows. The client's answer
+  was « the same as SS101 », so the code says that literally: correct the sheet
+  once and both pages move together. Two copies would eventually disagree
+  silently — both pages would still render, just quoting different rates.
+
+  | | |
+  | --- | --- |
+  | Frames | salon, chambre, cuisine, salle d'eau, balcon |
+  | Shown in the photographs | separate salon **and** separate bedroom; split clim in both; TV murale in both; cuisine équipée with plaque gaz, micro-ondes, cafetière, frigo, égouttoir garni; **one** salle d'eau with chauffe-eau Ariston; balcon with garde-corps vitré; draps et serviettes |
+  | Stated by the client, not photographed | the **second douche**, **Canal+**, the **48,72 m²** surface, « libre », the rate |
+
+  ⚠️ **The frames show ONE shower room; the spec says two.** SS101 photographed
+  both of its douches; SS140-A's fifth frame went to the bedroom instead. This is
+  the one spec on the page a visitor can count and find wanting — if they ask,
+  the second is unphotographed, not absent. Worth requesting a sixth frame.
+
+  ⚠️ **48,72 m² is a measurement of SS101** carried across on « mêmes
+  caractéristiques ». It reads more precisely than it was probably meant — two
+  rooms are rarely identical to the cm². Worth confirming the surface for this
+  unit specifically rather than by reference.
+
+  ⚠️ **No walkthrough video.** SS101's `visite.mp4` is a clip *of SS101*, so
+  SS140-A deliberately does not reuse it — that would show a different unit's
+  rooms under this unit's code. Ask for a clip of this unit.
+
+  ⚠️ `ss140_salon` is also the **banner plate** (`STUDIO_HERO`) on the studios
+  index and the « Appartements » home-hero slide, replacing a stock photo. So
+  this one frame now fronts the accommodation offer across the site.
+
+  ⚠️ Presentation note: despite the identical spec, SS140's fit-out is **visibly
+  newer than SS101's** — green velvet suite, marbled porcelain, gloss kitchen
+  units. Same characteristics on paper is not the same room to look at, so
+  neither unit's photographs should be used to stand for « the range ».
 
 - ✅ **The building services**, answered once for the whole property
   (`CL`, 2026-08-11): gardien, vidéosurveillance, groupe électrogène, réserve
@@ -409,19 +466,29 @@ crowd shots at usable resolution.
 
 Ordered by how much they block the build.
 
-1. **Appartements** — ✅ **how many is answered**: eleven, with codes (above).
-   Still open, and now blocking a page that exists and is running on invented
-   data (`PREVIEW` in `lib/apartments.ts`):
-   1. **Rates.** Nothing has ever been published. The pages say « tarif sur
-      demande » rather than carry a number we made up.
-   2. **Types.** Do the units differ — size, sleeps, equipment — or are they
-      eleven of the same thing? The preview data pretends they differ.
-   3. **Availability.** Is there a list, a book, a spreadsheet? Whatever it is
-      is what the status chips have to read from.
-   4. **How someone books**, and whether a stay is nightly, monthly or both —
-      `#LocationYaoundé` suggests longer lets than "stay the night" implies.
-   5. **Photography.** All eleven pages currently show the same seven images of
-      a different building. See the licence question below.
+1. **Appartements** — ✅ eleven units with codes, and **two now documented end to
+   end and fully specified** (SS101 from its sheet; SS140-A confirmed identical,
+   rate included). No invented data remains in `lib/apartments.ts` and both
+   pages list completely — but **nine of the eleven units are still invisible to
+   visitors**, which is the cost of that honesty and the reason this stays first:
+   1. **The characteristics sheet for the other nine** — the single
+      highest-value thing they can send, and now a cheap ask: if any of them are
+      also « comme le SS101 », saying so is enough to publish them, exactly as
+      SS140-A was. One sheet *or* one such sentence, plus photographs, per unit.
+   2. **Weekly and monthly rates, and the caution.** Left blank even on SS101's
+      sheet, so they are missing for both live units. `#LocationYaoundé`
+      suggests longer lets, and nothing in the UI multiplies the nightly figure.
+   3. **A sixth SS140-A frame showing the second douche** — the spec says two,
+      the photographs show one. Also **Canal+** is stated but unphotographed.
+   4. **Confirm SS140-A's surface directly.** 48,72 m² is SS101's measurement
+      inherited via « mêmes caractéristiques »; two rooms are rarely identical
+      to the cm².
+   5. **A walkthrough clip of SS140-A.** SS101 has one; SS140-A deliberately
+      does not reuse it.
+   6. **Availability** — is there a list, a book, a spreadsheet? Whatever it is
+      is what the status chips have to read from. Both units currently say
+      « libre » because the sheet did; that will date.
+   7. **How someone books**, and whether a stay is nightly, monthly or both.
 2. **Vector logo** — AI/EPS/SVG from the designer.
 3. ~~**The menu document**~~ — ✅ **FOUND** and transcribed into `lib/menu.ts`
    (10 sections, ~60 dishes), live at `/fr/carte` · `/en/menu`. What remains:
@@ -447,33 +514,24 @@ Ordered by how much they block the build.
 7. **Current weekly programme and start times** — is Lundi a night? Is Sunday
    Brunch coming back?
 8. **Original photography**, especially apartments and the bar. (A daytime exterior now exists — a proper facade shoot would still beat the overcast phone snapshot we cropped.)
-   ⚠️ **Where did the eight studio images come from?** All eight are
-   `origin: "placeholder"` in `lib/photos.ts` and captioned wherever they
-   render, but they arrived from two different places and the licence question
-   is not the same for both.
+   ~~⚠️ **Where did the eight studio images come from?**~~ ✅ **MOOT as of
+   2026-08-12 — all eight were deleted from `lib/photos.ts`.** They were the
+   seven gallery frames (`studio_living` … `studio_balcony`, supplied 2026-08-09,
+   a modern European apartment, licence **unknown**) and the banner plate
+   (`studio_hero`, an Unsplash file by **Huy Nguyen**, id `AB-q9lwCVv8`, whose
+   licence permits commercial use but which nobody in this repo saw downloaded).
 
-   - **The seven gallery frames** (`studio_living` … `studio_balcony`),
-     supplied 2026-08-09 to preview the pages. Professional interiors of a
-     modern European apartment — wall radiators, French windows, a suburban
-     tower block through the balcony door — so they are not the Glen and the
-     licence is **unknown**. The studio pages are `noindex`.
-   - **The banner plate** (`studio_hero`), added 2026-08-11 at the client's
-     direction. Source file `huy-nguyen-AB-q9lwCVv8-unsplash.jpg`, kept at
-     `assets-raw/unsplash/`. The filename is Unsplash's own download format —
-     photographer **Huy Nguyen**, photo id `AB-q9lwCVv8` — and the Unsplash
-     Licence permits commercial use with no attribution required. So the
-     licence here is *probably* fine, which is not the same as checked: nobody
-     in this repo saw it downloaded. **Confirm the source**, and credit Huy
-     Nguyen anyway if the site gains a colophon — it costs nothing and it is
-     what the licence asks for even where it does not require it.
+   They existed to preview nine units nobody had photographed. Those units are
+   now unlisted and the two documented ones carry their own frames, so
+   **`lib/photos.ts` contains no `origin: "placeholder"` images at all** and this
+   launch blocker is closed — no shoot needed for it, no licence to chase.
 
-   This one is also the first placeholder to reach an **indexed** page: it is
-   the « Appartements » slide in the home hero. That is why `Slide.illustrative`
-   exists — it is simultaneously the permission and the caption, so the picture
-   cannot appear there without the sentence. See `lib/banner.ts`.
-
-   **Before launch, for all eight**: either a real shoot, or written proof of a
-   licence that permits commercial use.
+   The files still sit in `public/photos/studios/studio-*` and
+   `assets-raw/unsplash/`; deleting them is safe housekeeping. ⚠️ Do **not**
+   reintroduce them: an unlisted unit is a better answer than a borrowed
+   photograph. `Slide.illustrative` and the `isPlaceholder` gate in
+   `activeSlides()` are deliberately kept so that if one ever returns it fails
+   loudly rather than shipping uncaptioned.
 9. Event packages — capacity and pricing for private hire.
 10. Is there **delivery**?
 11. Site language: French only, or French + English for travellers?

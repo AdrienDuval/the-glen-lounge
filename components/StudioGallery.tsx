@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
-import { PHOTOS, type PhotoId } from "@/lib/photos";
+import { PHOTOS } from "@/lib/photos";
+import type { Slide } from "@/lib/apartments";
 import type { Lang } from "@/lib/i18n/config";
 import type { Dict } from "@/lib/i18n";
 import styles from "./StudioGallery.module.css";
@@ -24,26 +25,21 @@ import styles from "./StudioGallery.module.css";
  * Clicking a slide hands its index to the lightbox; the thumb strip below is a
  * plain scrolling row rather than a second Embla instance, because seven
  * thumbnails do not need momentum physics.
+ *
+ * The last slide may be a walkthrough clip (see `slidesFor`). It is a poster
+ * frame with a play badge here, not a playing video: the carousel slide is a
+ * 3:2 crop the visitor has not asked to watch, and autoplaying it would move
+ * the thing they are reading. Pressing it opens the lightbox, which is where
+ * the clip actually plays, at the right size and with controls.
  */
 export default function StudioGallery({
-  photos,
-  illustrative,
+  slides,
   lang,
   dict,
   onOpen,
   children,
 }: {
-  photos: readonly PhotoId[];
-  /**
-   * True when these frames are the shared placeholder set — a different
-   * building — which obliges the « image d'illustration » caption below.
-   *
-   * It is a prop and not a constant because the two cases now coexist: SS101
-   * ships its own photographs and must NOT be captioned as an illustration,
-   * while the ten units still awaiting a shoot must be. Hard-coding the caption
-   * here would have quietly libelled the one real gallery we have.
-   */
-  illustrative: boolean;
+  slides: readonly Slide[];
   lang: Lang;
   dict: Dict;
   onOpen: (index: number) => void;
@@ -77,7 +73,7 @@ export default function StudioGallery({
    * The set only ever grows — an image that has decoded is not worth un-marking.
    */
   const [warm, setWarm] = useState<ReadonlySet<number>>(
-    () => new Set([photos.length - 1, 0, 1 % photos.length])
+    () => new Set([slides.length - 1, 0, 1 % slides.length])
   );
 
   const scrollTo = useCallback(
@@ -96,7 +92,7 @@ export default function StudioGallery({
       setSelected(i);
       const fill = fillRef.current;
       if (fill) {
-        fill.style.transform = `scaleX(${(i + 1) / photos.length})`;
+        fill.style.transform = `scaleX(${(i + 1) / slides.length})`;
       }
     };
 
@@ -109,7 +105,7 @@ export default function StudioGallery({
       setWarm((prev) => {
         const next = new Set(prev);
         for (const d of [-2, -1, 1, 2]) {
-          next.add((i + d + photos.length) % photos.length);
+          next.add((i + d + slides.length) % slides.length);
         }
         return next.size === prev.size ? prev : next;
       });
@@ -122,7 +118,7 @@ export default function StudioGallery({
       emblaApi.off("select", onMove);
       emblaApi.off("reInit", onSelect);
     };
-  }, [emblaApi, photos.length]);
+  }, [emblaApi, slides.length]);
 
   return (
     <div>
@@ -135,22 +131,32 @@ export default function StudioGallery({
         <div className={styles.hero}>
         <div className={styles.viewport} ref={emblaRef}>
           <div className={styles.container}>
-            {photos.map((id, i) => {
-              const photo = PHOTOS[id];
+            {slides.map((slide, i) => {
+              /* A video slide shows its poster here — see the note at the top.
+                 Both branches draw a `next/image`, so the loading and warming
+                 behaviour below is identical for either kind. */
+              const photo =
+                slide.kind === "photo"
+                  ? PHOTOS[slide.id]
+                  : PHOTOS[slide.poster];
+              const label =
+                slide.kind === "photo"
+                  ? `${t.openGallery} — ${photo.alt[lang]}`
+                  : t.playVideo;
               return (
                 <button
-                  key={id}
+                  key={slide.kind === "photo" ? slide.id : slide.src}
                   type="button"
                   className={styles.slide}
                   onClick={() => onOpen(i)}
-                  aria-label={`${t.openGallery} — ${photo.alt[lang]}`}
+                  aria-label={label}
                   /* Off-screen slides are still in the DOM and still focusable;
                      without this, Tab walks through six invisible buttons. */
                   tabIndex={i === selected ? 0 : -1}
                 >
                   <Image
                     src={photo.src}
-                    alt={photo.alt[lang]}
+                    alt={slide.kind === "photo" ? photo.alt[lang] : ""}
                     fill
                     sizes="100vw"
                     quality={75}
@@ -158,6 +164,14 @@ export default function StudioGallery({
                     loading={i === 0 || warm.has(i) ? "eager" : "lazy"}
                     className={styles.img}
                   />
+                  {slide.kind === "video" && (
+                    <span className={styles.playWrap} aria-hidden="true">
+                      <span className={styles.play}>▶</span>
+                      <span className={`label ${styles.playText}`}>
+                        {t.videoLabel}
+                      </span>
+                    </span>
+                  )}
                 </button>
               );
             })}
@@ -182,7 +196,7 @@ export default function StudioGallery({
           <span className={`label ${styles.counter}`} aria-live="polite">
             {String(selected + 1).padStart(2, "0")}
             <span className={styles.counterSep}>/</span>
-            {String(photos.length).padStart(2, "0")}
+            {String(slides.length).padStart(2, "0")}
           </span>
           <button
             type="button"
@@ -209,15 +223,18 @@ export default function StudioGallery({
       {/* ---- thumb strip ---- */}
       <div className={`shell ${styles.thumbsWrap}`}>
         <ul className={styles.thumbs}>
-          {photos.map((id, i) => {
-            const photo = PHOTOS[id];
+          {slides.map((slide, i) => {
+            const photo =
+              slide.kind === "photo" ? PHOTOS[slide.id] : PHOTOS[slide.poster];
             return (
-              <li key={id}>
+              <li key={slide.kind === "photo" ? slide.id : slide.src}>
                 <button
                   type="button"
                   onClick={() => scrollTo(i)}
                   className={`${styles.thumb} ${i === selected ? styles.thumbOn : ""}`}
-                  aria-label={photo.alt[lang]}
+                  aria-label={
+                    slide.kind === "photo" ? photo.alt[lang] : t.videoLabel
+                  }
                   aria-current={i === selected}
                 >
                   <Image
@@ -228,14 +245,18 @@ export default function StudioGallery({
                     quality={60}
                     className={styles.thumbImg}
                   />
+                  {slide.kind === "video" && (
+                    <span className={styles.thumbPlay} aria-hidden="true">
+                      ▶
+                    </span>
+                  )}
                 </button>
               </li>
             );
           })}
         </ul>
-        {illustrative && (
-          <p className={`label ${styles.caption}`}>{t.photoNotice}</p>
-        )}
+        {/* The « image d'illustration » caption stood here while some galleries
+            showed another building. Both are gone as of 2026-08-12. */}
       </div>
     </div>
   );

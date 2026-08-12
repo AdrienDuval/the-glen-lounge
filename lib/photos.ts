@@ -530,139 +530,111 @@ export const PHOTOS = {
     },
   },
 
-  /* ── Studios — PLACEHOLDER, NOT THIS VENUE ────────────────────────────────
-     Supplied by the client 2026-08-09 to preview the studio pages before the
-     real shoot. They are photographs of a modern European apartment — French
-     windows, wall radiators, a suburban tower block through the balcony door —
-     and they document a building that is not in Yaoundé.
+  /* ── SS140 ────────────────────────────────────────────────────────────────
+     Five frames of an actual Glen apartment, sent by the client 2026-08-11
+     alongside SS101's and on the same terms: empty rooms, no people in any
+     frame, `consent: "clear"` on inspection. 1080px long edge — WhatsApp's cap
+     again.
 
-     Every one is `origin: "placeholder"`, which keeps them out of `shippable()`
-     and forces the « Image d'illustration » caption wherever they render. The
-     consent field is honest on its own terms: no people are in frame. The
-     licence, however, is unknown — see the open question in FACTS.md before any
-     of this reaches production.
+     `ss140_salon` does double duty as `STUDIO_HERO`: the banner plate on the
+     studios index and the « Appartements » slide in the home hero. It took over
+     from a stock European interior that both surfaces had to caption.
 
-     All seven are 16:9, so a single `--ratio` covers the gallery.
+     The client confirmed 2026-08-12 that this unit has the same characteristics
+     and rate as SS101, so the row shares SS101's sheet — see `SS101_SPEC` in
+     `lib/apartments.ts`.
 
-     `studio_hero` (below) joined them 2026-08-11 on the same terms and for the
-     same reason, but from a different source — see its own note. */
+     ⚠️ THE FRAMES SHOW ONE SHOWER ROOM; THE SHEET SAYS TWO. `ss140_douche` is
+     singular for that reason, and the page states 2 on the client's word. The
+     second one is unphotographed, not absent. If a sixth frame ever arrives,
+     rename this to `ss140_douche_1` and match SS101's pair.
 
-  /* ── The studios banner ───────────────────────────────────────────────────
-     Added 2026-08-11 for the two apartment banners: the opening frame on the
-     studios index and the « Appartements » slide in the home hero.
+     ⚠️ Also unphotographed: nothing here shows Canal+ or the second douche, and
+     the surface is SS101's measurement carried across. The photographs and the
+     spec table are no longer 1:1 on this unit — the gap is the client's word,
+     which is a legitimate source, but it is a gap.
 
-     Deliberately NOT in `STUDIO_GALLERY`. It is a banner plate — 1.89:1 and
-     composed with the room running out to both edges, which is what a
-     full-bleed hero wants and what the 16:9 gallery frames are not. Keeping it
-     out also keeps a promise the gallery makes: those seven are one flat,
-     "here is the room" set, and the eleven detail pages all show the same
-     seven. A wide showroom frame among them would read as an eighth room.
-
-     PLACEHOLDER, on exactly the same footing as the seven above: it is a
-     bright, professionally lit modern apartment — recessed downlights, a
-     framed print wall, a mirrored return — and it is not in Yaoundé. It is a
-     better-looking room than the Glen's own Valentine's frames show, which is
-     the precise reason it is captioned everywhere it renders and the reason
-     `activeSlides()` will not take it without `illustrative: true`.
-
-     PROVENANCE. Source file `huy-nguyen-AB-q9lwCVv8-unsplash.jpg`, 7589×4015,
-     kept at `assets-raw/unsplash/`. The name is Unsplash's own download
-     format — photographer Huy Nguyen, photo id `AB-q9lwCVv8`. The Unsplash
-     Licence does permit commercial use without attribution, so this one is on
-     firmer ground than the seven above, whose licence is simply unknown. That
-     is NOT the same as verified: nobody in this repo watched it be downloaded.
-     See the licence question in FACTS.md before launch. */
-  studio_hero: {
-    src: "/photos/studios/studio-hero.webp",
-    w: 2400,
-    h: 1270,
+     The interiors are visibly a different and more recent fit-out than SS101's
+     (green velvet suite, marbled porcelain, gloss units) despite the identical
+     spec, which is worth remembering before either unit's photographs are used
+     to represent « the range ». */
+  ss140_salon: {
+    src: "/photos/studios/ss140/salon.jpg",
+    w: 1080,
+    h: 868,
     consent: "clear",
-    origin: "placeholder",
     alt: {
-      fr: "Séjour de studio meublé — téléviseur mural encastré dans un caisson en bois, longue tablette blanche, fauteuil rond crème et coin repas près de la fenêtre",
-      en: "Furnished studio living area — wall-mounted television in a wood surround, a long white shelf, a round cream armchair and a dining corner by the window",
-    },
-    note:
-      "Banner plate only — 1.89:1, wide enough that the full-bleed crop keeps the room. Derived at 2400×1270 webp (119 KB) from a 7589×4015 / 2.4 MB original; do not ship the original.",
-  },
-
-  studio_living: {
-    src: "/photos/studios/studio-living-02.webp",
-    w: 2400,
-    h: 1349,
-    consent: "clear",
-    origin: "placeholder",
-    alt: {
-      fr: "Séjour de studio — canapé clair, tables basses rondes, porte-fenêtre ouvrant sur un balcon",
-      en: "Studio living area — pale sofa, round coffee tables, French window onto a balcony",
+      fr: "Salon du studio SS140 — canapé et fauteuils en velours vert d’eau, coussins baroques dorés, table basse ovale en marbre, sol en marbre gris, téléviseur mural et climatiseur",
+      en: "The SS140 living room — sea-green velvet sofa and armchairs, gold baroque cushions, an oval marble coffee table, grey marble floor, wall-mounted TV and air conditioning",
     },
   },
-  studio_living_kitchen: {
-    src: "/photos/studios/studio-living-01.webp",
-    w: 2400,
-    h: 1349,
+  ss140_chambre: {
+    src: "/photos/studios/ss140/chambre.jpg",
+    w: 1080,
+    h: 686,
     consent: "clear",
-    origin: "placeholder",
     alt: {
-      fr: "Studio en enfilade — kitchenette équipée à gauche, coin salon et tapis à droite",
-      en: "Open-plan studio — fitted kitchenette on the left, seating area and rug on the right",
+      fr: "Chambre du studio SS140 — grand lit en bois verni, linge blanc et coussins framboise, table de chevet, téléviseur mural, climatiseur et rideaux voilés",
+      en: "The SS140 bedroom — polished wood double bed, white linen with raspberry cushions, bedside table, wall-mounted TV, air conditioning and sheer curtains",
     },
   },
-  studio_bedroom: {
-    src: "/photos/studios/studio-bedroom-02.avif",
-    w: 2048,
-    h: 1151,
+  ss140_cuisine: {
+    src: "/photos/studios/ss140/cuisine.jpg",
+    w: 1080,
+    h: 868,
     consent: "clear",
-    origin: "placeholder",
     alt: {
-      fr: "Chambre de studio — lit double, penderie à portes coulissantes et fenêtre voilée",
-      en: "Studio bedroom — double bed, sliding-door wardrobe and a sheer-curtained window",
+      fr: "Cuisine équipée du studio SS140 — meubles laqués blancs, plan de travail en granit noir, crédence en marbre, plaque gaz, micro-ondes, cafetière, réfrigérateur et égouttoir garni",
+      en: "The SS140 fitted kitchen — white gloss units, black granite worktop, marbled splashback, gas hob, microwave, coffee maker, fridge and a stocked dish rack",
     },
   },
-  studio_bedroom_desk: {
-    src: "/photos/studios/studio-bedroom-01.webp",
-    w: 2400,
-    h: 1349,
+  ss140_douche: {
+    src: "/photos/studios/ss140/douche.jpg",
+    w: 1080,
+    h: 922,
     consent: "clear",
-    origin: "placeholder",
     alt: {
-      fr: "Chambre de studio — lit fait, grand miroir doré et petit bureau sous la fenêtre",
-      en: "Studio bedroom — made bed, tall gold mirror and a small desk under the window",
+      fr: "Salle d’eau du studio SS140 — faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque en marbre, miroir, serviettes et chauffe-eau",
+      en: "The SS140 shower room — black-and-white marbled tiling, glazed shower cubicle with black framing, marble basin, mirror, towels and water heater",
     },
   },
-  studio_kitchen: {
-    src: "/photos/studios/studio-kitchen.webp",
-    w: 2400,
-    h: 1349,
+  ss140_balcon: {
+    src: "/photos/studios/ss140/balcon.jpg",
+    w: 1080,
+    h: 894,
     consent: "clear",
-    origin: "placeholder",
     alt: {
-      fr: "Coin repas et kitchenette — table en bois deux couverts, micro-ondes et bouilloire",
-      en: "Dining corner and kitchenette — wooden table laid for two, microwave and kettle",
+      fr: "Balcon du studio SS140 — sol en marbre veiné, garde-corps vitré, porte-fenêtre vitrée et vue sur la végétation et les maisons voisines",
+      en: "The SS140 balcony — veined marble floor, glass balustrade, glazed French door and a view over greenery and neighbouring houses",
     },
   },
-  studio_bathroom: {
-    src: "/photos/studios/studio-bathroom.avif",
-    w: 2048,
-    h: 1151,
-    consent: "clear",
-    origin: "placeholder",
-    alt: {
-      fr: "Salle d’eau — douche à l’italienne vitrée, vasque et rangements en bois clair",
-      en: "Shower room — glazed walk-in shower, basin and pale wood storage",
-    },
-  },
-  studio_balcony: {
-    src: "/photos/studios/studio-balcony.webp",
-    w: 2400,
-    h: 1349,
-    consent: "clear",
-    origin: "placeholder",
-    alt: {
-      fr: "Balcon meublé — table ronde et deux chaises, vue sur les arbres et les tours",
-      en: "Furnished balcony — round table and two chairs looking out over trees and towers",
-    },
-  },
+
+  /* ── REMOVED 2026-08-12: the eight studio placeholders ────────────────────
+     `studio_hero`, `studio_living`, `studio_living_kitchen`, `studio_bedroom`,
+     `studio_bedroom_desk`, `studio_kitchen`, `studio_bathroom`,
+     `studio_balcony`.
+
+     Seven were a modern European apartment supplied 2026-08-09 to preview the
+     studio pages before any real shoot — French windows, wall radiators, a
+     suburban tower block through the balcony door, a building not in Yaoundé.
+     The eighth, `studio_hero`, was an Unsplash banner plate (Huy Nguyen,
+     `AB-q9lwCVv8`) on the same footing.
+
+     They were `origin: "placeholder"`, kept out of `shippable()`, and forced an
+     « Image d'illustration » caption wherever they rendered. All of that
+     machinery worked; the images were still pictures of somewhere else, and the
+     seven of them stood in for nine units nobody had photographed.
+
+     Now that SS101 and SS140-A have their own frames and the undocumented units
+     are unlisted, nothing referenced these. The files are still on disk under
+     `public/photos/studios/studio-*` and the originals in `assets-raw/` — safe
+     to delete, but left alone here so this is a code change only. The licence
+     question in FACTS.md dies with them: seven had an unknown licence, which is
+     one fewer launch blocker.
+
+     If a preview set is ever needed again, do NOT resurrect these: the venue's
+     own photography now exists, and an unlisted unit is a better answer than a
+     borrowed photograph. */
 } as const satisfies Record<string, Photo>;
 
 export type PhotoId = keyof typeof PHOTOS;

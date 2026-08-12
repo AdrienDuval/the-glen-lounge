@@ -266,18 +266,10 @@
   flex: none;
 }
 
-/* « Image d'illustration ». Keeps the `label` face the studios index sets the
-   same sentence in, so the disclosure reads as one thing in both places. Only
-   the colour moves: `--muted` is tuned for the ink ground, and this sits on a
-   glass panel over a bright photograph, where it stops being readable. Quiet,
-   because it is a disclosure and not a selling point — but a notice nobody can
-   read is not a disclosure. */
-.illustration {
-  margin-top: -0.15rem;
-  color: rgba(255, 255, 255, 0.7);
-  text-wrap: balance;
-  max-width: 44ch;
-}
+/* `.illustration` — the « Image d'illustration » line on the apartments slide —
+   removed 2026-08-12: that slide now uses a photograph of this building. If a
+   placeholder photograph is ever reintroduced, restore this alongside the
+   caption in Hero.tsx and the `illustrative` flag that gates it. */
 
 .actions {
   display: flex;

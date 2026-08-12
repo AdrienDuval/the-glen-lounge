@@ -1,13 +1,37 @@
+/* ============================================================
+   MOBILE: the image gets the WHOLE width and the arrows go
+   under it. Desktop: arrows flank it.
+
+   The previous rule ran the three-column grid at every width.
+   On a 390px phone the two 2.9rem buttons plus the gaps took
+   ~120px off the row, so a 16:9 stage resolved to roughly
+   250×140 — a postage stamp floating in a full-screen dark
+   overlay, which is the "not correctly displayed on mobile"
+   here. Below 720px the columns collapse to one and the nav
+   buttons move to a row beneath the caption, where they are
+   also easier to reach with a thumb.
+   ============================================================ */
 .backdrop {
   position: fixed;
   inset: 0;
   z-index: 300;
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(0.5rem, 2vw, 1.5rem);
-  padding: clamp(3.5rem, 8vh, 5rem) clamp(0.75rem, 3vw, 2.5rem)
-    clamp(1.5rem, 4vh, 2.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  /* Two content-sized rows (figure, then the nav) centred as a GROUP, rather
+     than two stretched rows each centring its own contents. With `1fr` rows and
+     `align-items: center` the picture floated in the top half and the arrows in
+     the bottom, separated by a screen's worth of empty overlay. `align-content`
+     packs the pair and centres the pack. */
+  grid-template-rows: auto auto;
+  align-content: center;
+  justify-items: center;
+  gap: clamp(0.75rem, 2.5vh, 1.5rem);
+  /* Symmetrical top and bottom. The top inset exists to clear the close button,
+     but `align-content: center` centres the pack inside the PADDING BOX — so a
+     top pad far larger than the bottom one pushed the whole group visibly above
+     the middle of the screen. Equal insets centre it honestly; the close button
+     still has its corner because the pack is narrower than the row it sits in. */
+  padding: clamp(3.25rem, 8vh, 5rem) clamp(0.75rem, 3vw, 2.5rem);
   background: rgba(3, 5, 7, 0.94);
   backdrop-filter: blur(10px);
   animation: fade 0.35s var(--ease-out);
@@ -25,17 +49,32 @@
   gap: 0.9rem;
   justify-items: center;
   min-width: 0;
+  width: 100%;
 }
 
+/* Ratio is 4:3 on a phone, 16:9 from 720px.
+   `object-fit: contain` means the ratio only sets the BOX the image is letter-
+   boxed inside, so a box shaped nothing like the source wastes the difference
+   as empty overlay. These are phone photographs — `cuisine.jpg` is 1080×868,
+   nearer 5:4 than 16:9 — and inside a 16:9 box on a portrait screen they were
+   contained to the box's HEIGHT, leaving a narrow picture with wide dark bars
+   either side. 4:3 is the closer envelope for the set and gives the image
+   noticeably more area on the axis a phone actually has to spare.
+   `max-height` still reserves room for the caption and the nav row below. */
 .stage {
   position: relative;
   width: 100%;
-  /* Caps the image so the caption and the controls always have room, whatever
-     the viewport shape. */
-  aspect-ratio: 16 / 9;
-  max-height: 76svh;
+  aspect-ratio: 4 / 3;
+  max-height: 62svh;
   background: var(--ink-2);
   animation: rise 0.5s var(--ease-out);
+}
+
+@media (min-width: 720px) {
+  .stage {
+    aspect-ratio: 16 / 9;
+    max-height: 76svh;
+  }
 }
 
 @keyframes rise {
@@ -47,6 +86,39 @@
 
 .img {
   object-fit: contain;
+}
+
+/* Absolutely positioned to match the `fill` image it shares the stage with —
+   a plain in-flow <video> would size itself to its intrinsic dimensions and
+   break out of the box the ratio above established. `contain` again, so a
+   portrait clip is letterboxed rather than cropped. */
+.video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* The walkthrough was filmed on a phone, held upright — it is a PORTRAIT clip,
+   and inside the landscape stage the photographs want, `contain` shrank it to
+   the box's height and left two thick black bars taking most of the width.
+   A video slide therefore gets a portrait box of its own. Tuned by ratio rather
+   than by hiding the bars with `cover`, which would have cropped the sides off
+   a walkthrough whose whole point is showing the width of the rooms. */
+/* Doubled class, deliberately: `.stage` is restated at 720px in a LATER rule
+   (16/9 for the photographs), and a single `.stageVideo` ties on specificity and
+   loses on source order — the clip would go back to a landscape box on desktop.
+   Two classes outrank it at every width, so this needs no media query of its own. */
+.stageVideo.stageVideo {
+  aspect-ratio: 9 / 16;
+  max-height: 68svh;
+  /* Ratio AND a height cap both apply, so on a short viewport the cap binds and
+     the box would keep its full width while losing height — reintroducing the
+     side bars. Capping the width to the height's portrait ratio keeps the box
+     wrapped to the clip at every viewport shape. */
+  max-width: calc(68svh * 9 / 16);
 }
 
 .caption {
@@ -93,6 +165,75 @@
   top: clamp(0.9rem, 3vh, 1.6rem);
   right: clamp(0.75rem, 3vw, 2.5rem);
   z-index: 1;
+}
+
+/* ---- mobile nav row ----
+   Source order is prev, figure, next, so on a single-column grid the arrows
+   would land above and below the picture. Two columns instead: the figure spans
+   both in row 1, and the arrows take one column each in row 2, which puts them
+   side by side under the image where a thumb can reach them. `justify-self`
+   pushes each to its outer edge so they are not crowded together in the middle. */
+.figure {
+  grid-row: 1;
+  grid-column: 1 / -1;
+}
+
+.prev,
+.next {
+  grid-row: 2;
+}
+
+.prev {
+  grid-column: 1;
+  justify-self: start;
+}
+
+.next {
+  grid-column: 2;
+  justify-self: end;
+}
+
+/* Bigger tap targets than the desktop control — 2.9rem is under the 48px
+   comfortable-touch floor once the border is counted. */
+.close,
+.nav {
+  width: 3rem;
+  height: 3rem;
+}
+
+@media (min-width: 720px) {
+  /* Back to the flanking layout, where there is width to spare for it: three
+     columns, everything on one row, in source order. Each rule here undoes a
+     specific piece of the stacked layout above — leaving any of them in place
+     would strand the figure in column 1 or the arrows on a second row. */
+  .backdrop {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-content: normal;
+    align-items: center;
+  }
+
+  .figure {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .prev {
+    grid-row: 1;
+    grid-column: 1;
+    justify-self: auto;
+  }
+
+  .next {
+    grid-row: 1;
+    grid-column: 3;
+    justify-self: auto;
+  }
+
+  .close,
+  .nav {
+    width: 2.9rem;
+    height: 2.9rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

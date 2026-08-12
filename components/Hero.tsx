@@ -485,27 +485,18 @@ export default function Hero({
                 </div>
               )}
 
-              {/* « Image d'illustration ». Set by `illustrative` on the slide,
-                  which is also the only key that lets a placeholder photograph
-                  past the gate in `activeSlides()` — the disclosure and the
-                  permission are one flag, so the picture cannot appear without
-                  the sentence.
+              {/* The « Image d'illustration » line rendered here while the
+                  apartments slide used a stock photograph. Removed 2026-08-12:
+                  that slide is now SS140-A's salon, no slide sets
+                  `illustrative`, and no placeholder images remain in
+                  `lib/photos.ts` — so the string it printed is gone too.
 
-                  It sits in the caption rather than pinned to a corner of the
-                  photograph, as it is on the studios index: here the caption
-                  is a glass panel and the rest of the frame is full-bleed
-                  image behind moving type, so a corner line would be the one
-                  piece of text on the slide with nothing behind it.
-
-                  Same string as the studios page, read out of `dict.studios`
-                  on purpose — one sentence, translated once. Two copies would
-                  eventually disagree, and this is the sentence that must not. */}
-              {slide.illustrative && (
-                <p className={`label ${styles.illustration}`} data-stagger>
-                  {dict.studios.photoNotice}
-                </p>
-              )}
-
+                  The `illustrative` flag itself is deliberately KEPT on the
+                  Slide type and in `activeSlides()`. It is the gate that stops
+                  an `origin: "placeholder"` photograph reaching the hero
+                  unannounced; if one is ever added again it must fail loudly
+                  rather than ship silently. Restore a caption here at the same
+                  time as the flag, not after. */}
               <div className={styles.actions} data-stagger>
                 {slide.eventSlug ? (
                   <Link

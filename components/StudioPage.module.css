@@ -92,25 +92,8 @@
   padding-top: clamp(2rem, 5vw, 3rem);
 }
 
-.preview {
-  display: flex;
-  gap: 0.75rem;
-  padding: 1rem 1.25rem;
-  border: 1px solid var(--line);
-  border-left: 2px solid var(--gold);
-  background: var(--ink-2);
-  color: var(--body);
-  font-size: 0.9375rem;
-  line-height: 1.55;
-  max-width: 72ch;
-}
-
-.previewMark {
-  color: var(--gold);
-  flex: none;
-  font-size: 0.75em;
-  line-height: 1.9;
-}
+/* `.preview` / `.previewMark` — the fake-data notice — removed 2026-08-12 with
+   the placeholder listings they belonged to. */
 
 .layout {
   display: grid;

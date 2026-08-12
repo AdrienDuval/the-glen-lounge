@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef } from "react";
 import Image from "next/image";
-import { PHOTOS, type PhotoId } from "@/lib/photos";
+import { PHOTOS } from "@/lib/photos";
+import type { Slide } from "@/lib/apartments";
 import { lockScroll, unlockScroll } from "@/lib/scrollLock";
 import type { Lang } from "@/lib/i18n/config";
 import type { Dict } from "@/lib/i18n";
@@ -21,19 +22,21 @@ import styles from "./StudioLightbox.module.css";
  * The caption rides along: these are placeholder photographs, and blown up to
  * fill a screen they are more persuasive, not less, so the disclosure matters
  * more here than anywhere else on the page.
+ *
+ * This is also where the walkthrough clip plays — with controls, and only once
+ * the visitor has chosen the slide. Arrow keys still move off it, so the video
+ * is unmounted on navigation and stops with it; nothing keeps playing behind a
+ * photograph.
  */
 export default function StudioLightbox({
-  photos,
-  illustrative,
+  slides,
   index,
   onClose,
   onMove,
   lang,
   dict,
 }: {
-  photos: readonly PhotoId[];
-  /** Placeholder frames of another building — see StudioGallery. */
-  illustrative: boolean;
+  slides: readonly Slide[];
   /** null = closed. */
   index: number | null;
   onClose: () => void;
@@ -49,9 +52,9 @@ export default function StudioLightbox({
   const move = useCallback(
     (delta: number) => {
       if (index === null) return;
-      onMove((index + delta + photos.length) % photos.length);
+      onMove((index + delta + slides.length) % slides.length);
     },
-    [index, onMove, photos.length]
+    [index, onMove, slides.length]
   );
 
   /* Two effects, deliberately. `move` changes identity on every navigation, so
@@ -86,7 +89,8 @@ export default function StudioLightbox({
 
   if (index === null) return null;
 
-  const photo = PHOTOS[photos[index]];
+  const slide = slides[index];
+  const photo = slide.kind === "photo" ? PHOTOS[slide.id] : PHOTOS[slide.poster];
   const t = dict.studios;
 
   return (
@@ -118,22 +122,44 @@ export default function StudioLightbox({
       </button>
 
       <figure className={styles.figure}>
-        <div className={styles.stage}>
-          <Image
-            src={photo.src}
-            alt={photo.alt[lang]}
-            fill
-            sizes="92vw"
-            quality={78}
-            className={styles.img}
-          />
+        <div
+          className={`${styles.stage} ${
+            slide.kind === "video" ? styles.stageVideo : ""
+          }`}
+        >
+          {slide.kind === "photo" ? (
+            <Image
+              src={photo.src}
+              alt={photo.alt[lang]}
+              fill
+              sizes="(min-width: 720px) 82vw, 100vw"
+              quality={78}
+              className={styles.img}
+            />
+          ) : (
+            /* Keyed on `src` so React remounts rather than reusing the element
+               across a navigation — a reused <video> keeps its playback state
+               and would resume mid-clip on a second visit to the slide.
+               `autoPlay` is safe here because opening this slide IS the request
+               to watch it, and `playsInline` stops iOS taking it fullscreen. */
+            <video
+              key={slide.src}
+              className={styles.video}
+              src={slide.src}
+              poster={photo.src}
+              controls
+              autoPlay
+              playsInline
+              preload="metadata"
+            />
+          )}
         </div>
         <figcaption className={styles.caption}>
           <span className={`label ${styles.counter}`}>
-            {index + 1} / {photos.length}
+            {index + 1} / {slides.length}
           </span>
-          {illustrative && (
-            <span className={`label ${styles.notice}`}>{t.photoNotice}</span>
+          {slide.kind === "video" && (
+            <span className={`label ${styles.notice}`}>{t.videoLabel}</span>
           )}
         </figcaption>
       </figure>
