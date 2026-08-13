@@ -647,9 +647,9 @@ export const STUDIOS: readonly Studio[] = [
      late on purpose: it is a soft video still and it should not be the frame a
      visitor forms their impression on. See its note in `lib/photos.ts`.
 
-     ⚠️ `showers: 3`, on the client's word and NOT on the photographs — one
-     shower room is pictured. Same gap as SS140-A, one size larger: if a visitor
-     counts, the other two are unphotographed, not absent.
+     ⚠️ `showers: 3`, on the client's word — TWO are now pictured (2026-08-13,
+     `b35_douche_2`), so one of the three is still unphotographed rather than
+     absent. Narrowed, not closed.
 
      ⚠️ THE CLIP IS THE BATHROOM, THE POSTER IS THE SALON. `slidesFor` posters
      every video with `photos[0]`, which for this row is the salon, while
@@ -658,25 +658,46 @@ export const STUDIOS: readonly Studio[] = [
      is the one place this page says something the file does not back, so it is
      written down rather than left to be rediscovered.
 
-     ⚠️ THE SECOND CLIP IS NOT SHIPPED. The client sent two: the 15s bathroom
-     walkthrough shipped here, and a 47s one covering the kitchen, a corridor
-     and the exterior. The second carries a 90° rotation matrix and plays
-     SIDEWAYS in a browser, so it is held in `assets-raw/whatsapp/b35/` rather
-     than served — `b35_cuisine` is a frame transposed out of it. `Studio.video`
-     is deliberately still a single clip: nothing here needs a list yet, and the
-     gallery would render the second one unwatchable. Ship it if the client
-     re-sends it upright. */
+     ⚠️ THREE CLIPS EXIST; ONE SHIPS. All three are held in
+     `assets-raw/whatsapp/b35/`:
+       · `16.13.42` — 15.5s, the shower room. Upright. Copied here as
+         `visite.mp4` and the only one served.
+       · `16.15.04` — 47.6s, the kitchen, a corridor and the exterior. Carries a
+         90° rotation matrix and plays SIDEWAYS in a browser, so it is held —
+         `b35_cuisine` is a frame transposed out of it. Ship it if she re-sends
+         it upright.
+       · `15.49.36` — 6.2s, a bedroom and a shower room, dropped 2026-08-13.
+         Plays upright, so it COULD ship. It does not, because `Studio.video` is
+         one clip and this row's is already the shower-room walkthrough; and
+         because the bedroom in it is the unresolved third one — see
+         `b35_chambre_3` in lib/photos.ts. `b35_chambre_3` and `b35_douche_2`
+         are cut from it. Revisit if `Studio.video` ever becomes a list.
+
+     ⚠️ `visite.mp4` WAS BRIEFLY MISSING. On 2026-08-13 two files were dropped
+     into `public/photos/studios/b35/` and `visite.mp4` disappeared with them,
+     leaving this row's `video` pointing at a 404. Restored from the raw copy —
+     verified by hash against `16.13.42`. Of the two dropped files, one
+     (`15.50.07`) was **byte-identical to `a10-chambres/visite.mp4`**, the A10
+     bedrooms walkthrough already serving two other rows, so it was NOT added
+     here; it was simply removed. Nothing in `public/photos/studios/` should
+     ever be the only copy of anything — put raw drops in `assets-raw/` first. */
   {
     code: "B35",
     slug: "b35",
     /* « Appartement entier » — her word, on this unit's own sheet. */
     kind: "apartment",
     ...B35_SPEC,
+    /* The two 2026-08-13 frames sit AFTER the ones they extend — the third
+       bedroom behind the two the sheet accounts for, the second shower room
+       behind the first — so the soft 356×640 stills never lead, and the frames
+       a visitor forms their impression on are still the 1080px photographs. */
     photos: [
       "b35_salon",
       "b35_chambre_1",
       "b35_chambre_2",
+      "b35_chambre_3",
       "b35_douche",
+      "b35_douche_2",
       "b35_cuisine",
       "b35_balcon",
     ],

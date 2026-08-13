@@ -410,9 +410,34 @@ use the current column, and don't resurrect the old names.
   veined black-and-white porcelain), which is one more reason no single unit's
   photographs can stand for « the range ».
 
-  ⚠️ **3 douches claimed, 1 photographed.** Same gap as SS140-A, one size larger.
-  The page states 3 on her word; two are unphotographed, not absent. **Ask for
-  frames of the other two** — it is the one spec on the page a visitor can count.
+  ⚠️ **3 douches claimed, 2 now photographed** (was 1). A third clip on
+  2026-08-13 supplied `b35_douche_2` — a rounded corner cubicle in ochre-and-blue
+  marble, plainly a different room from `b35_douche`'s square black-and-white one.
+  One still unphotographed. Narrowed, not closed.
+
+  ⚠️ **AND IT BROUGHT A THIRD BEDROOM, AGAINST A SHEET THAT SAYS « 2 chambres ».**
+  The same 6.2s clip shows a bedroom that is **not** either of the two already
+  photographed and **not** a re-dressing of one: its bed has a buttoned,
+  upholstered headboard and footboard where both others have plain curved wood,
+  and the ceiling and window differ again. Furniture does not change between
+  shoots.
+
+  So either the sheet is short by one room, or **the clip is of a different unit
+  altogether** — the fit-outs in this building are close enough that the
+  photographs cannot settle it, and this clip's tiling is the same ochre-and-blue
+  range as A10's `a10_appt_douche`. Shipped as `b35_chambre_3` on the owner's
+  instruction, 2026-08-13; **`rooms: 2` was NOT changed** — that stays her word.
+  **This needs asking before anyone relies on it.**
+
+  ⚠️ **A near miss worth writing down.** The two files dropped into
+  `public/photos/studios/b35/` that day arrived *instead of* `visite.mp4`, which
+  vanished with them and left B35's gallery pointing at a 404. And one of the two
+  (`15.50.07`) was **byte-identical to `a10-chambres/visite.mp4`** — the A10
+  bedrooms walkthrough already serving A10-2 and A10-3 — so publishing it under
+  B35 would have put another unit's rooms on a 120 000 FCFA listing. Caught by
+  hashing before anything was wired up. `visite.mp4` was restored from
+  `assets-raw/`, which is exactly why raw drops belong there first: nothing in
+  `public/photos/studios/` should ever be the only copy of a file.
 
   ⚠️ **No kitchen photograph, though the sheet says « cuisine : oui ».** The only
   evidence is a frame decoded from her second clip at 37.2s. It shows the wall
@@ -724,43 +749,49 @@ Ordered by how much they block the build.
       sheets, so they are missing for every live unit. `#LocationYaoundé`
       suggests longer lets, and nothing in the UI multiplies the nightly figure.
    6. **The unphotographed douches.** SS140-A states 2 and shows 1; B35 states 3
-      and shows 1; **A10 states 4 and shows 1**, and 2 chambres showing 1. It is
-      the one spec on those pages a visitor can count. Also **Canal+** is stated
-      on three and photographed on none.
-   7. **Does A10 have a washing machine?** Its sheet says « non »; one is plainly
+      and now shows 2; **A10 states 4 and shows 1**, and 2 chambres showing 1. It
+      is the one spec on those pages a visitor can count. Also **Canal+** is
+      stated on three and photographed on none.
+   7. **⚠️ DOES B35 HAVE A THIRD BEDROOM — OR IS THAT CLIP ANOTHER UNIT?** Her
+      sheet says « 2 chambres »; the clip she sent 2026-08-13 shows a third,
+      distinct room (buttoned upholstered bedstead, different ceiling and
+      window). It is live on the page as `b35_chambre_3` while the spec table
+      still reads « Chambres 2 », so the two disagree in one viewport. **The
+      highest-priority apartment question on this list.**
+   8. **Does A10 have a washing machine?** Its sheet says « non »; one is plainly
       in its kitchen clip. The site follows the sheet.
-   8. **Does A10 really sleep 8?** Two bedrooms and « un grand lit » on the sheet.
+   9. **Does A10 really sleep 8?** Two bedrooms and « un grand lit » on the sheet.
       Ask what the other six sleep on.
-   9. **Is A10's « balcon » the service terrace?** The only outdoor space filmed
+   10. **Is A10's « balcon » the service terrace?** The only outdoor space filmed
       is a narrow drying terrace in bare render, not a balcony like SS101's.
-   10. **A kitchen photograph of B35.** « Cuisine : oui » is on the sheet and the
+   11. **A kitchen photograph of B35.** « Cuisine : oui » is on the sheet and the
       only evidence is a 642×360 video frame.
-   11. **B35's second clip, re-sent upright.** The 47s one (kitchen, corridor,
+   12. **B35's second clip, re-sent upright.** The 47s one (kitchen, corridor,
       exterior) carries a 90° rotation matrix and plays sideways, so it is held
       rather than served. It is the most complete footage of that unit we hold.
-   12. **Confirm SS140-A's surface directly.** 48,72 m² is SS101's measurement
+   13. **Confirm SS140-A's surface directly.** 48,72 m² is SS101's measurement
       inherited via « mêmes caractéristiques »; two rooms are rarely identical
       to the cm².
-   13. **A walkthrough clip of SS140-A.** SS101 and B35 have one; SS140-A
+   14. **A walkthrough clip of SS140-A.** SS101 and B35 have one; SS140-A
       deliberately does not reuse either.
-   14. **Are A10-2 and A10-3 really interchangeable?** She sent one clip for both,
+   15. **Are A10-2 and A10-3 really interchangeable?** She sent one clip for both,
       byte-identical, so both pages currently show the same rooms.
-   15. **What « Creoling » is.** ✅ No longer confusable with Canal+ — the A10
+   16. **What « Creoling » is.** ✅ No longer confusable with Canal+ — the A10
       sheet prints both lines separately — but the word itself is still unknown,
       so nothing advertises it.
-   16. **Is SS140-A a studio or an apartment?** Its « studio » is inherited from
+   17. **Is SS140-A a studio or an apartment?** Its « studio » is inherited from
       SS101's sheet via « les mêmes informations et caractéristiques » — a word
       she wrote about a *different* unit. The site now prints the noun at display
       size (« Studio SS140-A »), so it is worth one line of confirmation.
-   17. **And SS101 itself?** 48,72 m² with 1 chambre, salon, cuisine and
+   18. **And SS101 itself?** 48,72 m² with 1 chambre, salon, cuisine and
       2 douches is a T2 by French convention, but her sheet says « studio
       entier ». We follow her word; confirm before launch.
-   18. **Letting A10 whole vs. by the room.** The site now lists the apartment
+   19. **Letting A10 whole vs. by the room.** The site now lists the apartment
       *and* two of its bedrooms, all « libre ». Confirm she wants both offered.
-   19. **Availability** — is there a list, a book, a spreadsheet? Whatever it is
+   20. **Availability** — is there a list, a book, a spreadsheet? Whatever it is
       is what the status chips have to read from. All six units currently say
       « libre » because the sheets did; that will date.
-   20. **How someone books**, and whether a stay is nightly, monthly or both.
+   21. **How someone books**, and whether a stay is nightly, monthly or both.
 2. **Vector logo** — AI/EPS/SVG from the designer.
 3. ~~**The menu document**~~ — ✅ **FOUND** and transcribed into `lib/menu.ts`
    (10 sections, ~60 dishes), live at `/fr/carte` · `/en/menu`. What remains:

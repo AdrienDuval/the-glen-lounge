@@ -865,6 +865,63 @@ export const PHOTOS = {
     note:
       "One of three the sheet claims. Deliberately « a » shower room, not « the » — see the section note.",
   },
+  /* ── B35 — THE THIRD CLIP, 2026-08-13 ─────────────────────────────────────
+     Two frames decoded out of a 6.2s walkthrough the client dropped into the
+     B35 folder on 2026-08-13 (`WhatsApp Video ... 15.49.36.mp4`, now held in
+     `assets-raw/whatsapp/b35/`). Empty rooms, no people — `consent: "clear"` on
+     inspection of each. 356×640, the clip's own size: soft, and the same
+     resolution as A10's room stills.
+
+     Unlike B35's other two clips this one plays UPRIGHT, so no transpose was
+     needed and it could in principle ship as a second `Studio.video` — see the
+     note on the B35 row in `lib/apartments.ts` for why it does not.
+
+     ⚠️ THE BEDROOM IS A THIRD ONE, AND THE SHEET SAYS « 2 chambres ».
+     `b35_chambre_1` (red cushions, plain ceiling, wide curtained window) and
+     `b35_chambre_2` (yellow cushions, coffered ceiling with a circular LED) are
+     two rooms; this is a third, and not a re-dressing of either — the bed here
+     has a BUTTONED, UPHOLSTERED headboard and footboard where both of the
+     others have plain curved wood, and the ceiling and window are different
+     again. Furniture is not linen; it does not change between shoots.
+
+     So either the sheet's « 2 chambres » is short by one, or this clip is of a
+     different unit altogether — the fit-outs in this building are close enough
+     that the photographs cannot settle it, and the ochre-and-blue veined tiling
+     in `b35_douche_2` is notably the same range as `a10_appt_douche`'s.
+     ⚠️ THE ROW STILL SAYS `rooms: 2`, on the client's word. Shipped on the
+     owner's instruction, 2026-08-13, with the conflict recorded here and in
+     FACTS.md rather than resolved by us. ASK HER before this is relied on.
+
+     ✅ The shower room, by contrast, is a clean gain: the sheet claims THREE and
+     only one was photographed. This is a second, distinct from `b35_douche` —
+     a quadrant cubicle in ochre-and-blue marble against `b35_douche`'s square
+     cubicle in black-and-white — so it narrows a documented gap instead of
+     opening one. */
+  b35_chambre_3: {
+    src: "/photos/studios/b35/chambre-3.jpg",
+    w: 356,
+    h: 640,
+    consent: "clear",
+    alt: {
+      fr: "Chambre du B35 — grand lit en bois verni à tête et pied de lit capitonnés, linge blanc et coussins bleu canard, faux-plafond à gorge lumineuse, petite fenêtre grillagée et sol en marbre",
+      en: "A B35 bedroom — polished wood double bed with a buttoned headboard and footboard, white linen with teal cushions, a coved ceiling, a small grilled window and a marble floor",
+    },
+    note:
+      "⚠️ Deliberately « a » bedroom and NOT « the third »: the sheet says 2 chambres and this is demonstrably a third room. See the section note. Frame decoded from the 6.2s clip at 2.8s — 356×640.",
+  },
+  b35_douche_2: {
+    src: "/photos/studios/b35/douche-2.jpg",
+    w: 356,
+    h: 640,
+    consent: "clear",
+    alt: {
+      fr: "Seconde salle d’eau du B35 — cabine de douche d’angle arrondie à profilés noirs, faïence en marbre veiné d’ocre et de bleu, porte-serviettes garni et vasque",
+      en: "A second B35 shower room — rounded corner shower cubicle with black framing, ochre-and-blue veined marble tiling, a stocked towel rail and a basin",
+    },
+    note:
+      "The second of the three the sheet claims — see the section note. Frame decoded from the 6.2s clip at 4.9s — 356×640.",
+  },
+
   b35_balcon: {
     src: "/photos/studios/b35/balcon.jpg",
     w: 1080,
