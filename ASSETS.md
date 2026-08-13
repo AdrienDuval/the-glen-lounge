@@ -10,7 +10,67 @@ the platforms change their walls often.
 | **TikTok** `@the.glen.lounge` | ✅ Open, no login | **Harvested** — 114+ posts, video + images + captions |
 | **Instagram** `@the_glen_lounge` | ❌ Login wall | Needs a session cookie, or manual download |
 | **Facebook** page | ✅ **Open again as of 2026-08-07** | **Harvested** — 43 photos, no login. See below |
+| **The client, over WhatsApp** | ✅ Best source we have | The apartment media. See below |
 | Google Maps / TripAdvisor / Booking | ❌ Not listed at all | Nothing to harvest — see SEO note below |
+
+## The client's own apartment media (WhatsApp)
+
+Not harvested — sent to us, and the only imagery of the actual units. It does not
+go through any of the tooling below.
+
+**Raw drops live in `assets-raw/whatsapp/<unit>/` under their original
+`WhatsApp Image …` filenames** (`assets-raw/` is gitignored — see `.gitignore`).
+Curated copies go to `public/photos/studios/<slug>/` under semantic names
+(`salon.jpg`, `chambre-1.jpg`, `douche.jpg`, `visite.mp4` …) and are registered
+in `lib/photos.ts` with measured dimensions.
+
+⚠️ **Keep the shipped folder lowercase.** The raw drop arrives named for the unit
+in caps (`B35`, `A10`) and the curated folder is the slug; on Windows those are
+the SAME directory, so the raw drop must be moved out to `assets-raw/` first
+rather than left beside it. A10 was the last one sitting in `public/` from before
+this rule — moved to `assets-raw/whatsapp/a10/` on 2026-08-13 when it was listed,
+and its curated set went to `public/photos/studios/a10-appartement/`.
+
+⚠️ **`a10-appartement/` and `a10-chambres/` are two different lets at one
+address** — the whole apartment, and the two bedrooms rented individually inside
+it. Their `lib/photos.ts` ids are prefixed apart for the same reason: `a10_appt_*`
+is the whole unit, `a10_*` the rooms. Do not merge them.
+
+⚠️ **Everything is capped at 1080px on the long edge** — WhatsApp re-encodes on
+send. Fine at current gallery sizes; the originals are still worth asking for.
+**A10 came in at half that** (540×960 stills, 360×640 clips), so its shipped set
+is the softest on the site — see FACTS.md.
+
+**Decoding a still from a clip.** Where a unit sent no photograph of a room
+(A10's bedroom, shower, kitchen and terrace; B35's kitchen), frames are decoded
+out of the walkthrough with `playwright-core` driving system Chrome. `file://`
+video taints the canvas, so `canvas.toDataURL()` throws `SecurityError`; there
+are two ways round it and the second is better:
+
+- Stage the clip beside a one-line HTML host and **screenshot the element**.
+  Works, but you get the *displayed* pixels — already scaled, and re-encoded.
+- **Serve the folder from a throwaway `http.createServer` on localhost** (honour
+  `Range`, or seeking stalls) and load the video from `http://`. Same-origin, no
+  taint, so `drawImage` + `toDataURL("image/png")` gives the **full-resolution
+  frame losslessly**, ready for sharp. This is how A10's five frames were cut.
+
+These are real footage of the real room, so they carry no illustration caption,
+but they are 356–642px and visibly soft.
+
+⚠️ **Sideways media is common in these drops, in two different ways.**
+- *Clips.* B35's 47s one carries a 90° rotation matrix; **all four of A10's**
+  report portrait dimensions with the picture lying on its side. Either way a
+  browser plays them sideways, so they are **held, not served**. Check by
+  screenshotting a real `<video>` rather than reading the container — Chromium
+  already folds rotation into `videoWidth`/`videoHeight`.
+- *Stills.* A10's three JPEGs are 540×960 with the pixels on their side and **no
+  EXIF orientation tag at all**, so nothing downstream can correct them
+  automatically. `sharp().rotate()` with no argument only obeys EXIF and would
+  have shipped them sideways — pass the angle explicitly.
+
+Correct either with sharp's `.rotate(-90)`, a lossless transpose; do **not** ship
+a clip rotated. `ffmpeg` is not installed here, so re-encoding a clip upright is a
+client ask, not a local fix.
 
 ## TikTok — works, no credentials
 

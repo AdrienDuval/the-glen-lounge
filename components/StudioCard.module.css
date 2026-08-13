@@ -1,0 +1,442 @@
+/* ============================================================
+   ONE UNIT, AS A CARD — the house idiom: frame + scrim + corner
+   ticks + a hairline "contents-page" row under the photograph.
+
+   Moved out of StudiosIndex.module.css on 2026-08-13, essentially verbatim, so
+   the foot of every unit page can use it too. `.cardWide` became `.feature`;
+   `.grid` and `.compact` are new. The only behavioural change made during the
+   move is the hover-zoom fix on `.img` — see its note.
+   ============================================================ */
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--ink-2);
+}
+
+.feature .media {
+  aspect-ratio: 3 / 2;
+}
+
+.img {
+  object-fit: cover;
+  /* `scale`, NOT `transform`.
+     `useSectionMotion` runs the house `.frame` choreography over this image —
+     `gsap.from(media, { scale: 1.18 })` — and GSAP leaves `transform:
+     translate(0px, 0px)` INLINE when it finishes. An inline transform beats a
+     stylesheet rule, so the `transform: scale(1.045)` this used to be never
+     applied once: on /fr/appartements a card image's computed transform stays
+     the identity matrix straight through a hover. The signature zoom has been
+     dead for as long as the reveal has run over it.
+
+     `scale` is an independent transform property, so it composes with GSAP's
+     inline `transform` instead of losing to it. Do not fold it back in.
+
+     Baseline since 2022 (Chrome 104 / Safari 14.1 / Firefox 72); a browser
+     without it gets no hover zoom, which is what every browser gets today. */
+  transition: scale 0.9s var(--ease-out);
+}
+
+.card:hover .img,
+.card:focus-visible .img {
+  scale: 1.045;
+}
+
+/* Bottom-weighted so the status chip and the ticks always have ground under
+   them, whatever the photograph does. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(6, 9, 12, 0.55),
+    transparent 42%,
+    rgba(6, 9, 12, 0.35)
+  );
+  opacity: 0.9;
+  transition: opacity 0.5s var(--ease-out);
+}
+
+.card:hover .scrim {
+  opacity: 0.55;
+}
+
+.status {
+  position: absolute;
+  z-index: 2;
+  top: 0.85rem;
+  left: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.7rem;
+  background: rgba(6, 9, 12, 0.72);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--line);
+  color: var(--body);
+}
+
+/* The relationship ribbon, opposite the status pill. Gold-bordered rather than
+   muted: on A10-2's page « L'appartement entier » is not a suggestion, it is
+   where the bed actually is. Only ever rendered in the related band. */
+.relation {
+  position: absolute;
+  z-index: 2;
+  top: 0.85rem;
+  right: 0.85rem;
+  /* Never let it run under the status pill on a narrow card. */
+  max-width: calc(100% - 1.7rem);
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(232, 188, 62, 0.55);
+  background: rgba(6, 9, 12, 0.72);
+  backdrop-filter: blur(6px);
+  color: var(--gold);
+  text-align: right;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  flex: none;
+}
+
+.available {
+  border-color: rgba(232, 188, 62, 0.55);
+  color: var(--gold);
+}
+
+.occupied {
+  color: var(--muted);
+}
+
+.soon {
+  border-color: rgba(203, 165, 76, 0.5);
+  color: var(--gold-dim);
+}
+
+/* Two gold corner ticks that grow on hover. */
+.tick {
+  position: absolute;
+  z-index: 2;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 1px solid var(--gold);
+  border-right: 0;
+  border-bottom: 0;
+  top: 0.6rem;
+  left: 0.6rem;
+  opacity: 0;
+  transition: opacity 0.45s var(--ease-out), width 0.45s var(--ease-out),
+    height 0.45s var(--ease-out);
+}
+
+.tickEnd {
+  top: auto;
+  left: auto;
+  right: 0.6rem;
+  bottom: 0.6rem;
+  border: 1px solid var(--gold);
+  border-left: 0;
+  border-top: 0;
+}
+
+.card:hover .tick,
+.card:focus-visible .tick {
+  opacity: 1;
+  width: 2.1rem;
+  height: 2.1rem;
+}
+
+.body {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.codeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+/* The noun in the display face, the code in mono beside it. The card used to
+   title itself with the bare code, which told a visitor nothing and made
+   « A10 » and « A10-2 » — a whole flat and one bedroom inside it — look like
+   two members of the same series. */
+.code {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+  line-height: 1.1;
+  color: var(--white);
+  flex: none;
+}
+
+.codeMark {
+  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
+  /* Relative to the noun, so the pair scales as one lockup. */
+  font-size: 0.8em;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  /* « SS140-A » must not break at the hyphen. */
+  white-space: nowrap;
+}
+
+.feature .code {
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+}
+
+/* The hairline eats the space between the code and the call to action, so the
+   row reads as one line of a contents page. */
+.rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+  transition: background-color 0.45s var(--ease-out);
+}
+
+.card:hover .rule {
+  background: var(--gold-dim);
+}
+
+.more {
+  color: var(--gold);
+  flex: none;
+}
+
+.arrow {
+  color: var(--gold);
+  flex: none;
+  transition: transform 0.45s var(--ease-out);
+}
+
+.card:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* The identity line — « 2 chambres · 130 m² · 8 couchages · Sous-sol 1 ».
+   `text-wrap: pretty` because this is now four segments in a ~380px card and
+   the separators must never be what wraps: « 130 m² · 2 chambres · » with a
+   dangling middot is worse than a short last line. */
+.meta {
+  color: var(--muted);
+  text-wrap: pretty;
+}
+
+/* The rate. Deliberately the same treatment as the masthead's `.price` on the
+   detail page — gold, 500, and never broken across lines — so the number a
+   visitor picked off the grid is the number that greets them on the page.
+   `nowrap` matters here specifically: « 120 000 FCFA » is thin-space separated
+   and would otherwise wrap between the digits. */
+.price {
+  margin-top: 0.15rem;
+  color: var(--gold);
+  font-weight: 500;
+  font-size: 1.05rem;
+  white-space: nowrap;
+}
+
+/* « la nuit » — the unit of time, which has to be present so the figure is
+   never read as the whole stay, but must not compete with it. */
+.pricePer {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.8rem;
+}
+
+/* The apartment a bedroom sits inside — always the first segment of a room's
+   identity line. Gold rather than muted because it is a qualification on what
+   is being sold, not a detail: it has to survive being skimmed past on the way
+   to the price. It replaced a separate gold line above the meta, which said the
+   same sentence twice once `unitLine` started leading rooms with it. */
+.metaLead {
+  color: var(--gold);
+}
+
+.chips {
+  list-style: none;
+  margin: 0.15rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid var(--line);
+  color: var(--body);
+  font-size: 0.8125rem;
+  transition: border-color 0.4s var(--ease-out), color 0.4s var(--ease-out);
+}
+
+.chip svg {
+  color: var(--gold-dim);
+  transition: color 0.4s var(--ease-out);
+}
+
+.card:hover .chip {
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.card:hover .chip svg {
+  color: var(--gold);
+}
+
+.chipMore {
+  color: var(--muted);
+}
+
+/* ---- the compact variant, for the related band ----
+   Three-up inside the 82rem shell, so its cards are ~380px against the index
+   grid's ~360–420px — close enough that only the type needs easing down.
+
+   ⚠️ BELOW 620px IT IS A ROW, NOT A CARD, and that is a bytes decision as much
+   as a layout one. The related band adds up to five units to the foot of a unit
+   page; stacked as full-width plates on a phone they took the A10-2 document
+   from 4 049px to 6 633px — two and a half extra screens of scrolling, and five
+   full-width photographs fetched, for an audience the repo's own notes place on
+   Cameroonian mobile data. As a row the same five cost ~600px and a ~37vw
+   image each. The photograph is still there, which was the whole point; it is
+   just no longer the size of the phone.
+
+   The index deliberately keeps its full-plate stack: there the cards ARE the
+   page, and a visitor on /appartements came to look at them. */
+.compact .code {
+  font-size: clamp(1rem, 1.2vw, 1.15rem);
+}
+
+.compact .body {
+  gap: 0.45rem;
+}
+
+.compact .price {
+  font-size: 1rem;
+}
+
+.compact .chip {
+  padding: 0.28rem 0.55rem;
+  font-size: 0.75rem;
+}
+
+/* The status pill and the relation ribbon share the top edge of a ~380px card,
+   so the ribbon is held to a share of the width and allowed to wrap rather than
+   run into the pill. Both are short by design — see `related.isRoom` in the
+   dictionaries — and this is the belt to that braces. */
+.compact .relation {
+  max-width: 58%;
+  text-wrap: balance;
+}
+
+/* ⚠️ « Voir le logement » IS DROPPED WHILE THE TWO-UP GRID IS STILL NARROW.
+   `.code`, `.more` and `.arrow` are all `flex: none`, so nothing in the row can
+   give: at 620px — the width where the related grid first goes two-up — the
+   cards are 272px and the arrow was pushed 10px past the viewport, which the
+   document then scrolled to reach. Measured, not guessed.
+
+   760px is where a two-up card clears ~336px and the full row fits again. Below
+   it the gold arrow and the hairline carry the affordance on their own, and the
+   whole card is a link regardless.
+
+   `min-width: 0` on the title is the belt to that braces — a long noun-plus-code
+   lockup should ellipsise rather than push. */
+.compact .code {
+  min-width: 0;
+}
+
+@media (max-width: 759px) {
+  .compact .more {
+    display: none;
+  }
+}
+
+@media (max-width: 619px) {
+  .compact {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.9rem;
+  }
+
+  .compact .media {
+    flex: 0 0 38%;
+    /* A little taller than the 4:3 plate: a portrait bedroom still (A10's
+       rooms are 356×640) reads better here than a wide crop of one. */
+    aspect-ratio: 1 / 1;
+  }
+
+  .compact .body {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  /* The chips are the first thing to go: the audit found all four whole units
+     carry byte-identical amenity lists, so in a related band they are the least
+     distinguishing thing on the card and the most expensive in height. The
+     unit's own page lists them in full. */
+  .compact .chips {
+    display: none;
+  }
+
+  /* The status pill and the relation ribbon cannot both sit across a 38% media
+     box without colliding. The relation is the one that earns its place here —
+     « L'appartement entier » is why the card is in this band at all — so it
+     takes the corner and the status moves down to the body row, where the
+     identity line already reads as text rather than as an overlay. */
+  .compact .status {
+    display: none;
+  }
+
+  .compact .relation {
+    top: 0.4rem;
+    right: 0.4rem;
+    left: 0.4rem;
+    max-width: none;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.5625rem;
+    text-align: center;
+  }
+
+  .compact .tick,
+  .compact .more {
+    display: none;
+  }
+}
+
+/* ---- the feature variant, on the index only ----
+   Breakpoints ascend — 720 then 1100. Keep them in that order. */
+@media (min-width: 720px) {
+  .feature {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .feature .media {
+    flex: 1 1 62%;
+    aspect-ratio: 16 / 10;
+  }
+
+  .feature .body {
+    flex: 1 1 38%;
+    gap: 0.85rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .feature .media {
+    aspect-ratio: 21 / 9;
+  }
+}

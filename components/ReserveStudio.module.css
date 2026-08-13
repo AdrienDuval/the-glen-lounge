@@ -115,3 +115,53 @@
     max-width: 9rem;
   }
 }
+
+/* ---- the phone-only enquiry bar ----
+   Fixed to the foot of the viewport once the panel has scrolled away. Only
+   below 900px: from there the panel is sticky and permanently in view, so a bar
+   would be a second copy of a control already on screen. See the note in
+   ReserveStudio.tsx for why it is observed rather than scroll-thresholded. */
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Under the nav (80) and its drawer (70) — an open menu must not have this
+     sitting over it — and above everything on the page. */
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem var(--gut);
+  padding-bottom: max(0.7rem, env(safe-area-inset-bottom));
+  background: rgba(6, 9, 12, 0.93);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+  animation: barIn 0.35s var(--ease-out);
+}
+
+.barRate {
+  margin: 0;
+  min-width: 0;
+}
+
+@keyframes barIn {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+/* The global kill switch only CLAMPS animation-duration, so this explicit
+   block is what actually honours the preference. Keep it. */
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    animation: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .bar {
+    display: none;
+  }
+}

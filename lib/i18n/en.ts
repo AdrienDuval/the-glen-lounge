@@ -155,7 +155,7 @@ export const en = {
     title: "Stay the night",
     lede: "Glen Appartement — furnished to a high standard, available 24 hours a day, every day. Comfort, security, privacy.",
     note: "Types and rates given over the phone.",
-    seeAll: "See all 11 studios",
+    seeAll: "See all 11 places to stay",
     cta: "Check availability",
   },
 
@@ -209,9 +209,9 @@ export const en = {
 
   studios: {
     eyebrow: "Apartments",
-    title: "Furnished studios, on site",
-    lede: "Glen Appartement — furnished to a high standard, 24-hour access. Comfort, security and privacy, a step away from the room. Eleven studios in the building; those we can show you in full are below.",
-    count: "studios shown",
+    title: "Furnished places to stay, on site",
+    lede: "Glen Appartement — furnished to a high standard, 24-hour access. Comfort, security and privacy, a step away from the room. Eleven places to stay in the building. The ones we can show you in full — whole apartments, studios and single rooms — are below.",
+    count: "shown",
     availableNow: "available today",
     status: {
       available: "Available",
@@ -219,6 +219,12 @@ export const en = {
       soon: "Free soon",
     },
     sleeps: "Sleeps",
+    /* See the note in fr.ts. English already reads correctly as a sentence
+       ("Sleeps 4"), so both forms are the same here — the pair exists because
+       French has to invert to « 4 couchages », and both dictionaries have to
+       carry the same keys. */
+    sleepsCount: "Sleeps {n}",
+    sleepsCountOne: "Sleeps {n}",
     floor: "Floor",
     groundFloor: "Ground floor",
     basement: "Lower ground",
@@ -244,6 +250,12 @@ export const en = {
       equipmentCount: "included",
       rooms: "Bedrooms",
       showers: "Shower rooms",
+      kind: "Type",
+      /* One per `UnitKind` — see the note in fr.ts. */
+      kindApartment: "Whole apartment",
+      kindStudio: "Whole studio",
+      kindRoom: "A room in a shared apartment",
+      kindRoomIn: "A room in apartment {code}",
       livingRoom: "Living room",
       kitchen: "Kitchen",
       yes: "Yes",
@@ -255,15 +267,39 @@ export const en = {
       twin: "Two single beds",
       doubleSingle: "One double bed + one single",
     },
-    gallery: "The studio in pictures",
+    /* The neutral noun — see the note in fr.ts. */
+    gallery: "This place in pictures",
     openGallery: "Enlarge",
+    closeGallery: "Close gallery",
     prev: "Previous image",
     next: "Next image",
     videoLabel: "Video walkthrough",
     playVideo: "Play the walkthrough",
-    backToStudios: "All studios",
-    seeStudio: "View studio",
-    otherStudios: "Other studios",
+    backToStudios: "All places to stay",
+    seeUnit: "View this place",
+    noun: {
+      apartment: "Apartment",
+      studio: "Studio",
+      room: "Room",
+    },
+    /* English does not invert, but both dictionaries must carry the same keys. */
+    roomsCount: "{n} bedrooms",
+    roomsCountOne: "{n} bedroom",
+    inApartment: "In apartment {code}",
+    related: {
+      otherTitle: "Other places to stay",
+      otherKicker: "Elsewhere in the building",
+      sameApartmentTitle: "In the same apartment",
+      sameApartmentKicker: "The rest of this place",
+      roomInside:
+        "This bedroom is part of apartment {code}, which can also be taken whole.",
+      apartmentRooms: "The bedrooms in this apartment can also be taken on their own.",
+      isParent: "The whole apartment",
+      isSibling: "Another bedroom",
+      /* Short on purpose — see the note in fr.ts. */
+      isRoom: "A bedroom",
+      sameMedia: "Both bedrooms share the same set of pictures.",
+    },
     amenities: {
       wifi: "Wi-Fi",
       ac: "Air conditioning",
@@ -283,7 +319,10 @@ export const en = {
       access24: "24-hour access",
     },
     book: {
-      title: "Enquire about this studio",
+      /* One per `UnitKind` — see the note in fr.ts. */
+      titleApartment: "Enquire about this apartment",
+      titleStudio: "Enquire about this studio",
+      titleRoom: "Enquire about this room",
       arrival: "Arrival",
       departure: "Departure",
       guests: "Guests",
@@ -292,13 +331,21 @@ export const en = {
       price: "Rate on request",
       whatsapp: "Ask on WhatsApp",
       call: "Call the Glen",
-      unavailable: "This studio is occupied. Ask us when it frees up, or pick another one.",
-      soon: "This studio frees up shortly. Call us for the exact date.",
+      unavailable: "This one is occupied. Ask us when it frees up, or pick another.",
+      soon: "This one frees up shortly. Call us for the exact date.",
       message:
-        "Hello, I'd like to book studio {code} at Glen Appartement. {dates}, {guests}. Could you confirm availability and the rate?",
+        "Hello, I'd like to book {unit} {code} at Glen Appartement. {dates}, {guests}. Could you confirm availability and the rate?",
+      /* No article in English — the French values carry one because of the
+         elision. See the note in fr.ts. */
+      messageUnit: {
+        apartment: "apartment",
+        studio: "studio",
+        room: "room",
+      },
       messageDates: "From {from} to {to}",
       messageNoDates: "Dates to be confirmed",
       messageGuests: "{n} guest(s)",
+      barCta: "Enquire",
     },
   },
 

@@ -3,25 +3,37 @@ import type { PhotoId } from "./photos";
 /**
  * The studios — only the units we can actually document.
  *
- * ── WHAT IS HERE, AS OF 2026-08-12 ───────────────────────────────────────────
- * Two units, both with their own photographs of the real rooms, and both fully
- * specified: SS101 from its filled characteristics sheet, and SS140-A because
- * the client confirmed it carries the same characteristics and the same rate.
- * They therefore share ONE spec object, `SS101_SPEC` — see its note.
+ * ── WHAT IS HERE, AS OF 2026-08-13 ───────────────────────────────────────────
+ * SIX units, every one of them with its own media of its own rooms and every
+ * spec client-stated. Four filled sheets cover them, because two of the sheets
+ * each answered for two units:
  *
- * ── WHY THE OTHER NINE ARE GONE ──────────────────────────────────────────────
- * There were eleven rows. Nine of them existed only so the pages could be
- * clicked through before the client sent anything: surface, couchages, étage,
- * literie and équipements were all invented, and the site carried two separate
+ *   `SS101_SPEC`    → SS101, and SS140-A on the client's explicit word.
+ *   `A10_ROOM_SPEC` → A10-2 and A10-3, two rooms let inside apartment A10.
+ *   `B35_SPEC`      → B35 alone. NOT to be spread by a second row.
+ *   `A10_SPEC`      → A10 alone — the apartment the two rooms above sit in.
+ *
+ * Rows that share a sheet spread ONE object rather than a hand-copied duplicate,
+ * so a correction cannot silently leave one of them behind.
+ *
+ * ⚠️ A10 AND ITS ROOMS ARE THE SAME FLOOR AREA, LISTED TWICE — whole at 150 000,
+ * or one bedroom at 30 000, all three « libre ». Safe only because nothing here
+ * takes a booking. Read the note on `A10_SPEC` before building anything that
+ * does.
+ *
+ * ── WHY THE REST ARE NOT HERE ────────────────────────────────────────────────
+ * There were eleven rows once. Nine existed only so the pages could be clicked
+ * through before the client sent anything: surface, couchages, étage, literie
+ * and équipements were all invented, and the site carried two separate
  * disclaimers admitting it. Removed 2026-08-12 — a listing a visitor can hold
- * the venue to is worse than a listing that is not there.
+ * the venue to is worse than a listing that is not there. Four of the nine have
+ * since come back properly documented (A10-2, A10-3, B35, A10).
  *
- * ⚠️ THE NINE CODES ARE STILL REAL and are still recorded in FACTS.md
- * (`ST005-A` · `B35-A` · `B15-A` · `A10-A` · `A10-1-A` · `A10-2-A` · `A10-3-A` ·
- * `SS130-A` · `SS110-A`). This file is the shippable set, not the inventory.
- * The venue has eleven units; we can only describe two. When a sheet and photos
- * land for one of the nine, add the row back from FACTS.md — do NOT restore the
- * old invented figures from git history.
+ * ⚠️ THE FIVE REMAINING CODES ARE STILL REAL and are still recorded in FACTS.md
+ * (`ST005-A` · `B15-A` · `A10-1-A` · `SS130-A` · `SS110-A`). This file is the
+ * shippable set, not the inventory. The venue has eleven units; we can describe
+ * six. When a sheet and media land for one of the five, add the row back from
+ * FACTS.md — do NOT restore the old invented figures from git history.
  *
  * ── ADDING A UNIT ────────────────────────────────────────────────────────────
  * A row belongs here once it has photographs of ITS OWN rooms. Fill only the
@@ -95,11 +107,68 @@ export const SAME_BUILDING_AS_RESTAURANT = true;
 /** Bed layouts. Labels live in `studios.beds` in both dictionaries. */
 export type BedType = "double" | "twin" | "doubleSingle";
 
+/**
+ * What is actually being let — AND THE NOUN THE SITE CALLS IT BY.
+ *
+ * `apartment` — a whole flat, its own front door. A10 and B35.
+ * `studio`    — a whole unit the client calls a studio. SS101 and SS140-A.
+ * `room`      — ONE bedroom inside a shared apartment. A10-2 and A10-3,
+ *               confirmed by the client 2026-08-12 as « chambre seule dans un
+ *               appartement ».
+ *
+ * `room` was added 2026-08-12 because the site called everything a « studio »,
+ * and a 10 m² bedroom with no kitchen, no salon and a shared front door is not
+ * one. A visitor who books a « studio » and arrives to a room in someone else's
+ * flat has been misled by the noun alone, so the noun became data.
+ *
+ * ── WHY `whole` HAD TO SPLIT IN TWO, 2026-08-13 ───────────────────────────────
+ * This was `"whole" | "room"`, and `whole` carried exactly ONE label —
+ * « Studio entier ». That label was printed over A10 (130 m², 2 chambres, salon,
+ * cuisine, 8 couchages) and B35 (95,72 m², 2 chambres), the enquiry panel said
+ * « Demander ce studio » above 150 000 FCFA, and the WhatsApp message the client
+ * herself receives said « je souhaite réserver le studio A10 ». That is the exact
+ * mirror of the bug `room` was introduced to fix, at the other end of the range,
+ * and FACTS.md had it logged as open.
+ *
+ * ⚠️ THE NOUN IS TRANSCRIBED, NEVER DERIVED. Each value is the word the client
+ * wrote on that unit's own sheet: « appartement entier » for A10 and B35,
+ * « studio entier » for SS101. It is tempting to compute it instead —
+ * `rooms >= 2 → apartment` reproduces all three sheets today — but a rule fitted
+ * to three points would silently invent the noun for the five undocumented codes
+ * still listed in FACTS.md, which is precisely what the header of this file
+ * forbids. She wrote one word per sheet; record the word.
+ *
+ * ⚠️ SS140-A's « studio » IS INHERITED, NOT WRITTEN FOR IT. It comes from
+ * SS101's sheet via « les mêmes informations et caractéristiques » — a word she
+ * wrote about a different unit. Open question in FACTS.md.
+ */
+export type UnitKind = "apartment" | "studio" | "room";
+
+/**
+ * A whole unit with its own front door — anything that is not a single room.
+ *
+ * Every place the old `kind === "whole"` test appeared was asking a STRUCTURAL
+ * question (does this thing have its own bedrooms? its own kitchen?) rather than
+ * a naming one, so those tests ask it through here. Splitting the noun again —
+ * and there will be a third word eventually, the venue has eleven units — then
+ * touches this one function instead of five components.
+ */
+export function isWholeUnit(studio: Studio): boolean {
+  return studio.kind !== "room";
+}
+
 export type Studio = {
   /** The venue's own unit code, e.g. "SS101". Client-supplied — real. */
   code: string;
   /** URL segment, language-neutral: the code, lowercased. */
   slug: string;
+  /** Whole unit or a single room inside one. See `UnitKind`. */
+  kind: UnitKind;
+  /**
+   * For `kind: "room"`, the apartment it sits in — « Chambre dans
+   * l'appartement A10 ». Omitted for whole units.
+   */
+  parentCode?: string;
   /**
    * Availability, or null when the client has not told us — the row and the
    * card badge are then omitted rather than guessed.
@@ -206,14 +275,215 @@ const SS101_SPEC = {
     "access24",
   ],
   pricePerNight: 60000,
-} as const satisfies Omit<Studio, "code" | "slug" | "photos" | "video">;
+} as const satisfies Omit<
+  Studio,
+  "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
+>;
+
+/**
+ * ✅ THE A10 ROOM SHEET — client, 2026-08-12, headed « Code / Nom : A10-3 and 2 ».
+ *
+ * One sheet answered for TWO units, so like `SS101_SPEC` it lives here once and
+ * both rows spread it. That is the client's own framing, not an inference: she
+ * filled a single fiche and named both codes on it.
+ *
+ * ── WHAT THESE ARE ───────────────────────────────────────────────────────────
+ * « chambre seule dans un appartement » — one bedroom let inside apartment A10,
+ * NOT a self-contained studio. R+1, 10 m², 1 douche, no salon, no cuisine, no
+ * balcon, 2 personnes, grand lit, libre, 30 000 FCFA la nuit. Ventilateur,
+ * micro-ondes, machine à laver and ustensiles all came back « non » and are
+ * therefore absent rather than assumed — consistent with there being no kitchen.
+ *
+ * This is what `A10-A` versus `A10-1-A` / `A10-2-A` / `A10-3-A` in the original
+ * code list was hinting at all along: A10 is one apartment and the numbered
+ * codes are its rooms, let individually.
+ *
+ * ⚠️ « Creoling : oui » — the fifth equipment line, which on the fiche we sent
+ * is the Canal+ slot. Every other line matches its label exactly, so position
+ * says Canal+; the word does not. It is NOT recorded as `canalPlus` here,
+ * because advertising a subscription package the client may not have said is a
+ * claim we cannot support. Ask her what she meant, then add it.
+ *
+ * ⚠️ Weekly rate, monthly rate and caution were left blank again. Still open.
+ */
+const A10_ROOM_SPEC = {
+  status: "available",
+  sleeps: 2,
+  floor: "R+1",
+  size: 10,
+  bed: "double",
+  rooms: 1,
+  showers: 1,
+  livingRoom: false,
+  kitchen: false,
+  amenities: [
+    "wifi",
+    "ac",
+    "tv",
+    "fridge",
+    "bathroom",
+    "hotWater",
+    "linens",
+    "access24",
+  ],
+  pricePerNight: 30000,
+} as const satisfies Omit<
+  Studio,
+  "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
+>;
+
+/**
+ * ✅ THE A10 SHEET — client, 2026-08-13. The apartment ITSELF, let whole:
+ * « Appartement entier », sous-sol R-1, 130 m², 2 chambres, 4 douches, salon,
+ * cuisine, balcon, 8 personnes, grand lit, libre, 150 000 FCFA la nuit.
+ *
+ * The biggest and the dearest thing on the site — 130 m² against B35's 95.72,
+ * and 150 000 FCFA against its 120 000.
+ *
+ * ⚠️ THIS IS THE PARENT OF THE A10-2 AND A10-3 ROWS. The site now lets the same
+ * floor area twice: whole at 150 000, or one of its bedrooms at 30 000. Both are
+ * « libre ». Nothing in the code prevents a visitor asking for A10 and another
+ * asking for A10-3 over the same nights — but nothing needs to, because
+ * ReserveStudio does not take bookings; it hands an enquiry to WhatsApp with the
+ * unit code in it, and a human answers. Recorded because the overlap is real and
+ * a future booking engine MUST know these rows share a space. Worth telling the
+ * client the site now offers both.
+ *
+ * ⚠️ THE FLOOR CONTRADICTS THE ROOM SHEET. This one says « sous sol R-1 »;
+ * `A10_ROOM_SPEC` says « R+1 » for two bedrooms INSIDE this same apartment, and
+ * both cannot be true. `floor: "R-1"` here is simply this sheet's own answer,
+ * left as given rather than reconciled — picking a winner would be inventing the
+ * loser. NOTE the photographs settle nothing: the frames look out over
+ * neighbouring roofs, which reads as an upper storey, but SS140-A is on R-2 with
+ * exactly that view because the building is cut into a slope. Only the client
+ * can resolve it, and it is the first thing to ask her.
+ *
+ * ⚠️ « 2 chambres » SITS BADLY WITH THE CODE LIST. FACTS.md records A10-1-A,
+ * A10-2-A and A10-3-A — three numbered rooms in an apartment this sheet says has
+ * two bedrooms. Ask.
+ *
+ * ⚠️ « 8 personnes » ON « 2 chambres » AND ONE « grand lit ». Sleeping eight in
+ * two bedrooms means bedding the site cannot see and `BedType` cannot express.
+ * `sleeps: 8` is the client's answer and stands; the literie line will read « Un
+ * lit double », which is the whole of what she told us about beds.
+ *
+ * ⚠️ MACHINE À LAVER : « non » ON THE SHEET, VISIBLE IN THE KITCHEN CLIP. See
+ * `a10_appt_cuisine` in `lib/photos.ts`. `laundry` is absent here, following the
+ * sheet — the client's word governs what is advertised.
+ *
+ * ✅ « Canal+ au salon : oui » — AND IT RETIRES A DOUBT. `A10_ROOM_SPEC` above
+ * flags « Creoling » appearing in the Canal+ slot on the rooms' sheet, and could
+ * not tell whether the client meant Canal+ by it. This sheet prints BOTH lines,
+ * « Canal+ au salon : oui » and « Creoling dans la chambre : oui », so they are
+ * two different things in her own hand and « Creoling » is NOT her word for
+ * Canal+. `canalPlus` is therefore recorded here, where she named it, and
+ * remains correctly absent from the room rows — those bedrooms have no salon.
+ * What « Creoling » actually is remains unknown and unadvertised.
+ *
+ * ⚠️ Weekly rate, monthly rate and caution blank AGAIN — fourth sheet running.
+ */
+const A10_SPEC = {
+  status: "available",
+  sleeps: 8,
+  floor: "R-1",
+  size: 130,
+  bed: "double",
+  rooms: 2,
+  showers: 4,
+  livingRoom: true,
+  kitchen: true,
+  amenities: [
+    "wifi",
+    "ac",
+    "tv",
+    "canalPlus",
+    "kitchenette",
+    "fridge",
+    "microwave",
+    "utensils",
+    "bathroom",
+    "hotWater",
+    "linens",
+    "balcony",
+    "access24",
+  ],
+  pricePerNight: 150000,
+} as const satisfies Omit<
+  Studio,
+  "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
+>;
+
+/**
+ * ✅ THE B35 SHEET — client, 2026-08-13. « Appartement entier », sous-sol R-1,
+ * 95.72 m², 2 chambres, 3 douches, salon, cuisine, balcon, 4 personnes, grand
+ * lit, libre, 120 000 FCFA la nuit.
+ *
+ * ⚠️ THIS ONE IS NOT SHARED. `SS101_SPEC` and `A10_ROOM_SPEC` are spread by two
+ * rows each because one sheet answered for two units in both cases. This sheet
+ * names ONE code. It is kept in a const purely to match the shape of the other
+ * two and keep the row readable — a second row must not spread it unless the
+ * client says in her own words that the units match, which is the bar SS140-A
+ * had to clear.
+ *
+ * By some distance the largest unit listed — twice SS101's floor area and the
+ * only one with two bedrooms, which is what the 4 couchages rest on.
+ *
+ * ⚠️ SO `kind: "whole"` MISLABELS IT. The sheet says « appartement entier »; the
+ * spec table prints `kindWhole`, « Studio entier », because `whole` has one
+ * label. A studio is a single room — this has two bedrooms and a salon over
+ * 95.72 m². Exactly the mirror of what `UnitKind` was introduced to fix at the
+ * small end, and not fixed here because the noun runs through the index heading,
+ * the gallery title and the enquiry panel too. See FACTS.md.
+ *
+ * ⚠️ Ventilateur and machine à laver came back « non » and are therefore absent
+ * from `amenities` rather than assumed.
+ *
+ * ⚠️ `access24` IS NOT ON THIS SHEET. The fiche never asks about it; it is the
+ * venue's own « disponibilité 24h/24, tous les jours » marketing line (FACTS.md),
+ * carried by every other row here on the same basis. Building-wide, not a B35
+ * claim — if that line is ever retired, it comes off all four rows together.
+ *
+ * ⚠️ Weekly rate, monthly rate and caution left blank AGAIN — third sheet in a
+ * row. Still open; nothing in the UI multiplies the nightly figure.
+ */
+const B35_SPEC = {
+  status: "available",
+  sleeps: 4,
+  floor: "R-1",
+  size: 95.72,
+  bed: "double",
+  rooms: 2,
+  showers: 3,
+  livingRoom: true,
+  kitchen: true,
+  amenities: [
+    "wifi",
+    "ac",
+    "tv",
+    "canalPlus",
+    "kitchenette",
+    "fridge",
+    "microwave",
+    "utensils",
+    "bathroom",
+    "hotWater",
+    "linens",
+    "balcony",
+    "access24",
+  ],
+  pricePerNight: 120000,
+} as const satisfies Omit<
+  Studio,
+  "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
+>;
 
 /**
  * The units we can document, in the order the client listed them.
  *
- * Both rows are client-stated end to end and share one spec object, so they
- * cannot disagree. There is no invented data left in this file — which is why no
- * page renders a preview notice any more.
+ * Every row is client-stated end to end, and the rows that share a sheet share
+ * one spec object rather than a hand-copied copy, so they cannot disagree. There
+ * is no invented data left in this file — which is why no page renders a preview
+ * notice any more.
  */
 export const STUDIOS: readonly Studio[] = [
   /* ✅ Client sheet + five photographs, 2026-08-11. The sheet is `SS101_SPEC`
@@ -222,6 +492,8 @@ export const STUDIOS: readonly Studio[] = [
   {
     code: "SS101",
     slug: "ss101",
+    /* « studio entier » — her word, on this unit's own sheet. */
+    kind: "studio",
     ...SS101_SPEC,
     photos: [
       "ss101_salon",
@@ -263,6 +535,9 @@ export const STUDIOS: readonly Studio[] = [
   {
     code: "SS140-A",
     slug: "ss140-a",
+    /* ⚠️ « studio » INHERITED FROM SS101's SHEET, like every other spec on this
+       row. She never wrote the word about THIS unit. Open in FACTS.md. */
+    kind: "studio",
     ...SS101_SPEC,
     photos: [
       "ss140_salon",
@@ -271,6 +546,141 @@ export const STUDIOS: readonly Studio[] = [
       "ss140_douche",
       "ss140_balcon",
     ],
+  },
+
+  /* ✅ A10 — client sheet + three photographs + four clips, wired up
+     2026-08-13. The sheet is `A10_SPEC` above; this row adds only what is
+     specific to the unit. The largest and dearest thing listed: 130 m²,
+     8 couchages, 150 000 FCFA.
+
+     Placed immediately BEFORE its two rooms on purpose — A10-2 and A10-3 are
+     bedrooms inside this apartment, and reading the parent first is the only
+     thing in the file that makes that relationship obvious at a glance. See
+     `A10_SPEC` for what it means that all three are « libre » at once.
+
+     ── THE PHOTO ORDER ──────────────────────────────────────────────────────
+     The three salon frames lead because they are the only real photographs in
+     the set — everything after them is a video frame at 640×360 — and because
+     the salon is what 130 m² and « 8 personnes » are sold on. Then the bedroom,
+     the shower room and the kitchen, in walkthrough order. The terrace goes
+     last deliberately: it is a drying terrace in bare render, and it should not
+     be the frame a visitor forms their impression on. See its note in
+     `lib/photos.ts`.
+
+     ⚠️ NO `video`, AND FOUR CLIPS ON DISK. The client sent four walkthroughs and
+     not one of them can ship: every one reports portrait dimensions with the
+     picture lying on its side, so a browser plays them SIDEWAYS — verified by
+     screenshotting a real <video> element, not inferred from the container.
+     This is B35's second-clip problem again, four times over. They are held in
+     `assets-raw/whatsapp/a10/` rather than served, and the five video frames in
+     this row's gallery were decoded out of them. Ship one the moment the client
+     re-sends it upright.
+
+     ⚠️ Two of those four clips (16.23.48 and 16.24.04, both 21.6s) are the same
+     kitchen-and-terrace walkthrough sent twice — different bytes, same footage.
+     Only one was harvested. */
+  {
+    code: "A10",
+    slug: "a10",
+    /* « Appartement entier » — her word, on this unit's own sheet. */
+    kind: "apartment",
+    ...A10_SPEC,
+    photos: [
+      "a10_appt_salon",
+      "a10_appt_salon_2",
+      "a10_appt_salon_tv",
+      "a10_appt_chambre",
+      "a10_appt_chambre_tv",
+      "a10_appt_douche",
+      "a10_appt_cuisine",
+      "a10_appt_terrasse",
+    ],
+  },
+
+  /* ✅ A10-2 and A10-3 — client sheet, 2026-08-12. The sheet is
+     `A10_ROOM_SPEC` above; it named both codes, so both rows spread it and
+     neither can drift from the other.
+
+     ⚠️ THESE TWO ARE BEDROOMS INSIDE THE A10 ROW DIRECTLY ABOVE, which has been
+     listed as a whole unit since 2026-08-13. The same floor area is now on offer
+     twice at two prices — see `A10_SPEC` for why that is safe today and what
+     would make it unsafe.
+
+     ⚠️ IDENTICAL MEDIA ON PURPOSE, AND IT IS THE CLIENT'S. She supplied one
+     walkthrough clip and placed the same file in both folders — byte-identical,
+     verified by hash — so both rows carry the same three stills and the same
+     video. Two listings showing the same rooms is a thing a visitor can notice;
+     it is recorded here so that when they do, the answer is « this is what the
+     venue sent for both », not « we duplicated it ». Give either row its own
+     media the moment a second clip exists.
+
+     ⚠️ No `size` per unit was distinguished either: 10 m² is the sheet's single
+     answer for both. */
+  {
+    code: "A10-2",
+    slug: "a10-2",
+    kind: "room",
+    parentCode: "A10",
+    ...A10_ROOM_SPEC,
+    photos: ["a10_chambre", "a10_chambre_tv", "a10_douche"],
+    video: "/photos/studios/a10-chambres/visite.mp4",
+  },
+  {
+    code: "A10-3",
+    slug: "a10-3",
+    kind: "room",
+    parentCode: "A10",
+    ...A10_ROOM_SPEC,
+    photos: ["a10_chambre", "a10_chambre_tv", "a10_douche"],
+    video: "/photos/studios/a10-chambres/visite.mp4",
+  },
+
+  /* ✅ B35 — client sheet + five photographs + two clips, wired up 2026-08-13.
+     The sheet is `B35_SPEC` above; this row adds only what is specific to the
+     unit. The biggest thing listed: 95.72 m², two bedrooms, 120 000 FCFA.
+
+     ── THE PHOTO ORDER ──────────────────────────────────────────────────────
+     Salon first (the room the client led with, and the strongest frame), then
+     the two bedrooms — because « 2 chambres » and « 4 personnes » are the specs
+     that make this unit different from every other row, and the frames that
+     prove them should arrive before the ones that do not. Cuisine sits fifth,
+     late on purpose: it is a soft video still and it should not be the frame a
+     visitor forms their impression on. See its note in `lib/photos.ts`.
+
+     ⚠️ `showers: 3`, on the client's word and NOT on the photographs — one
+     shower room is pictured. Same gap as SS140-A, one size larger: if a visitor
+     counts, the other two are unphotographed, not absent.
+
+     ⚠️ THE CLIP IS THE BATHROOM, THE POSTER IS THE SALON. `slidesFor` posters
+     every video with `photos[0]`, which for this row is the salon, while
+     `visite.mp4` opens in the shower room. Harmless — it is a thumbnail behind
+     a « Visite en vidéo » badge, not a promise about the first second — but it
+     is the one place this page says something the file does not back, so it is
+     written down rather than left to be rediscovered.
+
+     ⚠️ THE SECOND CLIP IS NOT SHIPPED. The client sent two: the 15s bathroom
+     walkthrough shipped here, and a 47s one covering the kitchen, a corridor
+     and the exterior. The second carries a 90° rotation matrix and plays
+     SIDEWAYS in a browser, so it is held in `assets-raw/whatsapp/b35/` rather
+     than served — `b35_cuisine` is a frame transposed out of it. `Studio.video`
+     is deliberately still a single clip: nothing here needs a list yet, and the
+     gallery would render the second one unwatchable. Ship it if the client
+     re-sends it upright. */
+  {
+    code: "B35",
+    slug: "b35",
+    /* « Appartement entier » — her word, on this unit's own sheet. */
+    kind: "apartment",
+    ...B35_SPEC,
+    photos: [
+      "b35_salon",
+      "b35_chambre_1",
+      "b35_chambre_2",
+      "b35_douche",
+      "b35_cuisine",
+      "b35_balcon",
+    ],
+    video: "/photos/studios/b35/visite.mp4",
   },
 ] as const;
 
@@ -346,8 +756,15 @@ export function slidesFor(studio: Studio): { slides: readonly Slide[] } {
 
 /**
  * The floor line, built here so the index and the detail page cannot drift.
- * Three shapes: « RDC » is a name, not a number; « R-1 »/« R-2 » are basement
- * levels (the `SS` code prefix — sous-sol); anything else is an upper storey.
+ *
+ * Four shapes, all of them the client's own notation:
+ *   « RDC »       → Rez-de-chaussée. A name, not a number.
+ *   « R-1 », « R-2 » → sous-sol levels. What the `SS` code prefix means.
+ *   « R+1 »       → an upper storey. Added 2026-08-12 with the A10 rooms; the
+ *                   old code fell through to the last line and printed
+ *                   « Étage R+1 », which reads as a floor called "R+1".
+ *   « 1 », « 2 »  → a bare storey number.
+ *
  * Returns null when the floor is unknown, so the caller drops the separator.
  */
 export function floorLabel(
@@ -356,8 +773,11 @@ export function floorLabel(
 ): string | null {
   if (!studio.floor) return null;
   if (studio.floor === "RDC") return labels.ground;
-  const basement = /^R-(\d+)$/.exec(studio.floor);
-  if (basement) return `${labels.basement} ${basement[1]}`;
+  const level = /^R([+-])(\d+)$/.exec(studio.floor);
+  if (level) {
+    const [, sign, n] = level;
+    return sign === "-" ? `${labels.basement} ${n}` : `${labels.floor} ${n}`;
+  }
   return `${labels.floor} ${studio.floor}`;
 }
 
@@ -375,20 +795,195 @@ export function availableStudios(): Studio[] {
 }
 
 /**
- * Everything except the one being viewed, available first.
+ * The other units, grouped by how they RELATE to the one being viewed.
  *
- * The old tie-break on `confirmed` is gone: every listed unit is documented now,
- * so there is no demo row to sink. A unit whose availability we were never told
- * (`status: null`) sorts last of all — it is the weakest onward click, because
- * « sur demande » is the one thing it can promise.
+ * Replaced `otherStudios(slug, 3)` on 2026-08-13, which returned a flat list of
+ * everything-but-self. That was fine while the foot of a unit page was a row of
+ * text chips, and became wrong the moment A10 was listed: on A10-2's page — a
+ * bedroom INSIDE apartment A10 — the old function put A10 third in a list of
+ * strangers, unlabelled and indistinguishable from two units on another floor,
+ * while A10-3, the other bedroom in that same flat, was cut by the limit of 3.
+ *
+ * ── WHY THE GROUPS ARE DATA AND NOT A SORT ORDER ─────────────────────────────
+ * The relationship is already in the model — `kind` and `parentCode` — and the
+ * page states it twice in the masthead. A reader told twice that they are
+ * booking one bedroom of apartment A10 must not then meet that apartment as an
+ * anonymous suggestion. Returning ONE object with the family already separated
+ * is also what stops the bug coming back: the two alternatives considered
+ * (several small helpers, or filtering at the call site) both require every
+ * future caller to remember to exclude the family, which is exactly the mistake
+ * being fixed.
+ *
+ * ── THE MEDIA DEDUPE, AND WHY IT ONLY APPLIES TO STRANGERS ───────────────────
+ * A10-2 and A10-3 carry BYTE-IDENTICAL photographs: the client sent one
+ * walkthrough and placed the same file in both folders, verified by hash — see
+ * `a10_chambre` in `lib/photos.ts`. While this block was three text boxes nobody
+ * could tell. With photographs on the cards, SS101's page would print the same
+ * bedroom twice, side by side, and read as a bug in the site rather than as a
+ * fact about what we were sent.
+ *
+ * So a stranger whose opening frame is already spoken for is dropped. Inside the
+ * family group it is kept, because there the page SAYS so in as many words.
+ * Nothing is hidden from the site — both rooms are still on the index; they are
+ * only prevented from appearing as two unexplained copies in one band.
+ *
+ * ── THE SECOND SORT KEY ──────────────────────────────────────────────────────
+ * Availability still ranks first and is unchanged. But every listed unit is
+ * « libre » today, so that key separates nothing at all, and beneath it a unit
+ * whose PRINTED card matches the one being viewed now sinks. That is a
+ * consequence of `SS101_SPEC` being spread by two rows: SS140-A's card under
+ * SS101 repeats the same surface, couchages, rate and literie, so the only new
+ * information it carries is its photographs. Better a genuinely different unit
+ * first.
+ *
+ * ── THE CAP IS 4, NOT 3 ──────────────────────────────────────────────────────
+ * Three was a number for a row of text chips. At full shell width the cards run
+ * two- and three-up, and three leaves a hole in the last row.
  */
-export function otherStudios(slug: string, limit = 3): Studio[] {
+export type RelatedStudios = {
+  /** The apartment this unit is a room in. Null unless `kind: "room"`. */
+  parent: Studio | null;
+  /** The OTHER rooms let inside the same apartment as this room. */
+  siblings: Studio[];
+  /** The rooms let inside THIS unit. Empty unless it is a whole unit. */
+  rooms: Studio[];
+  /** Everything with no stated relationship to this unit, capped. */
+  others: Studio[];
+};
+
+export function relatedStudios(slug: string, limit = 4): RelatedStudios {
+  const self = studioBySlug(slug);
+  if (!self) return { parent: null, siblings: [], rooms: [], others: [] };
+
+  const parent =
+    self.kind === "room" && self.parentCode
+      ? STUDIOS.find((s) => s.code === self.parentCode && isWholeUnit(s)) ?? null
+      : null;
+  const siblings =
+    self.kind === "room" && self.parentCode
+      ? STUDIOS.filter(
+          (s) => s.kind === "room" && s.parentCode === self.parentCode && s.slug !== slug
+        )
+      : [];
+  const rooms = isWholeUnit(self)
+    ? STUDIOS.filter((s) => s.kind === "room" && s.parentCode === self.code)
+    : [];
+
+  const family = new Set(
+    [slug, parent?.slug, ...siblings.map((s) => s.slug), ...rooms.map((s) => s.slug)].filter(
+      Boolean
+    )
+  );
+
   const rank: Record<StudioStatus, number> = { available: 0, soon: 1, occupied: 2 };
   const at = (s: Studio) => (s.status === null ? 3 : rank[s.status]);
-  return STUDIOS.filter((s) => s.slug !== slug)
+  /* Everything this block actually prints on a card. Two rows that match on all
+     four are the same card twice as far as a visitor is concerned. */
+  const sameOnTheCard = (a: Studio) =>
+    a.size === self.size &&
+    a.sleeps === self.sleeps &&
+    a.rooms === self.rooms &&
+    a.pricePerNight === self.pricePerNight;
+
+  const seen = new Set<PhotoId>();
+  const others = STUDIOS.filter((s) => {
+    if (family.has(s.slug)) return false;
+    if (seen.has(s.photos[0])) return false;
+    seen.add(s.photos[0]);
+    return true;
+  })
     .slice()
-    .sort((a, b) => at(a) - at(b))
+    .sort((a, b) => at(a) - at(b) || Number(sameOnTheCard(a)) - Number(sameOnTheCard(b)))
     .slice(0, limit);
+
+  return { parent, siblings, rooms, others };
+}
+
+/**
+ * The one-line description of a unit — « 2 chambres · 130 m² · 8 couchages ·
+ * Sous-sol 1 » — returned as SEGMENTS so the caller owns the separator.
+ *
+ * Built here, once, because THREE surfaces need the same sentence and must not
+ * drift: the detail masthead, the index card, and the related cards at the foot
+ * of every unit page. Those are exactly the three places where a visitor
+ * compares one unit against another, which is the thing that was not working —
+ * run the old card line (`couchages · étage`) over the six rows and SS101 and
+ * SS140-A produce byte-identical cards, while A10 and B35 differ by one digit.
+ * Surface, the single most separating number in the whole dataset — 10, 48,72,
+ * 95,72, 130 m² — was printed on no card at all.
+ *
+ * Segments rather than a joined string on purpose: an absent fact must leave no
+ * dangling « · », and the masthead wants hairline dividers where the card wants
+ * a middot.
+ *
+ * IT INVENTS NOTHING. Every segment is a field off the client's sheet, and a
+ * blank field produces NO segment rather than a placeholder:
+ *   · `size` is nullable — an unmeasured unit simply does not state one.
+ *   · `floorLabel` returns null when the floor was never recorded.
+ *   · `rooms: 0` is dropped rather than printed, because « 0 chambre » reads as
+ *     missing data when it is in fact the definition of a one-room studio.
+ *   · a `room` skips the bedroom count entirely, for the same reason the spec
+ *     table skips it: the listing IS one bedroom, so « 1 chambre » restates the
+ *     type and reads as though there were a choice.
+ *
+ * A room LEADS on the apartment it sits inside. That is the single most
+ * important fact about A10-2 and the only one separating it from a whole unit at
+ * a similar price, so it goes ahead of the surface.
+ *
+ * ⚠️ IT CANNOT TELL TWO PAIRS APART, AND THAT IS THE DATA, NOT THE FUNCTION.
+ * SS101 and SS140-A spread one spec object, as do A10-2 and A10-3, so their
+ * lines are identical to the character. No composition of these fields will ever
+ * separate those pairs — only per-unit sheets will. `relatedStudios` sinks the
+ * twin rather than pretending otherwise.
+ *
+ * Labels are passed in rather than imported: this file imports nothing but
+ * `PhotoId`, and that should stay true. Same contract as `floorLabel`.
+ */
+export function unitLine(
+  studio: Studio,
+  labels: {
+    rooms: string;
+    roomsOne: string;
+    sleeps: string;
+    sleepsOne: string;
+    inApartment: string;
+  },
+  /** Already localised by the caller: `floorLabel(...)` and the formatted m². */
+  parts: { size: string | null; floor: string | null }
+): string[] {
+  const out: string[] = [];
+
+  if (studio.kind === "room") {
+    if (studio.parentCode) out.push(labels.inApartment.replace("{code}", studio.parentCode));
+  } else if (studio.rooms > 0) {
+    out.push(
+      (studio.rooms === 1 ? labels.roomsOne : labels.rooms).replace("{n}", String(studio.rooms))
+    );
+  }
+
+  if (parts.size) out.push(parts.size);
+  out.push(
+    (studio.sleeps === 1 ? labels.sleepsOne : labels.sleeps).replace("{n}", String(studio.sleeps))
+  );
+  if (parts.floor) out.push(parts.floor);
+
+  return out;
+}
+
+/**
+ * The surface, formatted — « 130 m² », « 48,72 m² ». Null stays null.
+ *
+ * Shared by the masthead, the spec table and every card, so a decimal cannot be
+ * rounded on one surface and not another. 48.72 prints « 48,72 » in French and
+ * « 48.72 » in English; do NOT round it to 49 — see `SS101_SPEC`.
+ */
+export function formatSize(
+  studio: Studio,
+  lang: "fr" | "en",
+  unit: string
+): string | null {
+  if (studio.size === null) return null;
+  return `${studio.size.toLocaleString(lang === "fr" ? "fr-FR" : "en-GB")} ${unit}`;
 }
 
 /** « 60 000 FCFA » — thin spaces, French convention. Null stays null. */

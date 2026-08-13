@@ -82,11 +82,46 @@
   cursor: pointer;
 }
 
+/* ⚠️ THE RING HAS TO BE INSET, because the slide fills `.viewport` EXACTLY and
+   `.viewport` clips. At the global `outline-offset: 3px` the focus ring was
+   drawn entirely outside the clip and never appeared — so the primary keyboard
+   control on this page, the one that opens the lightbox, was focusable,
+   activatable and completely unindicated. WCAG 2.4.7.
+
+   Do NOT fix this by removing `overflow: hidden` from `.viewport`: Embla needs
+   that clip. */
+.slide:focus-visible {
+  outline-offset: -5px;
+}
+
 /* No filter on mobile. The grade that seats these bright interiors on a dark
    page is a desktop nicety; on a phone it was one more layer between the client
    and the room they are trying to look at. */
 .img {
   object-fit: cover;
+}
+
+/* ---- the low-resolution letterbox ----
+   For frames that cannot fill the band without a visible upscale — A10-2's
+   356×640 stills, A10's 640×360 video frames. See the `lowRes` note in
+   StudioGallery.tsx for the thresholds and for why this is a workaround rather
+   than a design.
+
+   The photograph is contained at its own ratio; behind it a blurred, darkened
+   copy of the same file fills the band, so the frame stays full-bleed and the
+   pillars read as an intentional ground rather than as two black bars. At
+   1440×740 a 356×640 frame contained is 411×740 — a 1.16× upscale, sharp. */
+.fillImg {
+  object-fit: cover;
+  filter: blur(32px) brightness(0.4) saturate(0.85);
+  /* Overscan, so the blur's soft edge never reaches the band's edge. */
+  transform: scale(1.12);
+}
+
+.imgFit {
+  object-fit: contain;
+  /* Above the backdrop, below the play badge and the masthead. */
+  z-index: 1;
 }
 
 /* Mobile grade — top strip for the nav, bottom melt into the ink the masthead
@@ -336,6 +371,13 @@
   display: none;
 }
 
+/* Same clipping problem as `.slide`, one level up: `.thumbs` is a horizontal
+   scroller, so its `overflow-y` computes to `auto` and clips too, and the strip
+   has no top padding for a ring to sit in. */
+.thumb:focus-visible {
+  outline-offset: -4px;
+}
+
 .thumb {
   position: relative;
   display: block;
@@ -398,8 +440,12 @@
   /* Graded to sit on a near-black page — see StudiosIndex.module.css.
      No `brightness()` any more: it was compounding with a wash that already took
      most of the light out of the frame, and the grade is meant to seat the
-     photograph on the page, not to dim it. Contrast and saturation only. */
-  .img {
+     photograph on the page, not to dim it. Contrast and saturation only.
+
+     `.imgFit` is exempt: a letterboxed frame already sits on a blurred copy of
+     itself that carries its own grade, and stacking a second one over the sharp
+     picture made the seam between picture and backdrop visible. */
+  .img:not(.imgFit) {
     filter: contrast(1.04) saturate(1.03);
   }
 

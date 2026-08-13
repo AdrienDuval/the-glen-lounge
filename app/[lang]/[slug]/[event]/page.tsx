@@ -8,7 +8,15 @@ import { getDict } from "@/lib/i18n";
 import { isLang, LOCALES, type Lang } from "@/lib/i18n/config";
 import { ROUTES } from "@/lib/routes";
 import { allEventSlugs, eventBySlug, isPast } from "@/lib/events";
-import { allStudioSlugs, otherStudios, studioBySlug } from "@/lib/apartments";
+import {
+  allStudioSlugs,
+  floorLabel,
+  formatPrice,
+  formatSize,
+  relatedStudios,
+  studioBySlug,
+  unitLine,
+} from "@/lib/apartments";
 import { PHOTOS } from "@/lib/photos";
 
 /**
@@ -66,9 +74,40 @@ export async function generateMetadata({
     const languages = Object.fromEntries(
       LOCALES.map((l) => [l, `/${l}/${ROUTES.appartements[l as Lang]}/${slug}`])
     );
+    const t = dict.studios;
+    /* The unit's OWN noun, transcribed from the client's sheet — see `UnitKind`.
+       This line used to read `lang === "fr" ? "Studio" : "Studio"`, a dead
+       ternary left over from a localisation that never happened, which titled a
+       130 m² two-bedroom apartment « Studio A10 » in both languages. */
+    const noun = t.noun[studio.kind];
+    /* Its own description, built from the same `unitLine` the masthead and the
+       cards use. Every one of these six pages previously carried the INDEX lede
+       verbatim, so search and link previews could not tell them apart either. */
+    const line = unitLine(
+      studio,
+      {
+        rooms: t.roomsCount,
+        roomsOne: t.roomsCountOne,
+        sleeps: t.sleepsCount,
+        sleepsOne: t.sleepsCountOne,
+        inApartment: t.inApartment,
+      },
+      {
+        size: formatSize(studio, lang, t.specs.sizeUnit),
+        floor: floorLabel(studio, {
+          floor: t.floor,
+          ground: t.groundFloor,
+          basement: t.basement,
+        }),
+      }
+    ).join(" · ");
+    const rate = formatPrice(studio.pricePerNight);
+
     return {
-      title: `${lang === "fr" ? "Studio" : "Studio"} ${studio.code} — Glen Appartement, Yaoundé`,
-      description: dict.studios.lede,
+      title: `${noun} ${studio.code} — Glen Appartement, Yaoundé`,
+      description: [line, rate && `${rate} ${t.specs.perNight}`]
+        .filter(Boolean)
+        .join(" — "),
       alternates: {
         canonical: `/${lang}/${ROUTES.appartements[lang]}/${slug}`,
         languages: {
@@ -144,7 +183,7 @@ export default async function Page({
         {studio ? (
           <StudioPage
             studio={studio}
-            others={otherStudios(studio.slug)}
+            related={relatedStudios(studio.slug)}
             lang={lang}
             dict={dict}
           />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { site } from "@/lib/site";
 import { formatPrice, type Studio } from "@/lib/apartments";
 import type { Lang } from "@/lib/i18n/config";
@@ -101,21 +101,54 @@ export default function ReserveStudio({
         ? t.messageDates.replace("{from}", fmt(from)).replace("{to}", fmt(to))
         : t.messageNoDates;
     return t.message
+      /* The noun the CLIENT reads on her own phone. It used to be hard-coded
+         « le studio », so an enquiry about a 130 m² apartment reached her as
+         « je souhaite réserver le studio A10 ». The article travels with the
+         noun because French elides — « l'appartement A10 » — and no
+         concatenation in this component would produce that. */
+      .replace("{unit}", t.messageUnit[studio.kind])
       .replace("{code}", studio.code)
       .replace("{dates}", dates)
       .replace("{guests}", t.messageGuests.replace("{n}", String(guests)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [from, to, guests, studio.code, t, lang]);
+  }, [from, to, guests, studio.code, studio.kind, t, lang]);
 
   const rate = formatPrice(studio.pricePerNight);
   const waNumber = site.contact.whatsapp.tel.replace(/\D/g, "");
   const waHref = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
   const canBook = studio.status !== "occupied";
 
+  /* The sticky phone bar appears once the panel itself has scrolled away. An
+     observer rather than a scroll threshold: it is self-correcting when the
+     page length changes, and it cannot show the bar while the real panel is on
+     screen. The CSS hides it outright from 900px, where the panel is sticky and
+     always in view, so this only ever drives the phone layout. */
+  const panelRef = useRef<HTMLElement>(null);
+  const [showBar, setShowBar] = useState(false);
+  useEffect(() => {
+    const el = panelRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+    const io = new IntersectionObserver(
+      ([entry]) => setShowBar(!entry.isIntersecting),
+      /* Bottom inset so the bar retires a little before the panel is fully back
+         on screen, rather than flickering at the exact boundary. */
+      { rootMargin: "0px 0px -25% 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   return (
-    <aside className={styles.panel} aria-labelledby={`${uid}-title`}>
+    <aside ref={panelRef} className={styles.panel} aria-labelledby={`${uid}-title`}>
       <h2 id={`${uid}-title`} className={styles.title}>
-        {t.title}
+        {/* One title per `UnitKind`. This was a binary « ce studio » / « cette
+            chambre », which put « Demander ce studio » over 150 000 FCFA on a
+            two-bedroom apartment. */}
+        {
+          { apartment: t.titleApartment, studio: t.titleStudio, room: t.titleRoom }[
+            studio.kind
+          ]
+        }
       </h2>
 
       <p className={styles.price}>
@@ -209,6 +242,38 @@ export default function ReserveStudio({
           {t.call} — {site.contact.phonePrimary.display}
         </a>
       </div>
+
+      {/* ---- the phone-only bar ----
+          Below 900px this panel is simply last in a very long column: measured
+          at 390×844 on /fr/appartements/a10 the document is 4386px tall and the
+          panel sits at y≈3001, so the one control that converts was three and a
+          half screens down, arriving AFTER the block that offers other units.
+
+          Shown only while the panel itself is out of view, and observed rather
+          than scroll-thresholded, so it cannot double up with the panel and it
+          clears itself before the footer without the page needing padding. */}
+      {canBook && showBar && (
+        <div className={styles.bar}>
+          <p className={styles.barRate}>
+            {rate ? (
+              <>
+                <span className={styles.rate}>{rate}</span>{" "}
+                <span className={styles.per}>{dict.studios.specs.perNight}</span>
+              </>
+            ) : (
+              t.price
+            )}
+          </p>
+          <a
+            className="btn"
+            href={waHref}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t.barCta}
+          </a>
+        </div>
+      )}
     </aside>
   );
 }

@@ -29,8 +29,21 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     /* Must be declared explicitly — the optimizer 400s on any `quality` value
        not in this list, and these photographs want a lower setting than the
-       default 75 to stay inside a sane mobile budget. */
-    qualities: [60, 72, 75, 78],
+       default 75 to stay inside a sane mobile budget.
+
+       25 is the blurred backdrop behind a letterboxed low-resolution frame
+       (`.fillImg` in StudioGallery) — it is 32px of blur, so anything more is
+       bytes spent on detail that is destroyed before it is painted.
+
+       ⚠️ 78 IS STILL LIVE — Hero.tsx and EventPage.tsx use it. The studio
+       LIGHTBOX gave it up on 2026-08-13: it sat one step above the carousel's
+       75 for no visible gain, and because `quality` is part of the optimizer
+       URL, opening the lightbox on the slide you were already looking at
+       re-downloaded the same photograph at a second size. One quality per
+       source, one cache entry, one download. Grep `quality={` across
+       `components/` before removing any value here — the optimizer 400s, so a
+       missed call site is a broken image, not a slower one. */
+    qualities: [25, 60, 72, 75, 78],
     /* Trimmed from the Next defaults: mobile-first, and nothing here is ever
        rendered above ~2048 CSS px. Fewer sizes = fewer cold-start encodes. */
     deviceSizes: [360, 420, 640, 828, 1080, 1440, 1920, 2048],

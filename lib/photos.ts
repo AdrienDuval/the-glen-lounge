@@ -609,6 +609,304 @@ export const PHOTOS = {
     },
   },
 
+  /* ── A10-2 / A10-3 — STILLS PULLED FROM THE WALKTHROUGH CLIP ──────────────
+     The two rented rooms in apartment A10. The client sent NO photographs of
+     them, only a 15-second walkthrough, so these three frames were decoded out
+     of that clip (Chromium → canvas, at 3.2s, 4.9s and 11.8s).
+
+     That makes them real footage of the real room — not a placeholder, so no
+     « image d'illustration » caption — and they corroborate the sheet the same
+     way SS101's did: the split AC unit is on the bedroom wall, the television
+     is wall-mounted opposite the bed, and the shower room has its own basin.
+
+     ⚠️ RESOLUTION: 356×640. These are video frames from a WhatsApp-compressed
+     clip and they are FAR below the 1080px stills the other units sent — soft
+     anywhere the gallery shows them large. They are an interim at the client's
+     explicit request (« for now we only have videos for them »). Replace them
+     with real stills the moment any arrive; do not build anything that assumes
+     this quality is acceptable long-term.
+
+     ⚠️ ONE CLIP, TWO UNITS. The client put the SAME video file in both the
+     A10-2 and the A10-3 folder — byte-identical, verified by hash — so both
+     rows point at these frames. Whether that is because the two rooms are
+     interchangeable or because the clip was simply duplicated when sending is
+     NOT established. Worth asking before anyone assumes the rooms match. */
+  a10_chambre: {
+    src: "/photos/studios/a10-chambres/chambre.jpg",
+    w: 356,
+    h: 640,
+    consent: "clear",
+    alt: {
+      fr: "Chambre de l’appartement A10 — grand lit en bois sombre, linge blanc et orange, armoire, climatiseur mural et sol en marbre",
+      en: "A bedroom in apartment A10 — dark wood double bed with white and orange linen, wardrobe, wall-mounted air conditioning and a marble floor",
+    },
+    note: "Frame decoded from the walkthrough clip at 3.2s — 356×640, soft when shown large.",
+  },
+  a10_chambre_tv: {
+    src: "/photos/studios/a10-chambres/chambre-tv.jpg",
+    w: 356,
+    h: 640,
+    consent: "clear",
+    alt: {
+      fr: "Chambre de l’appartement A10 — le lit, la télévision murale et la fenêtre à rideaux, sol en marbre",
+      en: "A bedroom in apartment A10 — the bed, the wall-mounted television and the curtained window, marble floor",
+    },
+    note: "Frame decoded from the walkthrough clip at 4.9s — 356×640.",
+  },
+  a10_douche: {
+    src: "/photos/studios/a10-chambres/douche.jpg",
+    w: 356,
+    h: 640,
+    consent: "clear",
+    alt: {
+      fr: "Salle d’eau de la chambre A10 — vasque, robinetterie chromée, miroir rétro-éclairé et faïence en marbre veiné",
+      en: "The A10 room's shower room — basin, chrome tap, backlit mirror and veined marble tiling",
+    },
+    note: "Frame decoded from the walkthrough clip at 11.8s — 356×640.",
+  },
+
+  /* ── A10 — THE WHOLE APARTMENT ────────────────────────────────────────────
+     Not to be confused with the three `a10_*` frames above. Those are the two
+     BEDROOMS let individually inside this apartment (A10-2 / A10-3); these are
+     apartment A10 ITSELF, let whole — 130 m², and the sheet for it arrived
+     2026-08-13. Two media sets for one address, so they are prefixed apart:
+     `a10_*` = the rented rooms, `a10_appt_*` = the whole unit. Anything new for
+     the whole apartment goes under `a10_appt_`.
+
+     Three photographs and five frames decoded out of the client's clips
+     (Chromium → canvas, then transposed). Empty rooms, no people in any frame —
+     `consent: "clear"` on inspection of each, not by assumption. The one frame
+     with a hand in it (the kitchen clip at 21.2s) was not chosen.
+
+     ⚠️ EVERY FILE THE CLIENT SENT FOR A10 IS SIDEWAYS. The three JPEGs are
+     540×960 with the pixels lying on their side and NO EXIF orientation tag, so
+     a browser renders them sideways exactly as a naive viewer does; the four
+     clips likewise report portrait dimensions and play sideways. All eight
+     frames here were put upright with sharp's `.rotate(-90)`, a lossless
+     transpose — no resample, nothing invented. That is why the stills are
+     landscape 960×540 while the source JPEGs are portrait 540×960.
+
+     ⚠️ THE SOFTEST SET ON THE SITE, AND ON THE MOST EXPENSIVE UNIT. The salon
+     stills are 960×540 — half the 1080px long edge SS101, SS140 and B35 sent —
+     and the five video frames are 640×360, below even A10's room stills at
+     356×640 and on a par with `b35_cuisine`, previously the softest frame here.
+     A10 lists at 150 000 FCFA, the highest rate on the site, so it currently
+     has the weakest gallery of the five and the most to lose by it. Real
+     photographs are the single most valuable thing to ask the client for.
+
+     ⚠️ ONE BEDROOM OF TWO, ONE SHOWER ROOM OF FOUR. The sheet claims 2 chambres
+     and 4 douches; the clips show one of each. Same shape of gap as SS140-A and
+     B35, now the largest of the three — if a visitor counts, the rest are
+     unphotographed, not absent.
+
+     ⚠️ THE VIEWS ARE NOT EVIDENCE AGAINST « SOUS-SOL ». `a10_appt_douche` and
+     `a10_appt_terrasse` look out over neighbouring roofs and open sky, which
+     reads as an upper storey and tempts a correction to the sheet's « sous-sol
+     R-1 ». Do not make it: SS140-A is on R-2 and `ss140_balcon` has the very
+     same view. The building is cut into a slope, so its sous-sol levels have
+     windows and outlooks. The floor question that IS open is a sheet-vs-sheet
+     one — see the A10 row in `lib/apartments.ts`. */
+  a10_appt_salon: {
+    src: "/photos/studios/a10-appartement/salon.jpg",
+    w: 960,
+    h: 540,
+    consent: "clear",
+    alt: {
+      fr: "Salon de l’appartement A10 — canapés et fauteuils en velours bleu-vert, coussins baroques dorés et bleu nuit, sol en marbre, faux-plafond à gorge lumineuse bleue, climatiseur mural, doubles rideaux et coin repas au fond",
+      en: "The A10 living room — blue-green velvet sofas and armchairs, gold and navy baroque cushions, marble floor, a dropped ceiling with blue cove lighting, wall-mounted air conditioning, full-length curtains and a dining corner beyond",
+    },
+    note:
+      "The widest read of the room we hold, and the frame that carries the 130 m². 960×540 — see the section note on resolution.",
+  },
+  a10_appt_salon_2: {
+    src: "/photos/studios/a10-appartement/salon-2.jpg",
+    w: 960,
+    h: 540,
+    consent: "clear",
+    alt: {
+      fr: "Salon de l’appartement A10 — l’angle des canapés en velours bleu-vert, table basse laquée noir et blanc, tableau au coquelicot rouge et table à manger au fond",
+      en: "The A10 living room — the corner of the blue-green velvet suite, a black-and-white lacquered coffee table, a red poppy canvas and the dining table beyond",
+    },
+  },
+  a10_appt_salon_tv: {
+    src: "/photos/studios/a10-appartement/salon-tv.jpg",
+    w: 960,
+    h: 540,
+    consent: "clear",
+    alt: {
+      fr: "Salon de l’appartement A10 — téléviseur mural face aux canapés, table à manger et ses chaises, porte en bois verni",
+      en: "The A10 living room — the wall-mounted television facing the sofas, the dining table and its chairs, and a polished wood door",
+    },
+    note:
+      "The evidence for « Canal+ au salon » on the sheet: this is the salon television it names. The dining chairs in frame are also the only support for « 8 personnes ».",
+  },
+  a10_appt_chambre: {
+    src: "/photos/studios/a10-appartement/chambre.jpg",
+    w: 640,
+    h: 360,
+    consent: "clear",
+    alt: {
+      fr: "Chambre de l’appartement A10 — grand lit en bois verni, linge blanc et coussins framboise, niches et spots au plafond, fenêtre à rideaux crème et sol en marbre",
+      en: "A bedroom in apartment A10 — polished wood double bed, white linen with raspberry cushions, recessed ceiling niches and spots, a cream-curtained window and a marble floor",
+    },
+    note: "Frame decoded from the bedroom clip at 3.6s and transposed upright — 640×360.",
+  },
+  a10_appt_chambre_tv: {
+    src: "/photos/studios/a10-appartement/chambre-tv.jpg",
+    w: 640,
+    h: 360,
+    consent: "clear",
+    alt: {
+      fr: "Chambre de l’appartement A10 — le pied du lit, la fenêtre à rideaux et le téléviseur mural, sol en marbre",
+      en: "A bedroom in apartment A10 — the foot of the bed, the curtained window and the wall-mounted television, marble floor",
+    },
+    note: "Frame decoded from the bedroom clip at 5.1s and transposed upright — 640×360.",
+  },
+  a10_appt_douche: {
+    src: "/photos/studios/a10-appartement/douche.jpg",
+    w: 640,
+    h: 360,
+    consent: "clear",
+    alt: {
+      fr: "Salle d’eau de l’appartement A10 — cabine de douche vitrée à profilés noirs, douchette murale, WC, faïence en marbre veiné d’ocre et de bleu, serviettes et fenêtre",
+      en: "An A10 shower room — glazed shower cubicle with black framing, wall shower head, WC, ochre-and-blue veined marble tiling, towels and a window",
+    },
+    note:
+      "One of the four the sheet claims — deliberately « an » A10 shower room, not « the ». Frame decoded from the bedroom clip at 13.0s and transposed upright — 640×360.",
+  },
+  a10_appt_cuisine: {
+    src: "/photos/studios/a10-appartement/cuisine.jpg",
+    w: 642,
+    h: 360,
+    consent: "clear",
+    alt: {
+      fr: "Cuisine de l’appartement A10 — grand réfrigérateur-congélateur, meubles en bois verni, plan de travail en granit noir, plaque gaz, micro-ondes, égouttoir garni et crédence en marbre",
+      en: "The A10 kitchen — a tall fridge-freezer, polished wood units, black granite worktop, gas hob, microwave, a stocked dish rack and a marbled splashback",
+    },
+    note:
+      "⚠️ A FRONT-LOADING WASHING MACHINE IS IN THIS FRAME, plainly, below the worktop — and the sheet answered « Machine à laver : non ». The alt text does not name it and `laundry` is NOT on the row: the client's own answer governs what the site advertises, and promising a machine she says is unavailable is the expensive direction to be wrong in. Ask her which is right. Frame decoded from the kitchen clip at 0.5s and transposed upright — 642×360.",
+  },
+  a10_appt_terrasse: {
+    src: "/photos/studios/a10-appartement/terrasse.jpg",
+    w: 642,
+    h: 360,
+    consent: "clear",
+    alt: {
+      fr: "Terrasse de service de l’appartement A10 — sol en opus de marbre, murs crépis, garde-corps métallique, étendoir pliant et vue sur les toits voisins",
+      en: "The A10 service terrace — crazy-paved marble floor, rendered walls, a metal railing, a folding clothes airer and a view over neighbouring roofs",
+    },
+    note:
+      "⚠️ THE ONLY OUTDOOR SPACE FILMED, AND THE ONLY EVIDENCE FOR « Balcon : oui ». It is a narrow drying terrace in bare render, not a balcony in the sense SS101's and B35's frames set — marble floor, glass balustrade. The row still carries the `balcony` amenity because the client answered « oui »; this frame is here so the word is not the only thing a visitor gets, and it is placed last for the same reason. Decoded from the kitchen clip at 16.2s and transposed upright — 642×360.",
+  },
+
+  /* ── B35 — THE BIG ONE ────────────────────────────────────────────────────
+     Five photographs and two clips, sent by the client 2026-08-11 and wired up
+     2026-08-13 with the filled sheet. The largest unit listed: 95.72 m², two
+     bedrooms, salon, cuisine, balcon.
+
+     Empty rooms, no people in any frame — `consent: "clear"` on inspection of
+     each one, not by assumption. 1080px long edge, WhatsApp's cap, like SS101's
+     and SS140's.
+
+     The fit-out is a third distinct one again: black buttoned leather suite,
+     cherry-wood bedsteads and wall units, and a very heavily veined black-and-
+     white porcelain that runs through the shower room, the kitchen and the
+     balcony. It is nobody else's rooms — worth remembering before any of these
+     frames is used to represent « the range ».
+
+     ⚠️ THE SHEET SAYS 3 DOUCHES; ONE IS PHOTOGRAPHED. Same shape of gap as
+     SS140-A, one size larger. `b35_douche` is singular for that reason and the
+     page states 3 on the client's word. Two of the three are unphotographed,
+     not absent.
+
+     ⚠️ `b35_cuisine` IS A VIDEO FRAME, and the only evidence of the kitchen the
+     sheet claims — see its own note. */
+  b35_salon: {
+    src: "/photos/studios/b35/salon.jpg",
+    w: 1080,
+    h: 1048,
+    consent: "clear",
+    alt: {
+      fr: "Salon du B35 — canapé et fauteuils en cuir noir capitonné, table basse blanche, téléviseur mural, climatiseur, faux-plafond à caissons et spots encastrés, sol en marbre blanc veiné",
+      en: "The B35 living room — buttoned black leather sofa and armchairs, white coffee table, wall-mounted TV, air conditioning, a coffered ceiling with recessed spots and a veined white marble floor",
+    },
+  },
+  b35_chambre_1: {
+    src: "/photos/studios/b35/chambre-1.jpg",
+    w: 1080,
+    h: 988,
+    consent: "clear",
+    alt: {
+      fr: "Première chambre du B35 — grand lit en bois verni, linge blanc et coussins rouges, serviette pliée en éventail, climatiseur mural, téléviseur mural et doubles rideaux dorés",
+      en: "The first B35 bedroom — polished wood double bed, white linen with red cushions, a fan-folded towel, wall-mounted air conditioning and television, and gold curtains",
+    },
+  },
+  b35_chambre_2: {
+    src: "/photos/studios/b35/chambre-2.jpg",
+    w: 1080,
+    h: 1072,
+    consent: "clear",
+    alt: {
+      fr: "Seconde chambre du B35 — grand lit en bois verni, linge blanc et coussins jaunes, table de chevet, téléviseur mural, climatiseur, plafonnier circulaire à LED et sol en marbre veiné",
+      en: "The second B35 bedroom — polished wood double bed, white linen with yellow cushions, bedside table, wall-mounted TV, air conditioning, a circular LED ceiling light and a veined marble floor",
+    },
+    note:
+      "The frame that evidences « 2 chambres » — the sheet's count is the one spec on this page a visitor could check, and this is the second room.",
+  },
+  b35_douche: {
+    src: "/photos/studios/b35/douche.jpg",
+    w: 1080,
+    h: 922,
+    consent: "clear",
+    alt: {
+      fr: "Salle d’eau du B35 — faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque, miroir, WC, chauffe-eau et serviettes",
+      en: "A B35 shower room — black-and-white marbled tiling, glazed shower cubicle with black framing, basin, mirror, WC, water heater and towels",
+    },
+    note:
+      "One of three the sheet claims. Deliberately « a » shower room, not « the » — see the section note.",
+  },
+  b35_balcon: {
+    src: "/photos/studios/b35/balcon.jpg",
+    w: 1080,
+    h: 894,
+    consent: "clear",
+    alt: {
+      fr: "Balcon du B35 — sol en marbre veiné, garde-corps vitré, porte-fenêtre et vue sur la végétation et les maisons voisines",
+      en: "The B35 balcony — veined marble floor, glass balustrade, French door and a view over greenery and neighbouring houses",
+    },
+  },
+  /* The kitchen, and the only frame of it that exists.
+     The client sent no photograph of it, so this was decoded out of the second
+     B35 clip the same way A10's stills were — real footage of the real room, so
+     no placeholder flag and no « image d'illustration » caption.
+
+     ⚠️ THE CLIP CARRIES A 90° ROTATION MATRIX and therefore plays sideways in a
+     browser. The frame was transposed back upright with sharp's `.rotate(-90)`,
+     which is a lossless transpose — no resample, nothing added. That is why the
+     dimensions are landscape 642×360 while the clip reports 360×642.
+
+     ⚠️ RESOLUTION 642×360 — the lowest of any shipped frame, below even A10's
+     356×640 in total pixels. Soft anywhere the gallery shows it large. It earns
+     its place only because « Cuisine : oui » is on the sheet and this is the
+     sole evidence for it; a kitchen photograph is an outstanding client ask.
+
+     It corroborates the sheet rather than merely illustrating it: the hob and
+     the water dispenser are both in frame, which is two of the equipment
+     answers evidenced. Note the hob is a tabletop gas ring on the worktop, not
+     a built-in — the picture is honest about that and the copy should be too. */
+  b35_cuisine: {
+    src: "/photos/studios/b35/cuisine.jpg",
+    w: 642,
+    h: 360,
+    consent: "clear",
+    alt: {
+      fr: "Cuisine du B35 — meubles hauts en bois verni, crédence et murs en marbre veiné, évier et mitigeur chromé, réchaud à gaz, fontaine à eau et fenêtre",
+      en: "The B35 kitchen — polished wood wall units, veined marble splashback and walls, sink with a chrome mixer tap, a gas ring, a water dispenser and a window",
+    },
+    note:
+      "Frame decoded from the second B35 clip at 37.2s and rotated upright — 642×360, the softest frame on the site. Replace with a real photograph when one arrives.",
+  },
+
   /* ── REMOVED 2026-08-12: the eight studio placeholders ────────────────────
      `studio_hero`, `studio_living`, `studio_living_kitchen`, `studio_bedroom`,
      `studio_bedroom_desk`, `studio_kitchen`, `studio_bathroom`,

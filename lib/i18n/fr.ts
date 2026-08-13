@@ -177,7 +177,7 @@ export const fr = {
     title: "Dormir sur place",
     lede: "Glen Appartement — meublé haut standing, disponibilité 24h/24, tous les jours. Confort, sécurité, intimité.",
     note: "Types et tarifs communiqués par téléphone.",
-    seeAll: "Voir les 11 studios",
+    seeAll: "Voir les 11 logements",
     cta: "Demander une disponibilité",
   },
 
@@ -255,9 +255,13 @@ export const fr = {
      below is labelled « studios présentés ». */
   studios: {
     eyebrow: "Appartements",
-    title: "Studios meublés, sur place",
-    lede: "Glen Appartement — meublé haut standing, accès 24h/24. Confort, sécurité, intimité, à deux pas de la salle. Onze studios dans l’immeuble ; ceux que nous pouvons vous montrer en détail sont ci-dessous.",
-    count: "studios présentés",
+    /* « Logements » and not « studios » since 2026-08-12: the list is now mixed
+       — two whole studios and two single rooms let inside apartment A10 — and
+       a heading that calls all four studios contradicts the « Chambre dans
+       l'appartement A10 » printed on two of the cards below it. */
+    title: "Logements meublés, sur place",
+    lede: "Glen Appartement — meublé haut standing, accès 24h/24. Confort, sécurité, intimité, à deux pas de la salle. Onze logements dans l’immeuble. Ceux que nous pouvons vous montrer en détail — appartements entiers, studios et chambres seules — sont ci-dessous.",
+    count: "logements présentés",
     availableNow: "disponibles aujourd’hui",
     status: {
       available: "Disponible",
@@ -265,6 +269,12 @@ export const fr = {
       soon: "Bientôt libre",
     },
     sleeps: "Couchages",
+    /* The same fact as `sleeps`, worded for a sentence instead of a table.
+       « Couchages 4 » is a spec-table row that reads as a form field once it is
+       set inline on a card; « 4 couchages » is how it is said out loud. The
+       table keeps `sleeps` — this pair is only for the index card. */
+    sleepsCount: "{n} couchages",
+    sleepsCountOne: "{n} couchage",
     floor: "Étage",
     groundFloor: "Rez-de-chaussée",
     /* Rendered « Sous-sol 2 » for floor "R-2". Four unit codes start with SS,
@@ -296,6 +306,20 @@ export const fr = {
       access: "Accès",
       rooms: "Chambres",
       showers: "Salles d’eau",
+      /* What is actually let. « Chambre seule » is the client's own wording and
+         it matters: a 10 m² bedroom inside a shared apartment must not be sold
+         under the same noun as a self-contained studio. */
+      kind: "Type",
+      /* One per `UnitKind`. `kindWhole` — a single « Studio entier » for every
+         unit that was not a bedroom — was deleted 2026-08-13: it printed over
+         A10's 130 m² and B35's 95,72 m² while the client's own sheets for both
+         say « appartement entier ». The noun is now transcribed per unit; see
+         `UnitKind` in lib/apartments.ts. */
+      kindApartment: "Appartement entier",
+      kindStudio: "Studio entier",
+      kindRoom: "Chambre dans un appartement",
+      /* « Chambre dans l’appartement A10 » — used when the parent is known. */
+      kindRoomIn: "Chambre dans l’appartement {code}",
       livingRoom: "Salon",
       kitchen: "Cuisine",
       /* Rendered as the value of the two boolean rows above. */
@@ -313,16 +337,61 @@ export const fr = {
       twin: "Deux lits simples",
       doubleSingle: "Un lit double + un lit simple",
     },
-    gallery: "Le studio en images",
+    /* « logement » — the neutral noun — everywhere the site used to say
+       « studio » about units in general. Chosen 2026-08-13 precisely because it
+       stays true whichever way the studio/appartement question is settled for
+       SS101 and SS140-A: the list is now two apartments, two studios and two
+       bedrooms, and no one of those three words covers it. Where the site talks
+       about ONE unit it uses that unit's own noun — `studios.noun` below. */
+    gallery: "Le logement en images",
     openGallery: "Agrandir",
+    closeGallery: "Fermer la galerie",
     prev: "Image précédente",
     next: "Image suivante",
     /* The walkthrough clip — last slide, and only on units that sent one. */
     videoLabel: "Visite en vidéo",
     playVideo: "Lire la visite",
-    backToStudios: "Tous les studios",
-    seeStudio: "Voir le studio",
-    otherStudios: "Autres studios",
+    backToStudios: "Tous les logements",
+    seeUnit: "Voir le logement",
+    /**
+     * The noun for ONE unit, by `UnitKind` — « Appartement A10 », « Studio
+     * SS101 », « Chambre A10-2 ». It is the page's `<h1>` and its <title>, and
+     * it is why the noun had to become data: those two pages used to differ
+     * above the fold by four characters of unit code.
+     */
+    noun: {
+      apartment: "Appartement",
+      studio: "Studio",
+      room: "Chambre",
+    },
+    /* The three counted lines the identity sentence is built from —
+       `unitLine()` in lib/apartments.ts. French inverts (« 2 chambres »), which
+       is why these are templates and not a bare label. */
+    roomsCount: "{n} chambres",
+    roomsCountOne: "{n} chambre",
+    /* How a `room` opens its identity line. Shorter than
+       `specs.kindRoomIn` because the noun is already the page's own title —
+       « Chambre A10-2 » followed by « Chambre dans l’appartement A10 » says the
+       word twice in two lines. */
+    inApartment: "Dans l’appartement {code}",
+    /* The band at the foot of a unit page. `otherStudios` — a single flat
+       heading — was retired with the flat list it titled. */
+    related: {
+      otherTitle: "Autres logements",
+      otherKicker: "Ailleurs dans l’immeuble",
+      sameApartmentTitle: "Dans le même appartement",
+      sameApartmentKicker: "Le reste du logement",
+      roomInside:
+        "Cette chambre est une pièce de l’appartement {code}, qui se loue aussi en entier.",
+      apartmentRooms: "Les chambres de cet appartement se louent aussi séparément.",
+      isParent: "L’appartement entier",
+      isSibling: "Une autre chambre",
+      /* Short on purpose: the block heading above already says « Dans le même
+         appartement », and at ~380px a longer ribbon runs into the status pill
+         across the top of the card. */
+      isRoom: "Une chambre",
+      sameMedia: "Les deux chambres partagent la même visite en images.",
+    },
     /* One line per amenity id in `lib/apartments.ts`. A missing key fails tsc
        in en.ts, which is exactly what we want. */
     amenities: {
@@ -344,7 +413,14 @@ export const fr = {
       access24: "Accès 24h/24",
     },
     book: {
-      title: "Demander ce studio",
+      /* The panel sits directly above the WhatsApp button, so it is the last
+         thing read before an enquiry is sent — the one place the wrong noun
+         actually costs something. One title per `UnitKind`: `title`, a single
+         « Demander ce studio », was deleted 2026-08-13 because it sat over
+         150 000 FCFA on a 130 m² apartment. */
+      titleApartment: "Demander cet appartement",
+      titleStudio: "Demander ce studio",
+      titleRoom: "Demander cette chambre",
       arrival: "Arrivée",
       departure: "Départ",
       guests: "Personnes",
@@ -354,15 +430,28 @@ export const fr = {
       price: "Tarif sur demande",
       whatsapp: "Demander par WhatsApp",
       call: "Appeler le Glen",
-      unavailable: "Ce studio est occupé. Demandez-nous les prochaines dates, ou choisissez-en un autre.",
-      soon: "Ce studio se libère bientôt. Appelez-nous pour connaître la date exacte.",
-      /* Prefilled into WhatsApp. `{code}`, `{dates}` and `{guests}` are
-         replaced in ReserveStudio.tsx — keep the braces. */
+      /* Noun-free rather than three keys each: these describe states no listed
+         unit is in today, and « ce logement » is true of all three kinds. */
+      unavailable: "Ce logement est occupé. Demandez-nous les prochaines dates, ou choisissez-en un autre.",
+      soon: "Ce logement se libère bientôt. Appelez-nous pour connaître la date exacte.",
+      /* Prefilled into WhatsApp. `{unit}`, `{code}`, `{dates}` and `{guests}`
+         are replaced in ReserveStudio.tsx — keep the braces.
+         ⚠️ THE ARTICLE TRAVELS WITH THE NOUN, in `messageUnit` below, because
+         French elides before a vowel — « réserver l’appartement A10 » — and no
+         amount of concatenating an article and a noun in the component will
+         produce that. English takes no article, so its values are bare. */
       message:
-        "Bonjour, je souhaite réserver le studio {code} du Glen Appartement. {dates}, {guests}. Merci de me confirmer la disponibilité et le tarif.",
+        "Bonjour, je souhaite réserver {unit} {code} du Glen Appartement. {dates}, {guests}. Merci de me confirmer la disponibilité et le tarif.",
+      messageUnit: {
+        apartment: "l’appartement",
+        studio: "le studio",
+        room: "la chambre",
+      },
       messageDates: "Du {from} au {to}",
       messageNoDates: "Dates à confirmer",
       messageGuests: "{n} personne(s)",
+      /* The phone-only sticky bar — see ReserveStudio.module.css `.bar`. */
+      barCta: "Demander",
     },
   },
 

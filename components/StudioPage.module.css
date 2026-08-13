@@ -24,14 +24,48 @@
   color: var(--gold);
 }
 
-/* The unit code IS the title, so it takes the display size — but stays mono,
-   because a Didone renders "A10-1-A" as typography rather than as a code. */
-.code {
-  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
-  font-size: clamp(2.4rem, 7vw, 4.5rem);
-  line-height: 1;
-  letter-spacing: 0.04em;
+/* THE TITLE — the noun in the display face, the code in mono beside it.
+   « Appartement A10 », « Chambre A10-2 ».
+
+   This used to be the bare code at display size (`.code`, 4.5rem mono), which
+   meant A10's page and A10-2's page — a 130 m² flat and one 10 m² bedroom
+   inside it — differed above the fold by two characters, and neither said what
+   it was. The code is still here and still verbatim: it is what travels into
+   the WhatsApp message and what someone reads out on a bad line. It just stopped
+   being the whole title. */
+.title {
+  font-size: clamp(2.1rem, 5.6vw, 3.9rem);
+  line-height: 1.04;
   color: var(--white);
+}
+
+.titleCode {
+  /* Mono, because a Didone renders "SS140-A" as typography rather than as a
+     code. Sized in `em` so the pair scales as one lockup, and a step down
+     because it identifies rather than announces. */
+  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
+  font-size: 0.62em;
+  letter-spacing: 0.04em;
+  color: var(--gold);
+  /* « Appartement SS140-A » must not break at the hyphen. */
+  white-space: nowrap;
+}
+
+/* The identity sentence — « 2 chambres · 130 m² · 8 couchages · Sous-sol 1 ».
+   Hairline separators rather than a middot so the row can wrap on a phone
+   without leaving a bullet stranded at the end of a line. */
+.identity {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.9rem;
+  color: var(--body);
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+}
+
+.identityPart + .identityPart {
+  padding-left: 0.9rem;
+  border-left: 1px solid var(--line);
 }
 
 .facts {
@@ -77,14 +111,27 @@
   color: var(--body);
 }
 
-/* The rate, in the masthead beside the other facts. Gold and a shade larger
-   because it is the one number a visitor came for — and it only renders when a
-   real one exists, so it never advertises a placeholder. */
+/* The rate, in the masthead beside the status. Gold and a shade larger because
+   it is the one number a visitor came for — and it only renders when a real one
+   exists, so it never advertises a placeholder. */
 .price {
   color: var(--gold);
   font-weight: 500;
-  font-size: 1.05rem;
+  font-size: 1.35rem;
   white-space: nowrap;
+  /* Its own line while the facts wrap, which on a phone they always do. The
+     index card hit exactly this and solved it the same way — see the note on
+     `.price` in StudioCard.module.css: the one number a visitor came for was
+     landing last, mid-wrapped-row, reading as quietly as the floor. */
+  flex-basis: 100%;
+}
+
+/* « la nuit » — present so the figure is never read as the whole stay, but it
+   must not compete with it. */
+.pricePer {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.8rem;
 }
 
 /* ---------- body ---------- */
@@ -103,6 +150,10 @@
 
 .main {
   min-width: 0;
+  /* The spec table's two-column split is a fact about THIS column, not about
+     the window — see the `@container` block at the foot of the file. */
+  container-type: inline-size;
+  container-name: studio-main;
 }
 
 .block {
@@ -111,20 +162,52 @@
   margin-bottom: clamp(2.5rem, 6vw, 4rem);
 }
 
-.blockTitle {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.75rem;
-  color: var(--gold);
+/* ---- section heads ----
+   The house lockup: a gold mono kicker over a Didone title, as Contact, Carte,
+   Lieu and EventsIndex all do it. Until 2026-08-13 every block title on this
+   page was a bare `.label` — 0.6875rem uppercase mono, the SMALLEST type in the
+   system — so nothing outranked anything and ReserveStudio's own `--fs-h3`
+   title was literally the largest heading on the page. */
+.head {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 
-.blockCount {
-  color: var(--muted);
+.kicker {
+  color: var(--gold);
   /* The building block puts a sentence here rather than a count, so it must be
      free to wrap instead of stretching the heading row. */
   text-transform: none;
   letter-spacing: 0.04em;
+}
+
+/* ⚠️ Must NOT also carry the global `label` class, or globals' mono family
+   wins over the display face. */
+.blockTitle {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: var(--fs-h3);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--white);
+}
+
+/* The luminous hairline that opens a band. Two on this page — the body and the
+   related band — and no more: four sweeps is more than any other page on the
+   site runs, and the divider stops meaning anything if it separates
+   everything. It must sit INSIDE a `useSectionMotion` scope; the hook collects
+   `[data-rule]` with `root.querySelectorAll`. */
+.head .rule {
+  margin-bottom: 0.9rem;
+}
+
+/* The building block is about the address rather than the unit, so it sits on
+   its own quiet ground — the two amenity grids were otherwise identical plates
+   and read as one continuous list of things this unit has. */
+.blockShared {
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.014);
 }
 
 /* The one line under the building services: co-location is a fact about the
@@ -201,51 +284,56 @@
   flex: none;
 }
 
-/* ---- other studios ---- */
-.others {
+/* ---- the rest of the building ----
+   Replaced `.others` / `.other` / `.otherCode` / `.otherArrow` on 2026-08-13:
+   a row of 13rem text boxes carrying a code, a status pill and an arrow, at the
+   foot of a page whose whole argument is photographs. It is now the same card
+   the index uses — see StudioCard.module.css.
+
+   (`.other .label` in the old block was DEAD CODE, and worth remembering: in a
+   CSS module both class names are hashed, so it compiled to
+   `.StudioPage_other__x .StudioPage_label__y` against markup wearing the GLOBAL
+   `label` class, and the availability dot rendered 0px wide as a result. The
+   same trap globals.css documents for `.btn`.) */
+.relatedBand {
+  padding-top: clamp(3rem, 7vw, 5rem);
+}
+
+.relatedGrid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
-  gap: 0.75rem;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 3vw, 2rem);
 }
 
-.other {
+.slot {
+  min-width: 0;
   display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 0.3rem 0.75rem;
-  padding: 0.9rem 1.1rem;
-  border: 1px solid var(--line);
-  background: var(--ink-2);
-  text-decoration: none;
-  color: inherit;
-  transition: border-color 0.4s var(--ease-out);
 }
 
-.other:hover {
-  border-color: var(--gold-dim);
+/* Same hairline treatment as `.buildingNote` — both are a sentence qualifying
+   the block above them rather than a caption on any one card. */
+.relatedNote {
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--gold-dim);
+  color: var(--muted);
+  font-size: 0.9375rem;
 }
 
-.otherCode {
-  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
-  color: var(--white);
-  letter-spacing: 0.06em;
+/* Quieter still: it explains a quirk of the photography, not a fact about the
+   rooms. */
+.mediaNote {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.8125rem;
 }
 
-.other .label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.otherArrow {
-  grid-row: 1 / span 2;
-  grid-column: 2;
-  color: var(--gold);
-  transition: transform 0.4s var(--ease-out);
-}
-
-.other:hover .otherArrow {
-  transform: translateX(4px);
+@media (min-width: 620px) {
+  .relatedGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 900px) {
@@ -256,16 +344,55 @@
 
   /* The panel is the conversion point on this page, so it tracks the reader
      down the amenities and the gallery instead of scrolling away. Lenis drives
-     the page, but `position: sticky` is native layout — it is unaffected. */
+     the page, but `position: sticky` is native layout — it is unaffected.
+
+     ⚠️ POSITIONAL SELECTOR. It means « whatever is last in `.layout` », which
+     is ReserveStudio's aside only for as long as nothing else is appended.
+     The related band is deliberately rendered OUTSIDE `.layout` for this
+     reason — see the comment on it in StudioPage.tsx. */
   .layout > :last-child {
     position: sticky;
     top: 6.5rem;
   }
 
-  /* Two columns of label/value once there is room — eleven short rows in one
-     column is a lot of vertical travel for six facts. */
+  /* The masthead rate returns to the facts row once there is width for it. */
+  .price {
+    flex-basis: auto;
+    font-size: 1.05rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .relatedGrid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Two columns of label/value once THE COLUMN has room — not once the window
+   does. 900px is exactly where `.main` is NARROWEST, because that is where the
+   21rem enquiry panel appears beside it: measured, the column runs 655px at
+   720vw, 818px at 899vw, **438px** at 900vw, 610px at 1100vw, 790px at 1440vw.
+   The old `@media (min-width: 900px)` therefore turned the split ON at the one
+   width where each cell was ~205px and « Chambre dans l'appartement A10 »
+   wrapped, dragging its whole grid row with it.
+
+   34rem ≈ the narrowest column where the longest value still holds one line.
+   This also gives a 768px tablet the split, which a viewport query could never
+   express. `@container` is Baseline 2023 and the site already ships `:has()`,
+   so the support floor is unchanged. */
+@container studio-main (min-width: 34rem) {
   .specs {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: clamp(1.5rem, 3vw, 3rem);
+  }
+
+  /* An odd number of rows leaves the last one half-width with its separator
+     stopping mid-air. Every filled sheet yields an odd count today (eleven on
+     A10, nine on A10-2). Parity, not a count, so it stays right when a row is
+     added or a null appears — and NOT solved by padding the table with an
+     empty cell: an absent row is the only honest way to say « we were not
+     told ». */
+  .specs > .spec:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
   }
 }

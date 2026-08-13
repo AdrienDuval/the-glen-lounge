@@ -2,23 +2,18 @@
 
 import { useRef } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { PHOTOS } from "@/lib/photos";
-import {
-  availableStudios,
-  floorLabel,
-  formatPrice,
-  STUDIOS,
-  STUDIO_HERO,
-  type Studio,
-} from "@/lib/apartments";
+import { availableStudios, STUDIOS, STUDIO_HERO } from "@/lib/apartments";
 import { href } from "@/lib/routes";
 import { site } from "@/lib/site";
 import type { Lang } from "@/lib/i18n/config";
 import type { Dict } from "@/lib/i18n";
 import { useSectionMotion } from "./useSectionMotion";
-import AmenityIcon from "./AmenityIcon";
+import StudioCard, {
+  INDEX_FEATURE_SIZES,
+  INDEX_GRID_SIZES,
+} from "./StudioCard";
 import styles from "./StudiosIndex.module.css";
 
 /**
@@ -115,78 +110,6 @@ export default function StudiosIndex({
     { scope: rootRef }
   );
 
-  const Card = ({ studio, wide }: { studio: Studio; wide?: boolean }) => {
-    const floor = floorLabel(studio, {
-      floor: t.floor,
-      ground: t.groundFloor,
-      basement: t.basement,
-    });
-    /* Its own first photograph. No fallback: an undocumented unit is not listed
-       at all, so `photos` is never empty. */
-    const shot = PHOTOS[studio.photos[0]];
-    const price = formatPrice(studio.pricePerNight);
-    return (
-      <Link
-        href={`${base}/${studio.slug}`}
-        className={`${styles.card} ${wide ? styles.cardWide : ""}`}
-        data-reveal
-      >
-        <div className={`frame ${styles.media}`}>
-          <Image
-            src={shot.src}
-            alt={shot.alt[lang]}
-            fill
-            sizes={wide ? "(max-width: 720px) 92vw, 60rem" : "(max-width: 720px) 92vw, 28rem"}
-            quality={72}
-            className={styles.img}
-          />
-          <span className={styles.scrim} aria-hidden="true" />
-          {/* No badge at all when availability was never given — better a card
-              that says nothing about it than one that guesses. */}
-          {studio.status && (
-            <span className={`label ${styles.status} ${styles[studio.status]}`}>
-              <span className={styles.dot} aria-hidden="true" />
-              {t.status[studio.status]}
-            </span>
-          )}
-          {/* Corner ticks — the frame reads as a mount rather than a rectangle,
-              and they are what the hover animates. */}
-          <span className={styles.tick} aria-hidden="true" />
-          <span className={`${styles.tick} ${styles.tickEnd}`} aria-hidden="true" />
-        </div>
-
-        <div className={styles.body}>
-          <div className={styles.codeRow}>
-            <h3 className={styles.code}>{studio.code}</h3>
-            <span className={styles.rule} aria-hidden="true" />
-            <span className={`label ${styles.more}`}>{t.seeStudio}</span>
-            <span className={styles.arrow} aria-hidden="true">
-              →
-            </span>
-          </div>
-          <p className={styles.meta}>
-            {t.sleeps} {studio.sleeps}
-            {floor && ` · ${floor}`}
-            {price && ` · ${price} ${t.specs.perNight}`}
-          </p>
-          <ul className={styles.chips}>
-            {studio.amenities.slice(0, wide ? 6 : 4).map((a) => (
-              <li key={a} className={styles.chip}>
-                <AmenityIcon name={a} size={16} />
-                {t.amenities[a]}
-              </li>
-            ))}
-            {studio.amenities.length > (wide ? 6 : 4) && (
-              <li className={`${styles.chip} ${styles.chipMore}`}>
-                +{studio.amenities.length - (wide ? 6 : 4)}
-              </li>
-            )}
-          </ul>
-        </div>
-      </Link>
-    );
-  };
-
   return (
     <section ref={rootRef} className={styles.page}>
       {/* ---- opening frame ----
@@ -253,15 +176,35 @@ export default function StudiosIndex({
         </div>
       </div>
 
-      <div className={`shell ${styles.body2}`}>
+      {/* The motion scope is this wrapper and NOT the grid, since 2026-08-13.
+          `useSectionMotion` collects `[data-rule]` with `root.querySelectorAll`,
+          and the divider was a SIBLING of the old scope — so the apartments
+          index's signature luminous sweep had never once fired. It is a
+          per-element trigger, so widening the scope changes nothing else. */}
+      <div ref={gridRef} className={`shell ${styles.body2}`}>
         {/* The preview notice sat here. Gone with the placeholder listings it
             described — see the header. */}
         <div className="rule" data-rule />
 
-        <div ref={gridRef} className={styles.grid}>
-          <Card studio={featured} wide />
+        <div className={styles.grid}>
+          <StudioCard
+            studio={featured}
+            variant="feature"
+            sizes={INDEX_FEATURE_SIZES}
+            base={base}
+            lang={lang}
+            dict={dict}
+          />
           {restStudios.map((s) => (
-            <Card key={s.slug} studio={s} />
+            <StudioCard
+              key={s.slug}
+              studio={s}
+              variant="grid"
+              sizes={INDEX_GRID_SIZES}
+              base={base}
+              lang={lang}
+              dict={dict}
+            />
           ))}
         </div>
       </div>
