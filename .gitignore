@@ -35,3 +35,6 @@ next-env.d.ts
 
 # isolated build dir for verification runs (see next.config.ts)
 /.next-*/
+
+# personal Claude Code overrides (machine-specific paths, not team config)
+/.claude/settings.local.json

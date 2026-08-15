@@ -245,11 +245,21 @@ export const en = {
       status: "Status",
       size: "Floor area",
       sizeUnit: "m²",
-      bed: "Beds",
+      bed: "Bed",
       access: "Access",
       equipmentCount: "included",
       rooms: "Bedrooms",
-      showers: "Shower rooms",
+      /* « Douches » in French — the client's word. "Showers" is the plain
+         equivalent; "Shower rooms" was the same register problem in English. */
+      showers: "Showers",
+      /* The grouped row — see the long note in fr.ts. English needs no
+         lowercase/uppercase split the way the French phrase does, but the keys
+         must exist because `en.ts` satisfies the fr shape. */
+      included: "Included",
+      livingRoomNoun: "living room",
+      kitchenNoun: "kitchen",
+      andJoin: "{a} and {b}",
+      noneOfThose: "—",
       kind: "Type",
       /* One per `UnitKind` — see the note in fr.ts. */
       kindApartment: "Whole apartment",
@@ -262,10 +272,11 @@ export const en = {
       no: "No",
       perNight: "per night",
     },
+    /* « Un grand lit » — see the note in fr.ts. */
     beds: {
-      double: "One double bed",
+      double: "One large double bed",
       twin: "Two single beds",
-      doubleSingle: "One double bed + one single",
+      doubleSingle: "One large double + one single",
     },
     /* The neutral noun — see the note in fr.ts. */
     gallery: "This place in pictures",

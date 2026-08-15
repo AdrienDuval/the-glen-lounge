@@ -505,7 +505,7 @@ export const PHOTOS = {
     h: 922,
     consent: "clear",
     alt: {
-      fr: "Première salle d’eau du studio SS101 — faïence marbrée noir et blanc, douche à l’italienne vitrée, vasque et chauffe-eau",
+      fr: "Première douche du studio SS101 — faïence marbrée noir et blanc, douche à l’italienne vitrée, vasque et chauffe-eau",
       en: "The first SS101 shower room — black-and-white marbled tiling, glazed walk-in shower, basin and water heater",
     },
   },
@@ -515,7 +515,7 @@ export const PHOTOS = {
     h: 922,
     consent: "clear",
     alt: {
-      fr: "Seconde salle d’eau du studio SS101 — cabine de douche d’angle vitrée, vasque, miroir et chauffe-eau",
+      fr: "Seconde douche du studio SS101 — cabine de douche d’angle vitrée, vasque, miroir et chauffe-eau",
       en: "The second SS101 shower room — glazed corner shower cubicle, basin, mirror and water heater",
     },
   },
@@ -594,7 +594,7 @@ export const PHOTOS = {
     h: 922,
     consent: "clear",
     alt: {
-      fr: "Salle d’eau du studio SS140 — faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque en marbre, miroir, serviettes et chauffe-eau",
+      fr: "Douche du studio SS140 — faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque en marbre, miroir, serviettes et chauffe-eau",
       en: "The SS140 shower room — black-and-white marbled tiling, glazed shower cubicle with black framing, marble basin, mirror, towels and water heater",
     },
   },
@@ -659,7 +659,7 @@ export const PHOTOS = {
     h: 640,
     consent: "clear",
     alt: {
-      fr: "Salle d’eau de la chambre A10 — vasque, robinetterie chromée, miroir rétro-éclairé et faïence en marbre veiné",
+      fr: "Douche de la chambre A10 — vasque, robinetterie chromée, miroir rétro-éclairé et faïence en marbre veiné",
       en: "The A10 room's shower room — basin, chrome tap, backlit mirror and veined marble tiling",
     },
     note: "Frame decoded from the walkthrough clip at 11.8s — 356×640.",
@@ -768,7 +768,7 @@ export const PHOTOS = {
     h: 360,
     consent: "clear",
     alt: {
-      fr: "Salle d’eau de l’appartement A10 — cabine de douche vitrée à profilés noirs, douchette murale, WC, faïence en marbre veiné d’ocre et de bleu, serviettes et fenêtre",
+      fr: "Douche de l’appartement A10 — cabine de douche vitrée à profilés noirs, douchette murale, WC, faïence en marbre veiné d’ocre et de bleu, serviettes et fenêtre",
       en: "An A10 shower room — glazed shower cubicle with black framing, wall shower head, WC, ochre-and-blue veined marble tiling, towels and a window",
     },
     note:
@@ -859,7 +859,7 @@ export const PHOTOS = {
     h: 922,
     consent: "clear",
     alt: {
-      fr: "Salle d’eau du B35 — faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque, miroir, WC, chauffe-eau et serviettes",
+      fr: "Douche du B35 — faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque, miroir, WC, chauffe-eau et serviettes",
       en: "A B35 shower room — black-and-white marbled tiling, glazed shower cubicle with black framing, basin, mirror, WC, water heater and towels",
     },
     note:

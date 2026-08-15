@@ -665,6 +665,34 @@ sécurité, intimité ».
 #JeudiKaraoke #MardiCasino #MercrediCocktail #SamediVIP #AppartementMeublé
 #LocationYaoundé.
 
+#### ⚠️ Vocabulary: use the client's words, not French-agency words
+
+Recorded 2026-08-14 after **a Cameroonian reader reported the studio
+« Caractéristiques » table as confusing** — specifically that they could not tell
+what « Salles d'eau » meant. It had been drafted in French property-listing
+register, which does not carry in Cameroon.
+
+The audience is Cameroonian French. When the client's sheet has a word for
+something, **that word wins** — it is both clearer to the reader and traceable.
+
+| Was | Now | Why |
+| --- | --- | --- |
+| Salles d'eau | **Douches** | The sheet says « douches ». « Salle d'eau » is an agency term of art (shower room vs. « salle de bain » with a tub). This is the row that prompted the complaint. |
+| Salle d'eau privative | **Douche privée** | The amenity chip has to match the spec row, or one screen names the room two ways. |
+| Literie | **Lit** | « Literie » is the bedding, not the bed. |
+| Un lit double | **Un grand lit** | The sheet's own phrase. |
+
+Also fixed in the same pass: the table had **eleven rows, four of which repeated
+the identity line right above it** (chambres · surface · couchages · étage), so
+the rows carrying new information were buried. `unitLine` now owns those four and
+the table owns only what it cannot say — down to 5–6 rows. ⚠️ This reversed an
+explicit « do not thin it out » note in `StudioPage.tsx`; the reversal and its
+reasoning are recorded there. **The table is therefore no longer a full
+transcript of the sheet — FACTS.md is where that completeness lives.**
+
+The same alt-text noun was corrected across all six units' shower photographs in
+`lib/photos.ts`.
+
 ### What performs (TikTok plays)
 
 | Plays | Post | Read |
