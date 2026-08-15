@@ -8,7 +8,6 @@ import {
   floorLabel,
   formatPrice,
   formatSize,
-  isWholeUnit,
   SAME_BUILDING_AS_RESTAURANT,
   slidesFor,
   unitLine,
@@ -196,21 +195,69 @@ export default function StudioPage({
   /* One row per characteristic. Built here rather than in the markup so the
      table cannot drift out of step with the data model.
 
-     `48.72` prints as « 48,72 » in French and « 48.72 » in English — the sheet
-     gave a decimal and rounding it to 49 would be inventing precision in the
-     wrong direction. Rooms and shower rooms only appear when there are any: a
-     one-room studio with « Chambres 0 » reads as missing data rather than as
-     the definition of a studio.
+     A row is omitted when we were not told its value — there is no preview
+     notice any more, so an absent row is the only honest way to say so. Douches
+     only appear when there are any: « Douches 0 » reads as missing data rather
+     than as the definition of a studio.
 
-     Status and surface are dropped entirely when unknown, for the same reason.
-     There is no longer a preview notice to explain a placeholder value, so an
-     absent row is the only honest way to say « we were not told ».
+     ── REVERSAL, 2026-08-14 ─────────────────────────────────────────────────
+     This comment used to end: « The rows deliberately RESTATE facts the identity
+     line already carries […] Do not thin it out to avoid the repetition — see
+     the rejected proposals in the 2026-08-13 audit. »
 
-     ⚠️ The rows deliberately RESTATE facts the identity line already carries.
-     That line is a masthead sentence built for comparison; this is the complete
-     record, and a careful reader looks here. Do not thin it out to avoid the
-     repetition — see the rejected proposals in the 2026-08-13 audit. */
-  const yesNo = (v: boolean) => (v ? t.specs.yes : t.specs.no);
+     That is overruled, by a real Cameroonian reader rather than by taste: they
+     reported the table as confusing and could not tell what « Salles d'eau »
+     meant. Re-read with that in mind, the duplication was the other half of the
+     problem — eleven rows, four of them echoing the sentence directly above, so
+     the three rows that carried NEW information (statut, douches, accès) sat
+     buried among the echoes.
+
+     The « complete record » argument assumed a careful reader scanning for
+     detail. The actual reader bounced off it. So the identity line
+     (`unitLine`) now owns chambres / surface / couchages / étage, and this table
+     owns only what that line cannot say.
+
+     ⚠️ Consequence to keep in mind: this table is NO LONGER a full transcript
+     of the client's sheet. If a row must be added, check `unitLine` first — if
+     the fact is already there, it does not belong here. The audit trail for the
+     sheet itself lives in FACTS.md, which is where completeness belongs. */
+  /* « Salon et cuisine » — the two rooms that used to be a stack of « Oui »
+     values. The sheet groups them (« Salon · cuisine · balcon: oui »), and a
+     visitor reads one line instead of scanning two labels for the same word.
+     Balcon is deliberately absent: it is already an `Équipements` chip, so
+     naming it here would be the third place the page mentions it. */
+  const includedRooms = [
+    studio.livingRoom ? t.specs.livingRoomNoun : null,
+    studio.kitchen ? t.specs.kitchenNoun : null,
+  ].filter((v): v is string => Boolean(v));
+  const includedValue =
+    includedRooms.length === 2
+      ? t.specs.andJoin
+          .replace("{a}", includedRooms[0])
+          .replace("{b}", includedRooms[1])
+      : (includedRooms[0] ?? t.specs.noneOfThose);
+  /* Sentence case for the value cell: « Salon et cuisine », not « salon et
+     cuisine ». The nouns are stored lowercase because they are joined mid-phrase
+     — capitalising here keeps the dictionary honest about that. */
+  const includedLabel =
+    includedValue.charAt(0).toUpperCase() + includedValue.slice(1);
+
+  /* ── WHAT THIS TABLE DOES *NOT* REPEAT ────────────────────────────────────
+     Reduced from eleven rows to five on 2026-08-14, after a Cameroonian
+     visitor reported it as confusing.
+
+     Four rows — chambres, surface, couchages, étage — were printed here AND in
+     the identity line directly above (`unitLine`), which reads « 1 chambre ·
+     48,72 m² · 2 couchages · Sous-sol 2 ». The table restated all four two
+     centimetres below, so the page said everything twice and the rows that were
+     unique to the table (statut, douches, accès) were buried among the echoes.
+
+     `unitLine` is now the single place those four facts appear. Anything added
+     here must NOT already be in it — check that function before adding a row.
+
+     What is left is exactly what the identity line cannot carry: what is being
+     let, whether it is free, how many douches, which rooms are included, and
+     the 24h access. */
   const specs: { key: string; label: string; value: string }[] = [
     /* Type leads the table. For a `room` it is the single most important fact
        on the page — a visitor booking « A10-3 » is booking one bedroom inside
@@ -219,20 +266,13 @@ export default function StudioPage({
     ...(studio.status
       ? [{ key: "status", label: t.specs.status, value: t.status[studio.status] }]
       : []),
-    ...(size ? [{ key: "size", label: t.specs.size, value: size }] : []),
-    { key: "sleeps", label: t.sleeps, value: String(studio.sleeps) },
     { key: "bed", label: t.specs.bed, value: t.beds[studio.bed] },
-    /* Skipped for a single room: the listing IS one bedroom, so « Chambres 1 »
-       restates the type row and reads as though there were a choice. */
-    ...(isWholeUnit(studio) && studio.rooms > 0
-      ? [{ key: "rooms", label: t.specs.rooms, value: String(studio.rooms) }]
-      : []),
     ...(studio.showers > 0
       ? [{ key: "showers", label: t.specs.showers, value: String(studio.showers) }]
       : []),
-    { key: "livingRoom", label: t.specs.livingRoom, value: yesNo(studio.livingRoom) },
-    { key: "kitchen", label: t.specs.kitchen, value: yesNo(studio.kitchen) },
-    ...(floor ? [{ key: "floor", label: t.floor, value: floor }] : []),
+    ...(includedRooms.length > 0
+      ? [{ key: "included", label: t.specs.included, value: includedLabel }]
+      : []),
     ...(site.hours.apartments247
       ? [
           {

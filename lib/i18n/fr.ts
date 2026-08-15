@@ -295,17 +295,49 @@ export const fr = {
       housekeeping: "Ménage compris",
       sameBuilding: "Dans le même immeuble que le restaurant",
     },
-    /* The spec table. ⚠️ Every VALUE it displays except the status is preview
-       data — see the header of lib/apartments.ts. */
+    /* The spec table.
+       ── VOCABULARY, 2026-08-14 ────────────────────────────────────────────────
+       Rewritten because a Cameroonian visitor found it confusing, and the words
+       were the reason: it had been drafted in French property-listing register
+       rather than in the words the client's own sheets use.
+
+       · « Salles d'eau » → « Douches ». The sheet says « douches ». « Salle
+         d'eau » is a French-agency term of art (a shower room as distinct from a
+         « salle de bain » with a tub) and it does not carry in Cameroon — this
+         was the specific row that prompted the complaint.
+       · « Literie » → « Lit ». « Literie » means the bedding, not the bed. The
+         sheet says « un grand lit », so `beds.double` says that too.
+       · `roomsShort` / `showersShort` are for narrow screens, where « Douches »
+         and « Chambres » are already short enough that no truncation is needed —
+         they exist so the labels can never be abbreviated into new jargon.
+
+       The table also STOPS repeating the identity line above it (chambres,
+       surface, couchages, étage were printed twice on every page) and groups the
+       oui/non rows the way the sheet groups them. See `specs` use in
+       StudioPage.tsx. */
     specs: {
       title: "Caractéristiques",
       status: "Statut",
       size: "Surface",
       sizeUnit: "m²",
-      bed: "Literie",
+      bed: "Lit",
       access: "Accès",
       rooms: "Chambres",
-      showers: "Salles d’eau",
+      /* « Douches » — the client's own word. NOT « salles d'eau ». */
+      showers: "Douches",
+      /* One row instead of two « Oui » rows stacked. The sheet groups these as
+         « Salon · cuisine · balcon: oui · oui · oui »; balcon is already an
+         équipement chip, so only these two need stating here. Rendered with
+         `andJoin` so the label reads « Salon et cuisine » when both are present
+         and simply « Salon » or « Cuisine » when only one is. */
+      included: "Compris",
+      livingRoomNoun: "salon",
+      kitchenNoun: "cuisine",
+      /* « salon et cuisine » — the conjunction, so the phrase is built in the
+         dictionary rather than hard-coded with a French « et » in the TSX. */
+      andJoin: "{a} et {b}",
+      /* Value for the grouped row when the unit has neither. */
+      noneOfThose: "—",
       /* What is actually let. « Chambre seule » is the client's own wording and
          it matters: a 10 m² bedroom inside a shared apartment must not be sold
          under the same noun as a self-contained studio. */
@@ -320,9 +352,16 @@ export const fr = {
       kindRoom: "Chambre dans un appartement",
       /* « Chambre dans l’appartement A10 » — used when the parent is known. */
       kindRoomIn: "Chambre dans l’appartement {code}",
+      /* ⚠️ NOT CURRENTLY RENDERED — kept, not dead by accident.
+         `livingRoom`, `kitchen`, `yes`, `no`, `rooms` and `size` were the labels
+         of rows removed on 2026-08-14: `salon`/`cuisine` became the single
+         « Compris » row, and chambres/surface are now carried by the identity
+         line alone. They stay because each is a correct translation that costs
+         nothing and would be needed verbatim if a row came back. Do not
+         reintroduce a row just because its label exists — read the note above
+         `specs` in StudioPage.tsx first. */
       livingRoom: "Salon",
       kitchen: "Cuisine",
-      /* Rendered as the value of the two boolean rows above. */
       yes: "Oui",
       no: "Non",
       /* « 60 000 FCFA » followed by this, so the unit of time is never
@@ -332,10 +371,12 @@ export const fr = {
          reads « Équipements · 9 inclus » rather than repeating the word. */
       equipmentCount: "inclus",
     },
+    /* « Un grand lit » is the client's own phrase on the SS101 sheet, and it is
+       what a guest in Yaoundé would say. « Un lit double » was our wording. */
     beds: {
-      double: "Un lit double",
+      double: "Un grand lit",
       twin: "Deux lits simples",
-      doubleSingle: "Un lit double + un lit simple",
+      doubleSingle: "Un grand lit + un lit simple",
     },
     /* « logement » — the neutral noun — everywhere the site used to say
        « studio » about units in general. Chosen 2026-08-13 precisely because it
@@ -404,7 +445,10 @@ export const fr = {
       fridge: "Réfrigérateur",
       microwave: "Micro-ondes",
       utensils: "Ustensiles de cuisine",
-      bathroom: "Salle d’eau privative",
+      /* « Douche privée », not « Salle d'eau privative » — same 2026-08-14
+         vocabulary fix as the `showers` row. The chip and the spec row must use
+         the same noun, or the page names the room two ways on one screen. */
+      bathroom: "Douche privée",
       hotWater: "Eau chaude",
       linens: "Draps et serviettes fournis",
       balcony: "Balcon",
