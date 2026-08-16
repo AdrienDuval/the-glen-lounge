@@ -17,15 +17,43 @@ export const site = {
 
   contact: {
     /**
-     * ⚠️ FACTS.md records SIX published variants. This is the working
-     * assumption: the pair used for "réservations" across the whole TikTok
-     * timeline. TODO — the client must settle 652 81 **45** 49 vs **46** 49
-     * before launch. The entire site converts to a phone call.
+     * ✅ THE BOOKING LINE — client, 2026-08-14. This closes what FACTS.md had
+     * carried as the **#1 launch blocker** since the first harvest.
+     *
+     * ── WHY THIS SUPERSEDES EVERYTHING ───────────────────────────────────────
+     * FACTS.md records SIX published variants, and the site had been rendering
+     * `691 24 65 90` as a working assumption — the one number that appeared
+     * consistently across the whole TikTok timeline — while a long note weighed
+     * `652 81 45 49` against `46 49`.
+     *
+     * The client has now given the number directly, and it is a SEVENTH value
+     * matching none of the six. Given directly beats inferred from captions, so
+     * that whole argument is closed: this is the number, and the six published
+     * ones are stale.
+     *
+     * ⚠️ THE OLD NUMBERS ARE STILL LIVE ON THEIR OWN CHANNELS — TikTok captions,
+     * the Facebook intro and contact fields, and their Bal des Vétérans flyer.
+     * The site is now correct and their socials are not. Only they can fix
+     * those; it is the first thing to raise. A guest who finds the venue through
+     * TikTok will still dial a stale line.
+     *
+     * ── ONE NUMBER, BOTH CHANNELS ────────────────────────────────────────────
+     * Calls and WhatsApp were two different numbers (`691 51 35 16` came from
+     * the Facebook WhatsApp field). Client's instruction 2026-08-14 is one line
+     * for everything, so `whatsapp` points at the same value rather than being
+     * deleted — every WhatsApp button reads `whatsapp.tel`, and keeping the key
+     * means the two can diverge again with a one-line edit if they ever put
+     * WhatsApp on a separate handset.
      */
-    phonePrimary: { display: "+237 691 24 65 90", tel: "+237691246590" },
-    phoneSecondary: { display: "+237 652 81 46 49", tel: "+237652814649" },
-    /** From the Facebook page WhatsApp field. */
-    whatsapp: { display: "+237 691 51 35 16", tel: "+237691513516" },
+    phonePrimary: { display: "+237 699 31 36 23", tel: "+237699313623" },
+    /**
+     * The previous working assumption, kept for one release as a fallback if the
+     * new line turns out to be mistyped — NOT rendered anywhere. Delete once the
+     * client has confirmed the new number is answering.
+     */
+    phoneSecondary: { display: "+237 691 24 65 90", tel: "+237691246590" },
+    /** Same line as `phonePrimary` — see the note above. */
+    whatsapp: { display: "+237 699 31 36 23", tel: "+237699313623" },
     /** TODO: no email address is published anywhere. */
     email: "",
   },

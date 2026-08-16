@@ -104,7 +104,14 @@ export type BuildingService = (typeof BUILDING_SERVICES)[number];
  */
 export const SAME_BUILDING_AS_RESTAURANT = true;
 
-/** Bed layouts. Labels live in `studios.beds` in both dictionaries. */
+/**
+ * Bed layouts. Labels live in `studios.beds` in both dictionaries.
+ *
+ * `beds` (below) multiplies this: « grand lit » × 2 → « Deux grands lits ». The
+ * type says WHAT KIND of bed and the count says HOW MANY, so a two-bedroom flat
+ * does not need its own union member — which is what the old shape forced, and
+ * why B35 read « Un grand lit » on a unit that has two.
+ */
 export type BedType = "double" | "twin" | "doubleSingle";
 
 /**
@@ -193,6 +200,15 @@ export type Studio = {
    */
   size: number | null;
   bed: BedType;
+  /**
+   * How many beds of that type. Optional — absent means one, which is what
+   * every sheet before B35 described and keeps the four single-bed rows
+   * unchanged.
+   *
+   * Added 2026-08-14: the client said B35 has **2 grands lits**, and the old
+   * shape could only say « Un grand lit » on a 2-chambre flat sleeping 4.
+   */
+  beds?: number;
   /** Bedrooms. 0 is legitimate: a true one-room studio has none. */
   rooms: number;
   /** Shower rooms. SS101 has two, which the old boolean could not express. */
@@ -418,6 +434,18 @@ const A10_SPEC = {
  * 95.72 m², 2 chambres, 3 douches, salon, cuisine, balcon, 4 personnes, grand
  * lit, libre, 120 000 FCFA la nuit.
  *
+ * ✅ **DEUX GRANDS LITS** — client, 2026-08-14, correcting this sheet. The fiche
+ * said « grand lit » in the singular and the page therefore printed « Un grand
+ * lit » under a 2-chambre flat sleeping 4, which read as a missing bed. `beds: 2`
+ * now carries the count and the line reads « Deux grands lits ».
+ *
+ * This is the first sheet answer the client has revised, and it is worth noting
+ * WHY the original was wrong rather than just fixing it: the fiche has one
+ * « literie » slot, so a multi-bedroom unit has nowhere to put a second bed. The
+ * same doubt therefore hangs over A10 — 2 chambres, 8 couchages, « grand lit »
+ * singular — see the ⚠️ in `A10_SPEC`. Ask about that one too; do NOT infer it
+ * from this correction.
+ *
  * ⚠️ THIS ONE IS NOT SHARED. `SS101_SPEC` and `A10_ROOM_SPEC` are spread by two
  * rows each because one sheet answered for two units in both cases. This sheet
  * names ONE code. It is kept in a const purely to match the shape of the other
@@ -452,6 +480,9 @@ const B35_SPEC = {
   floor: "R-1",
   size: 95.72,
   bed: "double",
+  /* ✅ Two, client 2026-08-14 — one per chambre, which is what the 4 couchages
+     rest on. The only row with a count; every other unit has a single bed. */
+  beds: 2,
   rooms: 2,
   showers: 3,
   livingRoom: true,
@@ -968,6 +999,55 @@ export function unitLine(
   if (parts.floor) out.push(parts.floor);
 
   return out;
+}
+
+/**
+ * The label for one amenity chip, given the unit it belongs to.
+ *
+ * Exists for ONE case, and it is a correctness case rather than a wording one:
+ * `bathroom` renders « Douche privée », which is true of a whole flat or studio
+ * and FALSE of a single bedroom let inside someone else's apartment. A10-2 and
+ * A10-3 are two bedrooms in A10; their douche is in the shared apartment, and
+ * another guest may be in the other room. Promising « privée » there promises
+ * exclusivity the booking does not include — the kind of thing a guest only
+ * discovers on arrival.
+ *
+ * Client sheet, 2026-08-12: it says « 1 douche » for these rooms and never says
+ * private. « Privée » was our word, not hers.
+ *
+ * Everything else is unit-independent, so it falls straight through.
+ */
+export function amenityLabel(
+  studio: Studio,
+  amenity: Amenity,
+  labels: Record<Amenity, string> & { bathroomShared: string }
+): string {
+  if (amenity === "bathroom" && studio.kind === "room") return labels.bathroomShared;
+  return labels[amenity];
+}
+
+/**
+ * The literie line — « Un grand lit », « Deux grands lits ».
+ *
+ * Lives here rather than in the component so the singular/plural choice is made
+ * in one place: the count is data, and the two forms are genuinely different
+ * strings in French (« grand lit » → « grands lits » inflects both words), so
+ * this cannot be done by appending an « s » at the call site.
+ *
+ * `beds` absent or 1 → the singular, which is every unit except B35.
+ */
+export function bedLabel(
+  studio: Studio,
+  labels: {
+    one: Record<BedType, string>;
+    many: Record<BedType, string>;
+    numbers: Record<string, string>;
+  }
+): string {
+  const n = studio.beds ?? 1;
+  if (n <= 1) return labels.one[studio.bed];
+  /* Spelled out where we have the word, digit beyond — « Deux grands lits ». */
+  return labels.many[studio.bed].replace("{n}", labels.numbers[String(n)] ?? String(n));
 }
 
 /**

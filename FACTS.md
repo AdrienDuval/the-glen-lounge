@@ -62,19 +62,43 @@ Where sources disagree, **the later post wins** and the conflict is flagged.
 > renders it (`dict.contact.directions`). Still worth confirming, because it is
 > the one line a customer navigates by, but it is no longer a coin toss.
 
-### Phone numbers — ⚠️ six variants published
+### Phone numbers — ✅ SETTLED 2026-08-14
+
+> ## ✅ THE BOOKING LINE IS **+237 699 31 36 23**
+>
+> Given directly by the client (`CL`, 2026-08-14). **This closes the project's
+> #1 launch blocker.** Calls and WhatsApp both use it — one line, on the
+> client's instruction. Live in `lib/site.ts` as `phonePrimary` and `whatsapp`.
+>
+> ⚠️ **It is a SEVENTH value — it matches none of the six published below.**
+> That is not a contradiction to resolve: a number given directly by the client
+> outranks any number inferred from captions, so the long `45 49` vs `46 49`
+> argument below is now moot and kept only as history.
+>
+> ⚠️ **THEIR OWN CHANNELS STILL PUBLISH THE OLD NUMBERS** — TikTok captions, the
+> Facebook intro and contact fields, and their own Bal des Vétérans flyer. The
+> site is correct; their socials are not, and **only they can fix that.** This
+> is now the first thing to raise with them: someone who finds the venue through
+> TikTok today still dials a stale line. Ask them to update every channel to
+> `699 31 36 23`.
+
+**The six previously published variants** — all now considered **stale**, kept
+because they are what a guest may still encounter in the wild:
 
 | Number | Where | Note |
 | --- | --- | --- |
-| **+237 691 24 65 90** | TT reservations (Nov 2025 → Aug 2026), FB intro | Most consistent — appears across the whole timeline |
-| **+237 652 81 46 49** | TT Nov 2025, FB intro | |
-| +237 652 81 **45** 49 | TT Jul–Aug 2026 | ⚠️ One digit off the above. Since `46 49` appears in both the oldest TikTok posts *and* the current FB page, `45 49` is **probably a recent typo** — confirm |
+| +237 691 24 65 90 | TT reservations (Nov 2025 → Aug 2026), FB intro | The site's former working assumption; now `phoneSecondary`, unrendered |
+| +237 652 81 46 49 | TT Nov 2025, FB intro | |
+| +237 652 81 **45** 49 | TT Jul–Aug 2026 | The `45`/`46` dispute that dominated this section for a week — now moot |
 | +237 696 81 70 30 | IG bio | |
-| +237 699 96 65 65 | FB contact field | |
-| +237 691 51 35 16 | FB WhatsApp | |
+| +237 699 96 65 65 | FB contact field | ⚠️ Also starts `699` — do not confuse with the new line |
+| +237 691 51 35 16 | FB WhatsApp | Was the WhatsApp button target until 2026-08-14 |
 
-**Working assumption**: the booking line is **691 24 65 90**.
 No email address is published anywhere. ⚠️
+
+**History — the pre-2026-08-14 investigation.** Superseded by the client's own
+answer above; kept because it records how the six variants were weighed, and
+because those numbers are still live on their channels.
 
 > **Updated 2026-08-07.** Re-reading the caption digest weakens the earlier
 > inference. The three most recent reservation posts (2026-08-01 « Samedi VIP »,
@@ -93,12 +117,15 @@ No email address is published anywhere. ⚠️
 > still `691 24 65 90`. But when you ask the client, ask them to confirm
 > `652 81 45 49` and to fix the Facebook intro field — do not lead with `46`.
 >
-> **What the site does about it**: renders **only +237 691 24 65 90**, the one
-> number that appears consistently everywhere including the August 2026 posts.
-> The disputed line is kept in `lib/site.ts` but is not rendered anywhere
-> (`components/Contact.tsx`, `components/Footer.tsx`). Publishing a number that
-> might be one digit wrong is worse than publishing a single correct one.
-> **This is still the #1 launch blocker.**
+> **What the site did about it**: rendered **only +237 691 24 65 90**, the one
+> number that appeared consistently everywhere including the August 2026 posts.
+> Publishing a number that might be one digit wrong is worse than publishing a
+> single correct one.
+>
+> ✅ **Closed 2026-08-14** — the client gave `699 31 36 23` directly. Note the
+> lesson for the remaining open questions: a week of inference across captions,
+> flyers and page fields converged on the wrong answer entirely, because the
+> right one had never been published. **Ask, do not deduce.**
 
 ### Opening hours ⚠️
 
@@ -359,6 +386,17 @@ use the current column, and don't resurrect the old names.
     since the list is now mixed.
   - `floorLabel` learned **`R+N`** — it previously printed « Étage R+1 ».
   - `ReserveStudio` says « Demander cette chambre » for a room.
+  - ⚠️ **The douche is NOT advertised as private on these two** (2026-08-14).
+    The sheet says « 1 douche » and never says private; « privée » was our word.
+    A bedroom let inside someone else's apartment shares the flat, and **another
+    guest may be in the other bedroom** — promising exclusivity there is the kind
+    of thing a guest discovers on arrival. The chip reads « **Douche dans
+    l'appartement** » and the spec row « **1 dans l'appartement** » for
+    `kind: "room"` only; whole units keep « Douche privée ». See `amenityLabel`
+    in `lib/apartments.ts`.
+    ⚠️ Deliberately **not** « douche partagée » — that would claim they share the
+    cubicle, which the sheet does not say either way. Worth asking her whether
+    each bedroom has its own douche inside the flat, or whether they share one.
 
   ⚠️ **« Creoling : oui »** — the fifth equipment line, which on the fiche we
   sent is the **Canal+** slot. Every other line matches its label exactly, so
@@ -398,7 +436,7 @@ use the current column, and don't resurrect the old names.
   | Surface | **95,72 m²** |
   | Chambres | **2** |
   | Douches / salon / cuisine / balcon | **3** / oui / oui / oui |
-  | Couchages | **4**, un grand lit |
+  | Couchages | **4**, **deux grands lits** — see the correction below |
   | Statut | libre |
   | **Tarif** | **120 000 FCFA la nuit** |
   | Équipements | clim, Wi-Fi, TV, **Canal+**, frigo, micro-ondes, eau chaude, ustensiles, draps et serviettes |
@@ -409,6 +447,23 @@ use the current column, and don't resurrect the old names.
   one again (black buttoned leather, cherry-wood bedsteads and wall units, heavily
   veined black-and-white porcelain), which is one more reason no single unit's
   photographs can stand for « the range ».
+
+  ✅ **CORRECTION, `CL` 2026-08-14: B35 has DEUX GRANDS LITS.** The sheet said
+  « grand lit » in the singular and the page printed « Un grand lit » under a
+  2-chambre flat sleeping 4, which read as a missing bed. Now « Deux grands
+  lits » — one per chambre, which is what the 4 couchages rest on.
+
+  ⚠️ **This is the first sheet answer the client has revised, and the cause is
+  structural: the fiche has ONE « literie » slot, so a multi-bedroom unit has
+  nowhere to record a second bed.** The same doubt therefore hangs over **A10**
+  — 2 chambres, **8 couchages**, « grand lit » singular, which is even less
+  plausible. **Ask about A10's bedding specifically.** Do NOT infer it from
+  B35's correction: eight people in two bedrooms could be beds we have not been
+  told about, and guessing is exactly what this file exists to prevent.
+
+  Implemented as `beds?: number` on `Studio` (absent = one), so the count is data
+  and « grand lit » → « grands lits » is a dictionary plural rather than a new
+  `BedType` member per combination.
 
   ⚠️ **3 douches claimed, 1 photographed.** Same gap as SS140-A, one size larger.
   The page states 3 on her word; two are unphotographed, not absent. **Ask for
@@ -805,10 +860,15 @@ Ordered by how much they block the build.
         and 4 000. Listed once at 3 500. Confirm which is right.
 4. ~~**150 m or 300 m**~~ — effectively settled at **300 m**: every post since
    2026-07-25 and their own August flyer say so. Confirm in passing.
-5. **Which phone number and email** go on the site? The evidence now favours
-   `652 81 **45** 49` (their own August flyer plus three recent posts) over
-   `46 49` (the Facebook intro field). Ask them to confirm `45 49` **and fix
-   the Facebook intro field**, which is probably the stale one.
+5. ~~**Which phone number** goes on the site?~~ ✅ **ANSWERED 2026-08-14 —
+   +237 699 31 36 23**, given directly by the client and live everywhere
+   (calls and WhatsApp). What remains here is **theirs to do, not ours**:
+   1. ⚠️ **Ask them to update their own channels.** TikTok captions, the
+      Facebook intro and contact fields, and the Bal des Vétérans flyer all
+      still print the old numbers. Until they do, the site and their socials
+      disagree and a guest arriving from TikTok dials a stale line. **This is
+      now the highest-value ask on this list.**
+   2. **An email address** — still none published anywhere.
 6. **Closing time** — and confirm whether apartments really are 24h/24 while the
    restaurant is 10h–late.
 7. **Current weekly programme and start times** — is Lundi a night? Is Sunday

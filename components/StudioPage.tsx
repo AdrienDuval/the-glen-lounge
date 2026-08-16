@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { gsap, useGSAP } from "@/lib/gsap";
 import {
+  amenityLabel,
+  bedLabel,
   BUILDING_SERVICES,
   floorLabel,
   formatPrice,
@@ -266,9 +268,30 @@ export default function StudioPage({
     ...(studio.status
       ? [{ key: "status", label: t.specs.status, value: t.status[studio.status] }]
       : []),
-    { key: "bed", label: t.specs.bed, value: t.beds[studio.bed] },
+    {
+      key: "bed",
+      label: t.specs.bed,
+      value: bedLabel(studio, {
+        one: t.beds,
+        many: t.bedsMany,
+        numbers: t.bedsNumber,
+      }),
+    },
+    /* For a single bedroom the count alone would read as « this room has one
+       douche », i.e. its own. It is in the shared apartment — see
+       `amenityLabel`. The chip and this row have to agree, or the page
+       contradicts itself two blocks apart. */
     ...(studio.showers > 0
-      ? [{ key: "showers", label: t.specs.showers, value: String(studio.showers) }]
+      ? [
+          {
+            key: "showers",
+            label: t.specs.showers,
+            value:
+              studio.kind === "room"
+                ? t.specs.showersInApartment.replace("{n}", String(studio.showers))
+                : String(studio.showers),
+          },
+        ]
       : []),
     ...(includedRooms.length > 0
       ? [{ key: "included", label: t.specs.included, value: includedLabel }]
@@ -359,7 +382,7 @@ export default function StudioPage({
                     <span className={styles.amenityIcon} aria-hidden="true">
                       <AmenityIcon name={a} size={22} />
                     </span>
-                    {t.amenities[a]}
+                    {amenityLabel(studio, a, t.amenities)}
                   </li>
                 ))}
               </ul>

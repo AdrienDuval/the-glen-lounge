@@ -325,6 +325,10 @@ export const fr = {
       rooms: "Chambres",
       /* « Douches » — the client's own word. NOT « salles d'eau ». */
       showers: "Douches",
+      /* Value for `kind: "room"` units — « 1 dans l'appartement ». A bare « 1 »
+         would read as a douche belonging to that bedroom; it is in the shared
+         flat. Matches the `bathroomShared` chip. */
+      showersInApartment: "{n} dans l’appartement",
       /* One row instead of two « Oui » rows stacked. The sheet groups these as
          « Salon · cuisine · balcon: oui · oui · oui »; balcon is already an
          équipement chip, so only these two need stating here. Rendered with
@@ -372,12 +376,32 @@ export const fr = {
       equipmentCount: "inclus",
     },
     /* « Un grand lit » is the client's own phrase on the SS101 sheet, and it is
-       what a guest in Yaoundé would say. « Un lit double » was our wording. */
+       what a guest in Yaoundé would say. « Un lit double » was our wording.
+
+       `bedsMany` is the plural form, used when a unit has more than one bed of
+       the same kind — B35 has « Deux grands lits », one per chambre (client,
+       2026-08-14). Written out per count rather than as « {n} × grand lit »
+       because two and three are the only realistic values and « Deux grands
+       lits » is how someone says it; `bedsCount` is the fallback beyond that.
+
+       ⚠️ The plural is a DIFFERENT STRING, not the singular with an « s »:
+       « grand lit » → « grands lits » inflects both words. Do not build it by
+       concatenation. */
     beds: {
       double: "Un grand lit",
       twin: "Deux lits simples",
       doubleSingle: "Un grand lit + un lit simple",
     },
+    bedsMany: {
+      double: "{n} grands lits",
+      /* Already a pair; « 2 × deux lits simples » is four beds. */
+      twin: "{n} × deux lits simples",
+      doubleSingle: "{n} × (un grand lit + un lit simple)",
+    },
+    /* {n} spelled out, so the line reads « Deux grands lits » rather than
+       « 2 grands lits » — the singular says « Un », not « 1 ». Counts beyond
+       four fall back to the digit, which no unit needs today. */
+    bedsNumber: { "2": "Deux", "3": "Trois", "4": "Quatre" },
     /* « logement » — the neutral noun — everywhere the site used to say
        « studio » about units in general. Chosen 2026-08-13 precisely because it
        stays true whichever way the studio/appartement question is settled for
@@ -447,8 +471,17 @@ export const fr = {
       utensils: "Ustensiles de cuisine",
       /* « Douche privée », not « Salle d'eau privative » — same 2026-08-14
          vocabulary fix as the `showers` row. The chip and the spec row must use
-         the same noun, or the page names the room two ways on one screen. */
+         the same noun, or the page names the room two ways on one screen.
+
+         ⚠️ Only true for a WHOLE unit. A single bedroom inside an apartment gets
+         `bathroomShared` instead — see `amenityLabel`. */
       bathroom: "Douche privée",
+      /* Rendered on `kind: "room"` units only. « Dans l'appartement » is the
+         honest qualifier: the douche is real and it is theirs to use, but it is
+         inside the shared flat and another guest may be in the other bedroom.
+         Deliberately NOT « douche partagée », which would suggest sharing the
+         cubicle itself — the sheet does not say that either way. */
+      bathroomShared: "Douche dans l’appartement",
       hotWater: "Eau chaude",
       linens: "Draps et serviettes fournis",
       balcony: "Balcon",

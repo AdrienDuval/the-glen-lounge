@@ -18,15 +18,14 @@ import styles from "./Contact.module.css";
  * and address + hours are supporting metadata beside the photo of the actual
  * entrance — « 2ᵉ entrée à droite » with the door it points at.
  *
- * ⚠️ ONE NUMBER, DELIBERATELY. FACTS.md records six published variants, and two
- * of them differ by a single digit (652 81 **45** 49 vs **46** 49) with the
- * evidence genuinely split: the recent TikTok posts say 45, the current
- * Facebook page and the oldest posts say 46. Only +237 691 24 65 90 appears
- * consistently everywhere, including the August 2026 posts.
+ * ONE NUMBER, and as of 2026-08-14 that is no longer a hedge: the client gave
+ * the booking line directly (+237 699 31 36 23), which supersedes the six
+ * variants FACTS.md had been weighing and closes the project's #1 launch
+ * blocker. Calls and WhatsApp are the same line — see `lib/site.ts`.
  *
- * Showing a number that might be wrong is worse than showing one number, so the
- * disputed line stays out of the UI until the client settles it. It is still in
- * `lib/site.ts` — this is a rendering decision, not a data deletion.
+ * ⚠️ Their own channels still publish the OLD numbers (TikTok captions, the
+ * Facebook fields, the Bal des Vétérans flyer). This section is correct; their
+ * socials are not, and only they can fix that.
  */
 export default function Contact({ lang, dict }: { lang: Lang; dict: Dict }) {
   const sectionRef = useRef<HTMLElement>(null);

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PHOTOS } from "@/lib/photos";
 import {
+  amenityLabel,
   floorLabel,
   formatPrice,
   formatSize,
@@ -221,7 +222,7 @@ export default function StudioCard({
           {studio.amenities.slice(0, variant === "feature" ? 6 : 4).map((a) => (
             <li key={a} className={styles.chip}>
               <AmenityIcon name={a} size={16} />
-              {t.amenities[a]}
+              {amenityLabel(studio, a, t.amenities)}
             </li>
           ))}
           {studio.amenities.length > (variant === "feature" ? 6 : 4) && (

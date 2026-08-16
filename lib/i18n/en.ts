@@ -252,6 +252,8 @@ export const en = {
       /* « Douches » in French — the client's word. "Showers" is the plain
          equivalent; "Shower rooms" was the same register problem in English. */
       showers: "Showers",
+      /* `kind: "room"` units — see the note in fr.ts. */
+      showersInApartment: "{n}, in the apartment",
       /* The grouped row — see the long note in fr.ts. English needs no
          lowercase/uppercase split the way the French phrase does, but the keys
          must exist because `en.ts` satisfies the fr shape. */
@@ -278,6 +280,13 @@ export const en = {
       twin: "Two single beds",
       doubleSingle: "One large double + one single",
     },
+    /* Plural forms — B35 has two large doubles, one per bedroom. */
+    bedsMany: {
+      double: "{n} large double beds",
+      twin: "{n} × two single beds",
+      doubleSingle: "{n} × (one large double + one single)",
+    },
+    bedsNumber: { "2": "Two", "3": "Three", "4": "Four" },
     /* The neutral noun — see the note in fr.ts. */
     gallery: "This place in pictures",
     openGallery: "Enlarge",
@@ -321,7 +330,10 @@ export const en = {
       fridge: "Fridge",
       microwave: "Microwave",
       utensils: "Kitchen utensils",
-      bathroom: "Private shower room",
+      /* Matches « Douches » / « Douche privée » in fr.ts — see the note there. */
+      bathroom: "Private shower",
+      /* `kind: "room"` units only — the shower is inside the shared apartment. */
+      bathroomShared: "Shower in the apartment",
       hotWater: "Hot water",
       linens: "Bed linen and towels provided",
       balcony: "Balcony",
