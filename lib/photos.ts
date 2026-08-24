@@ -907,6 +907,134 @@ export const PHOTOS = {
       "Frame decoded from the second B35 clip at 37.2s and rotated upright — 642×360, the softest frame on the site. Replace with a real photograph when one arrives.",
   },
 
+  /* ── ST005 — THE FIRST FULL-RESOLUTION SET ────────────────────────────────
+     Nine photographs, sent by the client 2026-08-24 with the filled sheet and
+     wired up the same day. Empty rooms, no people in any frame — `consent:
+     "clear"` on inspection of all nine, not by assumption.
+
+     ⚠️ AND THEY BREAK THE 1080px CEILING. Every other unit's imagery came
+     through WhatsApp, which re-encodes to 1080px on the long edge; ASSETS.md
+     carries a standing note that the originals are still worth asking for.
+     These ARE the originals: iPhone HEIC at 4032×3024, shipped at 2000px on the
+     long edge. So this is the sharpest gallery on the site by a wide margin, and
+     the first evidence of what the venue's photography looks like when it is not
+     squeezed through a chat app. Ask for the rest this way.
+
+     HEIC needed decoding — neither this machine's libvips nor its WIC had an
+     HEVC decoder, so it went through a WASM libheif. Originals archived to
+     `assets-raw/iphone/st005/` (gitignored) per the ASSETS.md rule; EXIF is
+     dropped on re-encode, which also strips the phone's GPS tags.
+
+     ⚠️ NO DOUCHE FRAME AND NO BALCON FRAME, though the sheet says « 2 douches »
+     and « Balcon : oui ». Five of the nine are the ONE bedroom from different
+     angles — the client's own selection, kept in full. So the two rows a visitor
+     could count against the pictures are exactly the two with no picture. They
+     are unphotographed, not absent; a douche frame and a balcon frame are the
+     outstanding request on this unit.
+
+     A fourth distinct fit-out again: taupe buttoned leather, gold-legged
+     furniture, a crystal chandelier, mustard-yellow bed linen and heavily veined
+     white-and-ochre marble throughout. One more reason no single unit's
+     photographs can stand for « the range ». */
+  st005_salon: {
+    src: "/photos/studios/st005/salon.jpg",
+    w: 2000,
+    h: 1500,
+    consent: "clear",
+    alt: {
+      fr: "Salon du studio ST005 — fauteuils en cuir capitonné taupe à pieds dorés, lustre en cristal, téléviseur mural, guéridons dorés, faux-plafond à caissons et spots encastrés, sol en marbre veiné",
+      en: "The ST005 living room — buttoned taupe leather armchairs on gold legs, a crystal chandelier, wall-mounted TV, gold pedestal side tables, a coffered ceiling with recessed spots and a veined marble floor",
+    },
+  },
+  st005_salon_2: {
+    src: "/photos/studios/st005/salon-2.jpg",
+    w: 2000,
+    h: 1500,
+    consent: "clear",
+    alt: {
+      fr: "Salon du studio ST005 vu de l’autre côté — lustre en cristal, téléviseur mural, climatiseur, fauteuils en cuir taupe et ouverture sur la cuisine équipée",
+      en: "The ST005 living room from the other side — crystal chandelier, wall-mounted TV, air conditioning, taupe leather armchairs and an opening through to the fitted kitchen",
+    },
+    note:
+      "The frame that ties the rooms together: the seating area and the kitchen alcove in one shot, which is what makes « studio entier » legible.",
+  },
+  st005_entree: {
+    src: "/photos/studios/st005/entree.jpg",
+    w: 1500,
+    h: 2000,
+    consent: "clear",
+    alt: {
+      fr: "Entrée du studio ST005 — dégagement carrelé de marbre menant à la porte palière en bois verni, faux-plafond à caissons, spots encastrés et interphone mural",
+      en: "The ST005 entrance — a marble-tiled hallway leading to the polished wood front door, coffered ceiling, recessed spots and a wall intercom",
+    },
+    note:
+      "The only portrait frame in the set, and the only one of a circulation space rather than a room. It earns its place by showing the unit has its own front door — which is the difference between this and the A10 bedrooms.",
+  },
+  st005_cuisine: {
+    src: "/photos/studios/st005/cuisine.jpg",
+    w: 2000,
+    h: 1500,
+    consent: "clear",
+    alt: {
+      fr: "Cuisine équipée du studio ST005 — meubles laqués blancs, plan de travail en granit noir, crédence en marbre veiné, plaque gaz, micro-ondes, cafetière, égouttoir garni, réfrigérateur-congélateur et climatiseur",
+      en: "The ST005 fitted kitchen — white gloss units, black granite worktop, veined marble splashback, gas hob, microwave, coffee maker, a stocked dish rack, fridge-freezer and air conditioning",
+    },
+    note:
+      "Corroborates five equipment answers in one frame — plaque gaz, micro-ondes, frigo, ustensiles (the stocked dish rack) and the climatiseur above the alcove.",
+  },
+  st005_chambre: {
+    src: "/photos/studios/st005/chambre.jpg",
+    w: 2000,
+    h: 1500,
+    consent: "clear",
+    alt: {
+      fr: "Chambre du studio ST005 — grand lit en bois verni, linge blanc et jeté jaune moutarde, téléviseur mural, climatiseur, doubles rideaux beiges et faux-plafond nervuré",
+      en: "The ST005 bedroom — polished wood double bed, white linen with a mustard-yellow runner, wall-mounted TV, air conditioning, beige curtains and a stepped ceiling",
+    },
+  },
+  st005_chambre_2: {
+    src: "/photos/studios/st005/chambre-2.jpg",
+    w: 2000,
+    h: 1500,
+    consent: "clear",
+    alt: {
+      fr: "Chambre du studio ST005 — le grand lit dressé de blanc et de jaune moutarde entre deux tables de chevet en bois, rideaux beiges et sol en marbre veiné",
+      en: "The ST005 bedroom — the double bed dressed in white and mustard yellow between two wooden bedside tables, beige curtains and a veined marble floor",
+    },
+  },
+  st005_chambre_3: {
+    src: "/photos/studios/st005/chambre-3.jpg",
+    w: 2000,
+    h: 1500,
+    consent: "clear",
+    alt: {
+      fr: "Chambre du studio ST005 — vue d’ensemble du grand lit, des tables de chevet et des rideaux beiges, porte en bois verni à droite",
+      en: "The ST005 bedroom — a wide view of the double bed, bedside tables and beige curtains, with the polished wood door on the right",
+    },
+  },
+  st005_chambre_4: {
+    src: "/photos/studios/st005/chambre-4.jpg",
+    w: 2000,
+    h: 1500,
+    consent: "clear",
+    alt: {
+      fr: "Chambre du studio ST005 — téléviseur mural et climatiseur face au lit, rideaux beiges tirés derrière la tête de lit, chaussons posés sur le jeté jaune",
+      en: "The ST005 bedroom — wall-mounted TV and air conditioning facing the bed, beige curtains drawn behind the headboard and slippers laid on the yellow runner",
+    },
+  },
+  st005_chambre_rangements: {
+    src: "/photos/studios/st005/chambre-rangements.jpg",
+    w: 2000,
+    h: 1500,
+    consent: "clear",
+    alt: {
+      fr: "Rangements de la chambre du studio ST005 — armoire à quatre portes en bois verni, téléviseur mural, climatiseur et pied du lit avec serviette jaune pliée",
+      en: "Storage in the ST005 bedroom — a four-door polished wood wardrobe, wall-mounted TV, air conditioning and the foot of the bed with a folded yellow towel",
+    },
+    note:
+      "The only frame showing storage in any unit on the site. Placed last: it is a detail, not a room.",
+  },
+
   /* ── REMOVED 2026-08-12: the eight studio placeholders ────────────────────
      `studio_hero`, `studio_living`, `studio_living_kitchen`, `studio_bedroom`,
      `studio_bedroom_desk`, `studio_kitchen`, `studio_bathroom`,

@@ -3,15 +3,16 @@ import type { PhotoId } from "./photos";
 /**
  * The studios — only the units we can actually document.
  *
- * ── WHAT IS HERE, AS OF 2026-08-13 ───────────────────────────────────────────
- * SIX units, every one of them with its own media of its own rooms and every
- * spec client-stated. Four filled sheets cover them, because two of the sheets
+ * ── WHAT IS HERE, AS OF 2026-08-24 ───────────────────────────────────────────
+ * SEVEN units, every one of them with its own media of its own rooms and every
+ * spec client-stated. Five filled sheets cover them, because two of the sheets
  * each answered for two units:
  *
  *   `SS101_SPEC`    → SS101, and SS140-A on the client's explicit word.
  *   `A10_ROOM_SPEC` → A10-2 and A10-3, two rooms let inside apartment A10.
  *   `B35_SPEC`      → B35 alone. NOT to be spread by a second row.
  *   `A10_SPEC`      → A10 alone — the apartment the two rooms above sit in.
+ *   `ST005_SPEC`    → ST005 alone. NOT to be spread by a second row.
  *
  * Rows that share a sheet spread ONE object rather than a hand-copied duplicate,
  * so a correction cannot silently leave one of them behind.
@@ -26,13 +27,13 @@ import type { PhotoId } from "./photos";
  * through before the client sent anything: surface, couchages, étage, literie
  * and équipements were all invented, and the site carried two separate
  * disclaimers admitting it. Removed 2026-08-12 — a listing a visitor can hold
- * the venue to is worse than a listing that is not there. Four of the nine have
- * since come back properly documented (A10-2, A10-3, B35, A10).
+ * the venue to is worse than a listing that is not there. Five of the nine have
+ * since come back properly documented (A10-2, A10-3, B35, A10, ST005).
  *
- * ⚠️ THE FIVE REMAINING CODES ARE STILL REAL and are still recorded in FACTS.md
- * (`ST005-A` · `B15-A` · `A10-1-A` · `SS130-A` · `SS110-A`). This file is the
+ * ⚠️ THE FOUR REMAINING CODES ARE STILL REAL and are still recorded in FACTS.md
+ * (`B15-A` · `A10-1-A` · `SS130-A` · `SS110-A`). This file is the
  * shippable set, not the inventory. The venue has eleven units; we can describe
- * six. When a sheet and media land for one of the five, add the row back from
+ * seven. When a sheet and media land for one of the five, add the row back from
  * FACTS.md — do NOT restore the old invented figures from git history.
  *
  * ── ADDING A UNIT ────────────────────────────────────────────────────────────
@@ -516,6 +517,91 @@ const B35_SPEC = {
  * is no invented data left in this file — which is why no page renders a preview
  * notice any more.
  */
+/**
+ * ✅ THE ST005 SHEET — client, 2026-08-24, headed « Code / Nom : ST 005 ».
+ * « Studio entier », 48 m², 1 chambre, 2 douches, salon, cuisine, balcon,
+ * 2 personnes, grand lit, libre, 60 000 FCFA la nuit. Nine photographs arrived
+ * with it — the first full-resolution set this project has been sent.
+ *
+ * ⚠️ NOT SHARED. Like `B35_SPEC` this sheet names ONE code. It is kept in a
+ * const to match the shape of its neighbours; a second row must not spread it
+ * unless the client says in her own words that the units match, which is the bar
+ * SS140-A had to clear.
+ *
+ * ⚠️ IT IS ALMOST SS101, AND DELIBERATELY NOT WRITTEN AS SS101. Same rate, same
+ * couchages, same literie, same 1 chambre / 2 douches, same salon · cuisine ·
+ * balcon, and byte-identical amenities. Two fields differ: 48 m² against SS101's
+ * measured 48.72, and the étage. Those are enough that this is her own sheet
+ * transcribed, not `SS101_SPEC` reused — and if the surfaces are ever confirmed
+ * equal, merging them is a deliberate edit, not a silent one.
+ *
+ * ── THE ÉTAGE, WHICH THE SHEET CONTRADICTS ITSELF ON ─────────────────────────
+ * She wrote « Étage : sous sol R+2 ». « Sous sol » is a basement; « R+2 » is two
+ * storeys UP. Both cannot be true, and unlike the A10 pair — where two sheets
+ * disagreed with equal authority — this is one field disagreeing with itself.
+ *
+ * Recorded as `R-2`, « Sous-sol 2 », on this reasoning: her +/- notation is
+ * demonstrably unreliable (on the A10 pair she wrote « sous sol R-1 » for the
+ * apartment and « R+1 » for two bedrooms INSIDE that same apartment, so she
+ * writes both signs for one physical level), while « sous sol » is plain
+ * language. SS101 and SS140-A are also R-2 in the same building. The word wins
+ * over the notation.
+ *
+ * ⚠️ That is an inference, not a transcription — the one field on this row that
+ * is. Confirm the étage with her; if she means two floors up, this is a one-word
+ * edit. The photographs settle nothing: every curtain is closed and no frame
+ * shows a view.
+ *
+ * ✅ « Creoling dans la chambre : oui » — AND THIS IS THE SECOND CONFIRMATION.
+ * This sheet prints BOTH « Canal+ au salon : oui » and the Creoling line, exactly
+ * as `A10_SPEC` does. So they are two different things in her own hand on two
+ * independent sheets, and « Creoling » is definitively NOT her word for Canal+.
+ * `canalPlus` is recorded because she named it; what Creoling actually is remains
+ * unknown and stays unadvertised. Worth finally asking.
+ *
+ * ⚠️ Ventilateur and machine à laver came back « non » and are therefore absent
+ * from `amenities` rather than assumed.
+ *
+ * ⚠️ `access24` IS NOT ON THIS SHEET. The fiche never asks; it is the venue's own
+ * « disponibilité 24h/24 » marketing line (FACTS.md), carried by every row here
+ * on the same basis.
+ *
+ * ⚠️ Weekly rate, monthly rate and caution left blank AGAIN — fifth sheet
+ * running, and now the single most repeated gap in the whole dataset.
+ */
+const ST005_SPEC = {
+  status: "available",
+  sleeps: 2,
+  /* « Sous-sol 2 » — see the étage note above. Inferred, not transcribed. */
+  floor: "R-2",
+  /* 48 m² flat, as written. NOT SS101's 48.72 — do not «tidy» one into the other. */
+  size: 48,
+  bed: "double",
+  rooms: 1,
+  showers: 2,
+  livingRoom: true,
+  kitchen: true,
+  amenities: [
+    "wifi",
+    "ac",
+    "tv",
+    "canalPlus",
+    "kitchenette",
+    "fridge",
+    "microwave",
+    "utensils",
+    "bathroom",
+    "hotWater",
+    "linens",
+    "balcony",
+    "access24",
+  ],
+  pricePerNight: 60000,
+} as const satisfies Omit<
+  Studio,
+  "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
+>;
+
 export const STUDIOS: readonly Studio[] = [
   /* ✅ Client sheet + five photographs, 2026-08-11. The sheet is `SS101_SPEC`
      above; this row adds only what is specific to the unit — its code, its own
@@ -712,6 +798,56 @@ export const STUDIOS: readonly Studio[] = [
       "b35_balcon",
     ],
     video: "/photos/studios/b35/visite.mp4",
+  },
+  /* ✅ ST005 — client sheet + NINE photographs, both 2026-08-24. The sheet is
+     `ST005_SPEC` above; this row adds only what is specific to the unit.
+
+     ⚠️ Listed as **`ST005`** (slug `st005`), the code she wrote — « ST 005 »,
+     space removed. The 2026-08-09 inventory list spells it `ST005-A`. Same
+     divergence as `A10-2` / `A10-3` / `B35`, and resolved the same way: her own
+     sheet is the newer and more specific source. If the `-A` suffix is real,
+     these are all renames together.
+
+     ⚠️ THE SHARPEST GALLERY ON THE SITE, and by a distance — 2000px frames from
+     4032px iPhone originals, where every other unit is capped at WhatsApp's
+     1080px. Two consequences worth knowing:
+       · The banner plate (`STUDIO_HERO`) is still `ss140_salon` at 1080px.
+         `st005_salon` is a better plate on resolution alone. Deliberately NOT
+         switched here — the banner is a site-wide visual decision, not part of
+         listing a unit. Worth doing on purpose.
+       · The index gives its wide feature card to `STUDIOS[0]`, still SS101.
+         This row is appended last, so listing ST005 changes nothing above it.
+
+     ⚠️ NO DOUCHE FRAME AND NO BALCON FRAME. The sheet says « 2 douches » and
+     « Balcon : oui »; nine photographs and neither appears. That is the third
+     unit running with an unphotographed douche (SS140-A states 2 shows 1, B35
+     states 3 shows 1), and the first where the balcon is unevidenced too. The
+     rows stand on her word; see `lib/photos.ts` for the same note against the
+     images.
+
+     Five of the nine frames are the one bedroom from different angles. Kept in
+     full: it is the client's own selection and hers is the only vote on what
+     this unit's best face is. Order below leads on the salon, walks through the
+     entrée to the cuisine, then the chambre — the way someone would see it.
+
+     No `video`: she sent none for this unit. */
+  {
+    code: "ST005",
+    slug: "st005",
+    /* « Studio entier » — her word, on this unit's own sheet. */
+    kind: "studio",
+    ...ST005_SPEC,
+    photos: [
+      "st005_salon",
+      "st005_salon_2",
+      "st005_entree",
+      "st005_cuisine",
+      "st005_chambre",
+      "st005_chambre_2",
+      "st005_chambre_3",
+      "st005_chambre_4",
+      "st005_chambre_rangements",
+    ],
   },
 ] as const;
 

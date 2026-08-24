@@ -36,8 +36,38 @@ address** — the whole apartment, and the two bedrooms rented individually insi
 it. Their `lib/photos.ts` ids are prefixed apart for the same reason: `a10_appt_*`
 is the whole unit, `a10_*` the rooms. Do not merge them.
 
-⚠️ **Everything is capped at 1080px on the long edge** — WhatsApp re-encodes on
-send. Fine at current gallery sizes; the originals are still worth asking for.
+⚠️ **WhatsApp drops are capped at 1080px on the long edge** — it re-encodes on
+send. Fine at current gallery sizes, but see the next note: it is no longer the
+only channel, and it is now visibly the worse one.
+
+## ST005 — the first set sent as originals (2026-08-24)
+
+✅ **This is the answer to the « originals are still worth asking for » note
+above, and it should become the standard ask.** The client sent ST005 as nine
+**iPhone HEIC files at 4032×3024** — not through WhatsApp — so they arrived
+un-re-encoded. Shipped at **2000px** on the long edge, which makes
+`public/photos/studios/st005/` the sharpest gallery on the site by a wide
+margin. Every other unit is ≤1080px.
+
+**Raw originals live in `assets-raw/iphone/st005/`** — a second raw channel
+beside `assets-raw/whatsapp/<unit>/`, kept apart because the provenance and the
+quality ceiling differ. Same gitignore rule.
+
+⚠️ **HEIC needs decoding before sharp can touch it.** Neither this machine's
+libvips nor its WIC has an HEVC decoder — `sharp` reads HEIC *metadata* fine
+and then fails on decode with « Support for this compression format has not
+been built in », and the WPF/WIC route fails with `0xC00D5212`. What worked: a
+WASM libheif (`heic-convert`), installed **outside the project** so
+`package.json` stays clean, decode to full-size JPEG, then resize with the
+project's own sharp.
+
+⚠️ **EXIF is dropped on re-encode**, which also strips the phone's GPS tags —
+worth keeping true of any future original-quality drop, since these come
+straight off a handset rather than through an app that already stripped them.
+
+⚠️ **Only 6 of the 9 rooms are covered.** Five frames are the one bedroom from
+different angles, and there is **no douche and no balcon frame** although the
+sheet claims 2 douches and a balcon. See FACTS.md.
 **A10 came in at half that** (540×960 stills, 360×640 clips), so its shipped set
 is the softest on the site — see FACTS.md.
 

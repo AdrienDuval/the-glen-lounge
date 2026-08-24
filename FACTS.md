@@ -261,17 +261,17 @@ use the current column, and don't resurrect the old names.
   | `A10-3-A` | `A10-3` | 2026-08-12, shared |
   | `B35-A` | `B35` | **2026-08-13** |
   | `A10-A` | `A10` | **2026-08-13** |
+  | `ST005-A` | `ST005` | **2026-08-24** |
 
-  **Five still undocumented:** `ST005-A` · `B15-A` · `A10-1-A` · `SS130-A` ·
-  `SS110-A`.
+  **Four still undocumented:** `B15-A` · `A10-1-A` · `SS130-A` · `SS110-A`.
 
   So the site says « onze studios » in the banner and the studios lede (true of
-  the building, sourced here) while the index grid shows **six**
+  the building, sourced here) while the index grid shows **seven**
   (« logements présentés »). That gap is deliberate and documented in both files —
-  do not "fix" it by re-inventing the five rows. **The codes above are the only
+  do not "fix" it by re-inventing the four rows. **The codes above are the only
   record of them; restore a row from a client sheet, never from git history.**
 
-  ⚠️ **Six listings, but not six separate spaces.** `A10` is the apartment that
+  ⚠️ **Seven listings, but not seven separate spaces.** `A10` is the apartment that
   `A10-2` and `A10-3` are bedrooms inside, so the same floor area is now offered
   twice — whole at 150 000 FCFA, or one bedroom at 30 000 — and all three are
   « libre ». Harmless while enquiries go to a human on WhatsApp; a booking engine
@@ -280,6 +280,76 @@ use the current column, and don't resurrect the old names.
   ⚠️ Note the listed codes drop the `-A` suffix, following what the client
   actually writes on each sheet. The mapping above is the only place the two
   spellings are reconciled.
+- ✅ **ST005 — the seventh unit, and the first shot properly.** Sheet + **nine
+  photographs** (`CL`, 2026-08-24), wired up the same day. Type: « **studio
+  entier** ». Listed as **`ST005`** (slug `st005`), the code she wrote (« ST 005 »,
+  space removed) rather than the inventory list's `ST005-A`.
+
+  | | |
+  | --- | --- |
+  | Étage | ⚠️ « **sous sol R+2** » — self-contradictory, see below |
+  | Surface | **48 m²** (flat, not SS101's 48,72) |
+  | Chambres / douches | **1** / **2** |
+  | Salon · cuisine · balcon | oui · oui · oui |
+  | Couchages | **2**, un grand lit |
+  | Statut | libre |
+  | **Tarif** | **60 000 FCFA la nuit** — same as SS101 |
+  | Équipements | clim, Wi-Fi, TV, **Canal+**, frigo, micro-ondes, eau chaude, ustensiles, draps et serviettes, balcon |
+  | Confirmed « non » | ventilateur, machine à laver |
+
+  ⚠️ **THE ÉTAGE CONTRADICTS ITSELF IN ONE FIELD.** « Sous sol » is a basement;
+  « R+2 » is two storeys up. Recorded as **R-2 (« Sous-sol 2 »)** on this
+  reasoning: her +/− notation is demonstrably unreliable — on the A10 pair she
+  wrote « sous sol R-1 » for the apartment and « R+1 » for two bedrooms *inside
+  that same apartment* — while « sous sol » is plain language, and SS101 and
+  SS140-A are both R-2 in this building. **This is the one field on the row that
+  is inferred rather than transcribed. Confirm it.** The photographs settle
+  nothing: every curtain is closed and no frame shows a view.
+
+  ⚠️ **Almost SS101, deliberately not written as SS101.** Same rate, couchages,
+  literie, 1 chambre / 2 douches, salon · cuisine · balcon, and byte-identical
+  équipements. Only the surface (48 vs 48,72) and the étage differ. Kept as her
+  own `ST005_SPEC` rather than reusing `SS101_SPEC`, so merging them later is a
+  deliberate edit. **Worth asking whether the two surfaces are genuinely
+  different or one is rounded.**
+
+  ✅ **« Creoling dans la chambre : oui » — SECOND CONFIRMATION, and it settles
+  the question.** This sheet prints BOTH « Canal+ au salon : oui » and the
+  Creoling line, exactly as A10's did. Two independent sheets in her own hand
+  list them separately, so **« Creoling » is definitively not her word for
+  Canal+.** `canalPlus` is recorded; what Creoling actually *is* remains unknown
+  and unadvertised. Now worth simply asking.
+
+  ⚠️ **No douche frame and no balcon frame** among the nine, though the sheet
+  claims 2 douches and a balcon. Third unit running with an unphotographed douche
+  (SS140-A states 2 shows 1; B35 states 3 shows 1) and the **first with an
+  unevidenced balcon**. Unphotographed, not absent — but these two rows are
+  exactly the ones a visitor could count against the pictures.
+
+  ⚠️ **Five of the nine frames are the one bedroom** from different angles. Kept
+  in full: it is her own selection. The set is salon ×2, entrée, cuisine,
+  chambre ×4, plus a wardrobe detail.
+
+  ✅ **AND THEY BREAK THE 1080px CEILING — this is the important one.** Every
+  other unit's imagery came through WhatsApp at ≤1080px. These are **iPhone HEIC
+  originals at 4032×3024**, shipped at 2000px. ASSETS.md has carried a standing
+  note that « the originals are still worth asking for »; this is what that looks
+  like, and it is the sharpest gallery on the site by a wide margin. **Ask for
+  every future set this way — AirDrop/email, not WhatsApp.**
+
+  ⚠️ HEIC needed a WASM libheif to decode (no HEVC decoder in this machine's
+  libvips or WIC). Originals archived to `assets-raw/iphone/st005/`; EXIF —
+  including the phone's GPS tags — is dropped on re-encode.
+
+  ⚠️ A **fourth distinct fit-out**: taupe buttoned leather, gold-legged
+  furniture, crystal chandelier, mustard-yellow linen, veined white-and-ochre
+  marble. Still no single unit that can stand for « the range ».
+
+  ⚠️ **The banner plate is now the weakest link.** `STUDIO_HERO` is still
+  `ss140_salon` at 1080px while `st005_salon` is 2000px of the same kind of room.
+  Not switched — the site-wide banner is a design decision, not part of listing a
+  unit. Worth doing deliberately.
+
 - « Réserve maintenant avant que ce soit complet ! » — implies limited stock.
 - **Saint-Valentin packages** with reductions, incl. a room dressed with rose
   petals, candles and balloons (photographed — `public/photos/apartment-valentine-*`).
@@ -781,18 +851,18 @@ crowd shots at usable resolution.
 
 Ordered by how much they block the build.
 
-1. **Appartements** — ✅ eleven units with codes, and **six now documented end to
+1. **Appartements** — ✅ eleven units with codes, and **seven now documented end to
    end and fully specified** (SS101 from its sheet; SS140-A confirmed identical,
    rate included; A10-2 and A10-3 from one shared sheet; B35 and A10 from their
-   own). No invented data remains in `lib/apartments.ts` and all six pages list
-   completely — but **five of the eleven units are still invisible to visitors**,
+   own). No invented data remains in `lib/apartments.ts` and all seven pages list
+   completely — but **four of the eleven units are still invisible to visitors**,
    which is the cost of that honesty and the reason this stays first:
    1. **A10's floor — R-1 or R+1?** Its own sheet says « sous sol R-1 »; the
       sheet for A10-2 / A10-3, bedrooms *inside it*, says « R+1 ». Both cannot be
       true, both are published as given, and the photographs cannot settle it.
       **The cheapest correction on the list, and the only live contradiction
       between two client answers.**
-   2. **The characteristics sheet for the other five** (`ST005-A` · `B15-A` ·
+   2. **The characteristics sheet for the other four** (`B15-A` ·
       `A10-1-A` · `SS130-A` · `SS110-A`) — the single highest-value thing they
       can send, and a cheap ask: if any of them are « comme le SS101 », saying so
       is enough to publish them, exactly as SS140-A was. One sheet *or* one such
