@@ -103,6 +103,32 @@
   text-align: right;
 }
 
+/* ⚠️ « Non meublé » — A CORRECTION TO WHAT THE CARD OTHERWISE IMPLIES, so it is
+   styled to be read rather than to be pretty. Everything the venue publishes
+   says « meublé haut standing »; this card shows a surface, a bedroom count and
+   a rate, and a visitor can decide from the index alone. The mark is the only
+   thing stopping A40 reading as a furnished flat at 850 000 FCFA.
+
+   BOTTOM-left, not top: the status pill holds top-left and the relation ribbon
+   holds top-right, and this must never stack under either. Bottom-left is the
+   one free corner on every variant and it sits directly above the metadata line
+   the mark qualifies.
+
+   ⚠️ NOT hidden in the compact variant, where `.status` is. Availability is a
+   detail a visitor will ask about anyway; the product is not. */
+.unfurnished {
+  position: absolute;
+  z-index: 2;
+  bottom: 0.85rem;
+  left: 0.85rem;
+  max-width: calc(100% - 1.7rem);
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(232, 188, 62, 0.55);
+  background: rgba(6, 9, 12, 0.78);
+  backdrop-filter: blur(6px);
+  color: var(--gold);
+}
+
 .dot {
   width: 6px;
   height: 6px;
@@ -411,6 +437,14 @@
   .compact .tick,
   .compact .more {
     display: none;
+  }
+
+  /* Shrinks with the card but never disappears — see `.unfurnished`. */
+  .compact .unfurnished {
+    bottom: 0.4rem;
+    left: 0.4rem;
+    padding: 0.25rem 0.4rem;
+    font-size: 0.5625rem;
   }
 }
 

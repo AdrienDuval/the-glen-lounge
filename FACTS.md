@@ -246,6 +246,12 @@ use the current column, and don't resurrect the old names.
   encode a building and a floor (`A10-*` reads as one unit split three ways) —
   unconfirmed, so nothing in the UI interprets them.
 
+  ⚠️ **ELEVEN IS NOW KNOWN TO BE INCOMPLETE.** Two sheets arrived 2026-09-05 for
+  **`A40`** and **`ST 003`**, and neither code is on this list. So there are **at
+  least thirteen** units. The number is deliberately NOT changed anywhere in the
+  UI — « treize » would be as much of a guess as « onze » now is. See the
+  « NON MEUBLÉ » block at the end of this section, and re-ask for the inventory.
+
   ⚠️ **THIS LIST IS THE INVENTORY; `lib/apartments.ts` IS NOT.** That file holds
   only the units we can document. It was cut to **two** on 2026-08-12, because
   the nine others had nothing but a code and were being rendered with invented
@@ -690,6 +696,180 @@ use the current column, and don't resurrect the old names.
   oversell it as luxury; either get better photography or lead with the
   occasion/package angle, which is what they already do well.
 
+- ⚠️🆕 **NON MEUBLÉ — A SECOND PRODUCT, AND TWO CODES THAT ARE NOT ON THE
+  INVENTORY.** Two filled sheets (`CL`, **2026-09-05**, 21:01 and 21:05) and
+  **55 photographs** (2026-09-02 and 2026-09-03), recorded here 2026-09-07.
+  **Neither unit is in `lib/apartments.ts`** — the blockers are at the foot of
+  this block, and every one of them is a decision or a question, not a gap in
+  what she sent.
+
+  | | **A40** | **ST 003** |
+  | --- | --- | --- |
+  | Type, her words | « Appartement **non meublé** » | « STUDIO **non meublé** » |
+  | Étage, her words | ⚠️ « sous sol **R+2** » | ⚠️ « sous sol **R+3** » |
+  | Surface | **127,6 m²** | **55 m²** |
+  | Chambres / douches | **3** / **4** | **1** / **2** |
+  | Salon · cuisine · balcon | oui · oui · oui | oui · oui · oui |
+  | Nombre de personnes | *(blank)* | *(blank)* |
+  | Lit | « **aucun** » | « **aucun** » |
+  | Statut | libre | libre |
+  | **Prix par mois** | **850 000 FCFA** | **500 000 FCFA** |
+  | Prix nuit / semaine | *(blank)* | *(blank)* |
+  | **Caution** | **2 mois** | **2 mois** |
+  | Climatisation | oui | oui |
+  | Ventilateur | non | non |
+  | Wi-Fi | oui | oui |
+  | Télévision | *(blank)* | *(blank)* |
+  | Canal+ au salon | ⚠️ « **au frais du client** » | ⚠️ « **au frais du client** » |
+
+  ✅ **THE BUILDING BLOCK, RE-ANSWERED AND CONSISTENT.** Gardien, caméras,
+  groupe électrogène, réserve d'eau, parking — all **oui** on both sheets, and
+  « Les appartements sont dans le même bâtiment que le resto ? : **oui** » a
+  third and fourth time. That matches `BUILDING_SERVICES` and
+  `SAME_BUILDING_AS_RESTAURANT` exactly. ⚠️ Note **« ménage compris » was not
+  on the fiche she used this time**, so it is unre-confirmed rather than
+  withdrawn.
+
+  ⚠️ **« NON MEUBLÉ » CONTRADICTS THE WHOLE APARTMENTS PITCH.** Every published
+  caption is « Glen Appartement – **meublé** haut standing », and the site's
+  studios copy, the amenity chips (draps et serviettes, ustensiles, frigo,
+  micro-ondes) and the nightly booking panel all rest on the units being
+  furnished short-stay lets. These two are the opposite: **empty shells let by
+  the month against a two-month deposit.** They are not a new row in an existing
+  list, they are a second product, and `lib/apartments.ts` has no field that can
+  say so. **This is the design decision that gates listing them** — see
+  CONTRACT.md.
+
+  ⚠️ **PRICED BY THE MONTH, AND ONLY BY THE MONTH.** First units in the dataset
+  whose rate is not nightly: 850 000 and 500 000 FCFA *par mois*, with the
+  nightly and weekly boxes blank. `Studio.pricePerNight` cannot hold this, and
+  every surface that renders a rate hard-codes « la nuit »
+  (`dict.studios.specs.perNight` in `StudioPage`, `StudioCard` and both copies
+  in `ReserveStudio`). A monthly figure printed under « la nuit » would be the
+  single worst error the site could make — 850 000 FCFA a night against
+  850 000 a month.
+
+  ✅ **AND THE CAUTION IS ANSWERED — FOR THE FIRST TIME EVER: « 2 mois ».**
+  Open question 1.5 has recorded « weekly and monthly rates, and the caution »
+  as blank on **all five** previous sheets. Both of these fill the caution *and*
+  a monthly rate. The dataset now holds a deposit term for exactly the two units
+  that are not listed, and none for the seven that are. ⚠️ Do **not** carry
+  « 2 mois » onto the furnished rows: it is stated for these two only, and a
+  deposit on a nightly stay is a different thing entirely.
+
+  ⚠️ **« Lit : aucun » AND NO HEADCOUNT — TWO REQUIRED FIELDS THAT CANNOT BE
+  FILLED.** `Studio.bed` is a required `BedType` and `Studio.sleeps` a required
+  number. Unfurnished means there is no bed to describe and she left « Nombre de
+  personnes » blank on both. Today `bedLabel` would print « Un grand lit » over
+  an empty flat, and `ReserveStudio` would cap its guest input at
+  `studio.sleeps`. Both fields have to become genuinely absent, not defaulted.
+
+  ⚠️ **SHE USED A SHORTENED FICHE — SO A MISSING LINE IS NOT A « NON » HERE.**
+  The équipements block on both sheets is only clim · ventilateur · Wi-Fi · TV ·
+  Canal+. **Frigo, micro-ondes, eau chaude, machine à laver, draps et
+  serviettes and ustensiles were never asked**, where on the five furnished
+  sheets they were asked and answered. On those rows an absent amenity means she
+  said « non »; on these two it means the question was not put. Recording them as
+  « non » would invent an answer — and for an unfurnished let most of them are
+  the tenant's own property anyway. ⚠️ The photographs do show a **chauffe-eau**
+  in the shower rooms of both sets; that is evidence of a fitting, not her word,
+  so it is written here and not advertised.
+
+  ⚠️ **« Canal+ au salon : au frais du client » — A NEW SHAPE OF ANSWER.** Not
+  oui, not non: available, at the tenant's expense. `Amenity` is a flat list of
+  things the unit *has*, so `canalPlus` would advertise it as included and
+  omitting it would hide that it is possible at all. Both are wrong. ⚠️ Note this
+  is also the **third and fourth sheet to print a Canal+ line separately from
+  « Creoling »** — no Creoling line appears on either of these, so nothing new
+  on that question (open question 1.15).
+
+  ⚠️ **THE ÉTAGE CONTRADICTS ITSELF AGAIN, TWICE — AND THE PHOTOGRAPHS NOW
+  ARGUE AGAINST THE RULING WE MADE FOR ST005.** « sous sol R+2 » (A40) and
+  « sous sol R+3 » (ST 003) are the same self-contradiction as ST005's sheet,
+  where it was resolved to **R-2** on the reasoning that « sous sol » is plain
+  language and her +/− notation is demonstrably unreliable. That reasoning noted
+  the ST005 photographs settled nothing because every curtain was closed.
+  **A40's do not.** Two frames look out from its balcony:
+  · one down onto a paved road with pedestrians and parked cars **well below**,
+    across at four- and five-storey blocks on a facing hillside (a neighbour's
+    signage reads « RÉSIDENCE OREACA »), a floodlight mast and a stadium roof on
+    the ridge;
+  · one along the building's **own facade, showing two further balconied floors
+    below the camera.**
+  That is an elevated unit on the downhill side, not a basement. ⚠️ It does not
+  prove « R+2 » either, because FACTS already records that this building is cut
+  into a slope — which is very likely the whole explanation: **« sous sol »
+  relative to the entrance on the uphill side, « R+2 » counted from the road on
+  the downhill side, both true at once and neither a mistake.** If that is right
+  it retires a contradiction that has been open since 2026-08-13 (A10's R-1 vs
+  R+1, open question 1.1) and it means **ST005's `floor: "R-2"` may be wrong.**
+  ⚠️ ST005 has NOT been changed on the strength of this — it is a different
+  unit and its own photographs still show nothing. **Ask her to name the level
+  the way a visitor would arrive at it, for all four units at once.** Until she
+  does, these two rows should carry **no floor at all** rather than repeat an
+  inference the pictures now dispute.
+
+  ✅ **A40'S CODE IS PHOTOGRAPHED ON ITS OWN FRONT DOOR — a first for this
+  project.** One frame is a close-up of an enamel plate reading « **A / 40** »
+  screwed to a varnished timber door. Every other unit's attribution rests on a
+  folder name and the order a WhatsApp batch arrived in; this one is evidenced.
+  It is the reason the 33-frame set can be attributed to A40 at all, because the
+  folder she sent it in is named « non meuble » and names no unit.
+
+  ⚠️ **AND THE OTHER FOLDER, « 003 », IS NOT ONE UNIT — SO ST 003 HAS NO
+  ATTRIBUTABLE MEDIA YET.** Its 22 frames contain **two different salons**, and
+  they are not one room at two moments:
+  · frames `20.35.42` / `20.35.45 (1)` — flat brass drum chandelier with a short
+    crystal skirt, angular multi-plane ceiling, a timber door, a black-framed
+    window and a curtain rail on the facing wall;
+  · frames `20.35.44 (2)` / `20.35.46 (1)` / `20.35.46 (2)` — a tiered gold
+    crystal basket fixture, a large flat ceiling plane with a stepped border,
+    glazed double doors onto a balcony.
+  Two reception rooms cannot both belong to a **55 m² one-bedroom** studio, and
+  the set also holds two full shower rooms, four kitchen angles, three fitted
+  wardrobes and a corridor with three doors. So « 003 » is a batch of the
+  unfurnished stock, not a unit folder — most likely ST 003 **plus at least one
+  other unit**. ⚠️ **Do not wire it up as ST 003's gallery.** Ask her which
+  frames are ST 003; that is the only thing blocking that unit, since its sheet
+  is complete.
+
+  ✅ **AND THEY BREAK THE 1080px CEILING TOO — at 1280×960, all 55.** Not
+  ST005's 2000px, but above the ≤1080px every WhatsApp set before it was capped
+  at, and consistently landscape (three portrait frames aside). All 55 are
+  distinct — verified by hash, within each folder and across the two, so nothing
+  was sent twice and nothing overlaps the furnished sets.
+
+  ⚠️ **NEITHER CODE IS ON THE INVENTORY LIST.** The 2026-08-09 list of eleven is
+  `ST005-A` · `B35-A` · `B15-A` · `A10-A` · `A10-1-A` · `A10-2-A` · `A10-3-A` ·
+  `SS130-A` · `SS140-A` · `SS101-A` · `SS110-A`. **`A40` and `ST 003` appear
+  nowhere in it**, and `A40` does not fit the `A10-*` pattern either. So the
+  venue has **at least thirteen** units, not eleven, and the banner and studios
+  lede that say « onze studios » are now **understated as well as sourced**.
+  ⚠️ Do not simply change the number: we do not know whether these two were
+  omitted, are new stock, or belong to a block the August list did not cover —
+  and « treize » would be a guess in the other direction. **Ask for the
+  inventory again**, and note the four undocumented codes from August
+  (`B15-A` · `A10-1-A` · `SS130-A` · `SS110-A`) are still outstanding.
+
+  ⚠️ **THE ENQUIRY PANEL IS WRONG FOR THESE TWO.** `ReserveStudio` collects an
+  arrival date, a departure date and a headcount, prints a night count, and
+  sends WhatsApp « je souhaite réserver … ». For an unfurnished flat let by the
+  month against a two-month caution, all four are the wrong question — this is a
+  tenancy enquiry, not a reservation. Listing these units means that panel
+  learns a second mode.
+
+  ⚠️ Presentation note: both sets are **brand-new, unlived-in fit-out** — full
+  marble floors and skirtings, marble-clad shower rooms with quadrant glass
+  enclosures, coffered plasterboard ceilings with recessed spots and crystal or
+  brass fixtures, fitted white-gloss kitchens with black stone worktops and
+  marble splashbacks, and varnished timber doors and wardrobes. **They are
+  visibly a higher standard of shell than any furnished unit on the site**,
+  A40's own bedrooms running to painted colour (one turquoise, one pink). The
+  weakness is the opposite of the furnished rows': nothing is dressed, so the
+  frames read as an estate-agent handover rather than somewhere to stay. ⚠️ A40
+  has a **fifth distinct fit-out** by the count kept on ST005; ST 003's batch is
+  a sixth. Still no single unit that can stand for « the range ».
+
 ### Events & private hire ✅
 Second-strongest content on the account.
 - Anniversaires, afterworks, shootings, dîners, réunions, **DT**, mariages,
@@ -857,6 +1037,28 @@ Ordered by how much they block the build.
    own). No invented data remains in `lib/apartments.ts` and all seven pages list
    completely — but **four of the eleven units are still invisible to visitors**,
    which is the cost of that honesty and the reason this stays first:
+
+   ⚠️ **AND FOUR NEW ASKS JUMP THE QUEUE, 2026-09-07** — from the `A40` and
+   `ST 003` sheets of 2026-09-05. These block two complete sheets and 55
+   photographs from being listed at all, so they outrank everything numbered
+   below. Full detail in the « NON MEUBLÉ » block in Services → Appartements.
+   - **A. Which of the 22 « 003 » frames are ST 003's?** That batch contains two
+     different salons, so it is not one unit and cannot be published as one. Her
+     sheet for ST 003 is complete; this is the _only_ thing blocking it.
+   - **B. Does she want unfurnished monthly lets on the site at all** — and
+     shown beside the nightly furnished units, or kept apart? Everything
+     published says « meublé haut standing »; these two are empty shells at
+     850 000 / 500 000 FCFA **par mois** with a **two-month caution**. Ours to
+     design, hers to confirm.
+   - **C. The étage, named the way a visitor would arrive at it** — for A40,
+     ST 003, ST005 and A10 together. Four sheets now write « sous sol » and a
+     `R+n`/`R-n` that disagree with it. A40's balcony photographs show two
+     balconied floors _below_ it, which fits a building cut into a slope and
+     would explain all four at once — and would mean **ST005's published
+     `R-2` is wrong.** One answer retires open question 1.1 as well.
+   - **D. The inventory, again.** `A40` and `ST 003` are on no list we hold, so
+     the venue has **at least thirteen** units and « onze studios » is now
+     understated. Ask for the full list before changing the number.
    1. **A10's floor — R-1 or R+1?** Its own sheet says « sous sol R-1 »; the
       sheet for A10-2 / A10-3, bedrooms *inside it*, says « R+1 ». Both cannot be
       true, both are published as given, and the photographs cannot settle it.
@@ -873,9 +1075,15 @@ Ordered by how much they block the build.
    4. **A10's four clips, re-sent upright** — all four play sideways, so A10 is
       the only listing with no video at all. (Two of the four are the same
       walkthrough sent twice.)
-   5. **Weekly and monthly rates, and the caution.** Left blank on **all five**
-      sheets, so they are missing for every live unit. `#LocationYaoundé`
-      suggests longer lets, and nothing in the UI multiplies the nightly figure.
+   5. **Weekly and monthly rates, and the caution.** Left blank on all five
+      **furnished** sheets, so they are missing for every live unit.
+      `#LocationYaoundé` suggests longer lets, and nothing in the UI multiplies
+      the nightly figure. ✅ **Partly answered 2026-09-05, but for the wrong
+      units:** A40 and ST 003 both state a monthly rate _and_ « caution :
+      2 mois » — the first deposit term this project has ever been given. It
+      belongs to those two unfurnished units only; do **not** carry it onto the
+      furnished rows. So the gap is now precisely inverted: a caution for the
+      two units that are not listed, none for the seven that are.
    6. **The unphotographed douches.** SS140-A states 2 and shows 1; B35 states 3
       and shows 1; **A10 states 4 and shows 1**, and 2 chambres showing 1. It is
       the one spec on those pages a visitor can count. Also **Canal+** is stated

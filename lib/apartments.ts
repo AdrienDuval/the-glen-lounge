@@ -3,9 +3,9 @@ import type { PhotoId } from "./photos";
 /**
  * The studios — only the units we can actually document.
  *
- * ── WHAT IS HERE, AS OF 2026-08-24 ───────────────────────────────────────────
- * SEVEN units, every one of them with its own media of its own rooms and every
- * spec client-stated. Five filled sheets cover them, because two of the sheets
+ * ── WHAT IS HERE, AS OF 2026-09-05 ───────────────────────────────────────────
+ * EIGHT units, every one of them with its own media of its own rooms and every
+ * spec client-stated. Six filled sheets cover them, because two of the sheets
  * each answered for two units:
  *
  *   `SS101_SPEC`    → SS101, and SS140-A on the client's explicit word.
@@ -13,9 +13,28 @@ import type { PhotoId } from "./photos";
  *   `B35_SPEC`      → B35 alone. NOT to be spread by a second row.
  *   `A10_SPEC`      → A10 alone — the apartment the two rooms above sit in.
  *   `ST005_SPEC`    → ST005 alone. NOT to be spread by a second row.
+ *   `A40_SPEC`      → A40 alone. NOT to be spread by a second row.
  *
  * Rows that share a sheet spread ONE object rather than a hand-copied duplicate,
  * so a correction cannot silently leave one of them behind.
+ *
+ * ── ⚠️ TWO PRODUCTS NOW, NOT ONE ─────────────────────────────────────────────
+ * Seven of the eight are FURNISHED and let by the night. A40 is the eighth and
+ * it is neither: « appartement non meublé », 850 000 FCFA **par mois**, caution
+ * two months, « Lit : aucun », no stated headcount. Read `furnished`, `Rate`
+ * and `A40_SPEC` before adding a row or touching a rate — the period a rate
+ * buys is DATA here precisely because printing a monthly rent under « la nuit »
+ * is the worst error this file could cause and nothing would crash.
+ *
+ * ⚠️ ST 003 is a NINTH unit whose sheet is complete and which is deliberately
+ * NOT here: the 22-frame batch she sent for it contains two different salons,
+ * so it is not one unit and cannot be published as one. Its sheet is recorded
+ * in FACTS.md; the row goes in when she says which frames are its own.
+ *
+ * ⚠️ NEITHER `A40` NOR `ST 003` IS ON ANY INVENTORY LIST WE HOLD, so the venue
+ * has at least THIRTEEN units, not eleven. The site still says « onze » —
+ * changing it to « treize » would swap one guess for another. See FACTS.md,
+ * open question 1.D.
  *
  * ⚠️ A10 AND ITS ROOMS ARE THE SAME FLOOR AREA, LISTED TWICE — whole at 150 000,
  * or one bedroom at 30 000, all three « libre ». Safe only because nothing here
@@ -32,9 +51,11 @@ import type { PhotoId } from "./photos";
  *
  * ⚠️ THE FOUR REMAINING CODES ARE STILL REAL and are still recorded in FACTS.md
  * (`B15-A` · `A10-1-A` · `SS130-A` · `SS110-A`). This file is the
- * shippable set, not the inventory. The venue has eleven units; we can describe
- * seven. When a sheet and media land for one of the five, add the row back from
- * FACTS.md — do NOT restore the old invented figures from git history.
+ * shippable set, not the inventory — and the inventory itself is now known to
+ * be incomplete: at least thirteen units exist, we can describe eight, and one
+ * more (ST 003) has a finished sheet and unusable media. When a sheet and media
+ * land for any of them, add the row from FACTS.md — do NOT restore the old
+ * invented figures from git history.
  *
  * ── ADDING A UNIT ────────────────────────────────────────────────────────────
  * A row belongs here once it has photographs of ITS OWN rooms. Fill only the
@@ -116,6 +137,31 @@ export const SAME_BUILDING_AS_RESTAURANT = true;
 export type BedType = "double" | "twin" | "doubleSingle";
 
 /**
+ * How long the rate buys — and it is DATA, not a label choice.
+ *
+ * Added 2026-09-05 with A40, the first unit whose rate is not nightly: it is
+ * let « non meublé » at **850 000 FCFA par mois**, where every unit before it
+ * quoted a nightly figure. The old shape was `pricePerNight: number | null`,
+ * and every surface that printed it hard-coded « la nuit » beside the number —
+ * `StudioPage`, `StudioCard` and `ReserveStudio` twice over.
+ *
+ * ⚠️ THE FAILURE THAT SHAPE INVITED IS THE WORST ONE THE SITE COULD MAKE:
+ * 850 000 FCFA printed as a NIGHTLY rate against a monthly one. Nothing would
+ * have crashed and no test would have caught it — the number is valid, only the
+ * word beside it is a lie, and it overstates the rent thirtyfold.
+ *
+ * So the amount and its period travel together and `rateLabel` is the only way
+ * to render them. A period cannot be forgotten, because there is no longer a
+ * bare number to print.
+ */
+export type RatePeriod = "night" | "month";
+
+export type Rate = {
+  amount: number;
+  period: RatePeriod;
+};
+
+/**
  * What is actually being let — AND THE NOUN THE SITE CALLS IT BY.
  *
  * `apartment` — a whole flat, its own front door. A10 and B35.
@@ -173,6 +219,25 @@ export type Studio = {
   /** Whole unit or a single room inside one. See `UnitKind`. */
   kind: UnitKind;
   /**
+   * Furnished and let by the night, or an empty shell let by the month.
+   *
+   * Added 2026-09-05 with A40 and it is not a detail — it is which of two
+   * different products this row belongs to. Everything the venue publishes says
+   * « Glen Appartement – **meublé** haut standing », and the amenity chips
+   * (draps et serviettes, ustensiles, frigo, micro-ondes), the nightly rate and
+   * the arrival/departure fields in `ReserveStudio` all assume it.
+   *
+   * `false` inverts all of that: no bed, no headcount, a monthly rate, a
+   * deposit in months, and an enquiry that is a tenancy rather than a booking.
+   *
+   * ⚠️ IT MUST BE VISIBLE ON EVERY SURFACE THAT LISTS A UNIT. A visitor who
+   * reads the index, sees « 127,6 m² · 3 chambres » at 850 000 and clicks
+   * expecting a furnished flat has been misled by an omission — the same
+   * failure `UnitKind` exists to prevent, one product wider. The card and the
+   * masthead both carry a « Non meublé » mark for this reason.
+   */
+  furnished: boolean;
+  /**
    * For `kind: "room"`, the apartment it sits in — « Chambre dans
    * l'appartement A10 ». Omitted for whole units.
    */
@@ -186,8 +251,15 @@ export type Studio = {
    * without a placeholder status creeping back in.
    */
   status: StudioStatus | null;
-  /** How many people the unit sleeps. */
-  sleeps: number;
+  /**
+   * How many people the unit sleeps, or null when she did not say.
+   *
+   * ⚠️ Nullable since 2026-09-05. Both unfurnished sheets left « Nombre de
+   * personnes » blank, which is coherent rather than careless: an empty flat
+   * sleeps however many the tenant's own beds sleep. Every furnished row still
+   * states one.
+   */
+  sleeps: number | null;
   /**
    * Floor as the building names it; null = not recorded.
    * "RDC" = ground. "R-1", "R-2" … = sous-sol levels, which is what the `SS`
@@ -200,7 +272,16 @@ export type Studio = {
    * would invent precision in the wrong direction.
    */
   size: number | null;
-  bed: BedType;
+  /**
+   * The bed, or null when there is none to describe.
+   *
+   * ⚠️ Nullable since 2026-09-05: both unfurnished sheets answer « Lit :
+   * **aucun** ». Before that this was a required `BedType`, so an empty flat
+   * would have printed « Un grand lit » — a furnished-unit default asserting a
+   * bed that is demonstrably not in the photographs. `bedLabel` returns null
+   * here and the spec row is dropped.
+   */
+  bed: BedType | null;
   /**
    * How many beds of that type. Optional — absent means one, which is what
    * every sheet before B35 described and keeps the four single-bed rows
@@ -219,11 +300,37 @@ export type Studio = {
   kitchen: boolean;
   amenities: readonly Amenity[];
   /**
-   * Nightly rate in FCFA, or null while unknown — the pages fall back to
-   * « tarif sur demande ». Never invent one: it is the single value a visitor
-   * could hold the venue to.
+   * Canal+ available, but billed to the tenant — « Canal+ au salon : **au frais
+   * du client** », her answer on both unfurnished sheets, 2026-09-05.
+   *
+   * A field of its own rather than an `Amenity`, because `amenities` is a list
+   * of what the unit *has* and this is neither oui nor non. Listing
+   * `canalPlus` would advertise a subscription as included; omitting it
+   * entirely would hide that it is possible at all. Both are wrong, so the
+   * third answer gets its own row and says exactly what she wrote.
    */
-  pricePerNight: number | null;
+  canalPlusAtTenantCost?: boolean;
+  /**
+   * The rate and the period it buys, or null while unknown — the pages fall
+   * back to « tarif sur demande ». Never invent one: it is the single value a
+   * visitor could hold the venue to.
+   *
+   * Was `pricePerNight: number | null` until 2026-09-05. See `Rate` for why the
+   * period had to become data.
+   */
+  rate: Rate | null;
+  /**
+   * Deposit, in MONTHS of rent — « Caution : 2 mois ».
+   *
+   * ✅ First answered 2026-09-05, on A40 and ST 003. All five furnished sheets
+   * left the caution box blank, so this is null on every one of them and the
+   * row is simply absent there.
+   *
+   * ⚠️ Months, not FCFA, because months is what she wrote. Multiplying it into
+   * a figure would be arithmetic the venue never quoted — and on a monthly rate
+   * a reader can do it themselves if they want to.
+   */
+  depositMonths: number | null;
   /**
    * This unit's own photographs, in the order they should be shown. Empty means
    * the page falls back to the shared placeholder set AND owes the viewer the
@@ -268,6 +375,9 @@ export function slugFor(code: string): string {
  */
 const SS101_SPEC = {
   status: "available",
+  /* Furnished and let by the night — the product every sheet before
+     2026-09-05 described. */
+  furnished: true,
   sleeps: 2,
   floor: "R-2",
   size: 48.72,
@@ -291,7 +401,10 @@ const SS101_SPEC = {
     "balcony",
     "access24",
   ],
-  pricePerNight: 60000,
+  rate: { amount: 60000, period: "night" },
+  /* ⚠️ The caution box was left BLANK on this sheet, as on all five furnished
+     sheets. Null, not zero — the row is absent rather than claiming none. */
+  depositMonths: null,
 } as const satisfies Omit<
   Studio,
   "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
@@ -325,6 +438,9 @@ const SS101_SPEC = {
  */
 const A10_ROOM_SPEC = {
   status: "available",
+  /* Furnished and let by the night — the product every sheet before
+     2026-09-05 described. */
+  furnished: true,
   sleeps: 2,
   floor: "R+1",
   size: 10,
@@ -343,7 +459,10 @@ const A10_ROOM_SPEC = {
     "linens",
     "access24",
   ],
-  pricePerNight: 30000,
+  rate: { amount: 30000, period: "night" },
+  /* ⚠️ The caution box was left BLANK on this sheet, as on all five furnished
+     sheets. Null, not zero — the row is absent rather than claiming none. */
+  depositMonths: null,
 } as const satisfies Omit<
   Studio,
   "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
@@ -401,6 +520,9 @@ const A10_ROOM_SPEC = {
  */
 const A10_SPEC = {
   status: "available",
+  /* Furnished and let by the night — the product every sheet before
+     2026-09-05 described. */
+  furnished: true,
   sleeps: 8,
   floor: "R-1",
   size: 130,
@@ -424,7 +546,10 @@ const A10_SPEC = {
     "balcony",
     "access24",
   ],
-  pricePerNight: 150000,
+  rate: { amount: 150000, period: "night" },
+  /* ⚠️ The caution box was left BLANK on this sheet, as on all five furnished
+     sheets. Null, not zero — the row is absent rather than claiming none. */
+  depositMonths: null,
 } as const satisfies Omit<
   Studio,
   "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
@@ -477,6 +602,9 @@ const A10_SPEC = {
  */
 const B35_SPEC = {
   status: "available",
+  /* Furnished and let by the night — the product every sheet before
+     2026-09-05 described. */
+  furnished: true,
   sleeps: 4,
   floor: "R-1",
   size: 95.72,
@@ -503,7 +631,10 @@ const B35_SPEC = {
     "balcony",
     "access24",
   ],
-  pricePerNight: 120000,
+  rate: { amount: 120000, period: "night" },
+  /* ⚠️ The caution box was left BLANK on this sheet, as on all five furnished
+     sheets. Null, not zero — the row is absent rather than claiming none. */
+  depositMonths: null,
 } as const satisfies Omit<
   Studio,
   "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
@@ -571,6 +702,9 @@ const B35_SPEC = {
  */
 const ST005_SPEC = {
   status: "available",
+  /* Furnished and let by the night — the product every sheet before
+     2026-09-05 described. */
+  furnished: true,
   sleeps: 2,
   /* « Sous-sol 2 » — see the étage note above. Inferred, not transcribed. */
   floor: "R-2",
@@ -596,7 +730,127 @@ const ST005_SPEC = {
     "balcony",
     "access24",
   ],
-  pricePerNight: 60000,
+  rate: { amount: 60000, period: "night" },
+  /* ⚠️ The caution box was left BLANK on this sheet, as on all five furnished
+     sheets. Null, not zero — the row is absent rather than claiming none. */
+  depositMonths: null,
+} as const satisfies Omit<
+  Studio,
+  "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
+>;
+
+/**
+ * ✅ THE A40 SHEET — client, 2026-09-05. **The first unfurnished unit, and the
+ * first row on this site that is not a nightly let.**
+ *
+ * « Appartement **non meublé** », 127,6 m², 3 chambres, 4 douches, salon,
+ * cuisine, balcon, « Lit : aucun », libre, **850 000 FCFA par mois**, **caution
+ * 2 mois**. Clim oui, Wi-Fi oui, ventilateur non.
+ *
+ * ⚠️ NOT SHARED, like `B35_SPEC` and `ST005_SPEC`. ST 003's sheet arrived four
+ * minutes later with a near-identical shape — same « non meublé », same
+ * « aucun », same 2-month caution — and it is deliberately NOT spread from
+ * here: different surface, different rooms, different rate, and its own sheet.
+ *
+ * ── WHY THIS ROW EXISTS AND ST 003'S DOES NOT ────────────────────────────────
+ * Both sheets are complete. A40 also has media that can be attributed to it:
+ * one frame in its drop is a close-up of an enamel plate reading « A / 40 » on
+ * the flat's own door, which is the first time any unit's code has been
+ * *photographed*. ST 003's 22-frame batch contains two different salons and so
+ * is not one unit — see FACTS.md. Its sheet is recorded there and its row goes
+ * in the day the client says which frames are its own. Same bar as always: a
+ * row belongs here once it has photographs of ITS OWN rooms.
+ *
+ * ── THE FIELDS THAT ARE NULL, AND WHY EACH ONE IS ────────────────────────────
+ * `sleeps`  — « Nombre de personnes » left blank. An empty flat sleeps whatever
+ *             the tenant's own beds sleep, so this is coherent, not careless.
+ * `bed`     — « Lit : **aucun** », in her own hand. There is no bed to describe
+ *             and the photographs show none.
+ * `floor`   — ⚠️ THE ONE JUDGEMENT CALL ON THIS ROW, and it goes the other way
+ *             from ST005's. She wrote « Étage : **sous sol R+2** », the same
+ *             self-contradiction ST005's sheet carries, which was resolved
+ *             there to `R-2` on the reasoning that « sous sol » is plain
+ *             language and her +/− notation is unreliable. That reasoning
+ *             rested on the ST005 photographs settling nothing.
+ *
+ *             **A40's photographs do not settle nothing.** Its balcony frames
+ *             look DOWN onto a road with pedestrians and parked cars, across at
+ *             four- and five-storey blocks on the facing hillside, and along
+ *             this building's own facade past **two further balconied floors
+ *             below the camera**. That is not a basement.
+ *
+ *             It does not prove « R+2 » either — this building is cut into a
+ *             slope (FACTS.md), which is very likely the whole explanation:
+ *             « sous sol » from the entrance on the uphill side, « R+2 » counted
+ *             from the road on the downhill side, both true at once. Until she
+ *             names the level a visitor would arrive at, `null` is the only
+ *             honest value: `floorLabel` returns null, `unitLine` drops the
+ *             segment, and the page states no floor rather than one the
+ *             pictures dispute. ⚠️ **ST005 has NOT been changed on the strength
+ *             of this** — different unit, and its own frames still show
+ *             nothing. Open question 1.C.
+ *
+ * ── THE AMENITIES ARE FOUR, AND THE SHORT LIST IS THE POINT ──────────────────
+ * ⚠️ SHE USED A SHORTENED FICHE, so an absent équipement here does NOT mean
+ * « non ». The block she filled asks only clim · ventilateur · Wi-Fi · TV ·
+ * Canal+. **Frigo, micro-ondes, eau chaude, machine à laver, draps et
+ * serviettes and ustensiles were never asked** — where on all five furnished
+ * sheets they were asked and answered. Recording them as absent-because-refused
+ * would invent an answer, and for an unfurnished let most of them are the
+ * tenant's own property anyway.
+ *
+ * So: `wifi` and `ac` because she wrote « oui »; `bathroom` because 4 douches
+ * in a whole flat are private; `balcony` because « Balcon : oui ». `fan` is a
+ * stated « non ». `tv` was left blank. Everything else is unasked.
+ *
+ * ⚠️ `kitchenette` IS DELIBERATELY ABSENT THOUGH `kitchen: true`. That chip
+ * reads « **Cuisine équipée** », and this kitchen is fitted but not equipped —
+ * carcass, worktop and sink, no hob, no fridge, no microwave in any frame. The
+ * « Compris : salon et cuisine » row states the kitchen without the word that
+ * would overclaim it.
+ *
+ * ⚠️ `access24` IS ABSENT, and this is the first row to omit it. Every other
+ * unit carries it on the strength of the venue's « disponibilité 24h/24, tous
+ * les jours » marketing line — which is a promise about **short-stay arrivals**.
+ * It says nothing about a tenant who lives here on a monthly lease, so
+ * repeating it would stretch a sourced line past what it covers.
+ *
+ * ✅ « Canal+ au salon : **au frais du client** » — recorded as
+ * `canalPlusAtTenantCost`, not as the `canalPlus` amenity. See that field.
+ */
+const A40_SPEC = {
+  status: "available",
+  /* ⚠️ THE FIRST UNFURNISHED ROW. Everything above about null beds, null
+     headcount, the monthly rate and the four-item amenity list follows from
+     this one flag — and so does the « Non meublé » mark the card and the
+     masthead print. */
+  furnished: false,
+  /* Blank on the sheet — see the note above. */
+  sleeps: null,
+  /* ⚠️ « sous sol R+2 », contradicting itself, and the photographs dispute the
+     « sous sol » reading. Null until she names it. NOT the ST005 ruling. */
+  floor: null,
+  /* 127,6 m² as written — the largest thing on the site by some way, against
+     A10's 130 only because that one is round. */
+  size: 127.6,
+  /* « Lit : aucun ». */
+  bed: null,
+  rooms: 3,
+  showers: 4,
+  livingRoom: true,
+  kitchen: true,
+  /* Four, and every one of them stated. See the amenities note above before
+     adding a fifth — the fiche she used did not ask about most of them. */
+  amenities: ["wifi", "ac", "bathroom", "balcony"],
+  /* ⚠️ « au frais du client » — available, at the tenant's expense. Neither an
+     amenity nor an omission. */
+  canalPlusAtTenantCost: true,
+  /* ⚠️ PAR MOIS. The period is data precisely so this cannot print as a nightly
+     figure — 850 000 FCFA a night would overstate the rent thirtyfold. */
+  rate: { amount: 850000, period: "month" },
+  /* ✅ « Caution : 2 mois » — the first deposit term this project has ever been
+     given. Months, not FCFA, because months is what she wrote. */
+  depositMonths: 2,
 } as const satisfies Omit<
   Studio,
   "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
@@ -849,7 +1103,154 @@ export const STUDIOS: readonly Studio[] = [
       "st005_chambre_rangements",
     ],
   },
+  /* ✅ A40 — client sheet + eleven curated frames, both 2026-09-05/09-03. The
+     sheet is `A40_SPEC` above; this row adds only what is specific to the unit.
+
+     ⚠️ **THE FIRST UNFURNISHED LET ON THE SITE**, and the first row priced by
+     the month: 127,6 m², 3 chambres, 4 douches, 850 000 FCFA par mois, caution
+     2 mois. Read `A40_SPEC` and the `furnished` field before touching it.
+
+     ⚠️ Listed as **`A40`** (slug `a40`) — the code on her sheet AND on the
+     flat's own door. It appears on **no inventory list we hold**: the
+     2026-08-09 list of eleven has `ST005-A` · `B35-A` · `B15-A` · `A10-A` ·
+     `A10-1-A` · `A10-2-A` · `A10-3-A` · `SS130-A` · `SS140-A` · `SS101-A` ·
+     `SS110-A` and nothing resembling this. So the venue has at least thirteen
+     units and « onze studios » in the banner is now understated — deliberately
+     NOT changed, because « treize » would be the same guess in the other
+     direction. See FACTS.md, open question 1.D.
+
+     ── THE PHOTO ORDER ──────────────────────────────────────────────────────
+     Salon first — the widest frame and the only one holding the balcony doors
+     and the daylight together — then its opposite end, then the kitchen, the
+     three bedrooms, the three shower rooms, and the balcony view last.
+
+     The three douches sit late on purpose and it is a different reason from the
+     other rows': they are the STRONGEST frames in the set (full-height
+     book-matched marble, backlit mirrors), and leading on them would sell this
+     flat as a bathroom. The balcony closes because it is the only frame that
+     shows where the building is.
+
+     ✅ **THE BEST-EVIDENCED UNIT ON THE SITE.** Sheet says 3 chambres and 4
+     douches; the gallery shows three distinct bedrooms and three of the four
+     shower rooms, and `a40_chambre_2` catches the fourth through an open
+     doorway — the only en-suite this project can show. Every furnished row
+     understates its douches in pictures (SS140-A states 2 shows 1; B35 states 3
+     shows 1; A10 states 4 shows 1; ST005 states 2 shows none) and ST005's
+     balcon is unevidenced entirely. Here the balcon is photographed twice.
+
+     ⚠️ NO `video` — she sent none. And 22 further frames of unfurnished stock
+     arrived in a folder named « 003 » which is NOT one unit; they are held in
+     `assets-raw/whatsapp/non-meuble-2026-09-02/` and are ST 003's blocker, not
+     this row's. */
+  {
+    code: "A40",
+    slug: "a40",
+    /* « Appartement non meublé » — her word. The noun is transcribed as always;
+       « non meublé » is carried by `furnished`, not by inventing a fourth
+       `UnitKind`, because it is orthogonal to what is being let: an unfurnished
+       STUDIO is equally possible and ST 003 is exactly that. */
+    kind: "apartment",
+    ...A40_SPEC,
+    photos: [
+      "a40_salon",
+      "a40_salon_2",
+      "a40_cuisine",
+      "a40_cuisine_2",
+      "a40_chambre",
+      "a40_chambre_2",
+      "a40_chambre_3",
+      "a40_douche",
+      "a40_douche_2",
+      "a40_douche_3",
+      "a40_balcon",
+    ],
+  },
 ] as const;
+
+/* ══ FILTERING THE INDEX ═══════════════════════════════════════════════════
+   Added 2026-09-07, because the index now lists TWO products. Seven furnished
+   units let by the night and one unfurnished flat let by the month sat in one
+   undifferentiated grid, distinguished only by A40's « Non meublé » badge — and
+   the venue has at least thirteen units, so this list grows.
+
+   ── WHY TWO AXES AND NOT ONE ──────────────────────────────────────────────
+   `kind` and `furnished` are genuinely orthogonal and a visitor asks both
+   questions: WHAT is it (a whole flat, a studio, one room in someone's
+   apartment) and IS IT FURNISHED. Neither implies the other — A40 is an
+   unfurnished apartment and ST 003, when its media is sorted, will be an
+   unfurnished studio.
+
+   ── WHY THE COUNTS HOLD THE OTHER AXIS FIXED ──────────────────────────────
+   Each option's count is what you would GET if you clicked it, with the other
+   group left as it is. So « Studios » reads 0 while « Non meublé » is selected,
+   because there is no unfurnished studio listed yet.
+
+   That is what makes a zero-count chip safe to disable, and disabling it is
+   what makes an empty grid unreachable: every reachable combination has at
+   least one unit in it. The index still renders an empty-state line, so that
+   this invariant is an optimisation rather than something the page's
+   correctness silently depends on. */
+
+export type KindFilter = "all" | UnitKind;
+export type FurnishingFilter = "all" | "furnished" | "unfurnished";
+
+export type StudioFilter = {
+  kind: KindFilter;
+  furnishing: FurnishingFilter;
+};
+
+/** The unfiltered view — what the index opens on. */
+export const NO_FILTER: StudioFilter = { kind: "all", furnishing: "all" };
+
+/* The options, in the order they are offered. `all` leads both groups: it is
+   the state the page opens in, so it reads as "no filter" rather than as a
+   fourth category. */
+export const KIND_FILTERS = ["all", "apartment", "studio", "room"] as const;
+export const FURNISHING_FILTERS = ["all", "furnished", "unfurnished"] as const;
+
+export function matchesFilter(studio: Studio, filter: StudioFilter): boolean {
+  if (filter.kind !== "all" && studio.kind !== filter.kind) return false;
+  if (
+    filter.furnishing !== "all" &&
+    studio.furnished !== (filter.furnishing === "furnished")
+  ) {
+    return false;
+  }
+  return true;
+}
+
+/**
+ * The units to show, IN THE FILE'S OWN ORDER.
+ *
+ * Not re-sorted: `STUDIOS` is ordered deliberately (A10 immediately before the
+ * two bedrooms inside it, so that relationship reads at a glance), and a filter
+ * should subtract from a list, never rearrange it.
+ */
+export function filterStudios(filter: StudioFilter): Studio[] {
+  return STUDIOS.filter((s) => matchesFilter(s, filter));
+}
+
+/**
+ * How many units each option would show, holding the OTHER axis as it is.
+ *
+ * Both records are complete — every option gets a number, including the ones
+ * that come back 0 — because the UI prints the count on the chip and disables
+ * it at zero. A missing key would render « undefined » on a chip.
+ */
+export function filterCounts(filter: StudioFilter): {
+  kind: Record<KindFilter, number>;
+  furnishing: Record<FurnishingFilter, number>;
+} {
+  const count = (f: StudioFilter) => STUDIOS.filter((s) => matchesFilter(s, f)).length;
+  return {
+    kind: Object.fromEntries(
+      KIND_FILTERS.map((k) => [k, count({ ...filter, kind: k })])
+    ) as Record<KindFilter, number>,
+    furnishing: Object.fromEntries(
+      FURNISHING_FILTERS.map((v) => [v, count({ ...filter, furnishing: v })])
+    ) as Record<FurnishingFilter, number>,
+  };
+}
 
 /**
  * The banner plate for the apartments — the opening frame on the studios index
@@ -1050,7 +1451,20 @@ export function relatedStudios(slug: string, limit = 4): RelatedStudios {
     a.size === self.size &&
     a.sleeps === self.sleeps &&
     a.rooms === self.rooms &&
-    a.pricePerNight === self.pricePerNight;
+    a.rate?.amount === self.rate?.amount &&
+    a.rate?.period === self.rate?.period;
+  /* ── AND SAME-PRODUCT FIRST, 2026-09-05 ───────────────────────────────────
+     A furnished nightly studio and an unfurnished flat at 850 000 FCFA a month
+     are not alternatives to each other in any sense a visitor means. Someone
+     comparing two-night stays does not want an annual tenancy in the « autres
+     logements » band, and vice versa. So a unit of the same product sorts
+     first — ahead of the printed-card test below, because product is the
+     coarser and more important distinction.
+
+     Not a FILTER, deliberately: with two unfurnished units the whole band
+     would be empty on their pages, and the site does want a visitor to be able
+     to discover that the other kind of let exists. Ranked, not hidden. */
+  const sameProduct = (a: Studio) => a.furnished === self.furnished;
 
   const seen = new Set<PhotoId>();
   const others = STUDIOS.filter((s) => {
@@ -1060,7 +1474,12 @@ export function relatedStudios(slug: string, limit = 4): RelatedStudios {
     return true;
   })
     .slice()
-    .sort((a, b) => at(a) - at(b) || Number(sameOnTheCard(a)) - Number(sameOnTheCard(b)))
+    .sort(
+      (a, b) =>
+        at(a) - at(b) ||
+        Number(sameProduct(b)) - Number(sameProduct(a)) ||
+        Number(sameOnTheCard(a)) - Number(sameOnTheCard(b))
+    )
     .slice(0, limit);
 
   return { parent, siblings, rooms, others };
@@ -1129,12 +1548,57 @@ export function unitLine(
   }
 
   if (parts.size) out.push(parts.size);
-  out.push(
-    (studio.sleeps === 1 ? labels.sleepsOne : labels.sleeps).replace("{n}", String(studio.sleeps))
-  );
+  /* Absent on an unfurnished unit: she left « Nombre de personnes » blank, and
+     an empty flat sleeps whatever the tenant's own beds sleep. No segment
+     rather than a guess — the same rule the surface and the floor follow. */
+  if (studio.sleeps !== null) {
+    out.push(
+      (studio.sleeps === 1 ? labels.sleepsOne : labels.sleeps).replace("{n}", String(studio.sleeps))
+    );
+  }
   if (parts.floor) out.push(parts.floor);
 
   return out;
+}
+
+/**
+ * The rate and the word for what it buys — « 850 000 FCFA » + « par mois ».
+ *
+ * The ONLY way to render a rate, and the pair is returned together on purpose:
+ * see `Rate`. Before this, three components each printed
+ * `formatPrice(studio.pricePerNight)` next to a hard-coded « la nuit », so
+ * adding a monthly unit meant remembering all four call sites. Forgetting one
+ * would have quoted A40's rent as a nightly rate — a valid number beside the
+ * wrong word, thirty times over.
+ *
+ * Null in, null out: « tarif sur demande » is the caller's fallback, unchanged.
+ */
+export function rateLabel(
+  studio: Studio,
+  labels: Record<RatePeriod, string>
+): { amount: string; per: string } | null {
+  if (!studio.rate) return null;
+  return {
+    amount: formatPrice(studio.rate.amount) as string,
+    per: labels[studio.rate.period],
+  };
+}
+
+/**
+ * The deposit line — « 2 mois de loyer ».
+ *
+ * Null on every furnished row, because the caution box came back blank on all
+ * five of their sheets. Stated only for A40 and ST 003, so the row appears on
+ * exactly the units that were told to us. ⚠️ Do NOT default it: « aucune
+ * caution » is a promise, and nobody made it.
+ */
+export function depositLabel(
+  studio: Studio,
+  labels: { one: string; many: string }
+): string | null {
+  const n = studio.depositMonths;
+  if (n === null) return null;
+  return (n === 1 ? labels.one : labels.many).replace("{n}", String(n));
 }
 
 /**
@@ -1171,6 +1635,12 @@ export function amenityLabel(
  * this cannot be done by appending an « s » at the call site.
  *
  * `beds` absent or 1 → the singular, which is every unit except B35.
+ *
+ * ⚠️ Returns NULL for a unit with no bed — « Lit : aucun » on both unfurnished
+ * sheets. The caller drops the row rather than printing « Aucun lit », which
+ * would read as a missing amenity on a furnished let instead of as the
+ * definition of an unfurnished one. The row is the wrong place to say it; the
+ * « Non meublé » mark on the masthead is the right one.
  */
 export function bedLabel(
   studio: Studio,
@@ -1179,7 +1649,8 @@ export function bedLabel(
     many: Record<BedType, string>;
     numbers: Record<string, string>;
   }
-): string {
+): string | null {
+  if (studio.bed === null) return null;
   const n = studio.beds ?? 1;
   if (n <= 1) return labels.one[studio.bed];
   /* Spelled out where we have the word, digit beyond — « Deux grands lits ». */

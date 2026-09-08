@@ -273,6 +273,26 @@ export const en = {
       yes: "Yes",
       no: "No",
       perNight: "per night",
+      /* A40 is let by the month. The period is data on the unit, so this key
+         and `perNight` are chosen by `rateLabel` rather than by each component
+         — see fr.ts. */
+      perMonth: "per month",
+      /* Unfurnished, 2026-09-05. Rendered only on a unit with
+         `furnished: false`; the furnished rows print no counterpart, because
+         everything the venue publishes already says « meublé haut standing ». */
+      furnishing: "Furnishing",
+      unfurnished: "Unfurnished",
+      /* ✅ First deposit term ever given, 2026-09-05, on the unfurnished units
+         only. Omitted on furnished rows rather than promising « none ». */
+      deposit: "Deposit",
+      /* Two forms because English inflects the possessive where French does not
+         — « 1 month's rent » against « 2 months' rent ». */
+      depositOne: "{n} month’s rent",
+      depositMany: "{n} months’ rent",
+      /* ⚠️ « au frais du client » — neither yes nor no. Its own row, not the
+         `canalPlus` amenity chip. See fr.ts. */
+      canalPlus: "Canal+",
+      canalPlusAtTenantCost: "At the tenant’s expense",
     },
     /* « Un grand lit » — see the note in fr.ts. */
     beds: {
@@ -301,6 +321,26 @@ export const en = {
       apartment: "Apartment",
       studio: "Studio",
       room: "Room",
+    },
+    /* Not decoration — an omission here misleads. See the note in fr.ts. */
+    unfurnishedBadge: "Unfurnished",
+    /* ⚠️ Plural, where `noun` above is singular — see the note in fr.ts. */
+    filters: {
+      kindLabel: "Type",
+      furnishingLabel: "Furnishing",
+      all: "All",
+      kind: {
+        apartment: "Apartments",
+        studio: "Studios",
+        room: "Rooms",
+      },
+      furnished: "Furnished",
+      unfurnished: "Unfurnished",
+      /* « places », matching `seeUnit` (« View this place ») rather than
+         « places to stay » — one of these is let on a lease, not for a stay. */
+      results: "{n} places",
+      resultsOne: "{n} place",
+      none: "No place matches those filters.",
     },
     /* English does not invert, but both dictionaries must carry the same keys. */
     roomsCount: "{n} bedrooms",
@@ -368,6 +408,13 @@ export const en = {
       messageDates: "From {from} to {to}",
       messageNoDates: "Dates to be confirmed",
       messageGuests: "{n} guest(s)",
+      /* The tenancy mode — « rent », not « book ». See the note in fr.ts: the
+         client reads this on her own phone, and a lease enquiry must not arrive
+         looking like a two-night booking. */
+      messageTenancy:
+        "Hello, I would like to rent {unit} {code} (unfurnished) at Glen Appartement. Please confirm availability, the monthly rate and the terms.",
+      tenancyLead: "Let monthly, unfurnished.",
+      tenancyDeposit: "Deposit: {n} months’ rent.",
       barCta: "Enquire",
     },
   },

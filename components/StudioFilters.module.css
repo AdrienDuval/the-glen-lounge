@@ -1,0 +1,190 @@
+/* The index filter bar — two groups plus a live result count.
+
+   Sits between the luminous rule and the grid, so it reads as a control on the
+   list below it rather than as part of the masthead above. */
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1.1rem 2.2rem;
+  /* Top only. The gap below belongs to `.grid` in StudiosIndex.module.css —
+     see the note there: with a bottom margin here as well, the control sat two
+     stacked gaps clear of the list it controls. */
+  margin: clamp(1.4rem, 3vw, 2rem) 0 0;
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  /* Let a group wrap its own chips before the two groups stack. */
+  min-width: 0;
+}
+
+.groupLabel {
+  display: block;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+/* Same vocabulary as the amenity chips on the cards below — a filter that
+   looked like a different design system would read as a widget bolted on.
+   `button` needs the resets `li` did not: font, background and cursor. */
+.chip {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--line);
+  background: none;
+  color: var(--body);
+  font: inherit;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition:
+    border-color 0.4s var(--ease-out),
+    color 0.4s var(--ease-out),
+    background-color 0.4s var(--ease-out);
+}
+
+.chip:hover:not(:disabled),
+.chip:focus-visible {
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* The selected chip. Gold border and gold type — the same accent the rate and
+   the « Non meublé » mark use, so "this is active" is the one visual idea the
+   page already spends gold on. A background fill was tried and rejected: at
+   four chips a row it read as four buttons rather than one selection. */
+.chip[data-active] {
+  border-color: rgba(232, 188, 62, 0.55);
+  color: var(--gold);
+}
+
+/* Zero matches. Dimmed and unclickable, NOT hidden — see the note in
+   StudioFilters.tsx: « Studios 0 » says there is no unfurnished studio listed
+   yet, which is worth knowing, and a chip that disappears makes the bar reflow
+   under the cursor on every click. */
+.chip:disabled {
+  color: var(--muted);
+  opacity: 0.42;
+  cursor: not-allowed;
+}
+
+/* The tally on each chip. Mono so the digits align down a column of chips and
+   the numbers read as data rather than as part of the word. */
+.count {
+  font-family: var(--font-mono), ui-monospace, Consolas, monospace;
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+
+.chip[data-active] .count {
+  color: var(--gold-dim);
+}
+
+/* Pushed to the far end of the bar on a wide row, and it carries the live
+   region — so the announcement and the visible count are the same element and
+   cannot disagree. */
+.results {
+  margin: 0 0 0.15rem;
+  margin-inline-start: auto;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+/* ══ PHONE ═══════════════════════════════════════════════════════════════════
+   Measured at 390×844, 2026-09-07, and three things were wrong:
+
+     · every chip was **36px tall** — under the 44px minimum for a touch
+       target, on the only controls on this page;
+     · « Chambres 2 » wrapped alone onto a third row, which made one group read
+       as two;
+     · the bar stood **227px tall** — 27% of the viewport — ahead of a first
+       card that already begins 1252px down the document.
+
+   Taller chips and fewer rows pull against each other, so both are addressed:
+   the chips get their 44px and each group becomes ONE horizontally scrollable
+   row instead of wrapping. */
+@media (max-width: 700px) {
+  .bar {
+    gap: 0.9rem 1.4rem;
+  }
+
+  /* Both groups take the full row and the count returns to the flow beneath
+     them: at this width `margin-inline-start: auto` would strand it alone on a
+     line of its own with the groups wrapped above. */
+  .group {
+    flex-basis: 100%;
+    gap: 0.45rem;
+    /* Anchors the scroll-edge fade below. */
+    position: relative;
+  }
+
+  /* One row per group, scrolled rather than wrapped. No orphan is possible at
+     any label length or in any language, and the group's height stops
+     depending on how many options it happens to have.
+
+     ⚠️ Horizontal only — Lenis drives the VERTICAL scroll of the page and does
+     not touch a nested overflow axis, so a thumb dragged sideways here moves
+     the rail natively while a vertical drag still scrolls the page. */
+  .chips {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    /* Room for the fade, so the last chip's border is never under it. */
+    padding-inline-end: 1.75rem;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .chip {
+    scroll-snap-align: start;
+    /* Neither shrink to fit nor stretch — the row is meant to overflow. */
+    flex: none;
+    /* The tap target. 44px is the floor, and the chips were 36. */
+    min-height: 44px;
+    /* Bought back from the horizontal padding so that at 390px the four Type
+       chips very nearly fit unscrolled — the rail is then a small nudge rather
+       than a row that hides half its options. */
+    padding-inline: 0.6rem;
+  }
+
+  .count {
+    font-size: 0.625rem;
+  }
+
+  /* The affordance. Without it a cut-off chip can read as a rendering fault
+     rather than as "there is more this way".
+     ⚠️ `pointer-events: none` matters: this sits over the last chip and would
+     otherwise eat the tap that reaches it. */
+  .group::after {
+    content: "";
+    position: absolute;
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    width: 2.25rem;
+    height: 44px;
+    pointer-events: none;
+    background: linear-gradient(
+      to right,
+      rgba(6, 9, 12, 0) 0%,
+      var(--ink) 72%
+    );
+  }
+
+  .results {
+    margin-inline-start: 0;
+    /* Sits tight under the second rail rather than floating between the two
+       blocks — it belongs to the grid below, not to the filters above. */
+    margin-block-start: -0.2rem;
+  }
+}

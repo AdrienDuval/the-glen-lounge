@@ -39,6 +39,22 @@
   border-left: 2px solid var(--gold-dim);
 }
 
+/* « Location au mois, non meublé. Caution : 2 mois de loyer. » — the terms of
+   an unfurnished let, standing where `.fields` stands on a furnished one.
+
+   Same left-rule treatment as `.notice`, which carries the « occupé » and
+   « bientôt libre » messages: both are conditions on the enquiry the visitor is
+   about to send rather than descriptions of the room, and they should read as
+   the same kind of statement. Body colour, not gold — it qualifies the rate
+   above, it does not compete with it. */
+.terms {
+  color: var(--body);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  padding-left: 0.8rem;
+  border-left: 2px solid var(--gold-dim);
+}
+
 .fields {
   display: grid;
   gap: 0.7rem;
@@ -141,9 +157,40 @@
   animation: barIn 0.35s var(--ease-out);
 }
 
+/* ⚠️ THE RATE IN THE STICKY BAR MUST NEVER WRAP, and it used to.
+   Measured at 2026-09-07 on a 2× phone: the bar is a single flex row holding
+   the rate against a 117px « Demander » button, and the rate inherited
+   `.rate`'s 1.6rem display serif from the panel above — where it has the full
+   column to itself. In the bar it does not.
+
+     390px — « 60 000 FCFA la nuit » fits; « 850 000 FCFA par mois » does NOT,
+             breaking « mois » onto a second line and pushing the bar to 81px.
+     360px — ALL of them wrap, « la nuit » included.
+
+   So this was already broken at the common Android floor before A40 existed;
+   the longer « par mois » only surfaces it 30px earlier. Both halves are fixed
+   here rather than just A40's symptom.
+
+   `nowrap` makes the failure impossible and the type scales to fit instead.
+   The bar is a compact reminder of a figure the visitor has already read at
+   full size in the panel, so smaller type is right here anyway — it is not the
+   headline, it is the shortcut back to the button. */
 .barRate {
   margin: 0;
   min-width: 0;
+  white-space: nowrap;
+}
+
+/* Scoped to the bar so the panel's own `.rate` — where 1.6rem is correct and
+   has room — is untouched. `vw` rather than a breakpoint: the constraint is
+   continuous (how much room is left beside a fixed-width button), so the type
+   should ease down with the viewport rather than step at one arbitrary width. */
+.bar .rate {
+  font-size: clamp(1.05rem, 4.6vw, 1.35rem);
+}
+
+.bar .per {
+  font-size: 0.75rem;
 }
 
 @keyframes barIn {

@@ -4,7 +4,7 @@ import { PHOTOS } from "@/lib/photos";
 import {
   amenityLabel,
   floorLabel,
-  formatPrice,
+  rateLabel,
   formatSize,
   unitLine,
   type Studio,
@@ -96,7 +96,12 @@ export default function StudioCard({
   /* Its own first photograph. No fallback: an undocumented unit is not listed at
      all, so `photos` is never empty. */
   const shot = PHOTOS[studio.photos[0]];
-  const price = formatPrice(studio.pricePerNight);
+  /* Amount and period together — the card is one of the four surfaces that
+     used to print a bare number beside a hard-coded « la nuit ». */
+  const rate = rateLabel(studio, {
+    night: t.specs.perNight,
+    month: t.specs.perMonth,
+  });
   const floor = floorLabel(studio, {
     floor: t.floor,
     ground: t.groundFloor,
@@ -158,6 +163,18 @@ export default function StudioCard({
         {relationLabel && (
           <span className={`label ${styles.relation}`}>{relationLabel}</span>
         )}
+        {/* ⚠️ « Non meublé » ON THE CARD, not only on the page it opens.
+            This card carries a surface, a bedroom count and a rate — enough for
+            a visitor to decide from the index alone — and 850 000 FCFA reads as
+            a furnished flat unless told otherwise. An omission here is the
+            failure `noun` exists to prevent, one product wider. Only ever
+            rendered when false: the seven furnished rows say nothing, because
+            everything else the venue publishes already says « meublé ». */}
+        {!studio.furnished && (
+          <span className={`label ${styles.unfurnished}`}>
+            {t.unfurnishedBadge}
+          </span>
+        )}
         {/* Corner ticks — the frame reads as a mount rather than a rectangle,
             and they are what the hover animates. */}
         <span className={styles.tick} aria-hidden="true" />
@@ -212,10 +229,10 @@ export default function StudioCard({
         </p>
         {/* Only when a real rate exists — a card never advertises a
             placeholder, and « sur demande » is the enquiry panel's job. */}
-        {price && (
+        {rate && (
           <p className={styles.price}>
-            {price}
-            <span className={styles.pricePer}> {t.specs.perNight}</span>
+            {rate.amount}
+            <span className={styles.pricePer}> {rate.per}</span>
           </p>
         )}
         <ul className={styles.chips}>

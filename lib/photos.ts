@@ -1035,6 +1035,173 @@ export const PHOTOS = {
       "The only frame showing storage in any unit on the site. Placed last: it is a detail, not a room.",
   },
 
+  /* ── A40 — the first unfurnished unit (client, 2026-09-03) ────────────────
+     Eleven frames curated from a 33-frame WhatsApp drop, at **1280×960** —
+     above the 1080px ceiling every other WhatsApp set is capped at, below
+     ST005's 2000px originals. Raw drop: `assets-raw/whatsapp/a40/`.
+
+     ⚠️ THESE ROOMS ARE EMPTY, AND THAT IS THE PRODUCT. A40 is let « non
+     meublé » by the month (FACTS.md), so there is no bed, no sofa and no
+     appliance in any frame. The alt text says what is *fitted* — marble, the
+     kitchen carcass, the shower rooms, the wardrobes — and never dresses the
+     room with furniture that is not there. An unfurnished let photographs as a
+     handover, not as a stay; do not "warm it up" in the copy.
+
+     ✅ THE ATTRIBUTION IS PHOTOGRAPHED, uniquely in this project: a frame in
+     the raw drop is a close-up of an enamel plate reading « A / 40 » on the
+     flat's own door. It is not curated here — a door number is evidence, not a
+     room — but it is why these eleven can carry this unit's code at all, where
+     the folder she sent them in was named « non meuble ».
+
+     ── WHAT THE ELEVEN COVER, AGAINST THE SHEET ─────────────────────────────
+     Sheet: 3 chambres · 4 douches · salon · cuisine · balcon.
+     Shown: one salon (2 angles), one kitchen (2 angles), THREE distinct
+     bedrooms, THREE of the four shower rooms, and the balcony.
+
+     ✅ That makes A40 **the best-evidenced unit on the site.** Every furnished
+     row understates its douches in pictures — SS140-A states 2 shows 1, B35
+     states 3 shows 1, A10 states 4 shows 1, ST005 states 2 shows none — and
+     ST005's balcon is unevidenced entirely. Here three of four douches and the
+     balcon are all in frame, and `chambre_2` shows a fourth shower room
+     *through its own doorway*, which is also the only en-suite this project has
+     ever been able to show.
+
+     ⚠️ The three bedrooms are distinguished by decoration, not by a plan:
+     taupe walls, turquoise walls, white walls, with different ceiling profiles.
+     Three chambres is her sheet's answer and these read as three different
+     rooms — but nothing here proves the count, so the alt text describes each
+     room and never numbers it « chambre 2 sur 3 ». */
+  a40_salon: {
+    src: "/photos/studios/a40/salon.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Salon vide de l’appartement A40 — sol en marbre veiné rose et or, faux-plafond à redans avec bandeaux lumineux, poteau central, baie vitrée à châssis noir ouvrant sur le balcon et tringles à rideaux posées",
+      en: "The empty A40 living room — rose-and-gold veined marble floor, a stepped plasterboard ceiling with recessed light strips, a central column, black-framed glazed doors onto the balcony and curtain rails already fitted",
+    },
+    note:
+      "The opening frame: the widest view of the salon, and the only one that shows the balcony doors and the daylight together. Unfurnished — nothing in the room but the fit-out.",
+  },
+  a40_salon_2: {
+    src: "/photos/studios/a40/salon-2.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Salon de l’appartement A40 vu de l’autre extrémité — lustre doré à pampilles de cristal, faux-plafond à redans, poteau, porte en bois verni et sol en marbre veiné",
+      en: "The A40 living room from the far end — a gilt chandelier with crystal drops, the stepped plasterboard ceiling, the column, a polished timber door and the veined marble floor",
+    },
+    note:
+      "Same room as `a40_salon`, opposite end — same ceiling and column, so the pair reads as one space rather than two rooms.",
+  },
+  a40_cuisine: {
+    src: "/photos/studios/a40/cuisine.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Cuisine de l’appartement A40 — meubles laqués blancs sans poignées en hauts et bas, crédence en marbre veiné toute hauteur, plan de travail en pierre noire, évier inox à égouttoir intégré et rosace lumineuse au plafond",
+      en: "The A40 kitchen — handleless white gloss units above and below, a full-height veined marble splashback, a black stone worktop, a stainless steel sink with an integrated drainer and a circular ceiling rose",
+    },
+    note:
+      "⚠️ FITTED, NOT EQUIPPED — carcass, worktop and sink only. No hob, no fridge, no microwave in any frame, which is what « non meublé » means here. Do NOT let this frame imply the amenity chips the furnished units carry.",
+  },
+  a40_cuisine_2: {
+    src: "/photos/studios/a40/cuisine-2.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Cuisine de l’appartement A40, autre bout du linéaire — évier avec mitigeur chromé, plan de travail en pierre noire, tiroirs et placards laqués blancs et crédence en marbre veiné",
+      en: "The other end of the A40 kitchen run — the sink with a chrome mixer tap, black stone worktop, white gloss drawers and cupboards, and the veined marble splashback",
+    },
+  },
+  a40_chambre: {
+    src: "/photos/studios/a40/chambre.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Chambre vide de l’appartement A40 aux murs taupe — climatiseur mural, fenêtre coulissante à châssis noir, grande armoire en bois verni, faux-plafond à pans et sol en marbre gris et blanc",
+      en: "An empty A40 bedroom with taupe walls — a wall-mounted air conditioner, a black-framed sliding window, a tall polished timber wardrobe, an angular plasterboard ceiling and a grey-and-white marble floor",
+    },
+    note:
+      "The fitted wardrobe is the point of this frame: on an unfurnished let it is one of the few things the tenant does not have to bring.",
+  },
+  a40_chambre_2: {
+    src: "/photos/studios/a40/chambre-2.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Chambre de l’appartement A40 aux murs turquoise — climatiseur, armoire double en bois verni, faux-plafond à voûte ovale et porte ouverte sur une salle de douche en marbre",
+      en: "An A40 bedroom with turquoise walls — air conditioning, a double polished timber wardrobe, an oval-recessed ceiling and an open door through to a marble shower room",
+    },
+    note:
+      "✅ THE ONLY EN-SUITE THIS PROJECT CAN SHOW. The open door reveals a fourth marble shower room with its WC, so this single frame evidences both a bedroom and a douche the gallery does not otherwise cover.",
+  },
+  a40_chambre_3: {
+    src: "/photos/studios/a40/chambre-3.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Chambre vide de l’appartement A40 aux murs blancs — fenêtre coulissante à châssis noir, faux-plafond à caisson central et spots encastrés, porte en bois verni et sol en marbre veiné",
+      en: "An empty A40 bedroom with white walls — a black-framed sliding window, a coffered ceiling with a central recess and downlights, a polished timber door and a veined marble floor",
+    },
+    note:
+      "The third distinct bedroom decoration — white, against the taupe of `a40_chambre` and the turquoise of `a40_chambre_2`. Different ceiling profile again, which is what separates them; the count of three is her sheet's, not this frame's.",
+  },
+  a40_douche: {
+    src: "/photos/studios/a40/douche.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Salle de douche de l’appartement A40 — marbre noir et blanc toute hauteur, cabine à paroi de verre coulissante avec ciel de pluie et douchette, WC, vasque à poser sur plan en marbre rosé et miroir rétroéclairé",
+      en: "An A40 shower room — full-height black-and-white marble, a sliding glass shower enclosure with a rain head and hand shower, a WC, a countertop basin on a pink-veined marble slab and a backlit mirror",
+    },
+    note:
+      "The strongest shower-room frame on the whole site, furnished units included. Leads the three because it is the only one showing the enclosure, the vanity and the mirror in one shot.",
+  },
+  a40_douche_2: {
+    src: "/photos/studios/a40/douche-2.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Deuxième salle de douche de l’appartement A40 — chauffe-eau électrique mural, marbre noir et blanc, douchette sur barre, WC, plan vasque en marbre et imposte vitrée",
+      en: "A second A40 shower room — a wall-mounted electric water heater, black-and-white marble, a hand shower on a rail, a WC, a marble vanity top and a clerestory window",
+    },
+    note:
+      "⚠️ Shot through a half-open timber door, which eats the left third of the frame — kept because it is the only frame in the drop that clearly shows a chauffe-eau. ⚠️ THAT IS A FITTING, NOT HER WORD: the shortened fiche she used never asked about eau chaude, so nothing advertises it. See FACTS.md.",
+  },
+  a40_douche_3: {
+    src: "/photos/studios/a40/douche-3.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Troisième salle de douche de l’appartement A40 — marbre noir et blanc, colonne de douche avec ciel de pluie et douchette sur barre, mitigeur thermostatique, WC, miroir encadré et petite fenêtre",
+      en: "A third A40 shower room — black-and-white marble, a shower riser with a rain head and hand shower, a thermostatic mixer, a WC, a framed mirror and a small window",
+    },
+    note:
+      "⚠️ Taken through a glass screen, so a frame edge crosses the picture diagonally. Third of the four douches the sheet states; the fourth appears through the doorway in `a40_chambre_2`.",
+  },
+  a40_balcon: {
+    src: "/photos/studios/a40/balcon.jpg",
+    w: 1280,
+    h: 960,
+    consent: "clear",
+    alt: {
+      fr: "Vue depuis le balcon de l’appartement A40 — garde-corps en verre, route en contrebas, immeubles de quatre et cinq étages sur la colline d’en face, mât d’éclairage et toiture de stade sur la crête",
+      en: "The view from the A40 balcony — a glass balustrade, the road below, four- and five-storey blocks on the facing hillside, a floodlight mast and a stadium roof on the ridge",
+    },
+    note:
+      "⚠️ CONSENT: four passers-by are on the public road below, seen from above and behind at a scale where no face resolves — not venue customers and nothing identifiable, hence `clear`. Recorded because it is the judgement call in this set. ⚠️ ALSO THE ONLY EVIDENCE ON THE ÉTAGE QUESTION: the drop pictures two balconied floors below this one, which contradicts the « sous sol » reading four sheets now use. The unit therefore carries NO floor — see FACTS.md, open question 1.C.",
+  },
+
   /* ── REMOVED 2026-08-12: the eight studio placeholders ────────────────────
      `studio_hero`, `studio_living`, `studio_living_kitchen`, `studio_bedroom`,
      `studio_bedroom_desk`, `studio_kitchen`, `studio_bathroom`,

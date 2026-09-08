@@ -383,6 +383,162 @@ the first interaction of any kind. That is a design call, not a defect.
       currently confirmed. The date-window mechanism is built and unused.
 - [ ] First Load JS is 170 KB. GSAP + ScrollTrigger + SplitText + Lenis.
 
+## Unfurnished monthly lets — a second product in one list (2026-09-07)
+
+Two sheets arrived 2026-09-05 for **A40** and **ST 003**, both « non meublé »:
+empty shells let by the **month** (850 000 / 500 000 FCFA) against a **two-month
+caution**, « Lit : aucun », no stated headcount. Everything the venue publishes
+says « Glen Appartement – **meublé** haut standing », and the studio model,
+the amenity chips and the nightly booking panel all assumed it. Full transcript
+and every ⚠️ in FACTS.md → Services → Appartements → « NON MEUBLÉ ».
+
+**Decided: same list, labelled apart.** A40 is `STUDIOS[7]`, on the same index
+grid and the same route shape as the seven furnished units, carrying a
+« Non meublé » mark on its card, its masthead and its meta description.
+
+Rejected: a separate `lib/rentals.ts` and a `/fr/appartements/non-meuble` route.
+It duplicates the card, the gallery, the lightbox and the enquiry panel to
+express one boolean, and it hides the offer from the one page a visitor
+actually lands on. The failure mode it protects against — a monthly rent
+printing as a nightly one — is better prevented in the type system, which is
+where it now is.
+
+### What that cost, and it is worth reading before the next unit
+
+- **`Rate` replaced `pricePerNight: number | null`.** The amount and the period
+  it buys travel together and `rateLabel` is the only way to render them. Four
+  surfaces used to print a bare number beside a hard-coded « la nuit »; a fifth
+  would have been added without noticing. ⚠️ **The error this closes is the
+  worst the site could make and nothing would have crashed:** 850 000 FCFA is a
+  valid number, only the word beside it would have been a lie, and it overstates
+  the rent thirtyfold. `tsc` found all four the moment the field changed shape.
+- **`bed` and `sleeps` became nullable.** « Lit : aucun » and a blank « Nombre
+  de personnes » are coherent answers for an empty flat, not missing data. The
+  literie row and the couchages segment drop out; nothing is defaulted.
+- **`ReserveStudio` has two modes.** On an unfurnished unit the arrival,
+  departure and headcount fields are gone — a tenancy has a start, not a
+  checkout, and `max={studio.sleeps}` had nothing to clamp against — replaced by
+  one line stating the terms. The WhatsApp message says « **louer** », not
+  « réserver »: the client reads it on her own phone and a lease enquiry must
+  not arrive looking like a two-night booking.
+- **Two new spec rows, and one existing row now gated.** « Caution » (the first
+  deposit term this project has ever been given) and « Canal+ : à la charge du
+  locataire » — her exact answer, which is neither oui nor non and therefore not
+  an amenity chip. And « Accès 24h/24 » is now furnished-only: it is a promise
+  about short-stay arrivals, and A40 leaves `access24` off its amenities for the
+  same reason, so printing the row would have had the table assert what the
+  chips beside it decline to claim.
+- **No « Meublé » row on the other seven.** The site already says so
+  everywhere; labelling the default twice would bury the one row that matters.
+- **`relatedStudios` ranks same-product first.** A furnished nightly studio and
+  an 850 000/month empty flat are not alternatives to each other. Ranked, not
+  filtered — with two unfurnished units a filter would empty the band on their
+  own pages, and a visitor should be able to discover the other kind of let.
+
+### The index filter — two groups, composing (2026-09-07)
+
+Once the grid held two products it stopped being self-explanatory, so
+`/fr/appartements` filters on **both** axes a visitor actually asks about:
+**Type** (Appartements / Studios / Chambres) and **Ameublement** (Meublé /
+Non meublé), combining with AND. Both were already data — `kind` and
+`furnished` — and neither implies the other: A40 is an unfurnished *apartment*,
+and ST 003 will be an unfurnished *studio*.
+
+Rejected: one axis. « Ameublement » alone splits 7/1, so « Meublé » is very
+nearly « Tous »; « Type » alone is nicely balanced at 3/3/2 but leaves A40 among
+the nightly appartements with only its badge to separate them — which is the
+problem the filter exists to solve.
+
+- **Every chip prints its count, computed with the other group held fixed** —
+  what you would get if you clicked it. So « Studios 0 » while « Non meublé » is
+  selected is true and useful: it says there is no unfurnished studio *yet*.
+- **A zero-count chip is disabled, which makes an empty grid unreachable.** The
+  empty-state line is still written, so that invariant is an optimisation rather
+  than something the page's correctness quietly depends on.
+- **The wide feature card goes to the first unit of the current view**, not to
+  `STUDIOS[0]` — filter to « Chambres » and A10-2 gets it. Unfiltered it is
+  still SS101, as before.
+- **⚠️ Filtering changes the document height, and both scroll systems cache it.**
+  Eight cards down to one shortens the page by ~1 600px; without
+  `ScrollTrigger.refresh()` and `lenis.resize()` every trigger below the grid
+  measures against a layout that no longer exists and Lenis will not scroll to
+  the real bottom. Verified: after resetting the filter, `lenis.limit` matches
+  `scrollHeight - innerHeight` exactly.
+- **No entry animation on a filter change.** `useSectionMotion` collects
+  `[data-reveal]` and `.frame` once at mount and animates with `gsap.from`, so
+  cards mounted later render at their natural state — visible and correct. A CSS
+  fade would fight those inline styles on first paint and re-animate the whole
+  grid on every click.
+- **Toggle buttons with `aria-pressed`, not a radiogroup.** Each group is
+  single-select, which is radio semantics — but `role="radio"` obliges arrow-key
+  navigation and a single tab stop, and a half-implemented radiogroup is worse
+  than a well-behaved set of toggles. A `role="status"` region announces the
+  result count, so a screen-reader user is told the list changed.
+- **Not in the URL.** State is local, so a filtered view is not shareable or
+  bookmarkable. Deliberate for now — a `?type=` param is the obvious next step
+  if it is ever wanted, and it would need care not to create indexable
+  near-duplicate pages.
+
+### Mobile pass on both of the above (2026-09-07)
+
+Measured on a 2× phone at **390** and **360** (the common Android floor), not
+eyeballed. Four defects, one of them pre-existing:
+
+- **⚠️ The sticky enquiry bar wrapped its rate — and already did before A40.**
+  It is one flex row holding the rate against a 117px « Demander » button, and
+  the rate inherited the panel's 1.6rem display serif, where it has a whole
+  column to itself. At 390px « 60 000 FCFA la nuit » fits and « 850 000 FCFA
+  par mois » does not, breaking « mois » onto a second line. **At 360px all of
+  them wrapped, « la nuit » included** — so the longer monthly label surfaced an
+  existing bug 30px earlier rather than causing it. Fixed at the cause:
+  `white-space: nowrap` makes the failure impossible and the type scales with
+  `clamp(1.05rem, 4.6vw, 1.35rem)`, scoped to the bar so the panel is untouched.
+  Now 71px and one line for every unit at both widths.
+- **Filter chips were 36px tall** — under the 44px touch-target minimum, on the
+  only controls on the page. Now `min-height: 44px`.
+- **« Chambres 2 » wrapped alone onto a third row**, which made one group read as
+  two, and the bar stood **227px tall** — 27% of the viewport. Each group is now
+  a single horizontally scrollable rail, so no orphan is possible at any label
+  length or in any language, and a group's height no longer depends on how many
+  options it happens to have. Bar down to **190px**.
+- **The rail needed an affordance**, or a cut-off chip reads as a rendering
+  fault. A gradient to `--ink` over the rail's end, `pointer-events: none` so it
+  cannot eat the tap that reaches the last chip. Verified by sampling luminance
+  across the rail's last 120px: 29 → 9, and tapping the half-hidden chip
+  through the fade still registers.
+
+⚠️ **Not addressed, and it is the bigger mobile lever:** the first card on
+`/fr/appartements` begins **1215px** down the document — a phone reader scrolls
+past the full-bleed opening frame, the lede and the three stats before seeing a
+single unit. That is the existing hero design, not the filter, so it was left
+alone. Worth a decision of its own.
+
+### Still open
+
+- [ ] **ST 003 is not listed, and its sheet is complete.** The 22-frame batch
+      she sent for it holds **two different salons**, so it is not one unit and
+      cannot be published as one — a 55 m² one-bedroom has one reception room.
+      Held in `assets-raw/whatsapp/non-meuble-2026-09-02/`. **Ask which frames
+      are ST 003's;** that is the only blocker.
+- [ ] **Confirm she wants unfurnished lets on the site**, and beside the nightly
+      units rather than apart. Built on the reading that she sent the sheets in
+      order to have them listed — worth one line of confirmation, because it is
+      the venue's own positioning that it contradicts.
+- [ ] **The étage, for A40, ST 003, ST005 and A10 together.** Four sheets write
+      « sous sol » beside an `R+n`/`R-n` that disagrees with it. A40 carries
+      **no floor at all** rather than repeat ST005's inferred `R-2`, because
+      A40's own balcony frames show two balconied floors *below* it. A building
+      cut into a slope explains all four at once — and would mean ST005's
+      published floor is wrong. ST005 is deliberately unchanged pending her
+      answer.
+- [ ] **« Onze studios » is now understated.** `A40` and `ST 003` are on no
+      inventory list we hold, so there are at least thirteen units. Not changed
+      to « treize », which would be the same guess in the other direction.
+- [ ] **A40's gallery has no video** and no `STUDIO_HERO` consideration. Its
+      salon and douche frames are the sharpest interiors on the site after
+      ST005's; the banner plate is still `ss140_salon` at 1080px. A deliberate
+      decision, not part of listing a unit.
+
 ## To decide
 
 ### Brand

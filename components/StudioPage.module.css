@@ -93,6 +93,22 @@
   flex: none;
 }
 
+/* ⚠️ « Non meublé » — it qualifies the number directly below it.
+   `.price` takes `flex-basis: 100%` so the rate always drops to its own line;
+   this sits in the row above, beside the status pill, which puts the qualifier
+   immediately before the figure it changes the meaning of rather than after it.
+   Gold border like the rate it modifies, dark glass like the status it stands
+   next to. */
+.unfurnished {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(232, 188, 62, 0.55);
+  background: rgba(6, 9, 12, 0.55);
+  backdrop-filter: blur(6px);
+  color: var(--gold);
+}
+
 .available {
   border-color: rgba(232, 188, 62, 0.55);
   color: var(--gold);

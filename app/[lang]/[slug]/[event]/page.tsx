@@ -11,7 +11,7 @@ import { allEventSlugs, eventBySlug, isPast } from "@/lib/events";
 import {
   allStudioSlugs,
   floorLabel,
-  formatPrice,
+  rateLabel,
   formatSize,
   relatedStudios,
   studioBySlug,
@@ -101,11 +101,24 @@ export async function generateMetadata({
         }),
       }
     ).join(" · ");
-    const rate = formatPrice(studio.pricePerNight);
+    /* The rate AND the period it buys. A40 is let by the month, so a bare
+       amount beside a hard-coded « la nuit » would have described its rent as a
+       nightly figure in the page title itself — see `rateLabel`. */
+    const rate = rateLabel(studio, {
+      night: t.specs.perNight,
+      month: t.specs.perMonth,
+    });
 
     return {
       title: `${noun} ${studio.code} — Glen Appartement, Yaoundé`,
-      description: [line, rate && `${rate} ${t.specs.perNight}`]
+      description: [
+        line,
+        /* « Non meublé » goes in the description because this is what a search
+           result shows, and an unfurnished flat surfacing as though it were one
+           of the furnished lets is the omission that misleads. */
+        !studio.furnished ? t.specs.unfurnished : null,
+        rate && `${rate.amount} ${rate.per}`,
+      ]
         .filter(Boolean)
         .join(" — "),
       alternates: {

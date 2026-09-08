@@ -371,6 +371,35 @@ export const fr = {
       /* « 60 000 FCFA » followed by this, so the unit of time is never
          guessed from the number alone. */
       perNight: "la nuit",
+      /* « 850 000 FCFA » followed by this. A40 is let by the month, and the
+         period is DATA on the unit rather than a choice each component makes —
+         see `RatePeriod` in lib/apartments.ts. `rateLabel` picks between these
+         two keys, so the one thing that cannot happen is a monthly rent
+         printing as « la nuit ». */
+      perMonth: "par mois",
+      /* ── UNFURNISHED, 2026-09-05 ────────────────────────────────────────
+         Rendered ONLY on a unit with `furnished: false`. The seven furnished
+         rows deliberately print no equivalent row: everything the venue
+         publishes already says « meublé haut standing », so labelling each of
+         them « Meublé » would state the default twice and bury the one row
+         where it matters. */
+      furnishing: "Ameublement",
+      unfurnished: "Non meublé",
+      /* ✅ « Caution : 2 mois » — first ever given, 2026-09-05, and only on the
+         unfurnished units. Absent on every furnished row, where the box was
+         left blank; the row is omitted rather than promising « aucune ». */
+      deposit: "Caution",
+      /* « mois » is invariable, so both French forms are the same string. They
+         are two keys because English needs « month's » against « months' » —
+         see `depositLabel`. */
+      depositOne: "{n} mois de loyer",
+      depositMany: "{n} mois de loyer",
+      /* ⚠️ « Canal+ au salon : au frais du client » — her exact answer on both
+         unfurnished sheets, and neither oui nor non. It gets its own row rather
+         than the `canalPlus` équipement chip, which would advertise the
+         subscription as though it came with the flat. */
+      canalPlus: "Canal+",
+      canalPlusAtTenantCost: "À la charge du locataire",
       /* Rendered after the count, beside the « Équipements » heading — so it
          reads « Équipements · 9 inclus » rather than repeating the word. */
       equipmentCount: "inclus",
@@ -428,6 +457,46 @@ export const fr = {
       apartment: "Appartement",
       studio: "Studio",
       room: "Chambre",
+    },
+    /**
+     * The mark carried on the card and the masthead of an unfurnished unit.
+     *
+     * ⚠️ IT IS NOT DECORATION. A visitor who reads « Appartement A40 · 127,6 m²
+     * · 3 chambres » at 850 000 and assumes a furnished flat has been misled by
+     * an omission — the same failure `noun` exists to prevent, one product
+     * wider. Same words as `specs.unfurnished`, kept as a separate key because
+     * this one has to survive being read at badge size.
+     */
+    unfurnishedBadge: "Non meublé",
+    /**
+     * The index filter — two groups, composing. See the FILTERING block in
+     * lib/apartments.ts for why there are two axes and not one.
+     *
+     * ⚠️ THESE NOUNS ARE PLURAL AND `noun` ABOVE IS SINGULAR. « Appartement
+     * A40 » titles one unit; « Appartements 3 » labels a group of them, and
+     * French inflects. They cannot share a key.
+     */
+    filters: {
+      kindLabel: "Type",
+      furnishingLabel: "Ameublement",
+      /* Leads both groups. « Tous » — masculine plural, agreeing with
+         « logements », which is what is being counted in both. */
+      all: "Tous",
+      kind: {
+        apartment: "Appartements",
+        studio: "Studios",
+        room: "Chambres",
+      },
+      furnished: "Meublé",
+      unfurnished: "Non meublé",
+      /* Read out by the live region after every change, so a screen-reader user
+         hears the grid has changed instead of discovering it by exploring. */
+      results: "{n} logements",
+      resultsOne: "{n} logement",
+      /* ⚠️ UNREACHABLE WHILE ZERO-COUNT CHIPS ARE DISABLED, and kept anyway —
+         see the invariant note in lib/apartments.ts. A filter UI that can show
+         an empty page without saying so is a trap. */
+      none: "Aucun logement ne correspond à ces filtres.",
     },
     /* The three counted lines the identity sentence is built from —
        `unitLine()` in lib/apartments.ts. French inverts (« 2 chambres »), which
@@ -527,6 +596,25 @@ export const fr = {
       messageDates: "Du {from} au {to}",
       messageNoDates: "Dates à confirmer",
       messageGuests: "{n} personne(s)",
+      /* ── THE TENANCY MODE, 2026-09-05 ────────────────────────────────────
+         An unfurnished flat let by the month against a two-month caution is not
+         a reservation. On those units the panel drops the arrival, departure
+         and headcount fields — a night count is meaningless and « Personnes »
+         has no maximum to cap it against, because « Nombre de personnes » was
+         blank on the sheet — and sends this message instead of `message`.
+
+         ⚠️ « LOUER », NOT « RÉSERVER », and the verb is the point. The client
+         reads this on her own phone: « je souhaite réserver l'appartement A40 »
+         would arrive looking like a two-night booking enquiry for a flat she
+         lets on a lease. Same class of error as the noun bug `messageUnit`
+         exists to fix, one product wider. */
+      messageTenancy:
+        "Bonjour, je souhaite louer {unit} {code} (non meublé) du Glen Appartement. Merci de me confirmer la disponibilité, le tarif mensuel et les conditions.",
+      /* Sits where the date fields do on a furnished unit — directly above the
+         WhatsApp button, so what kind of let this is cannot be missed on the
+         way to sending. */
+      tenancyLead: "Location au mois, non meublé.",
+      tenancyDeposit: "Caution : {n} mois de loyer.",
       /* The phone-only sticky bar — see ReserveStudio.module.css `.bar`. */
       barCta: "Demander",
     },

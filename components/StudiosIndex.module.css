@@ -204,11 +204,26 @@
    which also had an absolutely-positioned variant in the 720px block below). */
 
 /* ---------- the spread ---------- */
+/* ⚠️ `margin-top` was `clamp(2.5rem, 6vw, 4rem)` — the gap from the luminous
+   rule straight down to the first card. The filter bar now sits in between and
+   brings its own top margin, so keeping that value stacked two large gaps and
+   left the control floating 4rem clear of the list it controls. Halved: the bar
+   holds the space below the rule, and this holds the smaller space that ties
+   the bar to the grid. */
 .grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: clamp(2rem, 4vw, 3rem);
-  margin-top: clamp(2.5rem, 6vw, 4rem);
+  margin-top: clamp(1.5rem, 3vw, 2.2rem);
+}
+
+/* ⚠️ Unreachable while zero-count chips are disabled — see the invariant note
+   in lib/apartments.ts. Styled anyway, at the same top offset as `.grid`, so
+   that if the disabling is ever removed the page says so instead of ending in
+   white space. */
+.empty {
+  margin-top: clamp(1.5rem, 3vw, 2.2rem);
+  color: var(--muted);
 }
 
 /* The card itself moved to components/StudioCard.module.css on 2026-08-13 so

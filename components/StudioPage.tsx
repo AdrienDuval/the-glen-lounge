@@ -8,7 +8,8 @@ import {
   bedLabel,
   BUILDING_SERVICES,
   floorLabel,
-  formatPrice,
+  rateLabel,
+  depositLabel,
   formatSize,
   SAME_BUILDING_AS_RESTAURANT,
   slidesFor,
@@ -131,7 +132,13 @@ export default function StudioPage({
     basement: t.basement,
   });
   const { slides } = slidesFor(studio);
-  const price = formatPrice(studio.pricePerNight);
+  /* Amount and period together — A40 is let by the month, and this masthead
+     is the most prominent of the four places that used to print a bare number
+     beside a hard-coded « la nuit ». See `rateLabel`. */
+  const rate = rateLabel(studio, {
+    night: t.specs.perNight,
+    month: t.specs.perMonth,
+  });
   /* « Chambre dans l'appartement A10 » when we know which apartment, the plain
      « Chambre dans un appartement » when we do not, and the unit's own noun
      otherwise — « Appartement entier » or « Studio entier », transcribed from
@@ -148,6 +155,17 @@ export default function StudioPage({
      not disagree, and all three have to cope with a unit whose surface was
      never measured. */
   const size = formatSize(studio, lang, t.specs.sizeUnit);
+  /* Null on every furnished unit — the literie row and the caution row are both
+     absent rather than defaulted. See `bedLabel` and `depositLabel`. */
+  const bed = bedLabel(studio, {
+    one: t.beds,
+    many: t.bedsMany,
+    numbers: t.bedsNumber,
+  });
+  const deposit = depositLabel(studio, {
+    one: t.specs.depositOne,
+    many: t.specs.depositMany,
+  });
 
   /* The identity sentence. Same function as the cards use, so the line a
      visitor read on the index is the line that greets them here. */
@@ -268,15 +286,38 @@ export default function StudioPage({
     ...(studio.status
       ? [{ key: "status", label: t.specs.status, value: t.status[studio.status] }]
       : []),
-    {
-      key: "bed",
-      label: t.specs.bed,
-      value: bedLabel(studio, {
-        one: t.beds,
-        many: t.bedsMany,
-        numbers: t.bedsNumber,
-      }),
-    },
+    /* ── UNFURNISHED ROWS, 2026-09-05 ───────────────────────────────────
+       Three rows that exist only for a unit with `furnished: false`, placed
+       directly under « Type » because together they ARE what is on offer: an
+       empty shell, on a monthly rent, against a deposit.
+
+       ⚠️ None of them has a furnished counterpart, deliberately. There is no
+       « Meublé » row on the other seven — the whole site already says so — and
+       no « Caution » row either, because the box was blank on all five of their
+       sheets and « aucune caution » is a promise nobody made. */
+    ...(!studio.furnished
+      ? [{ key: "furnishing", label: t.specs.furnishing, value: t.specs.unfurnished }]
+      : []),
+    ...(deposit
+      ? [{ key: "deposit", label: t.specs.deposit, value: deposit }]
+      : []),
+    /* ⚠️ « au frais du client » — her exact answer, and neither oui nor non.
+       Not an amenity chip: that list is what the unit HAS, and Canal+ here is
+       something the tenant may take on at their own cost. */
+    ...(studio.canalPlusAtTenantCost
+      ? [
+          {
+            key: "canalPlus",
+            label: t.specs.canalPlus,
+            value: t.specs.canalPlusAtTenantCost,
+          },
+        ]
+      : []),
+    /* ⚠️ DROPPED ENTIRELY when there is no bed — « Lit : aucun » on both
+       unfurnished sheets. `bedLabel` returns null and this spreads to nothing,
+       rather than printing « Aucun lit », which would read as a missing amenity
+       on a furnished let instead of the definition of an unfurnished one. */
+    ...(bed ? [{ key: "bed", label: t.specs.bed, value: bed }] : []),
     /* For a single bedroom the count alone would read as « this room has one
        douche », i.e. its own. It is in the shared apartment — see
        `amenityLabel`. The chip and this row have to agree, or the page
@@ -296,7 +337,18 @@ export default function StudioPage({
     ...(includedRooms.length > 0
       ? [{ key: "included", label: t.specs.included, value: includedLabel }]
       : []),
-    ...(site.hours.apartments247
+    /* ⚠️ FURNISHED ONLY, and this row is the reason to say so out loud.
+       « disponibilité 24h/24, tous les jours » is the venue's own marketing
+       line (FACTS.md) and it is a promise about SHORT-STAY ARRIVALS — that
+       someone landing at midnight will be let in. It says nothing about a
+       tenant on a monthly lease, for whom 24-hour access to their own front
+       door is not an amenity.
+
+       A40 leaves `access24` off its `amenities` for exactly that reason, so
+       printing this row on its page would have had the page assert in a table
+       what the chips beside it decline to claim. Gated here rather than the
+       row being deleted: it is correct, and correct for seven of eight rows. */
+    ...(site.hours.apartments247 && studio.furnished
       ? [
           {
             key: "access",
@@ -347,9 +399,19 @@ export default function StudioPage({
             {/* The rate leads only when it is real. A unit with no confirmed
                 price shows nothing here rather than « sur demande », which
                 would read as a second-class listing beside SS101. */}
-            {price && (
+            {/* ⚠️ « Non meublé » BESIDE THE RATE, not buried in the table.
+                850 000 FCFA is the number a visitor reads first and it is the
+                number the qualifier changes the meaning of — an unfurnished
+                monthly rent against six nightly furnished ones. The spec table
+                repeats it in its own row; this is the one that gets read. */}
+            {!studio.furnished && (
+              <span className={`label ${styles.unfurnished}`}>
+                {t.unfurnishedBadge}
+              </span>
+            )}
+            {rate && (
               <span className={styles.price}>
-                {price} <span className={styles.pricePer}>{t.specs.perNight}</span>
+                {rate.amount} <span className={styles.pricePer}>{rate.per}</span>
               </span>
             )}
           </div>

@@ -1,10 +1,17 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { gsap, useGSAP } from "@/lib/gsap";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { PHOTOS } from "@/lib/photos";
-import { availableStudios, STUDIOS, STUDIO_HERO } from "@/lib/apartments";
+import {
+  availableStudios,
+  filterStudios,
+  NO_FILTER,
+  STUDIOS,
+  STUDIO_HERO,
+  type StudioFilter,
+} from "@/lib/apartments";
 import { href } from "@/lib/routes";
 import { site } from "@/lib/site";
 import type { Lang } from "@/lib/i18n/config";
@@ -14,6 +21,7 @@ import StudioCard, {
   INDEX_FEATURE_SIZES,
   INDEX_GRID_SIZES,
 } from "./StudioCard";
+import StudioFilters from "./StudioFilters";
 import styles from "./StudiosIndex.module.css";
 
 /**
@@ -34,6 +42,13 @@ import styles from "./StudiosIndex.module.css";
  * and the heading no longer counts them: the lede states the building's eleven
  * as a fact about the property, and the grid shows what we can stand behind.
  * An accurate small number beats eleven listings a visitor cannot rely on.
+ *
+ * ── THE FILTER, 2026-09-07 ──────────────────────────────────────────────────
+ * The grid now lists TWO PRODUCTS — seven furnished units let by the night and
+ * A40, an unfurnished flat let by the month — so it is filterable on both axes
+ * a visitor actually asks about: what kind of place it is, and whether it is
+ * furnished. The state lives here rather than in `StudioFilters`, because this
+ * is what has to render from it; see that file for the rest of the reasoning.
  */
 export default function StudiosIndex({
   lang,
@@ -53,7 +68,19 @@ export default function StudiosIndex({
   const hero = PHOTOS[STUDIO_HERO];
   const free = availableStudios().length;
   const t = dict.studios;
-  const [featured, ...restStudios] = STUDIOS;
+
+  const [filter, setFilter] = useState<StudioFilter>(NO_FILTER);
+  const shown = filterStudios(filter);
+  /* The wide editorial card goes to the first unit OF THE CURRENT VIEW, not to
+     `STUDIOS[0]` — so filtering to « Chambres » features A10-2 rather than
+     leaving the feature slot empty or showing a unit the filter excludes.
+     Unfiltered, this is still SS101, exactly as before.
+
+     ⚠️ `shown` CAN BE EMPTY IN PRINCIPLE, so this destructure can yield
+     `undefined`. Guarded at the render below rather than asserted — the
+     zero-count chips are disabled, which makes an empty view unreachable
+     today, and that invariant should not be load-bearing. */
+  const [featured, ...restStudios] = shown;
 
   useGSAP(
     () => {
@@ -109,6 +136,24 @@ export default function StudiosIndex({
     },
     { scope: rootRef }
   );
+
+  /* ⚠️ FILTERING CHANGES THE DOCUMENT HEIGHT, and both scroll systems cache it.
+     Going from eight cards to one shortens this page by well over a viewport:
+     every ScrollTrigger start/end below the grid is then measured against a
+     layout that no longer exists, and Lenis's own limit is stale, so the page
+     can refuse to scroll to its real bottom.
+
+     Skipped on the first run — nothing has moved yet, and refreshing during
+     mount would fight the entry animations that are still playing. */
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    window.__lenis?.resize();
+    ScrollTrigger.refresh();
+  }, [filter]);
 
   return (
     <section ref={rootRef} className={styles.page}>
@@ -186,27 +231,45 @@ export default function StudiosIndex({
             described — see the header. */}
         <div className="rule" data-rule />
 
-        <div className={styles.grid}>
-          <StudioCard
-            studio={featured}
-            variant="feature"
-            sizes={INDEX_FEATURE_SIZES}
-            base={base}
-            lang={lang}
-            dict={dict}
-          />
-          {restStudios.map((s) => (
+        <StudioFilters
+          filter={filter}
+          onChange={setFilter}
+          shown={shown.length}
+          dict={dict}
+        />
+
+        {/* ⚠️ NO ENTRY ANIMATION ON A FILTER CHANGE, deliberately.
+            `useSectionMotion` collects `[data-reveal]` and `.frame` once at
+            mount and animates with `gsap.from`, so cards mounted later render
+            at their natural state — visible, unanimated, correct. Adding a CSS
+            fade here would fight those inline styles on the first paint and
+            re-animate the whole grid on every click, which at eight cards is
+            noise rather than polish. */}
+        {featured ? (
+          <div className={styles.grid}>
             <StudioCard
-              key={s.slug}
-              studio={s}
-              variant="grid"
-              sizes={INDEX_GRID_SIZES}
+              studio={featured}
+              variant="feature"
+              sizes={INDEX_FEATURE_SIZES}
               base={base}
               lang={lang}
               dict={dict}
             />
-          ))}
-        </div>
+            {restStudios.map((s) => (
+              <StudioCard
+                key={s.slug}
+                studio={s}
+                variant="grid"
+                sizes={INDEX_GRID_SIZES}
+                base={base}
+                lang={lang}
+                dict={dict}
+              />
+            ))}
+          </div>
+        ) : (
+          <p className={styles.empty}>{t.filters.none}</p>
+        )}
       </div>
     </section>
   );

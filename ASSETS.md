@@ -102,6 +102,56 @@ Correct either with sharp's `.rotate(-90)`, a lossless transpose; do **not** shi
 a clip rotated. `ffmpeg` is not installed here, so re-encoding a clip upright is a
 client ask, not a local fix.
 
+## The unfurnished drops — A40 and « 003 » (2026-09-05)
+
+**55 WhatsApp frames at 1280×960**, sent with two `non meublé` sheets. Held raw,
+nothing curated and nothing in `lib/photos.ts` yet — the units are not listed
+(FACTS.md, « NON MEUBLÉ »), so there is nothing for a curated frame to appear on.
+
+| Raw folder | Frames | Attribution |
+| --- | --- | --- |
+| `assets-raw/whatsapp/a40/` | 33 | ✅ **A40** — photographed on its own door |
+| `assets-raw/whatsapp/non-meuble-2026-09-02/` | 22 | ⚠️ **unattributed** — not one unit |
+
+Both arrived in `public/photos/studios/` under the client's own folder names
+(« non meuble », « 003 ») and were moved out on 2026-09-07 under the rule above:
+raw drops live in `assets-raw/`, and a curated folder is named for a slug. « non
+meuble » also carried a **space in a public path**, which is a URL problem
+waiting to happen.
+
+✅ **1280×960 — above the 1080px WhatsApp ceiling**, which the note above says
+every WhatsApp drop is capped at. Still short of ST005's 2000px, so the standing
+ask (originals by AirDrop/email, not WhatsApp) stands — but this batch is the
+second-sharpest on hand and the ceiling is evidently not a hard 1080.
+
+✅ **All 55 are distinct** — verified by MD5, within each folder and across the
+two. Nothing was sent twice and nothing overlaps the furnished sets. (Worth
+checking every time: the A10 rooms arrived as one clip placed in two folders, and
+two of A10's four clips are the same footage.)
+
+⚠️ **A40's attribution is EVIDENCED, and it is the first time.** One frame is a
+close-up of an enamel plate reading « **A / 40** » screwed to the flat's timber
+door. Every other unit in this project is attributed by the folder name and the
+order a batch arrived in; this one is not a matter of trust.
+
+⚠️ **THE « 003 » BATCH IS NOT ONE UNIT — DO NOT CURATE IT AS ST 003.** It holds
+**two different salons** (distinct chandeliers, distinct ceiling geometry — the
+frame numbers are in FACTS.md), plus two shower rooms, four kitchen angles, three
+wardrobes and a corridor. ST 003's sheet describes a **55 m² one-bedroom**, which
+cannot contain two reception rooms. Folder kept under a dated, non-asserting name
+for exactly that reason: `non-meuble-2026-09-02` claims nothing. Ask the client
+which frames are ST 003's.
+
+⚠️ **Two frames of A40 are the only exterior views any unit has sent** — from its
+balcony, one down onto the road and across at the facing hillside, one along the
+building's own facade showing two balconied floors below. They are the first
+photographic evidence bearing on the « sous sol R+n » question that four sheets
+now leave contradictory (FACTS.md, open question 1.C). ⚠️ They also put **four
+distant passers-by** on a public road in frame, seen from above and behind at a
+scale where no face resolves — recorded here so the consent call is on paper
+before either frame is registered: not venue customers, nothing identifiable,
+but the exterior views are the two frames in this batch that need the judgement.
+
 ## TikTok — works, no credentials
 
 The tooling is already installed (`pip install gallery-dl yt-dlp`). Re-run the

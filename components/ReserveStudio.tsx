@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { site } from "@/lib/site";
-import { formatPrice, type Studio } from "@/lib/apartments";
+import { rateLabel, depositLabel, type Studio } from "@/lib/apartments";
 import type { Lang } from "@/lib/i18n/config";
 import type { Dict } from "@/lib/i18n";
 import styles from "./ReserveStudio.module.css";
@@ -33,6 +33,25 @@ import styles from "./ReserveStudio.module.css";
  * was confirmed, so the nightly figure is all this states; the night count
  * below travels to WhatsApp, where a human quotes the real total.
  * Add a total here only once weekly/monthly rates are on record.
+ *
+ * ── AND SINCE 2026-09-05, TWO MODES ─────────────────────────────────────────
+ * A40 is let « non meublé » by the month, against a two-month caution. On that
+ * unit this panel is NOT a reservation form and does not pretend to be one:
+ * the arrival, departure and headcount fields are gone, and so is the night
+ * count.
+ *
+ * Each of the three was actively wrong rather than merely useless:
+ *   · dates — a tenancy has a start, not a checkout, and the night count under
+ *     the fields would have counted nights against a monthly rent;
+ *   · guests — `max={studio.sleeps}` has nothing to clamp to, because « Nombre
+ *     de personnes » was blank on the sheet. Left alone, `max={null}` would
+ *     silently mean "no maximum" on the one unit whose capacity is unknown.
+ *
+ * What replaces them is one line saying what kind of let this is and what the
+ * deposit is, and a message that says « louer » instead of « réserver » — see
+ * `messageTenancy` in fr.ts. The verb matters because the CLIENT reads it: an
+ * enquiry about a lease must not reach her phone looking like a two-night
+ * booking.
  */
 /* Two field marks, local to this panel — they belong to the form, not to the
    amenity vocabulary in AmenityIcon.tsx, and keeping them here stops that set
@@ -73,6 +92,11 @@ export default function ReserveStudio({
 }) {
   const t = dict.studios.book;
   const uid = useId();
+  /* The whole switch, in one place. `furnished` is the data; every branch below
+     reads this rather than re-deriving it, so the panel cannot end up half in
+     one mode — collecting dates for a tenancy, say, while sending the tenancy
+     message. */
+  const tenancy = !studio.furnished;
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [guests, setGuests] = useState(1);
@@ -96,6 +120,13 @@ export default function ReserveStudio({
     }).format(new Date(`${iso}T12:00:00`));
 
   const message = useMemo(() => {
+    /* ⚠️ « louer », not « réserver », and no dates or headcount — none of the
+       three fields that fill them is rendered in this mode. See the header. */
+    if (tenancy) {
+      return t.messageTenancy
+        .replace("{unit}", t.messageUnit[studio.kind])
+        .replace("{code}", studio.code);
+    }
     const dates =
       from && to
         ? t.messageDates.replace("{from}", fmt(from)).replace("{to}", fmt(to))
@@ -111,9 +142,19 @@ export default function ReserveStudio({
       .replace("{dates}", dates)
       .replace("{guests}", t.messageGuests.replace("{n}", String(guests)));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [from, to, guests, studio.code, studio.kind, t, lang]);
+  }, [from, to, guests, studio.code, studio.kind, tenancy, t, lang]);
 
-  const rate = formatPrice(studio.pricePerNight);
+  /* Amount and period together, so a monthly rent can never print as « la
+     nuit » — this panel held two of the four call sites that used to risk it.
+     See `rateLabel` in lib/apartments.ts. */
+  const rate = rateLabel(studio, {
+    night: dict.studios.specs.perNight,
+    month: dict.studios.specs.perMonth,
+  });
+  const deposit = depositLabel(studio, {
+    one: dict.studios.specs.depositOne,
+    many: dict.studios.specs.depositMany,
+  });
   const waNumber = site.contact.whatsapp.tel.replace(/\D/g, "");
   const waHref = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
   const canBook = studio.status !== "occupied";
@@ -154,20 +195,39 @@ export default function ReserveStudio({
       <p className={styles.price}>
         {rate ? (
           <>
-            <span className={styles.rate}>{rate}</span>{" "}
-            <span className={styles.per}>{dict.studios.specs.perNight}</span>
+            <span className={styles.rate}>{rate.amount}</span>{" "}
+            <span className={styles.per}>{rate.per}</span>
           </>
         ) : (
           t.price
         )}
       </p>
 
+      {/* What kind of let this is, and the deposit — standing where the date
+          fields do on a furnished unit, so it is read before the button rather
+          than after it. The caution is here as well as in the spec table
+          because it is a condition of enquiring, not a characteristic of the
+          flat. */}
+      {tenancy && (
+        <p className={styles.terms}>
+          {t.tenancyLead}
+          {deposit &&
+            ` ${t.tenancyDeposit.replace("{n}", String(studio.depositMonths))}`}
+        </p>
+      )}
+
       {studio.status === "occupied" && (
         <p className={styles.notice}>{t.unavailable}</p>
       )}
       {studio.status === "soon" && <p className={styles.notice}>{t.soon}</p>}
 
-      <div className={styles.fields}>
+      {/* ⚠️ DATES AND HEADCOUNT ONLY WHEN THERE IS A STAY TO DESCRIBE.
+          On an unfurnished monthly let all three fields are the wrong question,
+          and `max={studio.sleeps}` would have had nothing to clamp against —
+          see the header note. The whole block goes rather than being disabled:
+          a greyed-out date picker still says "this is a booking". */}
+      {!tenancy && (
+        <div className={styles.fields}>
         <label className={styles.field}>
           <span className={`label ${styles.fieldLabel}`}>
             <Glyph name="calendar" />
@@ -199,14 +259,24 @@ export default function ReserveStudio({
             <Glyph name="guest" />
             {t.guests}
           </span>
+          {/* ⚠️ `sleeps` IS NULLABLE AND THE FALLBACK IS "no cap", NOT a number.
+              Unreachable today — this whole block renders only when
+              `!tenancy`, and every furnished unit states a headcount — but
+              written out rather than asserted with `!`, because the honest
+              behaviour if a furnished sheet ever arrives without one is an
+              uncapped field, not a cap we invented. `undefined` removes the
+              attribute; `Infinity` makes the clamp a no-op. */}
           <input
             type="number"
             min={1}
-            max={studio.sleeps}
+            max={studio.sleeps ?? undefined}
             value={guests}
             onChange={(e) =>
               setGuests(
-                Math.min(studio.sleeps, Math.max(1, Number(e.target.value) || 1))
+                Math.min(
+                  studio.sleeps ?? Infinity,
+                  Math.max(1, Number(e.target.value) || 1)
+                )
               )
             }
             className={styles.input}
@@ -214,11 +284,16 @@ export default function ReserveStudio({
         </label>
       </div>
 
+      )}
+
       {/* aria-live so a screen-reader user hears the total change rather than
-          having to go looking for it after every date edit. */}
-      <p className={styles.nights} aria-live="polite">
+          having to go looking for it after every date edit. Absent in tenancy
+          mode, along with the dates that drive it. */}
+      {!tenancy && (
+        <p className={styles.nights} aria-live="polite">
         {nights > 0 ? `${nights} ${nights > 1 ? t.nightsPlural : t.nights}` : " "}
-      </p>
+        </p>
+      )}
 
       <div className={styles.actions}>
         {canBook ? (
@@ -257,8 +332,8 @@ export default function ReserveStudio({
           <p className={styles.barRate}>
             {rate ? (
               <>
-                <span className={styles.rate}>{rate}</span>{" "}
-                <span className={styles.per}>{dict.studios.specs.perNight}</span>
+                <span className={styles.rate}>{rate.amount}</span>{" "}
+                <span className={styles.per}>{rate.per}</span>
               </>
             ) : (
               t.price
