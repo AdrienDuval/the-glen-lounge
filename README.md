@@ -7,6 +7,7 @@ GSAP + Lenis · plain CSS with custom-property tokens.
 
 `npm` is not on PATH on this machine — use the full path:
 
+
 ```powershell
 & "C:\Program Files\nodejs\npm.cmd" install
 & "C:\Program Files\nodejs\npm.cmd" run dev
