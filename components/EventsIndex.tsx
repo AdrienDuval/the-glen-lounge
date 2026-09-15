@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import Link from "next/link";
 import { PHOTOS } from "@/lib/photos";
 import type { GlenEvent } from "@/lib/events";
@@ -53,7 +53,7 @@ export default function EventsIndex({
         <div
           className={`frame ${styles.media} ${poster ? styles.mediaPoster : ""}`}
         >
-          <Image
+          <FadeImage
             src={photo.src}
             alt={photo.alt[lang]}
             fill

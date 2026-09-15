@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import FadeImage from "./FadeImage";
 import useEmblaCarousel from "embla-carousel-react";
+import Monogram from "./Monogram";
 import { PHOTOS } from "@/lib/photos";
 import type { Slide } from "@/lib/apartments";
 import type { Lang } from "@/lib/i18n/config";
@@ -108,7 +110,11 @@ export default function StudioGallery({
    * The set only ever grows — an image that has decoded is not worth un-marking.
    */
   const [warm, setWarm] = useState<ReadonlySet<number>>(
-    () => new Set([0, 1 % slides.length])
+    /* `1 % 0` is NaN, so the modulo cannot run unguarded any more: ST 003 has
+       no slides at all. The empty case renders the plate below and never
+       reaches Embla, but this initialiser runs regardless of which branch the
+       markup takes. */
+    () => new Set(slides.length > 1 ? [0, 1] : [0])
   );
 
   const scrollTo = useCallback(
@@ -154,6 +160,37 @@ export default function StudioGallery({
       emblaApi.off("reInit", onSelect);
     };
   }, [emblaApi, slides.length]);
+
+  /* ── NO PHOTOGRAPHS AT ALL ──────────────────────────────────────────────────
+     One row takes this branch: ST 003, whose sheet is complete and whose 22
+     frames belong to two different units, so none of them can be captioned with
+     its code (FACTS.md). The band keeps its ratio, its ground and its masthead
+     — the page below is unchanged and carries the full spec table — but there
+     is no carousel, no counter and no thumb strip, because there is nothing to
+     count or to step through.
+
+     ⚠️ Returned BEFORE the carousel markup and AFTER every hook above, which is
+     what keeps the hook order identical on both branches. Embla's ref is simply
+     never attached, so `emblaApi` stays null and its effects return early. */
+  if (slides.length === 0) {
+    return (
+      <div>
+        <div className={styles.wrap}>
+          <div className={`${styles.hero} ${styles.heroEmpty}`}>
+            <div className={styles.plate}>
+              <Monogram size={96} glow={0.3} />
+              <p className={`label ${styles.plateText}`}>{t.photosSoon}</p>
+              <p className={styles.plateNote}>{t.photosSoonNote}</p>
+            </div>
+            <div className={styles.shade} aria-hidden="true" />
+            <div className={styles.wash} aria-hidden="true" />
+          </div>
+
+          <div className={`shell ${styles.mast}`}>{children}</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -221,7 +258,7 @@ export default function StudioGallery({
                       className={styles.fillImg}
                     />
                   )}
-                  <Image
+                  <FadeImage
                     src={photo.src}
                     alt={slide.kind === "photo" ? photo.alt[lang] : ""}
                     fill
@@ -304,7 +341,7 @@ export default function StudioGallery({
                   }
                   aria-current={i === selected}
                 >
-                  <Image
+                  <FadeImage
                     src={photo.src}
                     alt=""
                     fill

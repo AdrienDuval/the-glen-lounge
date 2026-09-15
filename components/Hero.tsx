@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import FadeImage, { FadeVideo } from "./FadeImage";
 import Link from "next/link";
 import { gsap, ScrollTrigger, SplitText, useGSAP } from "@/lib/gsap";
 import { PHOTOS } from "@/lib/photos";
@@ -361,7 +361,7 @@ export default function Hero({
           inert={index !== 0}
         >
           <div className={styles.slideInner} data-inner>
-            <Image
+            <FadeImage
               src={PHOTOS.lounge_hero.src}
               alt={PHOTOS.lounge_hero.alt[lang]}
               fill
@@ -385,7 +385,7 @@ export default function Hero({
             >
               <div className={styles.slideInner} data-inner>
                 {!show ? null : slide.kind === "video" && slide.video ? (
-                  <video
+                  <FadeVideo
                     src={slide.video}
                     poster={slide.poster ? PHOTOS[slide.poster].src : undefined}
                     muted
@@ -396,18 +396,19 @@ export default function Hero({
                   />
                 ) : photo && slide.layout === "poster" ? (
                   <div className={styles.poster}>
-                    <Image
+                    <FadeImage
                       src={photo.src}
                       alt={photo.alt[lang]}
                       width={photo.w}
                       height={photo.h}
+                      layout="intrinsic"
                       className={styles.posterImg}
                       sizes="(max-width: 900px) 80vw, 42vw"
                       quality={78}
                     />
                   </div>
                 ) : photo ? (
-                  <Image
+                  <FadeImage
                     src={photo.src}
                     alt={photo.alt[lang]}
                     fill

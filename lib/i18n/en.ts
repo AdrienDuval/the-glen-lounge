@@ -209,9 +209,12 @@ export const en = {
 
   studios: {
     eyebrow: "Apartments",
-    title: "Furnished places to stay, on site",
-    lede: "Glen Appartement — furnished to a high standard, 24-hour access. Comfort, security and privacy, a step away from the room. Eleven places to stay in the building. The ones we can show you in full — whole apartments, studios and single rooms — are below.",
+    title: "Stay in the building",
+    /* See fr.ts for why the building's total is gone and why this no longer
+       leads on « meublé haut standing » / « Confort, sécurité, intimité ». */
+    lede: "Glen Appartement is in the same building as the restaurant: night porter, backup generator, water reserve, housekeeping included. The furnished places are let by the night. The unfurnished ones are let by the month.",
     count: "shown",
+    rateFrom: "per night, from",
     availableNow: "available today",
     status: {
       available: "Available",
@@ -324,6 +327,11 @@ export const en = {
     },
     /* Not decoration — an omission here misleads. See the note in fr.ts. */
     unfurnishedBadge: "Unfurnished",
+    /* Stands where the photographs would be, on the one row that has none. See
+       the note in fr.ts — it is what lets ST 003 be listed truthfully. */
+    photosSoon: "Photographs to come",
+    photosSoonNote:
+      "We don’t have photographs of this one yet. Call us and we’ll show you around.",
     /* ⚠️ Plural, where `noun` above is singular — see the note in fr.ts. */
     filters: {
       kindLabel: "Type",

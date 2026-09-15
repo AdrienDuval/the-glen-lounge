@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Archivo, IBM_Plex_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import SmoothScroll from "@/components/SmoothScroll";
+import RouteWait from "@/components/RouteWait";
 import { getDict } from "@/lib/i18n";
 import {
   LOCALES,
@@ -106,6 +107,7 @@ export default async function RootLayout({
 }) {
   const { lang } = await params;
   if (!isLang(lang)) notFound();
+  const dict = getDict(lang);
 
   return (
     <html
@@ -114,6 +116,7 @@ export default async function RootLayout({
     >
       <body>
         <SmoothScroll />
+        <RouteWait label={dict.preloader.loading} />
         {children}
       </body>
     </html>

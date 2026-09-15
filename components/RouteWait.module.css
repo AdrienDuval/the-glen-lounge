@@ -1,0 +1,57 @@
+/* A 1px gold hairline at the top of the viewport while a client navigation
+   is in flight. Same vocabulary as the preloader track. Hidden until a click
+   on an in-site link has been waiting long enough to be felt — instant
+   prefetched hops should not flash it. */
+
+.root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 90;
+  height: 2px;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 0;
+  background: var(--ink);
+  transition: opacity 0.2s var(--ease-out);
+}
+
+.root[data-on] {
+  opacity: 1;
+}
+
+.hair {
+  display: block;
+  height: 100%;
+  width: 38%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ember),
+    var(--gold),
+    var(--gold-hi),
+    var(--gold),
+    transparent
+  );
+  box-shadow: 0 0 12px rgba(232, 188, 62, 0.55);
+  animation: run 1.15s var(--ease-out) infinite;
+}
+
+@keyframes run {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(380%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hair {
+    animation: none;
+    width: 100%;
+    transform: none;
+    opacity: 0.7;
+  }
+}

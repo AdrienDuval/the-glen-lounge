@@ -3,10 +3,11 @@ import type { PhotoId } from "./photos";
 /**
  * The studios — only the units we can actually document.
  *
- * ── WHAT IS HERE, AS OF 2026-09-05 ───────────────────────────────────────────
- * EIGHT units, every one of them with its own media of its own rooms and every
- * spec client-stated. Six filled sheets cover them, because two of the sheets
- * each answered for two units:
+ * ── WHAT IS HERE, AS OF 2026-09-11 ───────────────────────────────────────────
+ * NINE units, every spec client-stated. Eight of them carry their own media of
+ * their own rooms; the ninth, ST 003, carries none at all and says so — see the
+ * warning below. Seven filled sheets cover them, because two of the sheets each
+ * answered for two units:
  *
  *   `SS101_SPEC`    → SS101, and SS140-A on the client's explicit word.
  *   `A10_ROOM_SPEC` → A10-2 and A10-3, two rooms let inside apartment A10.
@@ -14,6 +15,7 @@ import type { PhotoId } from "./photos";
  *   `A10_SPEC`      → A10 alone — the apartment the two rooms above sit in.
  *   `ST005_SPEC`    → ST005 alone. NOT to be spread by a second row.
  *   `A40_SPEC`      → A40 alone. NOT to be spread by a second row.
+ *   `ST003_SPEC`    → ST 003 alone. NOT to be spread by a second row.
  *
  * Rows that share a sheet spread ONE object rather than a hand-copied duplicate,
  * so a correction cannot silently leave one of them behind.
@@ -26,10 +28,13 @@ import type { PhotoId } from "./photos";
  * buys is DATA here precisely because printing a monthly rent under « la nuit »
  * is the worst error this file could cause and nothing would crash.
  *
- * ⚠️ ST 003 is a NINTH unit whose sheet is complete and which is deliberately
- * NOT here: the 22-frame batch she sent for it contains two different salons,
- * so it is not one unit and cannot be published as one. Its sheet is recorded
- * in FACTS.md; the row goes in when she says which frames are its own.
+ * ⚠️ ST 003 IS THE NINTH ROW AND IT HAS NO PHOTOGRAPHS — the one exception to
+ * the rule at the foot of this block, taken deliberately on 2026-09-11. Its
+ * sheet is complete; its media is not attributable, because the 22-frame batch
+ * she sent under « 003 » holds two different salons and therefore at least two
+ * units. So it is listed on the sheet alone and the gallery says « photos à
+ * venir » rather than showing another unit's rooms. See `ST003_SPEC` for the
+ * full reasoning and FACTS.md for the frame-by-frame inventory.
  *
  * ⚠️ NEITHER `A40` NOR `ST 003` IS ON ANY INVENTORY LIST WE HOLD, so the venue
  * has at least THIRTEEN units, not eleven. The site still says « onze » —
@@ -52,16 +57,22 @@ import type { PhotoId } from "./photos";
  * ⚠️ THE FOUR REMAINING CODES ARE STILL REAL and are still recorded in FACTS.md
  * (`B15-A` · `A10-1-A` · `SS130-A` · `SS110-A`). This file is the
  * shippable set, not the inventory — and the inventory itself is now known to
- * be incomplete: at least thirteen units exist, we can describe eight, and one
- * more (ST 003) has a finished sheet and unusable media. When a sheet and media
- * land for any of them, add the row from FACTS.md — do NOT restore the old
- * invented figures from git history.
+ * be incomplete: at least thirteen units exist and we can describe nine. When a
+ * sheet lands for any of the rest, add the row from FACTS.md — do NOT restore
+ * the old invented figures from git history.
  *
  * ── ADDING A UNIT ────────────────────────────────────────────────────────────
- * A row belongs here once it has photographs of ITS OWN rooms. Fill only the
- * fields the client actually answered, give it its `photos`, and record the
- * answers in FACTS.md with the date. Never fill a field to make a page look
- * complete — `null`/omitted renders as « sur demande », which is honest.
+ * A row belongs here once the CLIENT HAS ANSWERED FOR IT. Fill only the fields
+ * she actually answered, give it its `photos`, and record the answers in
+ * FACTS.md with the date. Never fill a field to make a page look complete —
+ * `null`/omitted renders as « sur demande », which is honest.
+ *
+ * ⚠️ The bar used to read « once it has photographs of ITS OWN rooms », and
+ * ST 003 is why it was rewritten rather than broken quietly. Photographs are
+ * not the test; INVENTION is. A row with a complete sheet and an empty `photos`
+ * shows a « photos à venir » plate and states only what she wrote — nothing on
+ * the page is guessed. A row with photographs and a half-guessed sheet is the
+ * thing this file exists to prevent, and that bar has not moved a millimetre.
  */
 
 export type StudioStatus = "available" | "occupied" | "soon";
@@ -856,6 +867,68 @@ const A40_SPEC = {
   "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
 >;
 
+/**
+ * ✅ ST 003's sheet — `CL`, 2026-09-05, 21:05. The second unfurnished unit, and
+ * the twin of `A40_SPEC` in every respect except its numbers: same shortened
+ * fiche, same « Lit : aucun », same blank « Nombre de personnes », same
+ * « Caution : 2 mois », same « Canal+ : au frais du client ».
+ *
+ * ⚠️ THIS IS THE ONE ROW ON THE SITE WITH NO PHOTOGRAPHS, AND THAT IS THE
+ * DECISION, NOT AN OVERSIGHT. Every other row waited for media before it was
+ * listed, on the rule at the top of this file. ST 003 is listed without any
+ * because the two things that rule protects against are both absent here:
+ *
+ *   · Nothing below is invented. It is a complete client sheet, transcribed,
+ *     with the same nulls as A40 wherever she left a box blank.
+ *   · No photograph is misattributed, because none is shown. The 22 frames in
+ *     `assets-raw/whatsapp/non-meuble-2026-09-02/` hold TWO different salons
+ *     and therefore at least two units; publishing them here would caption
+ *     another unit's rooms with this unit's code. FACTS.md carries the
+ *     frame-by-frame inventory and the question card that settles it.
+ *
+ * So the unit is real, the specs are hers, and the gallery says « photos à
+ * venir » in as many words. A visitor can weigh 55 m² at 500 000 FCFA a month
+ * and ring; what they cannot do is form an impression from someone else's
+ * living room. ⚠️ The day she answers « 1 » or « 2 », fill `photos` from the
+ * confirmed salon's frames and this exception closes — do NOT extend it to a
+ * unit whose *sheet* is incomplete, which is a different and worse gap.
+ *
+ * ⚠️ `floor` IS NULL FOR A40's REASON, one step further. She wrote « Étage :
+ * **sous sol R+3** », the same self-contradiction A40's and ST005's sheets
+ * carry — and unlike A40 there is not even a photograph to argue with, since no
+ * frame here is attributable. Open question 1.C.
+ */
+const ST003_SPEC = {
+  status: "available",
+  furnished: false,
+  /* « Nombre de personnes » blank, as on A40's sheet. */
+  sleeps: null,
+  /* ⚠️ « sous sol R+3 ». See the note above. */
+  floor: null,
+  size: 55,
+  /* « Lit : aucun ». */
+  bed: null,
+  rooms: 1,
+  showers: 2,
+  livingRoom: true,
+  kitchen: true,
+  /* The same four as A40, and for the same reasons — « clim : oui »,
+     « Wi-Fi : oui », « Balcon : oui », and `bathroom` because two douches in a
+     whole studio are private. « Ventilateur : non » is a stated no; TV was left
+     blank; the shortened fiche never asked about the rest. ⚠️ `kitchenette` is
+     absent though `kitchen: true`: that chip reads « Cuisine équipée » and
+     nothing here is equipped. `access24` is absent because it is a promise
+     about short-stay arrivals, not about a monthly tenancy. */
+  amenities: ["wifi", "ac", "bathroom", "balcony"],
+  canalPlusAtTenantCost: true,
+  /* ⚠️ PAR MOIS — 500 000 FCFA is a month's rent, not a night. */
+  rate: { amount: 500000, period: "month" },
+  depositMonths: 2,
+} as const satisfies Omit<
+  Studio,
+  "code" | "slug" | "photos" | "video" | "kind" | "parentCode"
+>;
+
 export const STUDIOS: readonly Studio[] = [
   /* ✅ Client sheet + five photographs, 2026-08-11. The sheet is `SS101_SPEC`
      above; this row adds only what is specific to the unit — its code, its own
@@ -1165,6 +1238,29 @@ export const STUDIOS: readonly Studio[] = [
       "a40_balcon",
     ],
   },
+  /* ✅ Client sheet, 2026-09-05 — and NO photographs, which is a first. The
+     whole of the reasoning is on `ST003_SPEC`; the short version is that her
+     sheet is complete and the media is not attributable, so the unit is listed
+     on the sheet alone with the gallery saying so.
+
+     ⚠️ `photos: []` IS LOAD-BEARING AND MUST STAY EMPTY until she says which
+     salon is this one's. `StudioCard` and `StudioGallery` both branch on it and
+     render « photos à venir » plates; neither falls back to another unit's
+     frames, and the old stock set they used to fall back to is deleted.
+
+     ⚠️ The code carries her space — « ST 003 » is how she writes it, where
+     ST005 is written closed up — so `slug` is spelt out rather than derived
+     through `slugFor`, which would have produced a space in the URL. */
+  {
+    code: "ST 003",
+    slug: "st003",
+    /* « STUDIO non meublé » — her word for it. The noun is the transcription;
+       « non meublé » rides on `furnished`, exactly as it does for A40. This is
+       the unfurnished STUDIO that row's comment predicted. */
+    kind: "studio",
+    ...ST003_SPEC,
+    photos: [],
+  },
 ] as const;
 
 /* ══ FILTERING THE INDEX ═══════════════════════════════════════════════════
@@ -1355,6 +1451,28 @@ export function studioBySlug(slug: string): Studio | undefined {
 
 export function allStudioSlugs(): string[] {
   return STUDIOS.map((s) => s.slug);
+}
+
+/**
+ * The lowest NIGHTLY rate on the list, for the « à partir de » figure in the
+ * index banner. Null if nothing here is let by the night.
+ *
+ * ⚠️ Nightly rows only, and that filter is the whole point of the function:
+ * A40's 850 000 is a month's rent, so a naive `Math.min` over every rate would
+ * be right today by accident (30 000 < 850 000) and would quote the cheapest
+ * MONTHLY rent as a nightly price the first time a cheap unfurnished flat is
+ * listed. `furnished` is checked as well because the two axes are independent
+ * data — an unfurnished unit let by the night would not belong in this figure
+ * either.
+ *
+ * ⚠️ 30 000 today is A10-2/A10-3, a bedroom inside apartment A10 — a real,
+ * bookable line on the client's own sheet, not a stripped-down teaser rate.
+ */
+export function cheapestNightly(): number | null {
+  const rates = STUDIOS.filter(
+    (s) => s.furnished && s.rate?.period === "night"
+  ).map((s) => s.rate!.amount);
+  return rates.length ? Math.min(...rates) : null;
 }
 
 /** Units a visitor can ask for today — drives the index count and the CTA. */

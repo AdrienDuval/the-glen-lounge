@@ -1,6 +1,6 @@
 "use client";
 
-import { useId } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import {
   FURNISHING_FILTERS,
   KIND_FILTERS,
@@ -55,6 +55,19 @@ export default function StudioFilters({
   const t = dict.studios.filters;
   const uid = useId();
   const counts = filterCounts(filter);
+  /* A one-shot sweep on the hairline below the chips, so a click that is
+     instant (the list is already in memory) still has a "we heard you"
+     rather than a silent swap. Skipped on the first paint — nothing has
+     been asked for yet. */
+  const [beat, setBeat] = useState(0);
+  const first = useRef(true);
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    setBeat((n) => n + 1);
+  }, [filter]);
 
   /* One row builder for both groups: they differ only in which key of the
      filter they set and where their labels come from. Written once so the two
@@ -131,6 +144,11 @@ export default function StudioFilters({
       <p className={styles.results} role="status" aria-live="polite">
         {(shown === 1 ? t.resultsOne : t.results).replace("{n}", String(shown))}
       </p>
+      <span
+        key={beat}
+        className={`${styles.ack} ${beat > 0 ? styles.ackRun : ""}`}
+        aria-hidden="true"
+      />
     </div>
   );
 }

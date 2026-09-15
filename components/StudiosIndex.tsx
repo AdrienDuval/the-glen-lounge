@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { PHOTOS } from "@/lib/photos";
 import {
   availableStudios,
+  cheapestNightly,
   filterStudios,
+  formatPrice,
   NO_FILTER,
   STUDIOS,
   STUDIO_HERO,
@@ -38,10 +40,22 @@ import styles from "./StudiosIndex.module.css";
  * why, and note that the venue still HAS eleven units; we can only describe the
  * ones we hold photographs and answers for.
  *
- * The tally is therefore labelled « studios présentés » rather than « studios »,
- * and the heading no longer counts them: the lede states the building's eleven
- * as a fact about the property, and the grid shows what we can stand behind.
- * An accurate small number beats eleven listings a visitor cannot rely on.
+ * The tally is therefore labelled « logements présentés » rather than
+ * « logements », and the heading does not count them: the grid shows what we
+ * can stand behind. An accurate small number beats eleven listings a visitor
+ * cannot rely on.
+ *
+ * ── THE BANNER, 2026-09-11 ──────────────────────────────────────────────────
+ * The lede used to state the building's eleven as a fact about the property.
+ * It cannot any more: `A40` and `ST 003` are on no inventory we hold, so the
+ * building has at least thirteen, « onze » understates it and « treize » would
+ * be a guess (FACTS.md, open question 1.D). The copy now claims no total.
+ *
+ * The tally lost its duplicate at the same time. It printed « 8 présentés »
+ * beside « 8 disponibles aujourd’hui » — every unit on the list is « libre »,
+ * so the second figure was the first one again. Availability is now rendered
+ * only when it differs, and the freed slot carries the entry rate, which is a
+ * number a visitor is actually looking for.
  *
  * ── THE FILTER, 2026-09-07 ──────────────────────────────────────────────────
  * The grid now lists TWO PRODUCTS — seven furnished units let by the night and
@@ -67,6 +81,9 @@ export default function StudiosIndex({
      where it used to be a stock European interior that needed a caption. */
   const hero = PHOTOS[STUDIO_HERO];
   const free = availableStudios().length;
+  /* Nightly units only — see `cheapestNightly`. Null when nothing is let by
+     the night, and then the stat is simply absent. */
+  const fromRate = formatPrice(cheapestNightly());
   const t = dict.studios;
 
   const [filter, setFilter] = useState<StudioFilter>(NO_FILTER);
@@ -164,7 +181,7 @@ export default function StudiosIndex({
       <div className={styles.heroWrap}>
         <div ref={heroRef} className={styles.hero}>
           <div className={styles.heroMedia}>
-            <Image
+            <FadeImage
               src={hero.src}
               alt={hero.alt[lang]}
               fill
@@ -198,12 +215,34 @@ export default function StudiosIndex({
                   {STUDIOS.length}
                 </dd>
               </div>
-              <div className={styles.stat}>
-                <dt className={`label ${styles.statLabel}`}>{t.availableNow}</dt>
-                <dd className={styles.statNum} data-value={free}>
-                  {free}
-                </dd>
-              </div>
+
+              {/* ⚠️ ONLY WHEN IT SAYS SOMETHING THE FIGURE ABOVE DOES NOT.
+                  Every unit on the list is « libre », so this printed 8 beside
+                  8 — two thirds of the tally was one number twice, which is
+                  what made the banner read as generated. It comes back on its
+                  own the day the client marks a unit occupied, which is the
+                  only day it carries information. */}
+              {free < STUDIOS.length && (
+                <div className={styles.stat}>
+                  <dt className={`label ${styles.statLabel}`}>
+                    {t.availableNow}
+                  </dt>
+                  <dd className={styles.statNum} data-value={free}>
+                    {free}
+                  </dd>
+                </div>
+              )}
+
+              {/* The entry price, straight off the sheets. `statText` and not
+                  `statNum`: counting up to 30 000 in 1.3s is a slot machine,
+                  and the figure carries « FCFA » inside it. */}
+              {fromRate && (
+                <div className={styles.stat}>
+                  <dt className={`label ${styles.statLabel}`}>{t.rateFrom}</dt>
+                  <dd className={styles.statText}>{fromRate}</dd>
+                </div>
+              )}
+
               <div className={styles.stat}>
                 <dt className={`label ${styles.statLabel}`}>
                   {t.amenities.access24}
@@ -248,6 +287,7 @@ export default function StudiosIndex({
         {featured ? (
           <div className={styles.grid}>
             <StudioCard
+              key={featured.slug}
               studio={featured}
               variant="feature"
               sizes={INDEX_FEATURE_SIZES}

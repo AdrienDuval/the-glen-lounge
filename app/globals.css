@@ -198,15 +198,17 @@ textarea {
 }
 
 /* ---------- image frame ----------
-   Sections animate `.frame` (clip-path) and its child (scale) with GSAP. */
+   Sections animate `.frame` (clip-path) and its child (scale) with GSAP.
+   Descendant, not child: photographs now sit inside FadeImage's wait wrap, so
+   a child combinator would miss them and leave the frame unfilled. */
 .frame {
   position: relative;
   overflow: hidden;
   background: var(--ink-2);
 }
 
-.frame > img,
-.frame > video {
+.frame img,
+.frame video {
   width: 100%;
   height: 100%;
   object-fit: cover;

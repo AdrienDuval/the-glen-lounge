@@ -1,0 +1,86 @@
+/* In-place wait for a photograph or a clip.
+   A gold hairline, the same one the preloader and the luminous rule already
+   use — not a spinner. The plate sits on top of the media and fades once the
+   file has decoded, so a slow fetch is a dim marble field rather than a
+   blank hole. */
+
+.fill {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
+.box {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Shrink-wraps artwork that must stay at its own ratio — event flyers in the
+   banner and on the event page. Height comes from the parent; width comes
+   from the image. */
+.intrinsic {
+  position: relative;
+  display: block;
+  height: 100%;
+  width: max-content;
+  max-width: 100%;
+}
+
+.wait {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--ink-2);
+  opacity: 1;
+  transition: opacity 0.45s var(--ease-out);
+}
+
+.waitOff {
+  opacity: 0;
+}
+
+.hair {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ember) 34%,
+    var(--gold) 46%,
+    var(--gold-hi) 52%,
+    var(--gold) 58%,
+    transparent
+  );
+  box-shadow: 0 0 16px 1px rgba(232, 188, 62, 0.45);
+  animation: sweep 1.8s var(--ease-out) infinite;
+}
+
+@keyframes sweep {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hair {
+    animation: none;
+    /* A still hairline, not a sweep that the global kill switch would
+       collapse to a single-frame flash. */
+    transform: none;
+    opacity: 0.55;
+  }
+
+  .wait {
+    transition: none;
+  }
+}

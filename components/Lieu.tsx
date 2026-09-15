@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type CSSProperties } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import { gsap, SplitText, useGSAP } from "@/lib/gsap";
 import { PHOTOS, shippable, type PhotoId } from "@/lib/photos";
 import type { Lang } from "@/lib/i18n/config";
@@ -249,7 +249,7 @@ export default function Lieu({ lang, dict }: { lang: Lang; dict: Dict }) {
                 style={{ "--card-ar": `${photo.w} / ${photo.h}` } as CSSProperties}
               >
                 <div className={styles.para}>
-                  <Image
+                  <FadeImage
                     src={photo.src}
                     alt={photo.alt[lang]}
                     fill

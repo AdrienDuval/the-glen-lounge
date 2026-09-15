@@ -271,11 +271,16 @@ use the current column, and don't resurrect the old names.
 
   **Four still undocumented:** `B15-A` · `A10-1-A` · `SS130-A` · `SS110-A`.
 
-  So the site says « onze studios » in the banner and the studios lede (true of
-  the building, sourced here) while the index grid shows **seven**
-  (« logements présentés »). That gap is deliberate and documented in both files —
-  do not "fix" it by re-inventing the four rows. **The codes above are the only
-  record of them; restore a row from a client sheet, never from git history.**
+  So the site used to say « onze studios » in the banner and the studios lede
+  (true of the building as of the August list) while the index grid showed the
+  documented ones (« logements présentés »). ⚠️ **THE BANNER NO LONGER STATES A
+  TOTAL AT ALL, since 2026-09-11** — eleven is now understated (see the block
+  below) and thirteen is a guess, so the copy speaks only about the units the
+  page can show. The gap it was covering is still deliberate: do not "fix" it by
+  re-inventing the four rows, and **do not put a total back until the client
+  sends the full inventory.** **The codes above are the only record of the
+  undocumented units; restore a row from a client sheet, never from git
+  history.**
 
   ⚠️ **Seven listings, but not seven separate spaces.** `A10` is the apartment that
   `A10-2` and `A10-3` are bedrooms inside, so the same floor area is now offered
@@ -818,20 +823,110 @@ use the current column, and don't resurrect the old names.
 
   ⚠️ **AND THE OTHER FOLDER, « 003 », IS NOT ONE UNIT — SO ST 003 HAS NO
   ATTRIBUTABLE MEDIA YET.** Its 22 frames contain **two different salons**, and
-  they are not one room at two moments:
-  · frames `20.35.42` / `20.35.45 (1)` — flat brass drum chandelier with a short
-    crystal skirt, angular multi-plane ceiling, a timber door, a black-framed
-    window and a curtain rail on the facing wall;
-  · frames `20.35.44 (2)` / `20.35.46 (1)` / `20.35.46 (2)` — a tiered gold
-    crystal basket fixture, a large flat ceiling plane with a stepped border,
-    glazed double doors onto a balcony.
+  they are not one room at two moments. Re-examined at full resolution
+  2026-09-09, which **confirmed the finding and changed the reasoning for it**:
+
+  · **Salon 1** — frames `20.35.42` and `20.35.45 (1)`, which are one room from
+    two camera positions a metre apart. A **dark walnut door** stands on the
+    left wall, a blush-plastered return beyond it, glazed double doors in the
+    middle distance, and a **black-framed window with a curtain rail on the
+    facing wall**. Split AC above the door. Angular multi-plane ceiling.
+  · **Salon 2** — frames `20.35.44 (2)`, `20.35.46 (2)` and `20.35.46 (1)`. The
+    first two are one view; the third is **the same room turned the other way**,
+    facing **two dark timber doors side by side**. Here the **glazed balcony door
+    is on the LEFT, with daylight and a neighbouring block visible through it**,
+    a black-framed window immediately beside it, and a doorway opening at the
+    right. Stepped rectangular ceiling with a coffered detail.
+
+  ⚠️ **THE DISCRIMINATOR IS THE LEFT-HAND WALL, NOT THE CHANDELIER.** This entry
+  previously separated the two rooms on their light fittings — « flat brass drum
+  with a short crystal skirt » against « tiered gold crystal basket ». At full
+  resolution **both are a gold band over a crystal skirt** and differ only in
+  how tiered the skirt is, which is not a difference anyone can act on. What is
+  unmistakable is the wall the camera faces: **a dark timber door in Salon 1, a
+  glazed balcony door with a view out in Salon 2.** Use that.
+
   Two reception rooms cannot both belong to a **55 m² one-bedroom** studio, and
-  the set also holds two full shower rooms, four kitchen angles, three fitted
-  wardrobes and a corridor with three doors. So « 003 » is a batch of the
-  unfurnished stock, not a unit folder — most likely ST 003 **plus at least one
-  other unit**. ⚠️ **Do not wire it up as ST 003's gallery.** Ask her which
-  frames are ST 003; that is the only thing blocking that unit, since its sheet
-  is complete.
+  the set also holds two full shower rooms, several kitchen angles across what
+  appear to be **two different worktops** (a bronze-brown one in `20.35.44`, a
+  black one in `20.35.48 (1)`), three fitted wardrobes and a corridor with
+  three doors. ⚠️ Note also that the joinery comes in **two finishes** — dark
+  walnut in both salons, **light orange varnish** in the corridor frame
+  `20.35.45` and the wardrobes — which is a third strand pointing the same way.
+  So « 003 » is a batch of the unfurnished stock, not a unit folder — most
+  likely ST 003 **plus at least one other unit**.
+
+  ⚠️ **Do not wire it up as ST 003's gallery.** Partitioning 22 frames between
+  two units by eye is exactly the inference this file exists to forbid: it would
+  put a confidently-captioned gallery of *someone else's rooms* under a real
+  unit code.
+
+  ── ALL 22 FRAMES, ROOM BY ROOM (2026-09-11) ──────────────────────────────────
+  Re-examined a third time because the batch had been copied into
+  `public/photos/studios/003/` as though it were ready to publish. It is not,
+  and the inventory is short enough to write out:
+
+  | Room | Frames | Notes |
+  | --- | --- | --- |
+  | **Salon 1** | `42`, `45 (1)` | Angular multi-plane ceiling · brass drum light with a short crystal skirt · black-framed **interior** window on a grey wall · dark tinted glazed double doors · walnut door on a blush wall |
+  | **Salon 2** | `44 (2)`, `46 (1)`, `46 (2)` | Stepped coffered ceiling · tiered gold crystal basket light · **glazed balcony door, daylight, a neighbouring block visible** · wall sconce · two walnut doors side by side |
+  | Chambre | `43 (1)`, `47 (1)` | Reads as **one** bedroom from two positions: same oval ceiling light, same split AC, same black-framed window with green-tinted glazing |
+  | Cuisine | `41 (2)`, `42 (1)`, `43`, `43 (2)`, `44`, `47`, `48`, `48 (1)` | Cream gloss units, ink-swirl marble walls, black-framed window over a twin sink, white aluminium door to a hall |
+  | Douche | `41 (1)`, `44 (1)` | Same layout both times — curved black-framed cubicle left, WC centre, basin right, water heater over the WC, window with a city view |
+  | Couloir | `45`, `46` | Three light-varnished doors · a black-framed interior window |
+  | Placards | `41`, `47 (2)`, `48 (2)` | Fitted wardrobes, light-varnish joinery |
+
+  ⚠️ **THE TWO-SALON FINDING IS THE ONLY STRAND THAT SURVIVES THIS PASS, and it
+  survives outright.** The ceilings differ categorically and so do the light
+  fittings and the facing walls; these are two reception rooms, and a **55 m²
+  one-bedroom** cannot hold both. But the corroborating strands this file
+  recorded are now **withdrawn as artefacts of exposure**, not evidence:
+  · « two worktops » — the bronze-brown of `44` and the near-black of `48 (1)`
+    are the same dark gloss worktop under warm room light and under the ceiling
+    spots, beneath the same curved dropped ceiling and the same splashback.
+  · « two shower rooms » — `41 (1)` and `44 (1)` are the same fittings in the
+    same positions; only the door framing the shot differs.
+  · « two joinery finishes » — dark walnut appears in **both** salons and light
+    varnish in the corridor and wardrobes of the same batch, so the finish does
+    not sort the frames by unit. Do not use it as a discriminator.
+
+  ⚠️ **AND THERE IS ONLY ONE BEDROOM IN THE WHOLE BATCH.** That does not resolve
+  anything on its own — ST 003 has one, and the other unit's bedroom may simply
+  not have been shot — but it rules out reading the batch as « ST 003 plus a
+  three-bedroom flat photographed room for room ».
+
+  ✅ **ELIMINATION AGAINST A40 WAS TRIED AND DOES NOT WORK.** A40's own set is
+  independently attributed (the « A / 40 » enamel plate), so if one of these
+  salons were A40's the other would be ST 003's by elimination. It is not:
+  A40's salon has a structural column, full-height daylit windows, no chandelier
+  and a **warm gold-brown** marble floor, against the grey-white marble in every
+  003 frame. Neither salon here is A40's.
+
+  ⚠️ **THE RAW BATCH WAS SITTING IN `public/`** — 22 files, byte-identical to
+  `assets-raw/whatsapp/non-meuble-2026-09-02/`, under their WhatsApp names.
+  Nothing referenced them, so nothing rendered, but anything under `public/` is
+  web-servable once deployed, which is precisely what the `consent` gate exists
+  to prevent. ✅ Removed 2026-09-11; the originals are safe in `assets-raw/`.
+
+  ✅ **ST 003 IS NOW LISTED — ON ITS SHEET, WITH NO PHOTOGRAPHS (2026-09-11).**
+  The row is in `lib/apartments.ts` (`ST003_SPEC`) and the unit page and index
+  card both render a « photos à venir » plate where the gallery would be. This
+  is the **first and only** row on the site without media, and it is a
+  deliberate exception with a narrow justification: her sheet is complete, so
+  nothing on the page is invented, and no frame is shown, so nothing is
+  misattributed. The two failures the media bar was written against are both
+  absent. ⚠️ It does **not** license listing a unit whose *sheet* is
+  incomplete — that is the worse gap, and that bar has not moved. The moment
+  she answers « 1 » or « 2 », fill `photos` from the confirmed salon's frames
+  and the exception closes.
+
+  ✅ **THE QUESTION IS NOW BINARY, AND THERE IS A CARD TO SEND.**
+  `assets-raw/questions/st003-quel-salon.jpg` is a phone-shaped image holding
+  the two salons stacked and numbered, captioned in French with the wall
+  discriminator above, and asking « Le ST 003 (55 m², 1 chambre), c'est le 1 ou
+  le 2 ? Et l'autre, c'est quel code ? ». She can answer with one character.
+  That replaces « which of the 22 frames are ST 003's? », which asked her to do
+  filing and had gone unanswered.
 
   ✅ **AND THEY BREAK THE 1080px CEILING TOO — at 1280×960, all 55.** Not
   ST005's 2000px, but above the ≤1080px every WhatsApp set before it was capped
@@ -844,7 +939,10 @@ use the current column, and don't resurrect the old names.
   `SS130-A` · `SS140-A` · `SS101-A` · `SS110-A`. **`A40` and `ST 003` appear
   nowhere in it**, and `A40` does not fit the `A10-*` pattern either. So the
   venue has **at least thirteen** units, not eleven, and the banner and studios
-  lede that say « onze studios » are now **understated as well as sourced**.
+  lede that said « onze studios » were **understated as well as sourced**.
+  ✅ **Resolved in the copy 2026-09-11 by removing the claim, not by changing
+  it:** the apartments banner now states no building total. Nothing is lost that
+  was sourced, and nothing is asserted that is not.
   ⚠️ Do not simply change the number: we do not know whether these two were
   omitted, are new stock, or belong to a block the August list did not cover —
   and « treize » would be a guess in the other direction. **Ask for the
@@ -1031,20 +1129,25 @@ crowd shots at usable resolution.
 
 Ordered by how much they block the build.
 
-1. **Appartements** — ✅ eleven units with codes, and **seven now documented end to
-   end and fully specified** (SS101 from its sheet; SS140-A confirmed identical,
-   rate included; A10-2 and A10-3 from one shared sheet; B35 and A10 from their
-   own). No invented data remains in `lib/apartments.ts` and all seven pages list
-   completely — but **four of the eleven units are still invisible to visitors**,
+1. **Appartements** — ✅ eleven units with codes, and **nine now listed and fully
+   specified** (SS101 from its sheet; SS140-A confirmed identical, rate included;
+   A10-2 and A10-3 from one shared sheet; B35, A10, ST005, A40 and ST 003 from
+   their own). No invented data remains in `lib/apartments.ts`; eight of the nine
+   carry their own photographs and ST 003 says « photos à venir » in as many
+   words — but **four of the eleven units are still invisible to visitors**,
    which is the cost of that honesty and the reason this stays first:
 
    ⚠️ **AND FOUR NEW ASKS JUMP THE QUEUE, 2026-09-07** — from the `A40` and
-   `ST 003` sheets of 2026-09-05. These block two complete sheets and 55
-   photographs from being listed at all, so they outrank everything numbered
-   below. Full detail in the « NON MEUBLÉ » block in Services → Appartements.
-   - **A. Which of the 22 « 003 » frames are ST 003's?** That batch contains two
-     different salons, so it is not one unit and cannot be published as one. Her
-     sheet for ST 003 is complete; this is the _only_ thing blocking it.
+   `ST 003` sheets of 2026-09-05. Full detail in the « NON MEUBLÉ » block in
+   Services → Appartements.
+   - **A. Is ST 003 salon 1 or salon 2? — ✅ now a one-character question.**
+     Send `assets-raw/questions/st003-quel-salon.jpg` (built 2026-09-09). The
+     batch contains two different salons, so it is not one unit and cannot be
+     published as one. ⚠️ **This no longer blocks the LISTING — it blocks the
+     PHOTOGRAPHS.** ST 003 went live 2026-09-11 on its sheet alone, with a
+     « photos à venir » plate in place of the gallery (see the « NON MEUBLÉ »
+     block). Her answer is what turns that plate back into rooms, and it is
+     still the only thing standing between us and **22 usable frames**.
    - **B. Does she want unfurnished monthly lets on the site at all** — and
      shown beside the nightly furnished units, or kept apart? Everything
      published says « meublé haut standing »; these two are empty shells at

@@ -58,6 +58,49 @@
   overflow: hidden;
 }
 
+/* ---- the « photos à venir » band ----
+   One unit renders this: ST 003, whose sheet is complete and whose frames
+   cannot be attributed to it (see lib/apartments.ts). It keeps the carousel's
+   ratio and ground so the page's composition is unchanged — the masthead still
+   lands on a band of the right height — and states plainly that the
+   photographs are missing rather than showing another unit's rooms.
+
+   `--ink-2` where the carousel sits on `--ink`: the frame has no photograph to
+   separate it from the masthead below, so the plate is lifted a step instead. */
+.heroEmpty {
+  background: var(--ink-2);
+}
+
+.plate {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  /* Room for the masthead, which lies over the foot of this band from 900px. */
+  padding: 2rem var(--gut) clamp(4rem, 14vh, 9rem);
+  text-align: center;
+  background: radial-gradient(
+    100% 70% at 50% 40%,
+    rgba(201, 162, 77, 0.1),
+    transparent 65%
+  );
+}
+
+.plateText {
+  color: var(--gold);
+}
+
+.plateNote {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
 .container {
   display: flex;
   height: 100%;
@@ -251,6 +294,7 @@
    alone on a plate rather than the full badge. */
 .thumbPlay {
   position: absolute;
+  z-index: 2;
   right: 0.3rem;
   bottom: 0.3rem;
   display: inline-flex;

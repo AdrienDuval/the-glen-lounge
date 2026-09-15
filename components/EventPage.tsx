@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import Link from "next/link";
 import { PHOTOS } from "@/lib/photos";
 import { formatEventDate, type GlenEvent } from "@/lib/events";
@@ -49,11 +49,12 @@ export default function EventPage({
         {event.layout === "poster" ? (
           /* Artwork shown whole, not cropped — see the note in lib/events.ts. */
           <div className={styles.poster}>
-            <Image
+            <FadeImage
               src={photo.src}
               alt={photo.alt[lang]}
               width={photo.w}
               height={photo.h}
+              layout="intrinsic"
               priority
               className={styles.posterImg}
               sizes="(max-width: 900px) 70vw, 32vw"
@@ -62,7 +63,7 @@ export default function EventPage({
           </div>
         ) : (
           <div className={styles.media}>
-            <Image
+            <FadeImage
               src={photo.src}
               alt={photo.alt[lang]}
               fill

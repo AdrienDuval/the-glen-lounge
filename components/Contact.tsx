@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import Link from "next/link";
 import { PHOTOS } from "@/lib/photos";
 import { href } from "@/lib/routes";
@@ -110,7 +110,7 @@ export default function Contact({ lang, dict }: { lang: Lang; dict: Dict }) {
         </div>
 
         <div className={`frame ${styles.photo}`}>
-          <Image
+          <FadeImage
             src={photo.src}
             alt={photo.alt[lang]}
             fill

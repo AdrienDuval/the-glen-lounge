@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import useEmblaCarousel from "embla-carousel-react";
 import { PHOTOS, shippable } from "@/lib/photos";
 import type { PhotoId } from "@/lib/photos";
@@ -168,7 +168,7 @@ export default function Ecrans({ lang, dict }: { lang: Lang; dict: Dict }) {
                     style={{ aspectRatio: `${flyer.w} / ${flyer.h}` }}
                   >
                     <div className={`frame ${styles.cardFrame}`}>
-                      <Image
+                      <FadeImage
                         src={flyer.src}
                         alt={flyer.alt[lang]}
                         fill

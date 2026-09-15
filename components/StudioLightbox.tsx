@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef } from "react";
-import Image from "next/image";
+import FadeImage, { FadeVideo } from "./FadeImage";
 import { PHOTOS } from "@/lib/photos";
 import type { Slide } from "@/lib/apartments";
 import { lockScroll, unlockScroll } from "@/lib/scrollLock";
@@ -152,7 +152,7 @@ export default function StudioLightbox({
           }`}
         >
           {slide.kind === "photo" ? (
-            <Image
+            <FadeImage
               src={photo.src}
               alt={photo.alt[lang]}
               fill
@@ -172,7 +172,7 @@ export default function StudioLightbox({
                would play in one browser and sit dead in another. These are
                phone walkthroughs — the audio is uncontrolled room noise, not
                narration — and `controls` is right there to unmute. */
-            <video
+            <FadeVideo
               key={slide.src}
               className={styles.video}
               src={slide.src}

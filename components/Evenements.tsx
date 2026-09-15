@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import { PHOTOS } from "@/lib/photos";
 import { site } from "@/lib/site";
 import type { Lang } from "@/lib/i18n/config";
@@ -30,7 +30,7 @@ export default function Evenements({ lang, dict }: { lang: Lang; dict: Dict }) {
     >
       <div className={styles.grid}>
         <div className={`frame ${styles.media}`}>
-          <Image
+          <FadeImage
             src={photo.src}
             alt={photo.alt[lang]}
             fill

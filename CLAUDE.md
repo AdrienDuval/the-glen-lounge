@@ -20,6 +20,10 @@ plain CSS with custom-property tokens (no Tailwind, no CSS-in-JS library).
 - Photography goes through `lib/photos.ts`, never a raw path. Each entry
   carries a `consent` field; render lists through `shippable()` so an
   unconsented image cannot reach a page by accident.
+- Photographs and clips on the page render through `FadeImage` /
+  `FadeVideo`, not a raw `next/image` in a frame. A slow fetch then shows
+  the gold hairline wait instead of an empty hole. The low-res blur copy in
+  `StudioGallery` is the one exception — it *is* the placeholder.
 - The site is bilingual, French first. There is deliberately **no
   `app/layout.tsx`** — the root layout is `app/[lang]/layout.tsx` so
   `<html lang>` can vary per locale. That is also why

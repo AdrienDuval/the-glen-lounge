@@ -1,4 +1,4 @@
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import Link from "next/link";
 import { PHOTOS } from "@/lib/photos";
 import {
@@ -12,6 +12,7 @@ import {
 import type { Lang } from "@/lib/i18n/config";
 import type { Dict } from "@/lib/i18n";
 import AmenityIcon from "./AmenityIcon";
+import Monogram from "./Monogram";
 import styles from "./StudioCard.module.css";
 
 /**
@@ -93,9 +94,12 @@ export default function StudioCard({
   showFloor?: boolean;
 }) {
   const t = dict.studios;
-  /* Its own first photograph. No fallback: an undocumented unit is not listed at
-     all, so `photos` is never empty. */
-  const shot = PHOTOS[studio.photos[0]];
+  /* Its own first photograph, or nothing at all.
+     ⚠️ STILL NO FALLBACK, and that is the point: `undefined` here renders the
+     « photos à venir » plate below, never another unit's frame and never the
+     stock set this project deleted in August. ST 003 is the row that takes this
+     branch — complete sheet, unattributable media. See `ST003_SPEC`. */
+  const shot = studio.photos.length ? PHOTOS[studio.photos[0]] : null;
   /* Amount and period together — the card is one of the four surfaces that
      used to print a bare number beside a hard-coded « la nuit ». */
   const rate = rateLabel(studio, {
@@ -140,14 +144,26 @@ export default function StudioCard({
       data-reveal
     >
       <div className={`frame ${styles.media}`}>
-        <Image
-          src={shot.src}
-          alt={shot.alt[lang]}
-          fill
-          sizes={sizes}
-          quality={72}
-          className={styles.img}
-        />
+        {shot ? (
+          <FadeImage
+            src={shot.src}
+            alt={shot.alt[lang]}
+            fill
+            sizes={sizes}
+            quality={72}
+            className={styles.img}
+          />
+        ) : (
+          /* The plate. Deliberately NOT a grey box with a camera glyph — it
+             carries the house monogram on the page's own ink, so an
+             unphotographed unit reads as a listing the venue has not shot yet
+             rather than as a broken card. The badges below still render over
+             it, so the visitor gets the status and « Non meublé » either way. */
+          <span className={styles.plate}>
+            <Monogram size={variant === "feature" ? 84 : 56} glow={0.3} />
+            <span className={`label ${styles.plateText}`}>{t.photosSoon}</span>
+          </span>
+        )}
         <span className={styles.scrim} aria-hidden="true" />
         {/* No badge at all when availability was never given — better a card
             that says nothing about it than one that guesses. */}

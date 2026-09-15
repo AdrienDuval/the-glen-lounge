@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import Link from "next/link";
 import { isCleared, PHOTOS, shippable } from "@/lib/photos";
 import { href } from "@/lib/routes";
@@ -95,7 +95,7 @@ export default function Appartements({
         <div className={styles.stack}>
           {building && (
             <div className={`frame ${styles.media}`}>
-              <Image
+              <FadeImage
                 src={building.src}
                 alt={building.alt[lang]}
                 fill
@@ -111,7 +111,7 @@ export default function Appartements({
                 const room = PHOTOS[id];
                 return (
                   <div key={id} className={`frame ${styles.thumb}`}>
-                    <Image
+                    <FadeImage
                       src={room.src}
                       alt={room.alt[lang]}
                       fill

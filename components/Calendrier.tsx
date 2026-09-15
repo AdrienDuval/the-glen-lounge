@@ -8,7 +8,7 @@ import {
   useState,
   type MouseEvent as ReactMouseEvent,
 } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import Link from "next/link";
 import { gsap, useGSAP } from "@/lib/gsap";
 import {
@@ -416,7 +416,7 @@ export default function Calendrier({
                   }`}
                   data-pop-item
                 >
-                  <Image
+                  <FadeImage
                     src={popPhoto.src}
                     alt=""
                     width={popPhoto.w}

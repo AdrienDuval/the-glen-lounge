@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import FadeImage from "./FadeImage";
 import Link from "next/link";
 import { PHOTOS, type PhotoId } from "@/lib/photos";
 import { href, type RouteId } from "@/lib/routes";
@@ -60,7 +60,7 @@ export default function Trois({ lang, dict }: { lang: Lang; dict: Dict }) {
           const body = (
             <>
               <div className={`frame ${styles.media}`}>
-                <Image
+                <FadeImage
                   src={p.src}
                   alt={p.alt[lang]}
                   fill

@@ -97,6 +97,49 @@
   font-size: 0.875rem;
 }
 
+/* Full-row hairline. Quiet at rest; on a filter change it remounts and the
+   gold sweep runs once — the same motion as `.rule.lit`, so a click that
+   cannot take time still has a reply. */
+.ack {
+  flex: 1 0 100%;
+  position: relative;
+  height: 1px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.ackRun::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--ember) 34%,
+    var(--gold) 46%,
+    var(--gold-hi) 52%,
+    var(--gold) 58%,
+    transparent
+  );
+  box-shadow: 0 0 12px 1px rgba(232, 188, 62, 0.45);
+  animation: ack 1.1s var(--ease-out) both;
+}
+
+@keyframes ack {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ackRun::after {
+    animation: none;
+  }
+}
+
 /* ══ PHONE ═══════════════════════════════════════════════════════════════════
    Measured at 390×844, 2026-09-07, and three things were wrong:
 

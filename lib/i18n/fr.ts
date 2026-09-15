@@ -247,21 +247,62 @@ export const fr = {
      pages is invented any more, so there is nothing to warn about — do not
      reintroduce a notice; if a unit cannot be documented, leave it unlisted.
 
-     ⚠️ The title deliberately does NOT count the studios. The venue has eleven
-     (FACTS.md); the index lists only the ones we hold photographs and answers
-     for. « Onze studios meublés » as a heading over two cards read as a broken
-     page, and changing it to « Deux » would undersell the building — so the
-     eleven is stated in the lede as a fact about the property, and the tally
-     below is labelled « studios présentés ». */
+     ⚠️ NO BUILDING TOTAL IN THIS COPY, and that is a correction, not an
+     omission. The banner said « Onze logements dans l’immeuble » on the
+     strength of the 2026-08-09 inventory. Two sheets then arrived for units
+     that are on no list we hold (`A40`, `ST 003`), so the building has AT LEAST
+     thirteen and « onze » is now wrong in the understating direction. « Treize »
+     would be a guess in the other one (FACTS.md, open question 1.D), so the
+     copy stops asserting a total at all and speaks only about the units the
+     page can actually show. Put a total back when the client sends the full
+     inventory, not before.
+
+     ⚠️ The title does NOT count anything either, for the older reason: the tally
+     below is labelled « logements présentés », and a heading that counts would
+     have to pick between the building's number and the grid's. */
   studios: {
     eyebrow: "Appartements",
-    /* « Logements » and not « studios » since 2026-08-12: the list is now mixed
-       — two whole studios and two single rooms let inside apartment A10 — and
-       a heading that calls all four studios contradicts the « Chambre dans
-       l'appartement A10 » printed on two of the cards below it. */
-    title: "Logements meublés, sur place",
-    lede: "Glen Appartement — meublé haut standing, accès 24h/24. Confort, sécurité, intimité, à deux pas de la salle. Onze logements dans l’immeuble. Ceux que nous pouvons vous montrer en détail — appartements entiers, studios et chambres seules — sont ci-dessous.",
+    /* « Logements » and not « studios » since 2026-08-12: the list is mixed —
+       whole apartments, studios, and single rooms let inside apartment A10 —
+       and a heading that calls them all studios contradicts the « Chambre dans
+       l’appartement A10 » printed on two of the cards below it.
+
+       « meublés » came out of the title on 2026-09-11: A40 is « appartement non
+       meublé » and is one of the eight listed, so the word was contradicted by
+       a card on the same page. */
+    title: "Se loger dans l’immeuble",
+    /* ── REWRITTEN 2026-09-11 ─────────────────────────────────────────────────
+       The old lede was four claims deep in two sentences and read as machine
+       copy: « meublé haut standing » and « Confort, sécurité, intimité » are the
+       client's own marketing words, but stacked behind two em dashes they landed
+       as an abstract-noun pile, and « Ceux que nous pouvons vous montrer en
+       détail … sont ci-dessous » explained the page's editorial limits to a
+       visitor who only wanted to know where the rooms are.
+
+       What replaces it says the concrete things instead, all of them sourced:
+       the apartments are in the SAME building as the restaurant (confirmed
+       2026-08-11), the building services are the client's own sheet words, and
+       the two products are named apart — furnished by the night, A40 by the
+       month. No figure is spelt out in the sentence; the tally underneath
+       carries the numbers, which is what it is for.
+
+       ⚠️ AND NO COUNT IN THE LAST CLAUSE EITHER — it read « Un appartement non
+       meublé » for one day, until ST 003 was listed on 2026-09-11 and made it
+       two. Both clauses are now plural and count-free, so adding an unfurnished
+       unit cannot leave a stale number in the banner.
+
+       ⚠️ Two full stops and no semicolon between the last two clauses. The
+       semicolon this shipped with needs a thin no-break space before it in
+       French, and at 46ch the line broke exactly there — the banner rendered a
+       « ; » alone at the head of a line. A full stop cannot do that. */
+    lede: "Glen Appartement occupe le même immeuble que le restaurant : gardien, groupe électrogène, réserve d’eau, ménage compris. Les logements meublés se louent à la nuit. Les logements non meublés se louent au mois.",
     count: "logements présentés",
+    /* Sits under the figure, so it reads « 30 000 FCFA / la nuit, à partir de ».
+       The qualifier comes last for the same reason it does in « disponibles
+       aujourd’hui »: the unit of time is the useful half. */
+    rateFrom: "la nuit, à partir de",
+    /* ⚠️ Shown only when it is not simply the count above repeated — every unit
+       is « libre » today, so the banner printed 8 beside 8. See StudiosIndex. */
     availableNow: "disponibles aujourd’hui",
     status: {
       available: "Disponible",
@@ -468,6 +509,22 @@ export const fr = {
      * this one has to survive being read at badge size.
      */
     unfurnishedBadge: "Non meublé",
+    /**
+     * What stands where the photographs would be, on a unit that has none.
+     *
+     * ⚠️ ONE ROW USES THIS — ST 003, whose sheet is complete and whose 22
+     * frames belong to two different units (FACTS.md). The plate exists so that
+     * row can be listed truthfully instead of being invisible or, far worse,
+     * illustrated with somebody else's salon.
+     *
+     * The note names the rooms from her sheet, so the plate still tells a
+     * visitor what the place IS while admitting it cannot show it. « bientôt »
+     * is not a date and is not meant to read as one: we hold the photographs,
+     * we do not yet know which are this unit's.
+     */
+    photosSoon: "Photos à venir",
+    photosSoonNote:
+      "Nous n’avons pas encore les photographies de ce logement. Appelez-nous pour le visiter.",
     /**
      * The index filter — two groups, composing. See the FILTERING block in
      * lib/apartments.ts for why there are two axes and not one.
