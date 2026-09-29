@@ -88,6 +88,21 @@ export const site = {
     tiktok: {
       url: "https://www.tiktok.com/@the.glen.lounge",
       handle: "@the.glen.lounge",
+      /**
+       * ✅ Sent directly by the client, 2026-09-26, as a real example post to
+       * showcase — a TikTok photo-mode post (`vt.tiktok.com/ZS44Bw41T/`
+       * resolves here). `videoId` is what `TikTokEmbed` needs; TikTok's embed
+       * widget keys off the numeric id, not the `/photo/` vs `/video/`
+       * segment in the URL.
+       *
+       * ⚠️ NOT RENDERED ANYWHERE as of 2026-09-28 — the embeds are parked, see
+       * the seam note in `Social.tsx`. Kept because it was verified working:
+       * `TikTokEmbed` did render this post (the Bal des Vétérans flyer).
+       */
+      samplePost: {
+        url: "https://www.tiktok.com/@the.glen.lounge/photo/7671023808974703890",
+        videoId: "7671023808974703890",
+      },
     },
     instagram: {
       url: "https://www.instagram.com/the_glen_lounge/",
@@ -96,6 +111,17 @@ export const site = {
     facebook: {
       url: "https://www.facebook.com/people/The-Glen-Lounge/61580468213620/",
       handle: "The Glen Lounge",
+      /**
+       * ⚠️ BROKEN, AND NOT RENDERED ANYWHERE — sent by the client 2026-09-26,
+       * but Meta's own video plugin answers "Vidéo non disponible" for it: the
+       * link resolves to a story id, and stories are not embeddable. Kept as
+       * the record of what was tried. **A `/videos/<id>` permalink off the
+       * Page is still an open ask** — do not re-test this URL, it will not
+       * start working.
+       */
+      samplePost: {
+        url: "https://www.facebook.com/share/v/1E4gvj9NTV/?mibextid=wwXIfr",
+      },
     },
   },
 

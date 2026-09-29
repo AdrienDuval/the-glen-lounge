@@ -1,0 +1,18 @@
+/* Meta's iframe paints its own background regardless of `data-color-scheme`
+   inside that inner frame, so the border and padding here are what tie it
+   back to the house chrome rather than sitting as a bare rectangle. */
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+}
+
+.wrap :global(.fb-page) {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* No fallback needed under reduced-motion: the plugin's own scroll/hover
+   motion is Meta's iframe content, outside this site's control or DOM. */

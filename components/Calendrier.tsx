@@ -90,16 +90,21 @@ export default function Calendrier({
     [cells, activeIso]
   );
 
-  /** The mobile panel's cell: the chosen day, else today, else the first
-      day with news, else the first weekly. Never empty mid-month. */
+  /** The mobile panel's cell: the chosen day, else the next night from today
+      on, else the first day with news, else the first weekly. Never empty
+      mid-month. */
   const panelCell = useMemo(() => {
     const real = cells.filter((c) => c.date);
     return (
       activeCell ??
       /* Today only counts when it actually has an event — otherwise a quiet
          Monday would short-circuit the chain and the panel would claim
-         « rien de publié » under a grid full of nights. (Review finding.) */
-      real.find((c) => c.iso === todayIso && featOf(c)) ??
+         « rien de publié » under a grid full of nights. (Review finding.)
+         On that quiet Monday the panel shows the NEXT night, not the month's
+         first: it used to fall straight through to « Mardi 1 » on the 28th.
+         ISO strings compare correctly as text. The two fallbacks below only
+         apply to a month that is entirely past. */
+      real.find((c) => c.iso >= todayIso && featOf(c)) ??
       real.find((c) => c.specials.length) ??
       real.find((c) => c.weekly) ??
       null

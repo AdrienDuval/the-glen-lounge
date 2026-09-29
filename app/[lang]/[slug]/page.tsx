@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import CallBar from "@/components/CallBar";
 import Carte from "@/components/Carte";
 import EventsIndex from "@/components/EventsIndex";
 import StudiosIndex from "@/components/StudiosIndex";
@@ -105,6 +106,9 @@ export default async function InnerPage({
         )}
       </main>
       <Footer dict={dict} lang={lang} />
+      {/* Not on the apartments index: that visitor is choosing a unit, and
+          the unit page carries its own enquiry bar with the unit filled in. */}
+      {id !== "appartements" && <CallBar dict={dict} />}
     </>
   );
 }

@@ -37,9 +37,9 @@ import type { PhotoId } from "./photos";
  * full reasoning and FACTS.md for the frame-by-frame inventory.
  *
  * ⚠️ NEITHER `A40` NOR `ST 003` IS ON ANY INVENTORY LIST WE HOLD, so the venue
- * has at least THIRTEEN units, not eleven. The site still says « onze » —
- * changing it to « treize » would swap one guess for another. See FACTS.md,
- * open question 1.D.
+ * has at least THIRTEEN units, not eleven. The site states no total at all
+ * (banner and teaser both, since 2026-09-28) — « treize » would swap one guess
+ * for another. See FACTS.md, open question 1.D.
  *
  * ⚠️ A10 AND ITS ROOMS ARE THE SAME FLOOR AREA, LISTED TWICE — whole at 150 000,
  * or one bedroom at 30 000, all three « libre ». Safe only because nothing here
@@ -1188,8 +1188,8 @@ export const STUDIOS: readonly Studio[] = [
      2026-08-09 list of eleven has `ST005-A` · `B35-A` · `B15-A` · `A10-A` ·
      `A10-1-A` · `A10-2-A` · `A10-3-A` · `SS130-A` · `SS140-A` · `SS101-A` ·
      `SS110-A` and nothing resembling this. So the venue has at least thirteen
-     units and « onze studios » in the banner is now understated — deliberately
-     NOT changed, because « treize » would be the same guess in the other
+     units, so the banner's old « onze studios » came out (2026-09-28) rather
+     than becoming « treize », which would be the same guess in the other
      direction. See FACTS.md, open question 1.D.
 
      ── THE PHOTO ORDER ──────────────────────────────────────────────────────

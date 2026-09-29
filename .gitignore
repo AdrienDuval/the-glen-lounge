@@ -38,3 +38,10 @@ next-env.d.ts
 
 # personal Claude Code overrides (machine-specific paths, not team config)
 /.claude/settings.local.json
+
+# throwaway screenshot/measure scripts + their output (see CLAUDE.md)
+/.shot*
+# serveur scraper output — the tool (serveur-scrape.mjs) is versioned, its
+# dumps are not
+/serveur-products.json
+/menuPhotos.suggested.ts

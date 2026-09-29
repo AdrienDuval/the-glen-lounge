@@ -1,0 +1,16 @@
+.wrap {
+  display: flex;
+  justify-content: center;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  border: 1px solid var(--line);
+  background: var(--ink-2);
+}
+
+/* TikTok's own min/max-width from its documented embed markup — the widget
+   ignores anything narrower or wider than this once it swaps the blockquote
+   for its iframe. */
+.embed {
+  max-width: 605px;
+  min-width: 325px;
+  width: 100%;
+}

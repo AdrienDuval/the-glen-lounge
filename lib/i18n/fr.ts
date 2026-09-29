@@ -58,7 +58,7 @@ export const fr = {
 
   evenementsPage: {
     eyebrow: "Les soirées",
-    title: "Sept soirées, et les grands rendez-vous",
+    title: "Six soirées, et les grands rendez-vous",
     lede: "Le programme de la semaine et les dates à ne pas manquer. Réservation par téléphone.",
     upcoming: "À venir",
     weekly: "Chaque semaine",
@@ -93,6 +93,19 @@ export const fr = {
     /* No drinks list exists in the source document — say so rather than let a
        visitor assume the venue does not serve any. */
     drinksNote: "Cocktails, bouteilles et service au verre : demandez la carte sur place.",
+    /* ── immersive redesign ── */
+    scrollHint: "Découvrir",
+    navLabel: "Naviguer dans la carte",
+    statSectionsLabel: "sections",
+    statDishesLabel: "plats",
+    priceFromLabel: "dès",
+    illustration: "Image d’illustration",
+    drinksKicker: "Au bar",
+    drinksTitle: "Cocktails & bouteilles",
+    /* Honest: the food menu has no drinks page, so we don't print a drinks
+       list — we point to the bar. Nothing here claims a specific drink. */
+    drinksLede:
+      "Le bar sert cocktails, bouteilles et service au verre jusque tard. La carte des boissons se demande sur place — dites-nous ce qui vous ferait plaisir.",
   },
 
   trois: {
@@ -109,7 +122,7 @@ export const fr = {
     },
     lounge: {
       title: "Lounge",
-      text: "Cocktails, écrans géants et sept soirées par semaine, aux platines DJ W & DJ Personica.",
+      text: "Cocktails, écrans géants et six soirées par semaine, aux platines DJ W & DJ Personica.",
       meta: "Dès 19h",
     },
     appart: {
@@ -125,7 +138,10 @@ export const fr = {
   semaine: {
     section: "03 — L’agenda",
     title: "Ce qui se passe, et quand",
-    lede: "Sept soirées par semaine, plus les grandes dates. Survolez un jour pour voir ce qui s’y passe.",
+    /* Six, not seven: lib/events.ts has no Monday night (FACTS.md — nothing
+       published for Lundi since Oct 2025). « Choisissez » and not « Survolez »:
+       most readers are on a phone, where there is nothing to hover. */
+    lede: "Six soirées par semaine, plus les grandes dates. Choisissez un jour pour voir ce qui s’y passe.",
     djs: "Résidents : DJ W & DJ Personica",
     flagship: "L’incontournable",
     // Lundi: nothing has been published since octobre 2025 — say so, don't invent.
@@ -173,11 +189,13 @@ export const fr = {
   },
 
   appartements: {
-    section: "06 — Appartements",
+    section: "05 — Appartements",
     title: "Dormir sur place",
     lede: "Glen Appartement — meublé haut standing, disponibilité 24h/24, tous les jours. Confort, sécurité, intimité.",
     note: "Types et tarifs communiqués par téléphone.",
-    seeAll: "Voir les 11 logements",
+    /* No total: FACTS.md — at least thirteen units exist, nine are listed,
+       and no count goes back until the client sends the full inventory. */
+    seeAll: "Voir les logements",
     cta: "Demander une disponibilité",
   },
 
@@ -207,14 +225,14 @@ export const fr = {
   },
 
   social: {
-    section: "08 — Suivre le Glen",
+    section: "06 — Suivre le Glen",
     title: "Le Glen au quotidien",
     lede: "Les soirées, les matchs et les nouveautés se publient d'abord sur TikTok, Instagram et Facebook. Suivez-nous pour ne rien manquer.",
     followCta: "Suivre",
   },
 
   contact: {
-    section: "09 — Venir & réserver",
+    section: "07 — Venir & réserver",
     title: "Réservez par téléphone",
     lede: "Aucune réservation en ligne pour l’instant : appelez ou écrivez sur WhatsApp, on vous répond directement.",
     addressTitle: "L’adresse",
@@ -223,6 +241,16 @@ export const fr = {
     callCta: "Appeler",
     whatsappCta: "Écrire sur WhatsApp",
     hoursTitle: "Horaires",
+  },
+
+  /* The phone-only sticky bar (CallBar). « Appeler » is reused from
+     `contact.callCta`; « WhatsApp » alone because both halves must fit one
+     line at 360px. `{night}` is replaced with the night's name on its page. */
+  callBar: {
+    label: "Réserver par téléphone ou WhatsApp",
+    whatsapp: "WhatsApp",
+    message: "Bonjour, je voudrais réserver au Glen Lounge.",
+    messageFor: "Bonjour, je voudrais réserver pour {night} au Glen Lounge.",
   },
 
   footer: {
@@ -642,9 +670,15 @@ export const fr = {
          ⚠️ THE ARTICLE TRAVELS WITH THE NOUN, in `messageUnit` below, because
          French elides before a vowel — « réserver l’appartement A10 » — and no
          amount of concatenating an article and a noun in the component will
-         produce that. English takes no article, so its values are bare. */
+         produce that. English takes no article, so its values are bare.
+
+         ⚠️ THIS IS THE OPENING LINE ONLY — the « merci de me confirmer » that
+         used to close it lives in `messageClose` below. The panel assembles
+         opening · optional lines · closing · link, one per line, so the sign-off
+         stays at the bottom where a sign-off belongs. Putting the closing back
+         here would bury it above the guest's own details. */
       message:
-        "Bonjour, je souhaite réserver {unit} {code} du Glen Appartement. {dates}, {guests}. Merci de me confirmer la disponibilité et le tarif.",
+        "Bonjour, je souhaite réserver {unit} {code} du Glen Appartement. {dates}, {guests}.",
       messageUnit: {
         apartment: "l’appartement",
         studio: "le studio",
@@ -653,6 +687,7 @@ export const fr = {
       messageDates: "Du {from} au {to}",
       messageNoDates: "Dates à confirmer",
       messageGuests: "{n} personne(s)",
+      messageClose: "Merci de me confirmer la disponibilité et le tarif.",
       /* ── THE TENANCY MODE, 2026-09-05 ────────────────────────────────────
          An unfurnished flat let by the month against a two-month caution is not
          a reservation. On those units the panel drops the arrival, departure
@@ -666,12 +701,39 @@ export const fr = {
          lets on a lease. Same class of error as the noun bug `messageUnit`
          exists to fix, one product wider. */
       messageTenancy:
-        "Bonjour, je souhaite louer {unit} {code} (non meublé) du Glen Appartement. Merci de me confirmer la disponibilité, le tarif mensuel et les conditions.",
+        "Bonjour, je souhaite louer {unit} {code} (non meublé) du Glen Appartement.",
+      messageTenancyClose:
+        "Merci de me confirmer la disponibilité, le tarif mensuel et les conditions.",
       /* Sits where the date fields do on a furnished unit — directly above the
          WhatsApp button, so what kind of let this is cannot be missed on the
          way to sending. */
       tenancyLead: "Location au mois, non meublé.",
       tenancyDeposit: "Caution : {n} mois de loyer.",
+      /* ── THE OPTIONAL HALF, 2026-09-28 ──────────────────────────────────
+         Four fields the visitor may ignore entirely: a name, a callback line,
+         an arrival time and a free note.
+
+         ⚠️ A BLANK FIELD CONTRIBUTES NO LINE. An enquiry with all four left
+         empty reads exactly as it did before they existed — that is the whole
+         design, and it is why there is no « (facultatif) » on each label and no
+         validation anywhere: nothing here can block the button. `optionalHint`
+         says it once, above the fields, so a visitor who does not want to type
+         a phone number knows it costs nothing to skip.
+
+         ⚠️ `arrivalTime` IS NOT `arrival`. `arrival` above is the arrival DATE
+         and predates this block; this is the hour, and it renders only on a
+         furnished unit — a monthly lease has no check-in time, the same reason
+         the date fields themselves are gone in tenancy mode. */
+      arrivalTime: "Heure d’arrivée",
+      name: "Nom",
+      phone: "Téléphone",
+      note: "Précisions",
+      notePlaceholder: "Arrivée tardive, occasion, question…",
+      optionalHint: "Tous les champs sont facultatifs.",
+      messageArrival: "Arrivée vers {time}.",
+      messageName: "Au nom de {name}.",
+      messagePhone: "Téléphone : {phone}",
+      messageNote: "Précisions : {note}",
       /* The phone-only sticky bar — see ReserveStudio.module.css `.bar`. */
       barCta: "Demander",
     },

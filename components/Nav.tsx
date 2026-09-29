@@ -22,10 +22,15 @@ import styles from "./Nav.module.css";
 /**
  * Kept deliberately short on desktop — more wrapped the bar onto two lines.
  * « La semaine » is covered by the events page.
+ *
+ * `#evenements` (« Privatisation ») came out on 2026-09-27 with the home
+ * section it pointed at — an anchor to a section that is no longer rendered
+ * just dumps the visitor at the bottom of the page. Private hire is still
+ * pitched by the hero's `privatisation` slide, which now dials directly.
+ * Restore this line together with <Evenements /> in app/[lang]/page.tsx.
  */
 const SECTIONS = [
   { hash: "#lieu", key: "lieu" },
-  { hash: "#evenements", key: "evenements" },
   { hash: "#contact", key: "contact" },
 ] as const satisfies readonly { hash: string; key: keyof Dict["nav"]["links"] }[];
 

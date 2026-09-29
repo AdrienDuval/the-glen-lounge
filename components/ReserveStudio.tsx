@@ -56,7 +56,11 @@ import styles from "./ReserveStudio.module.css";
 /* Two field marks, local to this panel — they belong to the form, not to the
    amenity vocabulary in AmenityIcon.tsx, and keeping them here stops that set
    from becoming a junk drawer. */
-function Glyph({ name }: { name: "calendar" | "guest" }) {
+function Glyph({
+  name,
+}: {
+  name: "calendar" | "guest" | "clock" | "phone" | "note";
+}) {
   const s = {
     fill: "none",
     stroke: "currentColor",
@@ -64,19 +68,41 @@ function Glyph({ name }: { name: "calendar" | "guest" }) {
     strokeLinecap: "round" as const,
     strokeLinejoin: "round" as const,
   };
+  const marks = {
+    calendar: (
+      <>
+        <rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2" {...s} />
+        <path d="M3.4 9.8h17.2M8.2 3.4v3.6M15.8 3.4v3.6" {...s} />
+      </>
+    ),
+    guest: (
+      <>
+        <circle cx="12" cy="8.2" r="3.8" {...s} />
+        <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" {...s} />
+      </>
+    ),
+    clock: (
+      <>
+        <circle cx="12" cy="12" r="8.6" {...s} />
+        <path d="M12 6.8V12l3.4 2.2" {...s} />
+      </>
+    ),
+    phone: (
+      <path
+        d="M7.4 3.6h3l1.4 3.6-2 1.4a11.4 11.4 0 0 0 5.6 5.6l1.4-2 3.6 1.4v3a1.8 1.8 0 0 1-2 1.8A15.6 15.6 0 0 1 5.6 5.6a1.8 1.8 0 0 1 1.8-2Z"
+        {...s}
+      />
+    ),
+    note: (
+      <>
+        <rect x="4" y="3.6" width="16" height="16.8" rx="2" {...s} />
+        <path d="M8 8.6h8M8 12.4h8M8 16.2h5" {...s} />
+      </>
+    ),
+  };
   return (
     <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
-      {name === "calendar" ? (
-        <>
-          <rect x="3.4" y="5.2" width="17.2" height="15.4" rx="2" {...s} />
-          <path d="M3.4 9.8h17.2M8.2 3.4v3.6M15.8 3.4v3.6" {...s} />
-        </>
-      ) : (
-        <>
-          <circle cx="12" cy="8.2" r="3.8" {...s} />
-          <path d="M4.8 20.2a7.2 7.2 0 0 1 14.4 0" {...s} />
-        </>
-      )}
+      {marks[name]}
     </svg>
   );
 }
@@ -100,12 +126,32 @@ export default function ReserveStudio({
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [guests, setGuests] = useState(1);
+  /* The optional half. Every one of these may stay empty, and an empty one
+     contributes no line to the message — see the assembly in `message` below. */
+  const [arrivalTime, setArrivalTime] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [note, setNote] = useState("");
 
   /* `min` depends on today's date. Deriving it during render would make the
      server and the client disagree whenever the two straddle midnight, so it
      is set after mount — the inputs are perfectly usable in the meantime. */
   const [today, setToday] = useState("");
   useEffect(() => setToday(new Date().toISOString().slice(0, 10)), []);
+
+  /* The unit's own URL, travelling with the enquiry so the client can open the
+     page rather than look the code up. Read from the browser rather than from
+     `site.url`, which is still "" — the production domain is unchosen (see
+     lib/site.ts), and this way the link is correct on whatever host it is
+     served from, preview deploys included.
+     After mount for the same reason `today` is: there is no `window` on the
+     server, and deriving it during render would desync the two. Until it
+     lands the message is simply one line shorter, which is harmless. */
+  const [pageUrl, setPageUrl] = useState("");
+  useEffect(
+    () => setPageUrl(window.location.origin + window.location.pathname),
+    []
+  );
 
   const nights = useMemo(() => {
     if (!from || !to) return 0;
@@ -119,30 +165,73 @@ export default function ReserveStudio({
       month: "long",
     }).format(new Date(`${iso}T12:00:00`));
 
+  /* One line per fact, blank fields omitted entirely.
+     Order is deliberate: what is being asked for, then who is asking, then the
+     sign-off, then the link. The closing line has to be last of the prose or it
+     reads as though the message ended and someone kept typing — which is why
+     `message` and `messageTenancy` no longer carry it themselves. */
   const message = useMemo(() => {
-    /* ⚠️ « louer », not « réserver », and no dates or headcount — none of the
-       three fields that fill them is rendered in this mode. See the header. */
+    const lines: string[] = [];
+
+    /* ⚠️ « louer », not « réserver », and no dates, headcount or arrival hour —
+       none of the fields that fill them is rendered in this mode. See the
+       header. */
     if (tenancy) {
-      return t.messageTenancy
-        .replace("{unit}", t.messageUnit[studio.kind])
-        .replace("{code}", studio.code);
+      lines.push(
+        t.messageTenancy
+          .replace("{unit}", t.messageUnit[studio.kind])
+          .replace("{code}", studio.code)
+      );
+    } else {
+      const dates =
+        from && to
+          ? t.messageDates.replace("{from}", fmt(from)).replace("{to}", fmt(to))
+          : t.messageNoDates;
+      lines.push(
+        t.message
+          /* The noun the CLIENT reads on her own phone. It used to be hard-coded
+             « le studio », so an enquiry about a 130 m² apartment reached her as
+             « je souhaite réserver le studio A10 ». The article travels with the
+             noun because French elides — « l'appartement A10 » — and no
+             concatenation in this component would produce that. */
+          .replace("{unit}", t.messageUnit[studio.kind])
+          .replace("{code}", studio.code)
+          .replace("{dates}", dates)
+          .replace("{guests}", t.messageGuests.replace("{n}", String(guests)))
+      );
+      if (arrivalTime) {
+        lines.push(t.messageArrival.replace("{time}", arrivalTime));
+      }
     }
-    const dates =
-      from && to
-        ? t.messageDates.replace("{from}", fmt(from)).replace("{to}", fmt(to))
-        : t.messageNoDates;
-    return t.message
-      /* The noun the CLIENT reads on her own phone. It used to be hard-coded
-         « le studio », so an enquiry about a 130 m² apartment reached her as
-         « je souhaite réserver le studio A10 ». The article travels with the
-         noun because French elides — « l'appartement A10 » — and no
-         concatenation in this component would produce that. */
-      .replace("{unit}", t.messageUnit[studio.kind])
-      .replace("{code}", studio.code)
-      .replace("{dates}", dates)
-      .replace("{guests}", t.messageGuests.replace("{n}", String(guests)));
+
+    /* Trimmed, but otherwise untouched — if someone writes their note over two
+       lines, two lines arrive. Mangling what they typed is worse than a message
+       one line taller. */
+    const said = (v: string) => v.trim();
+    if (said(name)) lines.push(t.messageName.replace("{name}", said(name)));
+    if (said(phone)) lines.push(t.messagePhone.replace("{phone}", said(phone)));
+    if (said(note)) lines.push(t.messageNote.replace("{note}", said(note)));
+
+    lines.push(tenancy ? t.messageTenancyClose : t.messageClose);
+    if (pageUrl) lines.push(pageUrl);
+
+    return lines.join("\n");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [from, to, guests, studio.code, studio.kind, tenancy, t, lang]);
+  }, [
+    from,
+    to,
+    guests,
+    arrivalTime,
+    name,
+    phone,
+    note,
+    pageUrl,
+    studio.code,
+    studio.kind,
+    tenancy,
+    t,
+    lang,
+  ]);
 
   /* Amount and period together, so a monthly rent can never print as « la
      nuit » — this panel held two of the four call sites that used to risk it.
@@ -221,13 +310,21 @@ export default function ReserveStudio({
       )}
       {studio.status === "soon" && <p className={styles.notice}>{t.soon}</p>}
 
-      {/* ⚠️ DATES AND HEADCOUNT ONLY WHEN THERE IS A STAY TO DESCRIBE.
-          On an unfurnished monthly let all three fields are the wrong question,
-          and `max={studio.sleeps}` would have had nothing to clamp against —
-          see the header note. The whole block goes rather than being disabled:
-          a greyed-out date picker still says "this is a booking". */}
-      {!tenancy && (
-        <div className={styles.fields}>
+      {/* Said once, here, rather than « (facultatif) » on six labels. Nothing in
+          this panel is validated and nothing can block the button, so this is a
+          statement of fact, not a promise the markup has to keep. */}
+      <p className={styles.optional}>{t.optionalHint}</p>
+
+      <div className={styles.fields}>
+        {/* ⚠️ DATES, HEADCOUNT AND ARRIVAL HOUR ONLY WHEN THERE IS A STAY TO
+            DESCRIBE. On an unfurnished monthly let all four are the wrong
+            question, and `max={studio.sleeps}` would have had nothing to clamp
+            against — see the header note. They go rather than being disabled: a
+            greyed-out date picker still says "this is a booking".
+            Name, phone and note below are outside this branch on purpose — they
+            are as useful on a lease enquiry as on a two-night booking. */}
+        {!tenancy && (
+          <>
         <label className={styles.field}>
           <span className={`label ${styles.fieldLabel}`}>
             <Glyph name="calendar" />
@@ -282,9 +379,65 @@ export default function ReserveStudio({
             className={styles.input}
           />
         </label>
-      </div>
+        <label className={styles.field}>
+          <span className={`label ${styles.fieldLabel}`}>
+            <Glyph name="clock" />
+            {t.arrivalTime}
+          </span>
+          <input
+            type="time"
+            value={arrivalTime}
+            onChange={(e) => setArrivalTime(e.target.value)}
+            className={styles.input}
+          />
+        </label>
+          </>
+        )}
 
-      )}
+        <label className={`${styles.field} ${styles.fieldWide}`}>
+          <span className={`label ${styles.fieldLabel}`}>
+            <Glyph name="guest" />
+            {t.name}
+          </span>
+          <input
+            type="text"
+            autoComplete="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className={styles.input}
+          />
+        </label>
+        <label className={`${styles.field} ${styles.fieldWide}`}>
+          <span className={`label ${styles.fieldLabel}`}>
+            <Glyph name="phone" />
+            {t.phone}
+          </span>
+          {/* `tel`, so a phone offers the number pad. Deliberately unvalidated:
+              this is a callback line, not an identity check, and a pattern
+              would only reject the legitimate ways people write a Cameroonian
+              number. Whatever they type travels verbatim. */}
+          <input
+            type="tel"
+            autoComplete="tel"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            className={styles.input}
+          />
+        </label>
+        <label className={`${styles.field} ${styles.fieldWide}`}>
+          <span className={`label ${styles.fieldLabel}`}>
+            <Glyph name="note" />
+            {t.note}
+          </span>
+          <textarea
+            rows={2}
+            value={note}
+            placeholder={t.notePlaceholder}
+            onChange={(e) => setNote(e.target.value)}
+            className={`${styles.input} ${styles.textarea}`}
+          />
+        </label>
+      </div>
 
       {/* aria-live so a screen-reader user hears the total change rather than
           having to go looking for it after every date edit. Absent in tenancy

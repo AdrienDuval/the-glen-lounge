@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
+import CallBar from "@/components/CallBar";
 import EventPage from "@/components/EventPage";
 import StudioPage from "@/components/StudioPage";
 import { getDict } from "@/lib/i18n";
@@ -212,6 +213,12 @@ export default async function Page({
         )}
       </main>
       <Footer dict={dict} lang={lang} />
+      {/* Event pages only — a unit page already has ReserveStudio's bar. A
+          past one-off gets the generic message, not a booking for a date
+          that has gone. */}
+      {event && (
+        <CallBar dict={dict} night={isPast(event, new Date()) ? undefined : event.title[lang]} />
+      )}
     </>
   );
 }

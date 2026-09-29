@@ -10,17 +10,40 @@ import styles from "./Social.module.css";
 /**
  * Suivre le Glen — the three platforms, as outbound cards.
  *
- * ── THE FEED SEAM ─────────────────────────────────────────────────────────
- * The client wants each platform's latest posts shown here eventually. That
- * needs either per-platform embed scripts (heavy, consent-laden, and they
- * drag third-party JS into a 165 KB page) or a small server-side fetch/cache
- * (oEmbed / Graph API / TikTok display API) rendered statically — the second
- * is the plan. When that lands, each card grows a `posts` list under the
- * handle: extend the table below with `posts?: { src; href; alt }[]` and render
- * a thumbnail row inside the same card chassis, above `.follow`. Nothing else
- * should change — the section title, the cards and the follow CTAs stay.
+ * ── THE FEED SEAM — BUILT, THEN PARKED 2026-09-28 ─────────────────────────
+ * Four working components sit unmounted in `components/`, waiting on a Meta
+ * developer account: `FacebookSdk` (loads Meta's JS SDK once), `FacebookFeed`
+ * (Page Plugin timeline), `FacebookVideoEmbed` (single video) and
+ * `TikTokEmbed` (single post). To bring any of them back, import it, render it
+ * below the cards, and restore the `feed` / `posts` styles and the
+ * `social.feedLabel` / `social.postsLabel` copy keys — all four were live on
+ * this section on 2026-09-26/27, so `git log` has the exact markup.
  *
- * Until then the cards are honest: they link out, and promise nothing.
+ * Why they came off, in order of how much it matters:
+ *
+ * 1. **The Page Plugin is the only live feed any of the three offers for
+ *    free**, and it renders Meta's own chrome, not this site's. A carousel in
+ *    the house palette needs the post DATA, which means the Graph API: a
+ *    long-lived Page Access Token, which means a Meta developer account and
+ *    the client as Page admin. That is the thing being waited on.
+ * 2. **Facebook is now closed to scraping entirely** — re-tested 2026-09-27
+ *    with `gallery-dl`, the tool ASSETS.md records working anonymously on
+ *    2026-08-07. Both the photos tab and the reels tab now answer
+ *    `AuthRequired`. So there is no token-free route to the data any more,
+ *    and ASSETS.md's Facebook section is stale on this point.
+ * 3. **The sample Facebook video never worked.** The client's
+ *    `/share/v/...` link renders "Vidéo non disponible" through Meta's own
+ *    video plugin — it resolves to a story ID, and stories aren't embeddable.
+ *    A real `/videos/<id>` permalink is still an open ask.
+ * 4. **TikTok was NOT blocked** — its embed rendered a real post correctly,
+ *    and `gallery-dl` still reads the account anonymously. It came off only
+ *    because a single hand-picked post earns little against a third-party
+ *    script, and it can go back independently of anything Meta.
+ *
+ * (A paid aggregator — Elfsight/SnapWidget/Juicer/EmbedSocial — remains the
+ * one option that needs no client action at all: one script, all three
+ * platforms, at the cost of a subscription and a third-party script that
+ * isn't the platform's own.)
  *
  * ── WHY THESE CARDS CARRY COLOUR ──────────────────────────────────────────
  * The rest of the site is gold on near-black, and this section used to obey

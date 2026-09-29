@@ -1,0 +1,55 @@
+/* Same shell as ReserveStudio's bar — fixed, under the nav (80) and its
+   drawer (70) so an open menu is never covered, above everything else. */
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.6rem var(--gut);
+  padding-bottom: max(0.6rem, env(safe-area-inset-bottom));
+  background: rgba(6, 9, 12, 0.93);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--line);
+  animation: barIn 0.35s var(--ease-out);
+}
+
+/* Two equal halves, 44px minimum, no wrapping at the 360px Android floor. */
+.call,
+.wa {
+  flex: 1 1 0;
+  justify-content: center;
+  align-self: stretch;
+  min-height: 44px;
+  padding-inline: 0.75rem;
+  white-space: nowrap;
+}
+
+/* The call is the site's primary conversion (« Réservez par téléphone »), so
+   it takes the filled state; WhatsApp stays outlined beside it. */
+.call {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+@keyframes barIn {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+/* The global kill switch only clamps animation-duration; this is what
+   actually honours the preference. */
+@media (prefers-reduced-motion: reduce) {
+  .bar {
+    animation: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .bar {
+    display: none;
+  }
+}

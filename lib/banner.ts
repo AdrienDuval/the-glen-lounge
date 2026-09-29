@@ -2,6 +2,7 @@ import type { PhotoId } from "./photos";
 import { isCleared, isPlaceholder } from "./photos";
 import type { RouteId } from "./routes";
 import { bannerEvents } from "./events";
+import { site } from "./site";
 
 /**
  * « À l'affiche » — the hero banner.
@@ -97,14 +98,16 @@ const PROMOS: Slide[] = [
 
      Every word below is FACTS.md-traceable (« meublé haut standing »,
      « disponibilité 24h/24, tous les jours », « Confort, sécurité, intimité »,
-     eleven units confirmed by the client 2026-08-09). No rate, no unit type —
-     both are still open questions, and « luxe » is ruled out twice over.
+     the nightly/monthly split from the client's own sheets). No rate — and
+     « luxe » is ruled out twice over.
 
-     ⚠️ « onze studios » stays, and it is deliberately NOT the number the
-     studios index now shows. Eleven is what the venue has (FACTS.md, client
-     2026-08-09); two is what we can document well enough to list. Advertising
-     the true inventory here while only detailing what we can stand behind is
-     the intended split — do not "fix" one to match the other.
+     ⚠️ NO TOTAL, and no « meublé » across the board (revised 2026-09-28). This
+     slide used to say « onze studios meublés ». All three words broke: A40 and
+     ST 003 put the building at thirteen or more (FACTS.md 1.D), the list
+     holds apartments and rooms as well as studios, and those two are let
+     unfurnished by the month. FACTS.md has said since 2026-09-11 that the
+     banner states no total — do not put a number back until the client sends
+     the full inventory.
 
      Deliberately NOT here: where the studios are. « au-dessus du lounge » was
      in the first draft of this slide and came out again — FACTS.md records the
@@ -119,16 +122,16 @@ const PROMOS: Slide[] = [
     eyebrow: { fr: "Appartements", en: "Apartments" },
     title: { fr: "Dormir sur place", en: "Stay the night" },
     meta: {
-      fr: "Glen Appartement — onze studios meublés haut standing, disponibles 24h/24. Confort, sécurité, intimité.",
-      en: "Glen Appartement — eleven studios furnished to a high standard, available around the clock. Comfort, security, privacy.",
+      fr: "Glen Appartement — studios, appartements et chambres. Meublés à la nuit, ou non meublés au mois. Confort, sécurité, intimité.",
+      en: "Glen Appartement — studios, apartments and rooms. Furnished by the night, or unfurnished by the month. Comfort, security, privacy.",
     },
     highlights: [
-      { fr: "11 studios", en: "11 studios" },
-      { fr: "Meublé", en: "Furnished" },
+      { fr: "À la nuit", en: "By the night" },
+      { fr: "Au mois", en: "By the month" },
       { fr: "24h/24", en: "24/7" },
     ],
     cta: {
-      label: { fr: "Voir les studios", en: "View the studios" },
+      label: { fr: "Voir les logements", en: "See the places to stay" },
       route: "appartements",
     },
   },
@@ -147,9 +150,13 @@ const PROMOS: Slide[] = [
       { fr: "Service bouteilles", en: "Bottle service" },
       { fr: "Sur devis", en: "On request" },
     ],
+    /* Was `href: "#evenements"` until 2026-09-27, when the home section that
+       anchor pointed at was hidden as a duplicate of this very slide. A
+       `tel:` is the same CTA the section itself carried — the venue has never
+       published capacity or pricing, so a call is the only honest next step. */
     cta: {
       label: { fr: "Organiser un événement", en: "Plan an event" },
-      href: "#evenements",
+      href: `tel:${site.contact.phonePrimary.tel}`,
     },
   },
 ];

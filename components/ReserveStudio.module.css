@@ -60,8 +60,15 @@
   gap: 0.7rem;
 }
 
+/* `1fr auto` so the INPUT pins to the bottom of the cell and the label takes
+   the slack above it. Without this, two fields sharing a row are misaligned the
+   moment one label wraps and the other does not — « Heure d’arrivée » wraps at
+   half-width beside « Personnes », which does not, and the two boxes then sit at
+   different heights. Aligning on the control rather than on the text means a
+   label may wrap freely, in either language, without disturbing the row. */
 .field {
   display: grid;
+  grid-template-rows: 1fr auto;
   gap: 0.3rem;
 }
 
@@ -120,15 +127,36 @@
   color: var(--gold);
 }
 
+/* « Tous les champs sont facultatifs. » — one statement above the fields,
+   instead of marking six labels. Quiet: it lowers the cost of the form, it is
+   not part of the offer. */
+.optional {
+  color: var(--muted);
+  font-size: 0.8125rem;
+}
+
+.textarea {
+  font-family: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  resize: vertical;
+  min-height: 3.6rem;
+}
+
 @media (min-width: 520px) {
   .fields {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  /* Headcount is a short field and looks stranded on a row of its own. */
-  .field:last-child {
+  /* ⚠️ THIS WAS `.field:last-child` AND IT BROKE THE MOMENT A FIELD WAS ADDED.
+     It existed to stop the headcount looking stranded on a row of its own, back
+     when it was genuinely last; once name, phone and a note followed it, the
+     rule was capping the textarea at 9rem instead. Name/phone/note now claim
+     the full row explicitly, and the short pair — headcount and arrival hour —
+     simply take one column each, which is what `:last-child` was approximating
+     in the first place. Position is no longer load-bearing. */
+  .fieldWide {
     grid-column: span 2;
-    max-width: 9rem;
   }
 }
 

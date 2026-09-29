@@ -50,7 +50,7 @@ export const en = {
 
   evenementsPage: {
     eyebrow: "What's on",
-    title: "Seven nights, and the ones to plan for",
+    title: "Six nights, and the ones to plan for",
     lede: "The week's programme and the dates worth clearing your diary for. Booking by phone.",
     upcoming: "Coming up",
     weekly: "Every week",
@@ -79,6 +79,17 @@ export const en = {
     ctaTitle: "A table is waiting",
     cta: "Book by phone",
     drinksNote: "Cocktails, bottles and drinks by the glass: ask for the list when you arrive.",
+    /* ── immersive redesign ── */
+    scrollHint: "Explore",
+    navLabel: "Jump through the menu",
+    statSectionsLabel: "sections",
+    statDishesLabel: "dishes",
+    priceFromLabel: "from",
+    illustration: "Illustrative image",
+    drinksKicker: "At the bar",
+    drinksTitle: "Cocktails & bottles",
+    drinksLede:
+      "The bar pours cocktails, bottles and drinks by the glass until late. The drinks list is on the table when you arrive — tell us what you're in the mood for.",
   },
 
   trois: {
@@ -93,7 +104,7 @@ export const en = {
     },
     lounge: {
       title: "Lounge",
-      text: "Cocktails, giant screens and seven nights a week, with DJ W & DJ Personica on the decks.",
+      text: "Cocktails, giant screens and six nights a week, with DJ W & DJ Personica on the decks.",
       meta: "From 7pm",
     },
     appart: {
@@ -106,7 +117,7 @@ export const en = {
   semaine: {
     section: "03 — The diary",
     title: "What's on, and when",
-    lede: "Seven nights a week, plus the dates worth planning for. Hover a day to see what's happening.",
+    lede: "Six nights a week, plus the dates worth planning for. Pick a day to see what's happening.",
     djs: "Residents: DJ W & DJ Personica",
     flagship: "The one not to miss",
     noneYet: "Nothing published — call to check",
@@ -151,11 +162,11 @@ export const en = {
   },
 
   appartements: {
-    section: "06 — Apartments",
+    section: "05 — Apartments",
     title: "Stay the night",
     lede: "Glen Appartement — furnished to a high standard, available 24 hours a day, every day. Comfort, security, privacy.",
     note: "Types and rates given over the phone.",
-    seeAll: "See all 11 places to stay",
+    seeAll: "See the places to stay",
     cta: "Check availability",
   },
 
@@ -177,14 +188,14 @@ export const en = {
   },
 
   social: {
-    section: "08 — Follow the Glen",
+    section: "06 — Follow the Glen",
     title: "The Glen, day to day",
     lede: "Nights out, matches and news land on TikTok, Instagram and Facebook first. Follow along so you miss nothing.",
     followCta: "Follow",
   },
 
   contact: {
-    section: "09 — Find us & book",
+    section: "07 — Find us & book",
     title: "Book by phone",
     lede: "No online booking yet: call or message on WhatsApp and you'll get a person, straight away.",
     addressTitle: "The address",
@@ -192,6 +203,13 @@ export const en = {
     callCta: "Call",
     whatsappCta: "Message on WhatsApp",
     hoursTitle: "Opening hours",
+  },
+
+  callBar: {
+    label: "Book by phone or WhatsApp",
+    whatsapp: "WhatsApp",
+    message: "Hello, I'd like to book at The Glen Lounge.",
+    messageFor: "Hello, I'd like to book for {night} at The Glen Lounge.",
   },
 
   footer: {
@@ -404,8 +422,10 @@ export const en = {
       call: "Call the Glen",
       unavailable: "This one is occupied. Ask us when it frees up, or pick another.",
       soon: "This one frees up shortly. Call us for the exact date.",
+      /* Opening line only — the sign-off is `messageClose`. See the note in
+         fr.ts for why the panel assembles the message line by line. */
       message:
-        "Hello, I'd like to book {unit} {code} at Glen Appartement. {dates}, {guests}. Could you confirm availability and the rate?",
+        "Hello, I'd like to book {unit} {code} at Glen Appartement. {dates}, {guests}.",
       /* No article in English — the French values carry one because of the
          elision. See the note in fr.ts. */
       messageUnit: {
@@ -416,13 +436,28 @@ export const en = {
       messageDates: "From {from} to {to}",
       messageNoDates: "Dates to be confirmed",
       messageGuests: "{n} guest(s)",
+      messageClose: "Could you confirm availability and the rate?",
       /* The tenancy mode — « rent », not « book ». See the note in fr.ts: the
          client reads this on her own phone, and a lease enquiry must not arrive
          looking like a two-night booking. */
       messageTenancy:
-        "Hello, I would like to rent {unit} {code} (unfurnished) at Glen Appartement. Please confirm availability, the monthly rate and the terms.",
+        "Hello, I would like to rent {unit} {code} (unfurnished) at Glen Appartement.",
+      messageTenancyClose:
+        "Please confirm availability, the monthly rate and the terms.",
       tenancyLead: "Let monthly, unfurnished.",
       tenancyDeposit: "Deposit: {n} months’ rent.",
+      /* The optional half — all four may be left blank, and a blank one adds no
+         line to the message. See the note in fr.ts. */
+      arrivalTime: "Arrival time",
+      name: "Name",
+      phone: "Phone",
+      note: "Anything we should know",
+      notePlaceholder: "Late arrival, an occasion, a question…",
+      optionalHint: "Every field is optional.",
+      messageArrival: "Arriving around {time}.",
+      messageName: "Booking name: {name}.",
+      messagePhone: "Phone: {phone}",
+      messageNote: "Note: {note}",
       barCta: "Enquire",
     },
   },
