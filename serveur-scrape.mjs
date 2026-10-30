@@ -18,9 +18,13 @@
  *   node serveur-scrape.mjs
  *
  * Optional env:
- *   SERVEUR_URL   default https://theglen.app/serveur
- *   CHROME_PROFILE  default %LOCALAPPDATA%\Google\Chrome\User Data
- *   HEADFUL=1     watch it work (recommended the first time)
+ *   SERVEUR_URL        default https://theglen.app/serveur
+ *   CHROME_PROFILE     default %LOCALAPPDATA%\Google\Chrome\User Data
+ *   CHROME_PROFILE_DIR default "Default" — set to "Profile 1", "Profile 2"…
+ *                      if you're logged in under a different Chrome profile.
+ *                      (Chrome menu → your avatar shows which; the folder name
+ *                      is under the User Data dir.)
+ *   HEADFUL=1          watch it work (recommended the first time)
  *
  * ── WHAT IT DOES ─────────────────────────────────────────────────────────────
  *   • Opens your profile (already authenticated), loads the serveur app.
@@ -44,6 +48,7 @@ const URL = process.env.SERVEUR_URL || "https://theglen.app/serveur";
 const PROFILE =
   process.env.CHROME_PROFILE ||
   path.join(process.env.LOCALAPPDATA || "", "Google", "Chrome", "User Data");
+const PROFILE_DIR = process.env.CHROME_PROFILE_DIR || "Default";
 const OUT_IMG = path.join(__dirname, "public", "photos", "menu");
 const HEADFUL = process.env.HEADFUL === "1";
 
@@ -67,6 +72,8 @@ const ctx = await chromium.launchPersistentContext(PROFILE, {
   executablePath: CHROME,
   headless: !HEADFUL,
   viewport: { width: 1440, height: 900 },
+  // Select which profile inside the User Data dir holds your logged-in session.
+  args: [`--profile-directory=${PROFILE_DIR}`],
 });
 
 const page = ctx.pages()[0] || (await ctx.newPage());

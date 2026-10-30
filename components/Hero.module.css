@@ -440,6 +440,28 @@
   background: linear-gradient(90deg, var(--gold), transparent);
 }
 
+/* Landscape phone (e.g. 844×390). The 21rem stage floor is taller than the
+   whole viewport there, so the first screen was all photograph and the
+   headline, lede and buttons sat entirely below the fold. Cap the stage to a
+   share of the height and size the headline by height, not width — 8vw at
+   844px is the full 4.25rem. */
+@media (max-width: 899px) and (orientation: landscape) and (max-height: 540px) {
+  .stage {
+    height: 42svh;
+    min-height: 0;
+  }
+
+  .display {
+    font-size: clamp(1.75rem, 9svh, 2.75rem);
+    max-width: 24ch;
+  }
+
+  .slideTitle {
+    font-size: clamp(1.6rem, 8svh, 2.4rem);
+    max-width: 24ch;
+  }
+}
+
 /* ============================================================
    DESKTOP ≥900px — the overlay composition.
    ============================================================ */
