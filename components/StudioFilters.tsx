@@ -110,7 +110,7 @@ export default function StudioFilters({
               {/* The count is decorative for sighted users — it sits beside the
                   label — but a screen reader should hear what it means. */}
               <span className="sr-only">
-                {" — "}
+                {", "}
                 {(n === 1 ? t.resultsOne : t.results).replace("{n}", String(n))}
               </span>
             </button>

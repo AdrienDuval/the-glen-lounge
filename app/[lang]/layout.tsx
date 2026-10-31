@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Archivo, IBM_Plex_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import SmoothScroll from "@/components/SmoothScroll";
 import RouteWait from "@/components/RouteWait";
 import { getDict } from "@/lib/i18n";
@@ -65,8 +66,8 @@ export async function generateMetadata({
 
   const title =
     lang === "fr"
-      ? "The Glen Lounge — Restaurant, lounge et appartements à Yaoundé"
-      : "The Glen Lounge — Restaurant, lounge and apartments in Yaoundé";
+      ? "The Glen Lounge | Restaurant, lounge et appartements à Yaoundé"
+      : "The Glen Lounge | Restaurant, lounge and apartments in Yaoundé";
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -118,6 +119,7 @@ export default async function RootLayout({
         <SmoothScroll />
         <RouteWait label={dict.preloader.loading} />
         {children}
+        <SpeedInsights />
       </body>
     </html>
   );

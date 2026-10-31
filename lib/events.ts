@@ -105,7 +105,7 @@ export const EVENTS: GlenEvent[] = [
     /* 2026-08-23 is a SUNDAY — the flyer prints no weekday, and the calendar
        exposed an earlier "samedi" assumption as wrong. A Sunday date also fits
        their « Dimanche Vétéran » branding, which corroborates it. */
-    when: { fr: "Dimanche 23 août — dès 18h", en: "Sunday 23 August — from 6pm" },
+    when: { fr: "Dimanche 23 août, dès 18h", en: "Sunday 23 August, from 6pm" },
     summary: {
       fr: "Une soirée exceptionnelle avec l’artiste K-Tino, aux côtés de DJ Christian Denon.",
       en: "A one-off night with K-Tino, alongside DJ Christian Denon.",
@@ -125,7 +125,7 @@ export const EVENTS: GlenEvent[] = [
       en: [
         "Bal des Vétérans returns to the Glen Lounge on Sunday 23 August. Doors at 6pm, free entry.",
         "K-Tino headlines, alongside DJ Christian Denon. The night's mix policy is handled by the house residents, DJ W and DJ Personica.",
-        "Over-18s only. Tables go quickly on billed nights — book yours by phone.",
+        "Over-18s only. Tables go quickly on billed nights, book yours by phone.",
       ],
     },
     to: "2026-08-24",
@@ -157,11 +157,11 @@ export const EVENTS: GlenEvent[] = [
     body: {
       fr: [
         "Le jeudi karaoké est, de loin, le rendez-vous le plus suivi de la maison. Micro ouvert, salle pleine, et personne pour juger votre justesse.",
-        "Venez seul, à deux ou en bande. Arrivez tôt si vous voulez une table près de la scène — l’heure d’ouverture est celle annoncée sur l’affiche.",
+        "Venez seul, à deux ou en bande. Arrivez tôt si vous voulez une table près de la scène, l’heure d’ouverture est celle annoncée sur l’affiche.",
       ],
       en: [
         "Thursday karaoke is comfortably the busiest night here. Open mic, full room, and nobody keeping score on your pitch.",
-        "Come alone, as a pair or mob-handed. Arrive early if you want a table near the stage — doors open at the time given on the flyer.",
+        "Come alone, as a pair or mob-handed. Arrive early if you want a table near the stage, doors open at the time given on the flyer.",
       ],
     },
   },
@@ -190,7 +190,7 @@ export const EVENTS: GlenEvent[] = [
       ],
       en: [
         "Saturday is the dressiest night of the week. On the decks, residents DJ W and DJ Personica hold the room until closing.",
-        "Book ahead — it is the night the room fills fastest.",
+        "Book ahead, it is the night the room fills fastest.",
       ],
     },
   },
@@ -260,7 +260,7 @@ export const EVENTS: GlenEvent[] = [
     time: "19h",
     photo: "food_pair",
     title: { fr: "Dimanche Vétéran", en: "Sunday Vétéran" },
-    when: { fr: "Tous les dimanches — dès 19h", en: "Every Sunday — from 7pm" },
+    when: { fr: "Tous les dimanches, dès 19h", en: "Every Sunday, from 7pm" },
     summary: {
       // ✅ close paraphrase — « Les grands classiques ne vieillissent pas »
       fr: "Les grands classiques ne vieillissent pas.",
@@ -274,11 +274,11 @@ export const EVENTS: GlenEvent[] = [
     body: {
       fr: [
         "Le dimanche prend une autre saveur : les grands classiques, joués comme il faut, dans une salle qui ralentit un peu.",
-        "La cuisine est ouverte — voir la carte.",
+        "La cuisine est ouverte, voir la carte.",
       ],
       en: [
         "Sunday has a different flavour: the classics, played properly, in a room that slows down a little.",
-        "The kitchen is open — see the menu.",
+        "The kitchen is open, see the menu.",
       ],
     },
   },
@@ -308,11 +308,11 @@ export const EVENTS: GlenEvent[] = [
     body: {
       fr: [
         "Le vendredi, on décompresse. L’after work du Glen se prend au comptoir ou en salon, avant que la soirée ne bascule.",
-        "Horaire d’ouverture à confirmer — appelez-nous pour être sûr.",
+        "Horaire d’ouverture à confirmer, appelez-nous pour être sûr.",
       ],
       en: [
         "Friday is for winding down. The Glen's after work is taken at the bar or in the lounges, before the night tips over.",
-        "Opening time to be confirmed — call to be sure.",
+        "Opening time to be confirmed, call to be sure.",
       ],
     },
   },

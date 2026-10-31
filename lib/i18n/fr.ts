@@ -41,13 +41,13 @@ export const fr = {
   hero: {
     /* The page's only <h1>, visually hidden. It has to say what the place is
        and where — the visible display line is a mood line, not a description. */
-    h1: "The Glen Lounge — restaurant, lounge et appartements meublés à Yaoundé, Omnisport",
+    h1: "The Glen Lounge, restaurant, lounge et appartements meublés à Yaoundé, Omnisport",
     bannerLabel: "À l’affiche",
     eyebrowLeft: "Restaurant · Lounge · Appartement",
-    eyebrowRight: "Yaoundé — Omnisport",
+    eyebrowRight: "Yaoundé, Omnisport",
     // ✅ verbatim — venue intro post, 2025-10-08
     tagline: "Ambiance, goût et élégance réunis",
-    lede: "Restaurant, lounge et appartements meublés à Yaoundé — Omnisport, derrière le stade.",
+    lede: "Restaurant, lounge et appartements meublés à Yaoundé, Omnisport, derrière le stade.",
     scroll: "Défiler",
     prev: "Diapositive précédente",
     next: "Diapositive suivante",
@@ -84,7 +84,7 @@ export const fr = {
     /* Honesty note. The artwork we transcribed is dated février 2026 and a
        restaurant menu is the one page where being stale costs real money. */
     priceNote:
-      "Carte relevée en février 2026. Les prix peuvent avoir évolué — confirmez au téléphone avant de vous déplacer.",
+      "Carte relevée en février 2026. Les prix peuvent avoir évolué, confirmez au téléphone avant de vous déplacer.",
     currency: "FCFA",
     flatPriceLabel: "Chaque",
     backHome: "Retour à l’accueil",
@@ -105,11 +105,11 @@ export const fr = {
     /* Honest: the food menu has no drinks page, so we don't print a drinks
        list — we point to the bar. Nothing here claims a specific drink. */
     drinksLede:
-      "Le bar sert cocktails, bouteilles et service au verre jusque tard. La carte des boissons se demande sur place — dites-nous ce qui vous ferait plaisir.",
+      "Le bar sert cocktails, bouteilles et service au verre jusque tard. La carte des boissons se demande sur place, dites-nous ce qui vous ferait plaisir.",
   },
 
   trois: {
-    section: "02 — Trois adresses en une",
+    section: "02 · Trois adresses en une",
     /* Shown on the cards that have a page behind them. */
     more: "Découvrir",
     title: "Restaurant, lounge, appartements",
@@ -130,13 +130,13 @@ export const fr = {
       // ✅ verbatim — « meublé haut standing », « Confort, sécurité, intimité »
       /* « dans la même maison » and not « à l’étage au-dessus de la salle »:
          FACTS.md records the address the three share, never a floor. */
-      text: "Meublé haut standing, disponible 24h/24. Confort, sécurité, intimité — dans la même maison.",
+      text: "Meublé haut standing, disponible 24h/24. Confort, sécurité, intimité, dans la même maison.",
       meta: "24h/24",
     },
   },
 
   semaine: {
-    section: "03 — L’agenda",
+    section: "03 · L’agenda",
     title: "Ce qui se passe, et quand",
     /* Six, not seven: lib/events.ts has no Monday night (FACTS.md — nothing
        published for Lundi since Oct 2025). « Choisissez » and not « Survolez »:
@@ -145,7 +145,7 @@ export const fr = {
     djs: "Résidents : DJ W & DJ Personica",
     flagship: "L’incontournable",
     // Lundi: nothing has been published since octobre 2025 — say so, don't invent.
-    noneYet: "Rien de publié — nous consulter",
+    noneYet: "Rien de publié, nous consulter",
     prevMonth: "Mois précédent",
     nextMonth: "Mois suivant",
     today: "Aujourd’hui",
@@ -166,14 +166,14 @@ export const fr = {
   },
 
   lieu: {
-    section: "04 — Le lieu",
+    section: "04 · Le lieu",
     title: "Un espace chic, une ambiance unique",
     lede: "Marbre poli, laiton et lumière basse. La salle, le bar et les salons se prêtent aussi bien à un dîner qu’à une soirée privée.",
     hint: "Faites défiler",
   },
 
   evenements: {
-    section: "05 — Événements & privatisation",
+    section: "05 · Événements & privatisation",
     // ✅ verbatim — « le goût du raffinement à chaque occasion »
     title: "Le goût du raffinement à chaque occasion",
     lede: "Cérémonies, anniversaires, réunions, DT, mariages. Nous dressons la salle, vous choisissez vos bouteilles.",
@@ -189,9 +189,9 @@ export const fr = {
   },
 
   appartements: {
-    section: "05 — Appartements",
+    section: "05 · Appartements",
     title: "Dormir sur place",
-    lede: "Glen Appartement — meublé haut standing, disponibilité 24h/24, tous les jours. Confort, sécurité, intimité.",
+    lede: "Glen Appartement, meublé haut standing, disponibilité 24h/24, tous les jours. Confort, sécurité, intimité.",
     note: "Types et tarifs communiqués par téléphone.",
     /* No total: FACTS.md — at least thirteen units exist, nine are listed,
        and no count goes back until the client sends the full inventory. */
@@ -200,9 +200,9 @@ export const fr = {
   },
 
   ecrans: {
-    section: "07 — Écrans géants",
+    section: "07 · Écrans géants",
     title: "Tous les matchs, en grand",
-    lede: "Écrans géants dans la salle et le lounge. Coupe du monde 2026, Champions League, El Clásico — et le village de la CAN.",
+    lede: "Écrans géants dans la salle et le lounge. Coupe du monde 2026, Champions League, El Clásico, et le village de la CAN.",
     // ✅ verbatim — the venue's own match flyers all carry « EN LIVE SUR NOS ECRANS »
     boardTitle: "En live sur nos écrans",
     /* Every row is a competition the venue has actually screened, per its own
@@ -219,25 +219,25 @@ export const fr = {
     /* The gallery presents the venue's own match flyers as an archive of its
        soirées match — artwork, not upcoming fixtures, since every flyer
        carries a past date. */
-    galleryLabel: "Les soirées match — les affiches",
+    galleryLabel: "Les soirées match, les affiches",
     galleryPrev: "Affiche précédente",
     galleryNext: "Affiche suivante",
   },
 
   social: {
-    section: "06 — Suivre le Glen",
+    section: "06 · Suivre le Glen",
     title: "Le Glen au quotidien",
     lede: "Les soirées, les matchs et les nouveautés se publient d'abord sur TikTok, Instagram et Facebook. Suivez-nous pour ne rien manquer.",
     followCta: "Suivre",
   },
 
   contact: {
-    section: "07 — Venir & réserver",
+    section: "07 · Venir & réserver",
     title: "Réservez par téléphone",
     lede: "Aucune réservation en ligne pour l’instant : appelez ou écrivez sur WhatsApp, on vous répond directement.",
     addressTitle: "L’adresse",
     // Current published wording as of the août 2026 posts.
-    directions: "Yaoundé — Omnisport, derrière le stade, à 300 m de l’école publique de Mfandena. 2ᵉ entrée à droite.",
+    directions: "Yaoundé, Omnisport, derrière le stade, à 300 m de l’école publique de Mfandena. 2ᵉ entrée à droite.",
     callCta: "Appeler",
     whatsappCta: "Écrire sur WhatsApp",
     hoursTitle: "Horaires",
@@ -266,7 +266,7 @@ export const fr = {
     hoursApartmentsValue: "24h/24, 7j/7",
     rights: "Tous droits réservés",
     // Honest status badge — mirrors the maquette badge on the Stand'Up build.
-    status: "Site en construction — informations en cours de validation",
+    status: "Site en construction, informations en cours de validation",
   },
 
   /* The studio pages.

@@ -34,12 +34,12 @@ export const en = {
   },
 
   hero: {
-    h1: "The Glen Lounge — restaurant, lounge and furnished apartments in Yaoundé, Omnisport",
+    h1: "The Glen Lounge, restaurant, lounge and furnished apartments in Yaoundé, Omnisport",
     bannerLabel: "What's on",
     eyebrowLeft: "Restaurant · Lounge · Apartments",
-    eyebrowRight: "Yaoundé — Omnisport",
+    eyebrowRight: "Yaoundé, Omnisport",
     tagline: "Atmosphere, taste and elegance",
-    lede: "Restaurant, lounge and furnished apartments in Yaoundé — Omnisport, behind the stadium.",
+    lede: "Restaurant, lounge and furnished apartments in Yaoundé, Omnisport, behind the stadium.",
     scroll: "Scroll",
     prev: "Previous slide",
     next: "Next slide",
@@ -72,7 +72,7 @@ export const en = {
     title: "Eat well, without spending a fortune",
     lede: "Starters, seafood, local dishes, pizzas and desserts. Served lunch and dinner in the marble dining room.",
     priceNote:
-      "Menu recorded in February 2026. Prices may have moved since — call to confirm before you travel.",
+      "Menu recorded in February 2026. Prices may have moved since, call to confirm before you travel.",
     currency: "FCFA",
     flatPriceLabel: "Each",
     backHome: "Back to the homepage",
@@ -89,11 +89,11 @@ export const en = {
     drinksKicker: "At the bar",
     drinksTitle: "Cocktails & bottles",
     drinksLede:
-      "The bar pours cocktails, bottles and drinks by the glass until late. The drinks list is on the table when you arrive — tell us what you're in the mood for.",
+      "The bar pours cocktails, bottles and drinks by the glass until late. The drinks list is on the table when you arrive, tell us what you're in the mood for.",
   },
 
   trois: {
-    section: "02 — Three places in one",
+    section: "02 · Three places in one",
     more: "Explore",
     title: "Restaurant, lounge, apartments",
     lede: "One house to eat in, go out in and stay the night. “The place to be in Yaoundé.”",
@@ -109,18 +109,18 @@ export const en = {
     },
     appart: {
       title: "Apartments",
-      text: "Furnished to a high standard, available around the clock. Comfort, security, privacy — in the same house.",
+      text: "Furnished to a high standard, available around the clock. Comfort, security, privacy, in the same house.",
       meta: "24/7",
     },
   },
 
   semaine: {
-    section: "03 — The diary",
+    section: "03 · The diary",
     title: "What's on, and when",
     lede: "Six nights a week, plus the dates worth planning for. Pick a day to see what's happening.",
     djs: "Residents: DJ W & DJ Personica",
     flagship: "The one not to miss",
-    noneYet: "Nothing published — call to check",
+    noneYet: "Nothing published, call to check",
     prevMonth: "Previous month",
     nextMonth: "Next month",
     today: "Today",
@@ -141,14 +141,14 @@ export const en = {
   },
 
   lieu: {
-    section: "04 — The venue",
+    section: "04 · The venue",
     title: "A chic space, a feel of its own",
     lede: "Polished marble, brass and low light. The dining room, the bar and the lounges take a dinner as easily as a private party.",
     hint: "Scroll across",
   },
 
   evenements: {
-    section: "05 — Events & private hire",
+    section: "05 · Events & private hire",
     title: "Refinement, whatever the occasion",
     lede: "Ceremonies, birthdays, meetings, works dos, weddings. We lay the room out; you choose the bottles.",
     list: [
@@ -162,18 +162,18 @@ export const en = {
   },
 
   appartements: {
-    section: "05 — Apartments",
+    section: "05 · Apartments",
     title: "Stay the night",
-    lede: "Glen Appartement — furnished to a high standard, available 24 hours a day, every day. Comfort, security, privacy.",
+    lede: "Glen Appartement, furnished to a high standard, available 24 hours a day, every day. Comfort, security, privacy.",
     note: "Types and rates given over the phone.",
     seeAll: "See the places to stay",
     cta: "Check availability",
   },
 
   ecrans: {
-    section: "07 — Giant screens",
+    section: "07 · Giant screens",
     title: "Every match, on the big screen",
-    lede: "Giant screens in the dining room and the lounge. World Cup 2026, Champions League, El Clásico — and the AFCON village.",
+    lede: "Giant screens in the dining room and the lounge. World Cup 2026, Champions League, El Clásico, and the AFCON village.",
     boardTitle: "Live on our screens",
     boardRows: [
       "Champions League",
@@ -182,24 +182,24 @@ export const en = {
       "AFCON village",
     ],
     boardLive: "Live",
-    galleryLabel: "Match nights — the artwork",
+    galleryLabel: "Match nights, the artwork",
     galleryPrev: "Previous flyer",
     galleryNext: "Next flyer",
   },
 
   social: {
-    section: "06 — Follow the Glen",
+    section: "06 · Follow the Glen",
     title: "The Glen, day to day",
     lede: "Nights out, matches and news land on TikTok, Instagram and Facebook first. Follow along so you miss nothing.",
     followCta: "Follow",
   },
 
   contact: {
-    section: "07 — Find us & book",
+    section: "07 · Find us & book",
     title: "Book by phone",
     lede: "No online booking yet: call or message on WhatsApp and you'll get a person, straight away.",
     addressTitle: "The address",
-    directions: "Yaoundé — Omnisport, behind the stadium, 300 m from the école publique de Mfandena. Second entrance on the right.",
+    directions: "Yaoundé, Omnisport, behind the stadium, 300 m from the école publique de Mfandena. Second entrance on the right.",
     callCta: "Call",
     whatsappCta: "Message on WhatsApp",
     hoursTitle: "Opening hours",
@@ -222,7 +222,7 @@ export const en = {
     hoursRestaurantValue: "From 10am",
     hoursApartmentsValue: "24/7",
     rights: "All rights reserved",
-    status: "Site under construction — details being confirmed",
+    status: "Site under construction, details being confirmed",
   },
 
   studios: {

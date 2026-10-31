@@ -111,7 +111,7 @@ export async function generateMetadata({
     });
 
     return {
-      title: `${noun} ${studio.code} — Glen Appartement, Yaoundé`,
+      title: `${noun} ${studio.code} | Glen Appartement, Yaoundé`,
       description: [
         line,
         /* « Non meublé » goes in the description because this is what a search
@@ -121,7 +121,7 @@ export async function generateMetadata({
         rate && `${rate.amount} ${rate.per}`,
       ]
         .filter(Boolean)
-        .join(" — "),
+        .join(" | "),
       alternates: {
         canonical: `/${lang}/${ROUTES.appartements[lang]}/${slug}`,
         languages: {
@@ -153,7 +153,7 @@ export async function generateMetadata({
   );
 
   return {
-    title: `${event.title[lang]} — The Glen Lounge, Yaoundé`,
+    title: `${event.title[lang]} | The Glen Lounge, Yaoundé`,
     description: event.summary[lang],
     alternates: {
       canonical: `/${lang}/${ROUTES.evenements[lang]}/${slug}`,

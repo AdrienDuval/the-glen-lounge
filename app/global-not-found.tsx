@@ -25,7 +25,7 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "404 — The Glen Lounge",
+  title: "404 | The Glen Lounge",
   robots: { index: false, follow: false },
 };
 

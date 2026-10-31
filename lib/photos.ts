@@ -57,8 +57,8 @@ export const PHOTOS = {
     h: 1152,
     consent: "guests",
     alt: {
-      fr: "Salle principale du Glen Lounge — sol en marbre noir, poteaux dorés et cordon noir, plafond à caissons",
-      en: "The Glen Lounge main room — black marble floor, gold stanchions with black rope, coffered ceiling",
+      fr: "Salle principale du Glen Lounge, sol en marbre noir, poteaux dorés et cordon noir, plafond à caissons",
+      en: "The Glen Lounge main room, black marble floor, gold stanchions with black rope, coffered ceiling",
     },
     note: "Plastic-wrapped sofa in the left foreground; crop it out before use.",
   },
@@ -90,8 +90,8 @@ export const PHOTOS = {
     h: 1152,
     consent: "clear",
     alt: {
-      fr: "Salon du Glen Lounge — fauteuils zébrés, coussins Versace, poteaux dorés et cordon noir sur marbre poli",
-      en: "The Glen Lounge sitting area — zebra-print armchairs, Versace cushions, gold stanchions and black rope on polished marble",
+      fr: "Salon du Glen Lounge, fauteuils zébrés, coussins Versace, poteaux dorés et cordon noir sur marbre poli",
+      en: "The Glen Lounge sitting area, zebra-print armchairs, Versace cushions, gold stanchions and black rope on polished marble",
     },
   },
   lounge_detail: {
@@ -100,8 +100,8 @@ export const PHOTOS = {
     h: 1152,
     consent: "clear",
     alt: {
-      fr: "Détail — fauteuils zébrés et coussin Versace, enseigne « The Glen · Lounge-Resto » au fond",
-      en: "Detail — zebra-print armchairs and Versace cushion, “The Glen · Lounge-Resto” signage behind",
+      fr: "Détail, fauteuils zébrés et coussin Versace, enseigne « The Glen · Lounge-Resto » au fond",
+      en: "Detail, zebra-print armchairs and Versace cushion, “The Glen · Lounge-Resto” signage behind",
     },
   },
   /** The physical backlit « G » behind the bar — the motif the preloader echoes. */
@@ -111,8 +111,8 @@ export const PHOTOS = {
     h: 1152,
     consent: "staff",
     alt: {
-      fr: "Le bar du Glen Lounge — monogramme « G » rétro-éclairé, casier à spiritueux suspendu",
-      en: "The Glen Lounge bar — backlit “G” monogram and suspended spirits cage",
+      fr: "Le bar du Glen Lounge, monogramme « G » rétro-éclairé, casier à spiritueux suspendu",
+      en: "The Glen Lounge bar, backlit “G” monogram and suspended spirits cage",
     },
   },
 
@@ -123,8 +123,8 @@ export const PHOTOS = {
     h: 2880,
     consent: "guests",
     alt: {
-      fr: "Buffet dressé — chafing dishes dorés, arche de ballons noir et or, écussons Glen Lounge au mur",
-      en: "Dressed buffet — gold chafing dishes, black-and-gold balloon arch, Glen Lounge roundels on the wall",
+      fr: "Buffet dressé, chafing dishes dorés, arche de ballons noir et or, écussons Glen Lounge au mur",
+      en: "Dressed buffet, gold chafing dishes, black-and-gold balloon arch, Glen Lounge roundels on the wall",
     },
   },
   events_02: {
@@ -133,8 +133,8 @@ export const PHOTOS = {
     h: 2880,
     consent: "guests",
     alt: {
-      fr: "Table de banquet dressée — serviettes dorées, sets brandés Glen Lounge, ballons « 50 ans »",
-      en: "Dressed banquet table — gold napkins, Glen Lounge branded placemats, “50 ans” balloons",
+      fr: "Table de banquet dressée, serviettes dorées, sets brandés Glen Lounge, ballons « 50 ans »",
+      en: "Dressed banquet table, gold napkins, Glen Lounge branded placemats, “50 ans” balloons",
     },
     note: "Figures along the buffet line, background left and centre.",
   },
@@ -156,10 +156,10 @@ export const PHOTOS = {
     h: 2880,
     consent: "guests",
     alt: {
-      fr: "Salle privatisée — longue tablée, ballons noir et or, buffet en fond",
-      en: "Room laid out for a private event — long table, black and gold balloons, buffet behind",
+      fr: "Salle privatisée, longue tablée, ballons noir et or, buffet en fond",
+      en: "Room laid out for a private event, long table, black and gold balloons, buffet behind",
     },
-    note: "Small shadowed figures by the buffet. Cropped safely — see events_table.",
+    note: "Small shadowed figures by the buffet. Cropped safely, see events_table.",
   },
 
   /** Derived crop of events-04 with the buffet line removed. See ASSETS.md. */
@@ -169,8 +169,8 @@ export const PHOTOS = {
     h: 1556,
     consent: "clear",
     alt: {
-      fr: "Couvert dressé — set brandé Glen Lounge, serviette nouée d’un anneau doré, ballon d’anniversaire",
-      en: "A place setting — Glen Lounge branded placemat, napkin in a gold ring, birthday balloon",
+      fr: "Couvert dressé, set brandé Glen Lounge, serviette nouée d’un anneau doré, ballon d’anniversaire",
+      en: "A place setting, Glen Lounge branded placemat, napkin in a gold ring, birthday balloon",
     },
   },
 
@@ -184,8 +184,8 @@ export const PHOTOS = {
     h: 2048,
     consent: "promo",
     alt: {
-      fr: "Affiche du Bal des Vétérans, 23 août — artiste K-Tino, DJ Christian Denon, entrée libre dès 18h",
-      en: "Bal des Vétérans flyer, 23 August — artist K-Tino, DJ Christian Denon, free entry from 6pm",
+      fr: "Affiche du Bal des Vétérans, 23 août, artiste K-Tino, DJ Christian Denon, entrée libre dès 18h",
+      en: "Bal des Vétérans flyer, 23 August, artist K-Tino, DJ Christian Denon, free entry from 6pm",
     },
   },
 
@@ -220,11 +220,11 @@ export const PHOTOS = {
     h: 640,
     consent: "promo",
     alt: {
-      fr: "Affiche du Jeudi Karaoké — « KARAOKE » sur un micro rose fondu entouré de bougainvilliers, mix policy DJ W et DJ Personica",
-      en: "Thursday Karaoke flyer — “KARAOKE” over a melting pink microphone framed by bougainvillea, mix policy DJ W and DJ Personica",
+      fr: "Affiche du Jeudi Karaoké, « KARAOKE » sur un micro rose fondu entouré de bougainvilliers, mix policy DJ W et DJ Personica",
+      en: "Thursday Karaoke flyer, “KARAOKE” over a melting pink microphone framed by bougainvillea, mix policy DJ W and DJ Personica",
     },
     note:
-      "Prints « DÉBUT 16H CE JEUDI ». The site publishes 19h — see the section note. 512×640, soft above ~600px.",
+      "Prints « DÉBUT 16H CE JEUDI ». The site publishes 19h, see the section note. 512×640, soft above ~600px.",
   },
   event_mardi_casino: {
     src: "/photos/event-mardi-casino.jpg",
@@ -232,11 +232,11 @@ export const PHOTOS = {
     h: 640,
     consent: "promo",
     alt: {
-      fr: "Affiche du Game Night Show Casino — dés, boule de billard couronnée et rideau rouge, mix policy DJ W et DJ Personica",
-      en: "Game Night Show Casino flyer — dice, a crowned billiard ball and a red curtain, mix policy DJ W and DJ Personica",
+      fr: "Affiche du Game Night Show Casino, dés, boule de billard couronnée et rideau rouge, mix policy DJ W et DJ Personica",
+      en: "Game Night Show Casino flyer, dice, a crowned billiard ball and a red curtain, mix policy DJ W and DJ Personica",
     },
     note:
-      "Prints « DÉBUT 20H CE MARDI ». The site publishes 19h — see the section note. 512×640, soft above ~600px.",
+      "Prints « DÉBUT 20H CE MARDI ». The site publishes 19h, see the section note. 512×640, soft above ~600px.",
   },
   event_mercredi_cocktail: {
     src: "/photos/event-mercredi-cocktail.jpg",
@@ -244,11 +244,11 @@ export const PHOTOS = {
     h: 640,
     consent: "promo",
     alt: {
-      fr: "Affiche du Mercredi Cocktail — trois cocktails garnis d’agrumes sur un plateau noir dans un bar sombre",
-      en: "Wednesday Cocktails flyer — three citrus-garnished cocktails on a black tray in a dark bar",
+      fr: "Affiche du Mercredi Cocktail, trois cocktails garnis d’agrumes sur un plateau noir dans un bar sombre",
+      en: "Wednesday Cocktails flyer, three citrus-garnished cocktails on a black tray in a dark bar",
     },
     note:
-      "Prints « DÉBUT 20H ». The site publishes 19h — see the section note. The only one of the four with no people in frame. 512×640.",
+      "Prints « DÉBUT 20H ». The site publishes 19h, see the section note. The only one of the four with no people in frame. 512×640.",
   },
   event_samedi_vip: {
     src: "/photos/event-samedi-vip.jpg",
@@ -256,11 +256,11 @@ export const PHOTOS = {
     h: 640,
     consent: "promo",
     alt: {
-      fr: "Affiche du Samedi VIP — lunettes de soleil serties de strass et boa rose, « tous les samedis », sound policy DJ W et DJ Personica",
-      en: "Saturday VIP flyer — rhinestone sunglasses and a pink feather boa, “tous les samedis”, sound policy DJ W and DJ Personica",
+      fr: "Affiche du Samedi VIP, lunettes de soleil serties de strass et boa rose, « tous les samedis », sound policy DJ W et DJ Personica",
+      en: "Saturday VIP flyer, rhinestone sunglasses and a pink feather boa, “tous les samedis”, sound policy DJ W and DJ Personica",
     },
     note:
-      "Prints « OPEN DOORS 18H ». The site publishes 19h — see the section note. Also the weakest crop of the four: the address line is cut mid-word at the bottom edge, and it reads « 150M de l'école » where the other three read « 300M ». 511×640.",
+      "Prints « OPEN DOORS 18H ». The site publishes 19h, see the section note. Also the weakest crop of the four: the address line is cut mid-word at the bottom edge, and it reads « 150M de l'école » where the other three read « 300M ». 511×640.",
   },
 
   /* ── Sport flyers — the venue's own match-night artwork ───────────────────
@@ -278,8 +278,8 @@ export const PHOTOS = {
     h: 1282,
     consent: "promo",
     alt: {
-      fr: "Affiche Champions League — Newcastle vs Barcelone, mardi 10 mars 21h, « en live sur nos écrans »",
-      en: "Champions League flyer — Newcastle vs Barcelona, Tuesday 10 March 9pm, “live on our screens”",
+      fr: "Affiche Champions League, Newcastle vs Barcelone, mardi 10 mars 21h, « en live sur nos écrans »",
+      en: "Champions League flyer, Newcastle vs Barcelona, Tuesday 10 March 9pm, “live on our screens”",
     },
   },
   sport_el_clasico: {
@@ -288,8 +288,8 @@ export const PHOTOS = {
     h: 1280,
     consent: "promo",
     alt: {
-      fr: "Affiche El Clásico — FC Barcelone vs Real Madrid, dimanche 10 mai 20h",
-      en: "El Clásico flyer — FC Barcelona vs Real Madrid, Sunday 10 May 8pm",
+      fr: "Affiche El Clásico, FC Barcelone vs Real Madrid, dimanche 10 mai 20h",
+      en: "El Clásico flyer, FC Barcelona vs Real Madrid, Sunday 10 May 8pm",
     },
   },
   sport_wc_finale: {
@@ -298,8 +298,8 @@ export const PHOTOS = {
     h: 1600,
     consent: "promo",
     alt: {
-      fr: "Affiche de la finale de la Coupe du Monde 2026 — Espagne vs Argentine, dimanche 20h",
-      en: "FIFA World Cup 2026 final flyer — Spain vs Argentina, Sunday 8pm",
+      fr: "Affiche de la finale de la Coupe du Monde 2026, Espagne vs Argentine, dimanche 20h",
+      en: "FIFA World Cup 2026 final flyer, Spain vs Argentina, Sunday 8pm",
     },
   },
   sport_wc_3eme: {
@@ -308,8 +308,8 @@ export const PHOTOS = {
     h: 1600,
     consent: "promo",
     alt: {
-      fr: "Affiche Coupe du Monde 2026, match pour la 3ᵉ place — France vs Angleterre, samedi 22h",
-      en: "World Cup 2026 third-place match flyer — France vs England, Saturday 10pm",
+      fr: "Affiche Coupe du Monde 2026, match pour la 3ᵉ place, France vs Angleterre, samedi 22h",
+      en: "World Cup 2026 third-place match flyer, France vs England, Saturday 10pm",
     },
   },
   sport_cl_demi: {
@@ -318,8 +318,8 @@ export const PHOTOS = {
     h: 1075,
     consent: "promo",
     alt: {
-      fr: "Affiche demi-finale de Champions League — PSG vs Bayern Munich, mardi 28 avril 20h",
-      en: "Champions League semi-final flyer — PSG vs Bayern Munich, Tuesday 28 April 8pm",
+      fr: "Affiche demi-finale de Champions League, PSG vs Bayern Munich, mardi 28 avril 20h",
+      en: "Champions League semi-final flyer, PSG vs Bayern Munich, Tuesday 28 April 8pm",
     },
   },
 
@@ -338,10 +338,10 @@ export const PHOTOS = {
     h: 825,
     consent: "clear",
     alt: {
-      fr: "L’immeuble du Glen Lounge en journée — enseigne « The Glen · Lounge-Resto » en marbre noir, trois étages de balcons d’appartements au-dessus",
-      en: "The Glen Lounge building by day — “The Glen · Lounge-Resto” signage on black marble, three floors of apartment balconies above",
+      fr: "L’immeuble du Glen Lounge en journée, enseigne « The Glen · Lounge-Resto » en marbre noir, trois étages de balcons d’appartements au-dessus",
+      en: "The Glen Lounge building by day, “The Glen · Lounge-Resto” signage on black marble, three floors of apartment balconies above",
     },
-    note: "Overcast phone snapshot with power lines in frame — honest, not glamorous. Replace when the client shoots the facade properly.",
+    note: "Overcast phone snapshot with power lines in frame, honest, not glamorous. Replace when the client shoots the facade properly.",
   },
 
   /** Derived portrait crop of the same Facebook original as exterior_day —
@@ -355,8 +355,8 @@ export const PHOTOS = {
     h: 1000,
     consent: "clear",
     alt: {
-      fr: "L’entrée du Glen Lounge — tour en marbre noir, enseigne « The Glen · Lounge-Resto » dorée au-dessus de la porte, piliers gris de part et d’autre",
-      en: "The Glen Lounge entrance — black marble tower, gold “The Glen · Lounge-Resto” signage over the door, grey gate pillars either side",
+      fr: "L’entrée du Glen Lounge, tour en marbre noir, enseigne « The Glen · Lounge-Resto » dorée au-dessus de la porte, piliers gris de part et d’autre",
+      en: "The Glen Lounge entrance, black marble tower, gold “The Glen · Lounge-Resto” signage over the door, grey gate pillars either side",
     },
   },
   exterior_night: {
@@ -365,8 +365,8 @@ export const PHOTOS = {
     h: 2880,
     consent: "guests",
     alt: {
-      fr: "Façade de nuit — enseigne néon blanche sur bardage en marbre noir",
-      en: "The facade at night — white neon signage on black marble cladding",
+      fr: "Façade de nuit, enseigne néon blanche sur bardage en marbre noir",
+      en: "The facade at night, white neon signage on black marble cladding",
     },
     note:
       "The only exterior we hold, and it is a portrait of a customer with the signage half out of frame and mirrored in the marble. Blocked on consent; a proper facade shot is an outstanding client request.",
@@ -379,8 +379,8 @@ export const PHOTOS = {
     h: 2880,
     consent: "clear",
     alt: {
-      fr: "Assiette — viande en sauce crémeuse aux champignons, frites et carottes rôties",
-      en: "Plated main — meat in a creamy mushroom sauce with fries and roast carrots",
+      fr: "Assiette, viande en sauce crémeuse aux champignons, frites et carottes rôties",
+      en: "Plated main, meat in a creamy mushroom sauce with fries and roast carrots",
     },
   },
   food_02: {
@@ -392,7 +392,7 @@ export const PHOTOS = {
       fr: "Deux assiettes dressées au passe, salle visible à travers la vitre",
       en: "Two plated dishes at the pass, the dining room visible through the glass",
     },
-    note: "Diners visible through the window band at the top. Cropped — see food_pair.",
+    note: "Diners visible through the window band at the top. Cropped, see food_pair.",
   },
 
   /** Derived crop of food-02 with the window band removed. See ASSETS.md. */
@@ -402,8 +402,8 @@ export const PHOTOS = {
     h: 1728,
     consent: "clear",
     alt: {
-      fr: "Deux assiettes — viande en sauce crémeuse aux champignons, frites et carottes rôties",
-      en: "Two plates — meat in a creamy mushroom sauce with fries and roast carrots",
+      fr: "Deux assiettes, viande en sauce crémeuse aux champignons, frites et carottes rôties",
+      en: "Two plates, meat in a creamy mushroom sauce with fries and roast carrots",
     },
   },
 
@@ -420,11 +420,11 @@ export const PHOTOS = {
     h: 2048,
     consent: "clear",
     alt: {
-      fr: "Chambre dressée pour la Saint-Valentin — pétales de rose, bougies et ballons",
-      en: "Room dressed for Valentine's — rose petals, candles and balloons",
+      fr: "Chambre dressée pour la Saint-Valentin, pétales de rose, bougies et ballons",
+      en: "Room dressed for Valentine's, rose petals, candles and balloons",
     },
     note:
-      "Reads as an occasion photo, not a luxury accommodation photo — plain walls, simple bed frame, visible AC and cabling. Lead with the package angle, never with the word 'luxe'.",
+      "Reads as an occasion photo, not a luxury accommodation photo, plain walls, simple bed frame, visible AC and cabling. Lead with the package angle, never with the word 'luxe'.",
   },
   apartment_02: {
     src: "/photos/apartment-valentine-02.jpg",
@@ -432,8 +432,8 @@ export const PHOTOS = {
     h: 2048,
     consent: "clear",
     alt: {
-      fr: "Chambre de l’appartement dressée pour la Saint-Valentin — lit en bois sombre, voûte de ballons rouges, téléviseur mural et fenêtre voilée",
-      en: "The apartment bedroom dressed for Valentine's — dark wood bed, a canopy of red balloons, wall-mounted TV and sheer-curtained window",
+      fr: "Chambre de l’appartement dressée pour la Saint-Valentin, lit en bois sombre, voûte de ballons rouges, téléviseur mural et fenêtre voilée",
+      en: "The apartment bedroom dressed for Valentine's, dark wood bed, a canopy of red balloons, wall-mounted TV and sheer-curtained window",
     },
     note:
       "The clearest read of the room we have: bed, nightstand, television, window and floor all legible in one frame. Use this one when a single interior has to carry the section.",
@@ -444,8 +444,8 @@ export const PHOTOS = {
     h: 1920,
     consent: "clear",
     alt: {
-      fr: "Chambre dressée pour la Saint-Valentin — cœurs en ballons au mur, bougies LED alignées et voûte de ballons rouges au plafond",
-      en: "The bedroom dressed for Valentine's — balloon hearts on the wall, a line of LED candles and a canopy of red balloons overhead",
+      fr: "Chambre dressée pour la Saint-Valentin, cœurs en ballons au mur, bougies LED alignées et voûte de ballons rouges au plafond",
+      en: "The bedroom dressed for Valentine's, balloon hearts on the wall, a line of LED candles and a canopy of red balloons overhead",
     },
     note: "The darkest of the four; the room barely reads. Supporting frame only.",
   },
@@ -455,8 +455,8 @@ export const PHOTOS = {
     h: 1920,
     consent: "clear",
     alt: {
-      fr: "Détail du lit — « I LOVE YOU » en lettres rouges, grand cœur de bougies LED et serviette pliée en éventail",
-      en: "Bed detail — “I LOVE YOU” in red lettering, a large heart of LED tealights and a fan-folded napkin",
+      fr: "Détail du lit, « I LOVE YOU » en lettres rouges, grand cœur de bougies LED et serviette pliée en éventail",
+      en: "Bed detail, “I LOVE YOU” in red lettering, a large heart of LED tealights and a fan-folded napkin",
     },
     note:
       "A detail rather than a room, so it carries the occasion without pretending to document the accommodation. The most attractive of the four.",
@@ -485,8 +485,8 @@ export const PHOTOS = {
     h: 708,
     consent: "clear",
     alt: {
-      fr: "Salon du studio SS101 — sol en marbre blanc, lustre en cristal, fauteuils crème et bleu nuit, climatiseur mural et doubles rideaux",
-      en: "The SS101 living room — white marble floor, crystal chandelier, cream and navy armchairs, wall-mounted air conditioning and full-length curtains",
+      fr: "Salon du studio SS101, sol en marbre blanc, lustre en cristal, fauteuils crème et bleu nuit, climatiseur mural et doubles rideaux",
+      en: "The SS101 living room, white marble floor, crystal chandelier, cream and navy armchairs, wall-mounted air conditioning and full-length curtains",
     },
   },
   ss101_cuisine: {
@@ -495,8 +495,8 @@ export const PHOTOS = {
     h: 868,
     consent: "clear",
     alt: {
-      fr: "Cuisine équipée du studio SS101 — plan de travail en granit noir, plaque gaz, micro-ondes, cafetière, réfrigérateur et égouttoir garni",
-      en: "The SS101 fitted kitchen — black granite worktop, gas hob, microwave, coffee maker, fridge and a stocked dish rack",
+      fr: "Cuisine équipée du studio SS101, plan de travail en granit noir, plaque gaz, micro-ondes, cafetière, réfrigérateur et égouttoir garni",
+      en: "The SS101 fitted kitchen, black granite worktop, gas hob, microwave, coffee maker, fridge and a stocked dish rack",
     },
   },
   ss101_douche_1: {
@@ -505,8 +505,8 @@ export const PHOTOS = {
     h: 922,
     consent: "clear",
     alt: {
-      fr: "Première douche du studio SS101 — faïence marbrée noir et blanc, douche à l’italienne vitrée, vasque et chauffe-eau",
-      en: "The first SS101 shower room — black-and-white marbled tiling, glazed walk-in shower, basin and water heater",
+      fr: "Première douche du studio SS101, faïence marbrée noir et blanc, douche à l’italienne vitrée, vasque et chauffe-eau",
+      en: "The first SS101 shower room, black-and-white marbled tiling, glazed walk-in shower, basin and water heater",
     },
   },
   ss101_douche_2: {
@@ -515,8 +515,8 @@ export const PHOTOS = {
     h: 922,
     consent: "clear",
     alt: {
-      fr: "Seconde douche du studio SS101 — cabine de douche d’angle vitrée, vasque, miroir et chauffe-eau",
-      en: "The second SS101 shower room — glazed corner shower cubicle, basin, mirror and water heater",
+      fr: "Seconde douche du studio SS101, cabine de douche d’angle vitrée, vasque, miroir et chauffe-eau",
+      en: "The second SS101 shower room, glazed corner shower cubicle, basin, mirror and water heater",
     },
   },
   ss101_balcon: {
@@ -525,8 +525,8 @@ export const PHOTOS = {
     h: 894,
     consent: "clear",
     alt: {
-      fr: "Balcon du studio SS101 — sol en marbre, garde-corps vitré, vue sur les arbres et les toits du quartier",
-      en: "The SS101 balcony — marble floor, glass balustrade, looking out over trees and neighbouring rooftops",
+      fr: "Balcon du studio SS101, sol en marbre, garde-corps vitré, vue sur les arbres et les toits du quartier",
+      en: "The SS101 balcony, marble floor, glass balustrade, looking out over trees and neighbouring rooftops",
     },
   },
 
@@ -564,8 +564,8 @@ export const PHOTOS = {
     h: 868,
     consent: "clear",
     alt: {
-      fr: "Salon du studio SS140 — canapé et fauteuils en velours vert d’eau, coussins baroques dorés, table basse ovale en marbre, sol en marbre gris, téléviseur mural et climatiseur",
-      en: "The SS140 living room — sea-green velvet sofa and armchairs, gold baroque cushions, an oval marble coffee table, grey marble floor, wall-mounted TV and air conditioning",
+      fr: "Salon du studio SS140, canapé et fauteuils en velours vert d’eau, coussins baroques dorés, table basse ovale en marbre, sol en marbre gris, téléviseur mural et climatiseur",
+      en: "The SS140 living room, sea-green velvet sofa and armchairs, gold baroque cushions, an oval marble coffee table, grey marble floor, wall-mounted TV and air conditioning",
     },
   },
   ss140_chambre: {
@@ -574,8 +574,8 @@ export const PHOTOS = {
     h: 686,
     consent: "clear",
     alt: {
-      fr: "Chambre du studio SS140 — grand lit en bois verni, linge blanc et coussins framboise, table de chevet, téléviseur mural, climatiseur et rideaux voilés",
-      en: "The SS140 bedroom — polished wood double bed, white linen with raspberry cushions, bedside table, wall-mounted TV, air conditioning and sheer curtains",
+      fr: "Chambre du studio SS140, grand lit en bois verni, linge blanc et coussins framboise, table de chevet, téléviseur mural, climatiseur et rideaux voilés",
+      en: "The SS140 bedroom, polished wood double bed, white linen with raspberry cushions, bedside table, wall-mounted TV, air conditioning and sheer curtains",
     },
   },
   ss140_cuisine: {
@@ -584,8 +584,8 @@ export const PHOTOS = {
     h: 868,
     consent: "clear",
     alt: {
-      fr: "Cuisine équipée du studio SS140 — meubles laqués blancs, plan de travail en granit noir, crédence en marbre, plaque gaz, micro-ondes, cafetière, réfrigérateur et égouttoir garni",
-      en: "The SS140 fitted kitchen — white gloss units, black granite worktop, marbled splashback, gas hob, microwave, coffee maker, fridge and a stocked dish rack",
+      fr: "Cuisine équipée du studio SS140, meubles laqués blancs, plan de travail en granit noir, crédence en marbre, plaque gaz, micro-ondes, cafetière, réfrigérateur et égouttoir garni",
+      en: "The SS140 fitted kitchen, white gloss units, black granite worktop, marbled splashback, gas hob, microwave, coffee maker, fridge and a stocked dish rack",
     },
   },
   ss140_douche: {
@@ -594,8 +594,8 @@ export const PHOTOS = {
     h: 922,
     consent: "clear",
     alt: {
-      fr: "Douche du studio SS140 — faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque en marbre, miroir, serviettes et chauffe-eau",
-      en: "The SS140 shower room — black-and-white marbled tiling, glazed shower cubicle with black framing, marble basin, mirror, towels and water heater",
+      fr: "Douche du studio SS140, faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque en marbre, miroir, serviettes et chauffe-eau",
+      en: "The SS140 shower room, black-and-white marbled tiling, glazed shower cubicle with black framing, marble basin, mirror, towels and water heater",
     },
   },
   ss140_balcon: {
@@ -604,8 +604,8 @@ export const PHOTOS = {
     h: 894,
     consent: "clear",
     alt: {
-      fr: "Balcon du studio SS140 — sol en marbre veiné, garde-corps vitré, porte-fenêtre vitrée et vue sur la végétation et les maisons voisines",
-      en: "The SS140 balcony — veined marble floor, glass balustrade, glazed French door and a view over greenery and neighbouring houses",
+      fr: "Balcon du studio SS140, sol en marbre veiné, garde-corps vitré, porte-fenêtre vitrée et vue sur la végétation et les maisons voisines",
+      en: "The SS140 balcony, veined marble floor, glass balustrade, glazed French door and a view over greenery and neighbouring houses",
     },
   },
 
@@ -637,10 +637,10 @@ export const PHOTOS = {
     h: 640,
     consent: "clear",
     alt: {
-      fr: "Chambre de l’appartement A10 — grand lit en bois sombre, linge blanc et orange, armoire, climatiseur mural et sol en marbre",
-      en: "A bedroom in apartment A10 — dark wood double bed with white and orange linen, wardrobe, wall-mounted air conditioning and a marble floor",
+      fr: "Chambre de l’appartement A10, grand lit en bois sombre, linge blanc et orange, armoire, climatiseur mural et sol en marbre",
+      en: "A bedroom in apartment A10, dark wood double bed with white and orange linen, wardrobe, wall-mounted air conditioning and a marble floor",
     },
-    note: "Frame decoded from the walkthrough clip at 3.2s — 356×640, soft when shown large.",
+    note: "Frame decoded from the walkthrough clip at 3.2s, 356×640, soft when shown large.",
   },
   a10_chambre_tv: {
     src: "/photos/studios/a10-chambres/chambre-tv.jpg",
@@ -648,10 +648,10 @@ export const PHOTOS = {
     h: 640,
     consent: "clear",
     alt: {
-      fr: "Chambre de l’appartement A10 — le lit, la télévision murale et la fenêtre à rideaux, sol en marbre",
-      en: "A bedroom in apartment A10 — the bed, the wall-mounted television and the curtained window, marble floor",
+      fr: "Chambre de l’appartement A10, le lit, la télévision murale et la fenêtre à rideaux, sol en marbre",
+      en: "A bedroom in apartment A10, the bed, the wall-mounted television and the curtained window, marble floor",
     },
-    note: "Frame decoded from the walkthrough clip at 4.9s — 356×640.",
+    note: "Frame decoded from the walkthrough clip at 4.9s, 356×640.",
   },
   a10_douche: {
     src: "/photos/studios/a10-chambres/douche.jpg",
@@ -659,10 +659,10 @@ export const PHOTOS = {
     h: 640,
     consent: "clear",
     alt: {
-      fr: "Douche de la chambre A10 — vasque, robinetterie chromée, miroir rétro-éclairé et faïence en marbre veiné",
-      en: "The A10 room's shower room — basin, chrome tap, backlit mirror and veined marble tiling",
+      fr: "Douche de la chambre A10, vasque, robinetterie chromée, miroir rétro-éclairé et faïence en marbre veiné",
+      en: "The A10 room's shower room, basin, chrome tap, backlit mirror and veined marble tiling",
     },
-    note: "Frame decoded from the walkthrough clip at 11.8s — 356×640.",
+    note: "Frame decoded from the walkthrough clip at 11.8s, 356×640.",
   },
 
   /* ── A10 — THE WHOLE APARTMENT ────────────────────────────────────────────
@@ -712,11 +712,11 @@ export const PHOTOS = {
     h: 540,
     consent: "clear",
     alt: {
-      fr: "Salon de l’appartement A10 — canapés et fauteuils en velours bleu-vert, coussins baroques dorés et bleu nuit, sol en marbre, faux-plafond à gorge lumineuse bleue, climatiseur mural, doubles rideaux et coin repas au fond",
-      en: "The A10 living room — blue-green velvet sofas and armchairs, gold and navy baroque cushions, marble floor, a dropped ceiling with blue cove lighting, wall-mounted air conditioning, full-length curtains and a dining corner beyond",
+      fr: "Salon de l’appartement A10, canapés et fauteuils en velours bleu-vert, coussins baroques dorés et bleu nuit, sol en marbre, faux-plafond à gorge lumineuse bleue, climatiseur mural, doubles rideaux et coin repas au fond",
+      en: "The A10 living room, blue-green velvet sofas and armchairs, gold and navy baroque cushions, marble floor, a dropped ceiling with blue cove lighting, wall-mounted air conditioning, full-length curtains and a dining corner beyond",
     },
     note:
-      "The widest read of the room we hold, and the frame that carries the 130 m². 960×540 — see the section note on resolution.",
+      "The widest read of the room we hold, and the frame that carries the 130 m². 960×540, see the section note on resolution.",
   },
   a10_appt_salon_2: {
     src: "/photos/studios/a10-appartement/salon-2.jpg",
@@ -724,8 +724,8 @@ export const PHOTOS = {
     h: 540,
     consent: "clear",
     alt: {
-      fr: "Salon de l’appartement A10 — l’angle des canapés en velours bleu-vert, table basse laquée noir et blanc, tableau au coquelicot rouge et table à manger au fond",
-      en: "The A10 living room — the corner of the blue-green velvet suite, a black-and-white lacquered coffee table, a red poppy canvas and the dining table beyond",
+      fr: "Salon de l’appartement A10, l’angle des canapés en velours bleu-vert, table basse laquée noir et blanc, tableau au coquelicot rouge et table à manger au fond",
+      en: "The A10 living room, the corner of the blue-green velvet suite, a black-and-white lacquered coffee table, a red poppy canvas and the dining table beyond",
     },
   },
   a10_appt_salon_tv: {
@@ -734,8 +734,8 @@ export const PHOTOS = {
     h: 540,
     consent: "clear",
     alt: {
-      fr: "Salon de l’appartement A10 — téléviseur mural face aux canapés, table à manger et ses chaises, porte en bois verni",
-      en: "The A10 living room — the wall-mounted television facing the sofas, the dining table and its chairs, and a polished wood door",
+      fr: "Salon de l’appartement A10, téléviseur mural face aux canapés, table à manger et ses chaises, porte en bois verni",
+      en: "The A10 living room, the wall-mounted television facing the sofas, the dining table and its chairs, and a polished wood door",
     },
     note:
       "The evidence for « Canal+ au salon » on the sheet: this is the salon television it names. The dining chairs in frame are also the only support for « 8 personnes ».",
@@ -746,10 +746,10 @@ export const PHOTOS = {
     h: 360,
     consent: "clear",
     alt: {
-      fr: "Chambre de l’appartement A10 — grand lit en bois verni, linge blanc et coussins framboise, niches et spots au plafond, fenêtre à rideaux crème et sol en marbre",
-      en: "A bedroom in apartment A10 — polished wood double bed, white linen with raspberry cushions, recessed ceiling niches and spots, a cream-curtained window and a marble floor",
+      fr: "Chambre de l’appartement A10, grand lit en bois verni, linge blanc et coussins framboise, niches et spots au plafond, fenêtre à rideaux crème et sol en marbre",
+      en: "A bedroom in apartment A10, polished wood double bed, white linen with raspberry cushions, recessed ceiling niches and spots, a cream-curtained window and a marble floor",
     },
-    note: "Frame decoded from the bedroom clip at 3.6s and transposed upright — 640×360.",
+    note: "Frame decoded from the bedroom clip at 3.6s and transposed upright, 640×360.",
   },
   a10_appt_chambre_tv: {
     src: "/photos/studios/a10-appartement/chambre-tv.jpg",
@@ -757,10 +757,10 @@ export const PHOTOS = {
     h: 360,
     consent: "clear",
     alt: {
-      fr: "Chambre de l’appartement A10 — le pied du lit, la fenêtre à rideaux et le téléviseur mural, sol en marbre",
-      en: "A bedroom in apartment A10 — the foot of the bed, the curtained window and the wall-mounted television, marble floor",
+      fr: "Chambre de l’appartement A10, le pied du lit, la fenêtre à rideaux et le téléviseur mural, sol en marbre",
+      en: "A bedroom in apartment A10, the foot of the bed, the curtained window and the wall-mounted television, marble floor",
     },
-    note: "Frame decoded from the bedroom clip at 5.1s and transposed upright — 640×360.",
+    note: "Frame decoded from the bedroom clip at 5.1s and transposed upright, 640×360.",
   },
   a10_appt_douche: {
     src: "/photos/studios/a10-appartement/douche.jpg",
@@ -768,11 +768,11 @@ export const PHOTOS = {
     h: 360,
     consent: "clear",
     alt: {
-      fr: "Douche de l’appartement A10 — cabine de douche vitrée à profilés noirs, douchette murale, WC, faïence en marbre veiné d’ocre et de bleu, serviettes et fenêtre",
-      en: "An A10 shower room — glazed shower cubicle with black framing, wall shower head, WC, ochre-and-blue veined marble tiling, towels and a window",
+      fr: "Douche de l’appartement A10, cabine de douche vitrée à profilés noirs, douchette murale, WC, faïence en marbre veiné d’ocre et de bleu, serviettes et fenêtre",
+      en: "An A10 shower room, glazed shower cubicle with black framing, wall shower head, WC, ochre-and-blue veined marble tiling, towels and a window",
     },
     note:
-      "One of the four the sheet claims — deliberately « an » A10 shower room, not « the ». Frame decoded from the bedroom clip at 13.0s and transposed upright — 640×360.",
+      "One of the four the sheet claims, deliberately « an » A10 shower room, not « the ». Frame decoded from the bedroom clip at 13.0s and transposed upright, 640×360.",
   },
   a10_appt_cuisine: {
     src: "/photos/studios/a10-appartement/cuisine.jpg",
@@ -780,11 +780,11 @@ export const PHOTOS = {
     h: 360,
     consent: "clear",
     alt: {
-      fr: "Cuisine de l’appartement A10 — grand réfrigérateur-congélateur, meubles en bois verni, plan de travail en granit noir, plaque gaz, micro-ondes, égouttoir garni et crédence en marbre",
-      en: "The A10 kitchen — a tall fridge-freezer, polished wood units, black granite worktop, gas hob, microwave, a stocked dish rack and a marbled splashback",
+      fr: "Cuisine de l’appartement A10, grand réfrigérateur-congélateur, meubles en bois verni, plan de travail en granit noir, plaque gaz, micro-ondes, égouttoir garni et crédence en marbre",
+      en: "The A10 kitchen, a tall fridge-freezer, polished wood units, black granite worktop, gas hob, microwave, a stocked dish rack and a marbled splashback",
     },
     note:
-      "⚠️ A FRONT-LOADING WASHING MACHINE IS IN THIS FRAME, plainly, below the worktop — and the sheet answered « Machine à laver : non ». The alt text does not name it and `laundry` is NOT on the row: the client's own answer governs what the site advertises, and promising a machine she says is unavailable is the expensive direction to be wrong in. Ask her which is right. Frame decoded from the kitchen clip at 0.5s and transposed upright — 642×360.",
+      "⚠️ A FRONT-LOADING WASHING MACHINE IS IN THIS FRAME, plainly, below the worktop, and the sheet answered « Machine à laver : non ». The alt text does not name it and `laundry` is NOT on the row: the client's own answer governs what the site advertises, and promising a machine she says is unavailable is the expensive direction to be wrong in. Ask her which is right. Frame decoded from the kitchen clip at 0.5s and transposed upright, 642×360.",
   },
   a10_appt_terrasse: {
     src: "/photos/studios/a10-appartement/terrasse.jpg",
@@ -792,11 +792,11 @@ export const PHOTOS = {
     h: 360,
     consent: "clear",
     alt: {
-      fr: "Terrasse de service de l’appartement A10 — sol en opus de marbre, murs crépis, garde-corps métallique, étendoir pliant et vue sur les toits voisins",
-      en: "The A10 service terrace — crazy-paved marble floor, rendered walls, a metal railing, a folding clothes airer and a view over neighbouring roofs",
+      fr: "Terrasse de service de l’appartement A10, sol en opus de marbre, murs crépis, garde-corps métallique, étendoir pliant et vue sur les toits voisins",
+      en: "The A10 service terrace, crazy-paved marble floor, rendered walls, a metal railing, a folding clothes airer and a view over neighbouring roofs",
     },
     note:
-      "⚠️ THE ONLY OUTDOOR SPACE FILMED, AND THE ONLY EVIDENCE FOR « Balcon : oui ». It is a narrow drying terrace in bare render, not a balcony in the sense SS101's and B35's frames set — marble floor, glass balustrade. The row still carries the `balcony` amenity because the client answered « oui »; this frame is here so the word is not the only thing a visitor gets, and it is placed last for the same reason. Decoded from the kitchen clip at 16.2s and transposed upright — 642×360.",
+      "⚠️ THE ONLY OUTDOOR SPACE FILMED, AND THE ONLY EVIDENCE FOR « Balcon : oui ». It is a narrow drying terrace in bare render, not a balcony in the sense SS101's and B35's frames set, marble floor, glass balustrade. The row still carries the `balcony` amenity because the client answered « oui »; this frame is here so the word is not the only thing a visitor gets, and it is placed last for the same reason. Decoded from the kitchen clip at 16.2s and transposed upright, 642×360.",
   },
 
   /* ── B35 — THE BIG ONE ────────────────────────────────────────────────────
@@ -827,8 +827,8 @@ export const PHOTOS = {
     h: 1048,
     consent: "clear",
     alt: {
-      fr: "Salon du B35 — canapé et fauteuils en cuir noir capitonné, table basse blanche, téléviseur mural, climatiseur, faux-plafond à caissons et spots encastrés, sol en marbre blanc veiné",
-      en: "The B35 living room — buttoned black leather sofa and armchairs, white coffee table, wall-mounted TV, air conditioning, a coffered ceiling with recessed spots and a veined white marble floor",
+      fr: "Salon du B35, canapé et fauteuils en cuir noir capitonné, table basse blanche, téléviseur mural, climatiseur, faux-plafond à caissons et spots encastrés, sol en marbre blanc veiné",
+      en: "The B35 living room, buttoned black leather sofa and armchairs, white coffee table, wall-mounted TV, air conditioning, a coffered ceiling with recessed spots and a veined white marble floor",
     },
   },
   b35_chambre_1: {
@@ -837,8 +837,8 @@ export const PHOTOS = {
     h: 988,
     consent: "clear",
     alt: {
-      fr: "Première chambre du B35 — grand lit en bois verni, linge blanc et coussins rouges, serviette pliée en éventail, climatiseur mural, téléviseur mural et doubles rideaux dorés",
-      en: "The first B35 bedroom — polished wood double bed, white linen with red cushions, a fan-folded towel, wall-mounted air conditioning and television, and gold curtains",
+      fr: "Première chambre du B35, grand lit en bois verni, linge blanc et coussins rouges, serviette pliée en éventail, climatiseur mural, téléviseur mural et doubles rideaux dorés",
+      en: "The first B35 bedroom, polished wood double bed, white linen with red cushions, a fan-folded towel, wall-mounted air conditioning and television, and gold curtains",
     },
   },
   b35_chambre_2: {
@@ -847,11 +847,11 @@ export const PHOTOS = {
     h: 1072,
     consent: "clear",
     alt: {
-      fr: "Seconde chambre du B35 — grand lit en bois verni, linge blanc et coussins jaunes, table de chevet, téléviseur mural, climatiseur, plafonnier circulaire à LED et sol en marbre veiné",
-      en: "The second B35 bedroom — polished wood double bed, white linen with yellow cushions, bedside table, wall-mounted TV, air conditioning, a circular LED ceiling light and a veined marble floor",
+      fr: "Seconde chambre du B35, grand lit en bois verni, linge blanc et coussins jaunes, table de chevet, téléviseur mural, climatiseur, plafonnier circulaire à LED et sol en marbre veiné",
+      en: "The second B35 bedroom, polished wood double bed, white linen with yellow cushions, bedside table, wall-mounted TV, air conditioning, a circular LED ceiling light and a veined marble floor",
     },
     note:
-      "The frame that evidences « 2 chambres » — the sheet's count is the one spec on this page a visitor could check, and this is the second room.",
+      "The frame that evidences « 2 chambres », the sheet's count is the one spec on this page a visitor could check, and this is the second room.",
   },
   b35_douche: {
     src: "/photos/studios/b35/douche.jpg",
@@ -859,11 +859,11 @@ export const PHOTOS = {
     h: 922,
     consent: "clear",
     alt: {
-      fr: "Douche du B35 — faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque, miroir, WC, chauffe-eau et serviettes",
-      en: "A B35 shower room — black-and-white marbled tiling, glazed shower cubicle with black framing, basin, mirror, WC, water heater and towels",
+      fr: "Douche du B35, faïence marbrée noir et blanc, cabine de douche vitrée à profilés noirs, vasque, miroir, WC, chauffe-eau et serviettes",
+      en: "A B35 shower room, black-and-white marbled tiling, glazed shower cubicle with black framing, basin, mirror, WC, water heater and towels",
     },
     note:
-      "One of three the sheet claims. Deliberately « a » shower room, not « the » — see the section note.",
+      "One of three the sheet claims. Deliberately « a » shower room, not « the », see the section note.",
   },
   b35_balcon: {
     src: "/photos/studios/b35/balcon.jpg",
@@ -871,8 +871,8 @@ export const PHOTOS = {
     h: 894,
     consent: "clear",
     alt: {
-      fr: "Balcon du B35 — sol en marbre veiné, garde-corps vitré, porte-fenêtre et vue sur la végétation et les maisons voisines",
-      en: "The B35 balcony — veined marble floor, glass balustrade, French door and a view over greenery and neighbouring houses",
+      fr: "Balcon du B35, sol en marbre veiné, garde-corps vitré, porte-fenêtre et vue sur la végétation et les maisons voisines",
+      en: "The B35 balcony, veined marble floor, glass balustrade, French door and a view over greenery and neighbouring houses",
     },
   },
   /* The kitchen, and the only frame of it that exists.
@@ -900,11 +900,11 @@ export const PHOTOS = {
     h: 360,
     consent: "clear",
     alt: {
-      fr: "Cuisine du B35 — meubles hauts en bois verni, crédence et murs en marbre veiné, évier et mitigeur chromé, réchaud à gaz, fontaine à eau et fenêtre",
-      en: "The B35 kitchen — polished wood wall units, veined marble splashback and walls, sink with a chrome mixer tap, a gas ring, a water dispenser and a window",
+      fr: "Cuisine du B35, meubles hauts en bois verni, crédence et murs en marbre veiné, évier et mitigeur chromé, réchaud à gaz, fontaine à eau et fenêtre",
+      en: "The B35 kitchen, polished wood wall units, veined marble splashback and walls, sink with a chrome mixer tap, a gas ring, a water dispenser and a window",
     },
     note:
-      "Frame decoded from the second B35 clip at 37.2s and rotated upright — 642×360, the softest frame on the site. Replace with a real photograph when one arrives.",
+      "Frame decoded from the second B35 clip at 37.2s and rotated upright, 642×360, the softest frame on the site. Replace with a real photograph when one arrives.",
   },
 
   /* ── ST005 — THE FIRST FULL-RESOLUTION SET ────────────────────────────────
@@ -942,8 +942,8 @@ export const PHOTOS = {
     h: 1500,
     consent: "clear",
     alt: {
-      fr: "Salon du studio ST005 — fauteuils en cuir capitonné taupe à pieds dorés, lustre en cristal, téléviseur mural, guéridons dorés, faux-plafond à caissons et spots encastrés, sol en marbre veiné",
-      en: "The ST005 living room — buttoned taupe leather armchairs on gold legs, a crystal chandelier, wall-mounted TV, gold pedestal side tables, a coffered ceiling with recessed spots and a veined marble floor",
+      fr: "Salon du studio ST005, fauteuils en cuir capitonné taupe à pieds dorés, lustre en cristal, téléviseur mural, guéridons dorés, faux-plafond à caissons et spots encastrés, sol en marbre veiné",
+      en: "The ST005 living room, buttoned taupe leather armchairs on gold legs, a crystal chandelier, wall-mounted TV, gold pedestal side tables, a coffered ceiling with recessed spots and a veined marble floor",
     },
   },
   st005_salon_2: {
@@ -952,8 +952,8 @@ export const PHOTOS = {
     h: 1500,
     consent: "clear",
     alt: {
-      fr: "Salon du studio ST005 vu de l’autre côté — lustre en cristal, téléviseur mural, climatiseur, fauteuils en cuir taupe et ouverture sur la cuisine équipée",
-      en: "The ST005 living room from the other side — crystal chandelier, wall-mounted TV, air conditioning, taupe leather armchairs and an opening through to the fitted kitchen",
+      fr: "Salon du studio ST005 vu de l’autre côté, lustre en cristal, téléviseur mural, climatiseur, fauteuils en cuir taupe et ouverture sur la cuisine équipée",
+      en: "The ST005 living room from the other side, crystal chandelier, wall-mounted TV, air conditioning, taupe leather armchairs and an opening through to the fitted kitchen",
     },
     note:
       "The frame that ties the rooms together: the seating area and the kitchen alcove in one shot, which is what makes « studio entier » legible.",
@@ -964,11 +964,11 @@ export const PHOTOS = {
     h: 2000,
     consent: "clear",
     alt: {
-      fr: "Entrée du studio ST005 — dégagement carrelé de marbre menant à la porte palière en bois verni, faux-plafond à caissons, spots encastrés et interphone mural",
-      en: "The ST005 entrance — a marble-tiled hallway leading to the polished wood front door, coffered ceiling, recessed spots and a wall intercom",
+      fr: "Entrée du studio ST005, dégagement carrelé de marbre menant à la porte palière en bois verni, faux-plafond à caissons, spots encastrés et interphone mural",
+      en: "The ST005 entrance, a marble-tiled hallway leading to the polished wood front door, coffered ceiling, recessed spots and a wall intercom",
     },
     note:
-      "The only portrait frame in the set, and the only one of a circulation space rather than a room. It earns its place by showing the unit has its own front door — which is the difference between this and the A10 bedrooms.",
+      "The only portrait frame in the set, and the only one of a circulation space rather than a room. It earns its place by showing the unit has its own front door, which is the difference between this and the A10 bedrooms.",
   },
   st005_cuisine: {
     src: "/photos/studios/st005/cuisine.jpg",
@@ -976,11 +976,11 @@ export const PHOTOS = {
     h: 1500,
     consent: "clear",
     alt: {
-      fr: "Cuisine équipée du studio ST005 — meubles laqués blancs, plan de travail en granit noir, crédence en marbre veiné, plaque gaz, micro-ondes, cafetière, égouttoir garni, réfrigérateur-congélateur et climatiseur",
-      en: "The ST005 fitted kitchen — white gloss units, black granite worktop, veined marble splashback, gas hob, microwave, coffee maker, a stocked dish rack, fridge-freezer and air conditioning",
+      fr: "Cuisine équipée du studio ST005, meubles laqués blancs, plan de travail en granit noir, crédence en marbre veiné, plaque gaz, micro-ondes, cafetière, égouttoir garni, réfrigérateur-congélateur et climatiseur",
+      en: "The ST005 fitted kitchen, white gloss units, black granite worktop, veined marble splashback, gas hob, microwave, coffee maker, a stocked dish rack, fridge-freezer and air conditioning",
     },
     note:
-      "Corroborates five equipment answers in one frame — plaque gaz, micro-ondes, frigo, ustensiles (the stocked dish rack) and the climatiseur above the alcove.",
+      "Corroborates five equipment answers in one frame, plaque gaz, micro-ondes, frigo, ustensiles (the stocked dish rack) and the climatiseur above the alcove.",
   },
   st005_chambre: {
     src: "/photos/studios/st005/chambre.jpg",
@@ -988,8 +988,8 @@ export const PHOTOS = {
     h: 1500,
     consent: "clear",
     alt: {
-      fr: "Chambre du studio ST005 — grand lit en bois verni, linge blanc et jeté jaune moutarde, téléviseur mural, climatiseur, doubles rideaux beiges et faux-plafond nervuré",
-      en: "The ST005 bedroom — polished wood double bed, white linen with a mustard-yellow runner, wall-mounted TV, air conditioning, beige curtains and a stepped ceiling",
+      fr: "Chambre du studio ST005, grand lit en bois verni, linge blanc et jeté jaune moutarde, téléviseur mural, climatiseur, doubles rideaux beiges et faux-plafond nervuré",
+      en: "The ST005 bedroom, polished wood double bed, white linen with a mustard-yellow runner, wall-mounted TV, air conditioning, beige curtains and a stepped ceiling",
     },
   },
   st005_chambre_2: {
@@ -998,8 +998,8 @@ export const PHOTOS = {
     h: 1500,
     consent: "clear",
     alt: {
-      fr: "Chambre du studio ST005 — le grand lit dressé de blanc et de jaune moutarde entre deux tables de chevet en bois, rideaux beiges et sol en marbre veiné",
-      en: "The ST005 bedroom — the double bed dressed in white and mustard yellow between two wooden bedside tables, beige curtains and a veined marble floor",
+      fr: "Chambre du studio ST005, le grand lit dressé de blanc et de jaune moutarde entre deux tables de chevet en bois, rideaux beiges et sol en marbre veiné",
+      en: "The ST005 bedroom, the double bed dressed in white and mustard yellow between two wooden bedside tables, beige curtains and a veined marble floor",
     },
   },
   st005_chambre_3: {
@@ -1008,8 +1008,8 @@ export const PHOTOS = {
     h: 1500,
     consent: "clear",
     alt: {
-      fr: "Chambre du studio ST005 — vue d’ensemble du grand lit, des tables de chevet et des rideaux beiges, porte en bois verni à droite",
-      en: "The ST005 bedroom — a wide view of the double bed, bedside tables and beige curtains, with the polished wood door on the right",
+      fr: "Chambre du studio ST005, vue d’ensemble du grand lit, des tables de chevet et des rideaux beiges, porte en bois verni à droite",
+      en: "The ST005 bedroom, a wide view of the double bed, bedside tables and beige curtains, with the polished wood door on the right",
     },
   },
   st005_chambre_4: {
@@ -1018,8 +1018,8 @@ export const PHOTOS = {
     h: 1500,
     consent: "clear",
     alt: {
-      fr: "Chambre du studio ST005 — téléviseur mural et climatiseur face au lit, rideaux beiges tirés derrière la tête de lit, chaussons posés sur le jeté jaune",
-      en: "The ST005 bedroom — wall-mounted TV and air conditioning facing the bed, beige curtains drawn behind the headboard and slippers laid on the yellow runner",
+      fr: "Chambre du studio ST005, téléviseur mural et climatiseur face au lit, rideaux beiges tirés derrière la tête de lit, chaussons posés sur le jeté jaune",
+      en: "The ST005 bedroom, wall-mounted TV and air conditioning facing the bed, beige curtains drawn behind the headboard and slippers laid on the yellow runner",
     },
   },
   st005_chambre_rangements: {
@@ -1028,8 +1028,8 @@ export const PHOTOS = {
     h: 1500,
     consent: "clear",
     alt: {
-      fr: "Rangements de la chambre du studio ST005 — armoire à quatre portes en bois verni, téléviseur mural, climatiseur et pied du lit avec serviette jaune pliée",
-      en: "Storage in the ST005 bedroom — a four-door polished wood wardrobe, wall-mounted TV, air conditioning and the foot of the bed with a folded yellow towel",
+      fr: "Rangements de la chambre du studio ST005, armoire à quatre portes en bois verni, téléviseur mural, climatiseur et pied du lit avec serviette jaune pliée",
+      en: "Storage in the ST005 bedroom, a four-door polished wood wardrobe, wall-mounted TV, air conditioning and the foot of the bed with a folded yellow towel",
     },
     note:
       "The only frame showing storage in any unit on the site. Placed last: it is a detail, not a room.",
@@ -1077,11 +1077,11 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Salon vide de l’appartement A40 — sol en marbre veiné rose et or, faux-plafond à redans avec bandeaux lumineux, poteau central, baie vitrée à châssis noir ouvrant sur le balcon et tringles à rideaux posées",
-      en: "The empty A40 living room — rose-and-gold veined marble floor, a stepped plasterboard ceiling with recessed light strips, a central column, black-framed glazed doors onto the balcony and curtain rails already fitted",
+      fr: "Salon vide de l’appartement A40, sol en marbre veiné rose et or, faux-plafond à redans avec bandeaux lumineux, poteau central, baie vitrée à châssis noir ouvrant sur le balcon et tringles à rideaux posées",
+      en: "The empty A40 living room, rose-and-gold veined marble floor, a stepped plasterboard ceiling with recessed light strips, a central column, black-framed glazed doors onto the balcony and curtain rails already fitted",
     },
     note:
-      "The opening frame: the widest view of the salon, and the only one that shows the balcony doors and the daylight together. Unfurnished — nothing in the room but the fit-out.",
+      "The opening frame: the widest view of the salon, and the only one that shows the balcony doors and the daylight together. Unfurnished, nothing in the room but the fit-out.",
   },
   a40_salon_2: {
     src: "/photos/studios/a40/salon-2.jpg",
@@ -1089,11 +1089,11 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Salon de l’appartement A40 vu de l’autre extrémité — lustre doré à pampilles de cristal, faux-plafond à redans, poteau, porte en bois verni et sol en marbre veiné",
-      en: "The A40 living room from the far end — a gilt chandelier with crystal drops, the stepped plasterboard ceiling, the column, a polished timber door and the veined marble floor",
+      fr: "Salon de l’appartement A40 vu de l’autre extrémité, lustre doré à pampilles de cristal, faux-plafond à redans, poteau, porte en bois verni et sol en marbre veiné",
+      en: "The A40 living room from the far end, a gilt chandelier with crystal drops, the stepped plasterboard ceiling, the column, a polished timber door and the veined marble floor",
     },
     note:
-      "Same room as `a40_salon`, opposite end — same ceiling and column, so the pair reads as one space rather than two rooms.",
+      "Same room as `a40_salon`, opposite end, same ceiling and column, so the pair reads as one space rather than two rooms.",
   },
   a40_cuisine: {
     src: "/photos/studios/a40/cuisine.jpg",
@@ -1101,11 +1101,11 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Cuisine de l’appartement A40 — meubles laqués blancs sans poignées en hauts et bas, crédence en marbre veiné toute hauteur, plan de travail en pierre noire, évier inox à égouttoir intégré et rosace lumineuse au plafond",
-      en: "The A40 kitchen — handleless white gloss units above and below, a full-height veined marble splashback, a black stone worktop, a stainless steel sink with an integrated drainer and a circular ceiling rose",
+      fr: "Cuisine de l’appartement A40, meubles laqués blancs sans poignées en hauts et bas, crédence en marbre veiné toute hauteur, plan de travail en pierre noire, évier inox à égouttoir intégré et rosace lumineuse au plafond",
+      en: "The A40 kitchen, handleless white gloss units above and below, a full-height veined marble splashback, a black stone worktop, a stainless steel sink with an integrated drainer and a circular ceiling rose",
     },
     note:
-      "⚠️ FITTED, NOT EQUIPPED — carcass, worktop and sink only. No hob, no fridge, no microwave in any frame, which is what « non meublé » means here. Do NOT let this frame imply the amenity chips the furnished units carry.",
+      "⚠️ FITTED, NOT EQUIPPED, carcass, worktop and sink only. No hob, no fridge, no microwave in any frame, which is what « non meublé » means here. Do NOT let this frame imply the amenity chips the furnished units carry.",
   },
   a40_cuisine_2: {
     src: "/photos/studios/a40/cuisine-2.jpg",
@@ -1113,8 +1113,8 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Cuisine de l’appartement A40, autre bout du linéaire — évier avec mitigeur chromé, plan de travail en pierre noire, tiroirs et placards laqués blancs et crédence en marbre veiné",
-      en: "The other end of the A40 kitchen run — the sink with a chrome mixer tap, black stone worktop, white gloss drawers and cupboards, and the veined marble splashback",
+      fr: "Cuisine de l’appartement A40, autre bout du linéaire, évier avec mitigeur chromé, plan de travail en pierre noire, tiroirs et placards laqués blancs et crédence en marbre veiné",
+      en: "The other end of the A40 kitchen run, the sink with a chrome mixer tap, black stone worktop, white gloss drawers and cupboards, and the veined marble splashback",
     },
   },
   a40_chambre: {
@@ -1123,8 +1123,8 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Chambre vide de l’appartement A40 aux murs taupe — climatiseur mural, fenêtre coulissante à châssis noir, grande armoire en bois verni, faux-plafond à pans et sol en marbre gris et blanc",
-      en: "An empty A40 bedroom with taupe walls — a wall-mounted air conditioner, a black-framed sliding window, a tall polished timber wardrobe, an angular plasterboard ceiling and a grey-and-white marble floor",
+      fr: "Chambre vide de l’appartement A40 aux murs taupe, climatiseur mural, fenêtre coulissante à châssis noir, grande armoire en bois verni, faux-plafond à pans et sol en marbre gris et blanc",
+      en: "An empty A40 bedroom with taupe walls, a wall-mounted air conditioner, a black-framed sliding window, a tall polished timber wardrobe, an angular plasterboard ceiling and a grey-and-white marble floor",
     },
     note:
       "The fitted wardrobe is the point of this frame: on an unfurnished let it is one of the few things the tenant does not have to bring.",
@@ -1135,8 +1135,8 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Chambre de l’appartement A40 aux murs turquoise — climatiseur, armoire double en bois verni, faux-plafond à voûte ovale et porte ouverte sur une salle de douche en marbre",
-      en: "An A40 bedroom with turquoise walls — air conditioning, a double polished timber wardrobe, an oval-recessed ceiling and an open door through to a marble shower room",
+      fr: "Chambre de l’appartement A40 aux murs turquoise, climatiseur, armoire double en bois verni, faux-plafond à voûte ovale et porte ouverte sur une salle de douche en marbre",
+      en: "An A40 bedroom with turquoise walls, air conditioning, a double polished timber wardrobe, an oval-recessed ceiling and an open door through to a marble shower room",
     },
     note:
       "✅ THE ONLY EN-SUITE THIS PROJECT CAN SHOW. The open door reveals a fourth marble shower room with its WC, so this single frame evidences both a bedroom and a douche the gallery does not otherwise cover.",
@@ -1147,11 +1147,11 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Chambre vide de l’appartement A40 aux murs blancs — fenêtre coulissante à châssis noir, faux-plafond à caisson central et spots encastrés, porte en bois verni et sol en marbre veiné",
-      en: "An empty A40 bedroom with white walls — a black-framed sliding window, a coffered ceiling with a central recess and downlights, a polished timber door and a veined marble floor",
+      fr: "Chambre vide de l’appartement A40 aux murs blancs, fenêtre coulissante à châssis noir, faux-plafond à caisson central et spots encastrés, porte en bois verni et sol en marbre veiné",
+      en: "An empty A40 bedroom with white walls, a black-framed sliding window, a coffered ceiling with a central recess and downlights, a polished timber door and a veined marble floor",
     },
     note:
-      "The third distinct bedroom decoration — white, against the taupe of `a40_chambre` and the turquoise of `a40_chambre_2`. Different ceiling profile again, which is what separates them; the count of three is her sheet's, not this frame's.",
+      "The third distinct bedroom decoration, white, against the taupe of `a40_chambre` and the turquoise of `a40_chambre_2`. Different ceiling profile again, which is what separates them; the count of three is her sheet's, not this frame's.",
   },
   a40_douche: {
     src: "/photos/studios/a40/douche.jpg",
@@ -1159,8 +1159,8 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Salle de douche de l’appartement A40 — marbre noir et blanc toute hauteur, cabine à paroi de verre coulissante avec ciel de pluie et douchette, WC, vasque à poser sur plan en marbre rosé et miroir rétroéclairé",
-      en: "An A40 shower room — full-height black-and-white marble, a sliding glass shower enclosure with a rain head and hand shower, a WC, a countertop basin on a pink-veined marble slab and a backlit mirror",
+      fr: "Salle de douche de l’appartement A40, marbre noir et blanc toute hauteur, cabine à paroi de verre coulissante avec ciel de pluie et douchette, WC, vasque à poser sur plan en marbre rosé et miroir rétroéclairé",
+      en: "An A40 shower room, full-height black-and-white marble, a sliding glass shower enclosure with a rain head and hand shower, a WC, a countertop basin on a pink-veined marble slab and a backlit mirror",
     },
     note:
       "The strongest shower-room frame on the whole site, furnished units included. Leads the three because it is the only one showing the enclosure, the vanity and the mirror in one shot.",
@@ -1171,11 +1171,11 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Deuxième salle de douche de l’appartement A40 — chauffe-eau électrique mural, marbre noir et blanc, douchette sur barre, WC, plan vasque en marbre et imposte vitrée",
-      en: "A second A40 shower room — a wall-mounted electric water heater, black-and-white marble, a hand shower on a rail, a WC, a marble vanity top and a clerestory window",
+      fr: "Deuxième salle de douche de l’appartement A40, chauffe-eau électrique mural, marbre noir et blanc, douchette sur barre, WC, plan vasque en marbre et imposte vitrée",
+      en: "A second A40 shower room, a wall-mounted electric water heater, black-and-white marble, a hand shower on a rail, a WC, a marble vanity top and a clerestory window",
     },
     note:
-      "⚠️ Shot through a half-open timber door, which eats the left third of the frame — kept because it is the only frame in the drop that clearly shows a chauffe-eau. ⚠️ THAT IS A FITTING, NOT HER WORD: the shortened fiche she used never asked about eau chaude, so nothing advertises it. See FACTS.md.",
+      "⚠️ Shot through a half-open timber door, which eats the left third of the frame, kept because it is the only frame in the drop that clearly shows a chauffe-eau. ⚠️ THAT IS A FITTING, NOT HER WORD: the shortened fiche she used never asked about eau chaude, so nothing advertises it. See FACTS.md.",
   },
   a40_douche_3: {
     src: "/photos/studios/a40/douche-3.jpg",
@@ -1183,8 +1183,8 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Troisième salle de douche de l’appartement A40 — marbre noir et blanc, colonne de douche avec ciel de pluie et douchette sur barre, mitigeur thermostatique, WC, miroir encadré et petite fenêtre",
-      en: "A third A40 shower room — black-and-white marble, a shower riser with a rain head and hand shower, a thermostatic mixer, a WC, a framed mirror and a small window",
+      fr: "Troisième salle de douche de l’appartement A40, marbre noir et blanc, colonne de douche avec ciel de pluie et douchette sur barre, mitigeur thermostatique, WC, miroir encadré et petite fenêtre",
+      en: "A third A40 shower room, black-and-white marble, a shower riser with a rain head and hand shower, a thermostatic mixer, a WC, a framed mirror and a small window",
     },
     note:
       "⚠️ Taken through a glass screen, so a frame edge crosses the picture diagonally. Third of the four douches the sheet states; the fourth appears through the doorway in `a40_chambre_2`.",
@@ -1195,11 +1195,11 @@ export const PHOTOS = {
     h: 960,
     consent: "clear",
     alt: {
-      fr: "Vue depuis le balcon de l’appartement A40 — garde-corps en verre, route en contrebas, immeubles de quatre et cinq étages sur la colline d’en face, mât d’éclairage et toiture de stade sur la crête",
-      en: "The view from the A40 balcony — a glass balustrade, the road below, four- and five-storey blocks on the facing hillside, a floodlight mast and a stadium roof on the ridge",
+      fr: "Vue depuis le balcon de l’appartement A40, garde-corps en verre, route en contrebas, immeubles de quatre et cinq étages sur la colline d’en face, mât d’éclairage et toiture de stade sur la crête",
+      en: "The view from the A40 balcony, a glass balustrade, the road below, four- and five-storey blocks on the facing hillside, a floodlight mast and a stadium roof on the ridge",
     },
     note:
-      "⚠️ CONSENT: four passers-by are on the public road below, seen from above and behind at a scale where no face resolves — not venue customers and nothing identifiable, hence `clear`. Recorded because it is the judgement call in this set. ⚠️ ALSO THE ONLY EVIDENCE ON THE ÉTAGE QUESTION: the drop pictures two balconied floors below this one, which contradicts the « sous sol » reading four sheets now use. The unit therefore carries NO floor — see FACTS.md, open question 1.C.",
+      "⚠️ CONSENT: four passers-by are on the public road below, seen from above and behind at a scale where no face resolves, not venue customers and nothing identifiable, hence `clear`. Recorded because it is the judgement call in this set. ⚠️ ALSO THE ONLY EVIDENCE ON THE ÉTAGE QUESTION: the drop pictures two balconied floors below this one, which contradicts the « sous sol » reading four sheets now use. The unit therefore carries NO floor, see FACTS.md, open question 1.C.",
   },
 
   /* ── REMOVED 2026-08-12: the eight studio placeholders ────────────────────

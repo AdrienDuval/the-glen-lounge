@@ -122,8 +122,8 @@ const PROMOS: Slide[] = [
     eyebrow: { fr: "Appartements", en: "Apartments" },
     title: { fr: "Dormir sur place", en: "Stay the night" },
     meta: {
-      fr: "Glen Appartement — studios, appartements et chambres. Meublés à la nuit, ou non meublés au mois. Confort, sécurité, intimité.",
-      en: "Glen Appartement — studios, apartments and rooms. Furnished by the night, or unfurnished by the month. Comfort, security, privacy.",
+      fr: "Glen Appartement, studios, appartements et chambres. Meublés à la nuit, ou non meublés au mois. Confort, sécurité, intimité.",
+      en: "Glen Appartement, studios, apartments and rooms. Furnished by the night, or unfurnished by the month. Comfort, security, privacy.",
     },
     highlights: [
       { fr: "À la nuit", en: "By the night" },

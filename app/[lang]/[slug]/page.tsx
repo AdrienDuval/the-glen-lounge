@@ -41,22 +41,22 @@ export async function generateMetadata({
     carte: {
       title:
         lang === "fr"
-          ? "La carte — The Glen Lounge, Yaoundé"
-          : "Menu — The Glen Lounge, Yaoundé",
+          ? "La carte | The Glen Lounge, Yaoundé"
+          : "Menu | The Glen Lounge, Yaoundé",
       description: dict.carte.lede,
     },
     evenements: {
       title:
         lang === "fr"
-          ? "Les soirées — The Glen Lounge, Yaoundé"
-          : "What's on — The Glen Lounge, Yaoundé",
+          ? "Les soirées | The Glen Lounge, Yaoundé"
+          : "What's on | The Glen Lounge, Yaoundé",
       description: dict.evenementsPage.lede,
     },
     appartements: {
       title:
         lang === "fr"
-          ? "Appartements meublés — The Glen Lounge, Yaoundé"
-          : "Furnished apartments — The Glen Lounge, Yaoundé",
+          ? "Appartements meublés | The Glen Lounge, Yaoundé"
+          : "Furnished apartments | The Glen Lounge, Yaoundé",
       description: dict.studios.lede,
     },
     home: { title: "", description: "" },
